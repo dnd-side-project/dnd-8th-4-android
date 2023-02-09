@@ -6,4 +6,7 @@
     <string name="bottom_navigation_group">group</string>
     <string name="bottom_navigation_mission">mission</string>
     <string name="bottom_navigation_mypage">myPage</string>
+
+    <!-- homeFragment -->
+    <string name="home_search_hint">원하는 키워드를 검색해보세요.</string>
 </resources>

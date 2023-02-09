@@ -52,18 +52,18 @@
     <style name="TextView.Body.14.R" parent="Widget.AppCompat.TextView">
         <item name="android:textColor">@color/black</item>
         <item name="android:fontWeight">400</item>
-        <item name="android:textSize">20dp</item>
+        <item name="android:textSize">14dp</item>
     </style>
 
     <style name="TextView.Body.12.R" parent="Widget.AppCompat.TextView">
         <item name="android:textColor">@color/black</item>
         <item name="android:fontWeight">400</item>
-        <item name="android:textSize">20dp</item>
+        <item name="android:textSize">12dp</item>
     </style>
 
     <style name="TextView.Caption.10.R" parent="Widget.AppCompat.TextView">
         <item name="android:textColor">@color/black</item>
         <item name="android:fontWeight">400</item>
-        <item name="android:textSize">20dp</item>
+        <item name="android:textSize">10dp</item>
     </style>
 </resources>
