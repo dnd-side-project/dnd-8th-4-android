@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">WeRy</string>
+
+    <!-- BottomNavigation -->
+    <string name="bottom_navigation_main">main</string>
+    <string name="bottom_navigation_group">group</string>
+    <string name="bottom_navigation_mission">mission</string>
+    <string name="bottom_navigation_mypage">myPage</string>
 </resources>
