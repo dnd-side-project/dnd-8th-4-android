@@ -7,12 +7,4 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sign_in) {
-    override fun initStartView() {
-    }
-
-    override fun initDataBinding() {
-    }
-
-    override fun initAfterBinding() {
-    }
 }

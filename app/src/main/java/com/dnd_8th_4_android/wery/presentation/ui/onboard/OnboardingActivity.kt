@@ -7,9 +7,4 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class OnboardingActivity : BaseActivity<ActivityOnboardingBinding>(R.layout.activity_onboarding) {
-    override fun initStartView() {}
-
-    override fun initDataBinding() {}
-
-    override fun initAfterBinding() {}
 }

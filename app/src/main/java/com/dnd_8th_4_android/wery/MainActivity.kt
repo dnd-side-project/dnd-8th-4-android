@@ -9,7 +9,8 @@ import com.dnd_8th_4_android.wery.presentation.ui.base.BaseActivity
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
+
+        initStartView()
     }
 
     private fun initStartView() {
