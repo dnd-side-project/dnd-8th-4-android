@@ -3,7 +3,6 @@ package com.dnd_8th_4_android.wery.data.local
 import android.content.Context
 import javax.inject.Inject
 
-
 class AuthLocalDataSource @Inject constructor(
     private val context: Context
 ) {
@@ -13,10 +12,6 @@ class AuthLocalDataSource @Inject constructor(
     var accessToken: String?
         set(value) = sharedPreferences.edit().putString(ACCESS_TOKEN, null).apply()
         get() = sharedPreferences.getString(ACCESS_TOKEN, null)
-
-    var isLogin: Boolean
-        set(value) = sharedPreferences.edit().putBoolean(IS_LOGIN, false).apply()
-        get() = sharedPreferences.getBoolean(IS_LOGIN, false)
 
     var isAutoLogin: Boolean
         set(value) = sharedPreferences.edit().putBoolean(IS_AUTO_LOGIN, false).apply()
@@ -30,7 +25,6 @@ class AuthLocalDataSource @Inject constructor(
         const val WERY_APP = "WERY_APP"
         const val ACCESS_TOKEN = "accessToken"
         const val IS_AUTO_LOGIN = "isAutoLogin"
-        const val IS_LOGIN = "isLogin"
         const val HAS_ONBOARD_DONE = "hasOnboardDone"
     }
 }

@@ -26,22 +26,18 @@ class SplashActivity : AppCompatActivity() {
 
     private fun initStartView() {
         val authLocalDataSource = AuthLocalDataSource(this)
-        if (authLocalDataSource.isAutoLogin) {
-            checkOnboardingState(authLocalDataSource)
-        } else {
-            checkLoginState(authLocalDataSource)
-        }
+        checkOnboardingState(authLocalDataSource)
     }
 
     private fun checkOnboardingState(authLocalDataSource: AuthLocalDataSource) {
         if (authLocalDataSource.hasOnboardDone) {
-            moveToNext(SplashType.HOME)
+            checkAutoLoginState(authLocalDataSource)
         } else moveToNext(SplashType.ONBOARD)
     }
 
-    private fun checkLoginState(authLocalDataSource: AuthLocalDataSource) {
-        if (authLocalDataSource.isLogin) {
-            checkOnboardingState(authLocalDataSource)
+    private fun checkAutoLoginState(authLocalDataSource: AuthLocalDataSource) {
+        if (authLocalDataSource.isAutoLogin) {
+            moveToNext(SplashType.HOME)
         } else {
             moveToNext(SplashType.LOGIN)
         }
