@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <!--  TextView  -->
     <style name="TextView.Title.24.Sb" parent="Widget.AppCompat.TextView">
         <item name="android:textColor">@color/black</item>
         <item name="android:fontWeight">600</item>
@@ -65,5 +65,17 @@
         <item name="android:textColor">@color/black</item>
         <item name="android:fontWeight">400</item>
         <item name="android:textSize">10dp</item>
+    </style>
+
+    <!--  Material Button  -->
+    <style name="MaterialButton.8.14.Sb" parent="Widget.MaterialComponents.Button">
+        <item name="android:minWidth">0dp</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="cornerRadius">8dp</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:fontWeight">600</item>
+        <item name="android:stateListAnimator">@null</item>
     </style>
 </resources>

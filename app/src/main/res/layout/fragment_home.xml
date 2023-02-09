@@ -11,6 +11,7 @@
         android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_home_top"
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
             android:paddingHorizontal="16dp"
@@ -71,5 +72,13 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <include
+            layout="@layout/activity_no_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="?android:attr/actionBarSize"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_home_top" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
