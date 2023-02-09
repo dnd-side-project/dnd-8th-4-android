@@ -23,16 +23,7 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutRes: Int) 
         binding = DataBindingUtil.setContentView(this, layoutRes)
         binding.lifecycleOwner = this
 
-        initStartView()
-        initDataBinding()
-        initAfterBinding()
     }
-
-    abstract fun initStartView()
-
-    abstract fun initDataBinding()
-
-    abstract fun initAfterBinding()
 
     protected inner class LifeCycleEventLogger(private val className: String) : LifecycleObserver {
         fun registerLogger(lifecycle: Lifecycle) {

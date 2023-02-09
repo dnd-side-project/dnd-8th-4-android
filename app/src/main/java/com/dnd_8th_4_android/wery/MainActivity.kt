@@ -12,14 +12,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         setContentView(binding.root)
     }
 
-    override fun initStartView() {
+    private fun initStartView() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.navHostHome) as NavHostFragment
         val navController = navHostFragment.navController
         NavigationUI.setupWithNavController(binding.bottomNavigation, navController)
     }
-
-    override fun initDataBinding() {}
-
-    override fun initAfterBinding() {}
 }
