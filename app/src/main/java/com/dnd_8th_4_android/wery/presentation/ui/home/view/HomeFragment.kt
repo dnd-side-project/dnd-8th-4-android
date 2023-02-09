@@ -1,6 +1,7 @@
 package com.dnd_8th_4_android.wery.presentation.ui.home.view
 
 import android.app.Activity
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
@@ -12,9 +13,9 @@ import com.dnd_8th_4_android.wery.presentation.ui.base.BaseFragment
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
-    override fun initStartView() {}
+    override fun initStartView() { }
 
-    override fun initDataBinding() {}
+    override fun initDataBinding() { }
 
     override fun initAfterBinding() {
         binding.etSearch.doBeforeTextChanged { _, _, _, after ->
@@ -30,11 +31,21 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             }
             false
         }
+
+        binding.ivSearchClose.setOnClickListener {
+            binding.etSearch.text.clear()
+            showKeyboard(binding.etSearch)
+        }
     }
 
     private fun hideKeyboard(textView: TextView) {
-        val inputMethodManager =
-            requireContext().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        val inputMethodManager = requireContext().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(textView.windowToken, 0)
+    }
+
+    private fun showKeyboard(view: View) {
+        view.requestFocus()
+        val inputMethodManager = requireContext().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
     }
 }
