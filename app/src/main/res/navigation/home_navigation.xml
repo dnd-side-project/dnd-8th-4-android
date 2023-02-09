@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home_navigation"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.dnd_8th_4_android.wery.presentation.ui.home.view.HomeFragment"
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/groupFragment"
+        android:name="com.dnd_8th_4_android.wery.presentation.ui.group.GroupFragment"
+        android:label="GroupFragment"
+        tools:layout="@layout/fragment_group" />
+    <fragment
+        android:id="@+id/missionFragment"
+        android:name="com.dnd_8th_4_android.wery.presentation.ui.mission.MissionFragment"
+        android:label="MissionFragment"
+        tools:layout="@layout/fragment_mission" />
+    <fragment
+        android:id="@+id/myPageFragment"
+        android:name="com.dnd_8th_4_android.wery.presentation.ui.mypage.MyPageFragment"
+        android:label="MyPageFragment"
+        tools:layout="@layout/fragment_mypage" />
+</navigation>
