@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -10,16 +11,46 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
+        <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+            android:id="@+id/vp_indicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="온보딩"
-            android:textColor="@color/black"
-            android:textSize="30dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="80dp"
+            app:dotsColor="@color/color_bbc0c5"
+            app:dotsCornerRadius="27dp"
+            app:dotsSize="8dp"
+            app:dotsSpacing="8dp"
+            app:dotsWidthFactor="2.5"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:progressMode="false"
+            app:selectedDotColor="@color/black" />
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/vp_onboarding"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/btn_next"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/vp_indicator"
+            tools:background="@color/teal_200" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_next"
+            style="@style/MaterialButton.8.14.Sb"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="66dp"
+            android:backgroundTint="@color/black"
+            android:paddingVertical="15dp"
+            android:text="@string/onboarding_next"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

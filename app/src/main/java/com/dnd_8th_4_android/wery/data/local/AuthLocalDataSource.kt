@@ -1,24 +1,25 @@
 package com.dnd_8th_4_android.wery.data.local
 
 import android.content.Context
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 class AuthLocalDataSource @Inject constructor(
-    private val context: Context
+    @ApplicationContext context: Context
 ) {
     private val sharedPreferences =
         context.getSharedPreferences(WERY_APP, Context.MODE_PRIVATE)
 
     var accessToken: String?
-        set(value) = sharedPreferences.edit().putString(ACCESS_TOKEN, null).apply()
+        set(value) = sharedPreferences.edit().putString(ACCESS_TOKEN, value).apply()
         get() = sharedPreferences.getString(ACCESS_TOKEN, null)
 
     var isAutoLogin: Boolean
-        set(value) = sharedPreferences.edit().putBoolean(IS_AUTO_LOGIN, false).apply()
+        set(value) = sharedPreferences.edit().putBoolean(IS_AUTO_LOGIN, value).apply()
         get() = sharedPreferences.getBoolean(IS_AUTO_LOGIN, false)
 
     var hasOnboardDone: Boolean
-        set(value) = sharedPreferences.edit().putBoolean(HAS_ONBOARD_DONE, false).apply()
+        set(value) = sharedPreferences.edit().putBoolean(HAS_ONBOARD_DONE, value).apply()
         get() = sharedPreferences.getBoolean(HAS_ONBOARD_DONE, false)
 
     companion object {
