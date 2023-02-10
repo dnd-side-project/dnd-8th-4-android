@@ -13,4 +13,7 @@
     <string name="home_noGroup_content">초대받은 그룹이 없다면\n친한 친구와 그룹을 만들어보세요!</string>
     <string name="home_group_create">그룹 만들기</string>
     <string name="home_group_invite">초대 받았어요</string>
+    <string name="home_my_group">내 그룹</string>
+    <string name="home_recent_post">최신 글</string>
+    <string name="home_all_post">전체보기</string>
 </resources>
