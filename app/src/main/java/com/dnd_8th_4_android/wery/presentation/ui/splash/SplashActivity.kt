@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.data.local.AuthLocalDataSource
 import com.dnd_8th_4_android.wery.domain.model.SplashType
-import com.dnd_8th_4_android.wery.presentation.ui.onboard.OnboardingActivity
+import com.dnd_8th_4_android.wery.presentation.ui.onboard.view.OnBoardingActivity
 import com.dnd_8th_4_android.wery.presentation.ui.sign.SignInActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -46,8 +46,8 @@ class SplashActivity : AppCompatActivity() {
     private fun moveToNext(type: SplashType) {
         when (type) {
             SplashType.LOGIN -> moveToNextHandler(Intent(this, SignInActivity::class.java))
-            SplashType.ONBOARD -> moveToNextHandler(Intent(this, OnboardingActivity::class.java))
-            SplashType.HOME -> moveToNextHandler(Intent(this, OnboardingActivity::class.java))
+            SplashType.ONBOARD -> moveToNextHandler(Intent(this, OnBoardingActivity::class.java))
+            SplashType.HOME -> moveToNextHandler(Intent(this, OnBoardingActivity::class.java))
         }
     }
 
