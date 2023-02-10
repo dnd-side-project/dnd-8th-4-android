@@ -7,8 +7,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.core.widget.doBeforeTextChanged
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseGroupData
 import com.dnd_8th_4_android.wery.databinding.FragmentHomeBinding
@@ -26,7 +24,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         groupRecyclerViewAdapter.submitList(groupList)
         binding.activityGroup.rvMyGroup.apply {
             adapter = groupRecyclerViewAdapter
-            layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
             addItemDecoration(
                 MarginItemDecoration(
                     resources.getDimension(R.dimen.groupList_item_margin).toInt()
