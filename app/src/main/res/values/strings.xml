@@ -16,4 +16,10 @@
     <string name="home_my_group">내 그룹</string>
     <string name="home_recent_post">최신 글</string>
     <string name="home_all_post">전체보기</string>
+
+    <!-- bottomSheetFragment -->
+    <string name="bottom_sheet_bookmark">북마크 하기</string>
+    <string name="bottom_sheet_clip">링크 복사하기</string>
+    <string name="bottom_sheet_modify">수정</string>
+    <string name="bottom_sheet_remove">삭제</string>
 </resources>
