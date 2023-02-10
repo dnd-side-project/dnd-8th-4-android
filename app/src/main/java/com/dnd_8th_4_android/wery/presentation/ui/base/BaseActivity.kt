@@ -25,6 +25,11 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutRes: Int) 
 
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        overridePendingTransition(0, 0)
+    }
+
     protected inner class LifeCycleEventLogger(private val className: String) : LifecycleObserver {
         fun registerLogger(lifecycle: Lifecycle) {
             lifecycle.addObserver(this)

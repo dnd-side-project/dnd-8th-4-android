@@ -4,10 +4,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.databinding.ItemOnboardBinding
 
-class OnBoardingAdapter(private val itemList: MutableList<Int>) :
+class OnBoardingAdapter :
     RecyclerView.Adapter<OnBoardingAdapter.OnBoardingHolder>() {
+    private val itemList =
+        mutableListOf(R.drawable.bg_crying_face, R.drawable.bg_no_group, R.drawable.ic_group)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OnBoardingHolder {
         val binding = ItemOnboardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
