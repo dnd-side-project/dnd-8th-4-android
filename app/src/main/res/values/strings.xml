@@ -15,7 +15,7 @@
     <string name="home_group_invite">초대 받았어요</string>
     <string name="home_my_group">내 그룹</string>
     <string name="home_recent_post">최신 글</string>
-    <string name="home_all_post">전체보기</string>
+    <string name="home_all_my_group">전체보기</string>
 
     <!-- bottomSheetFragment -->
     <string name="bottom_sheet_bookmark">북마크 하기</string>
