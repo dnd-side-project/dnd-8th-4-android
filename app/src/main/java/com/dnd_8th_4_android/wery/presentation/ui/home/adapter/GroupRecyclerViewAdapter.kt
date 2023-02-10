@@ -74,8 +74,8 @@ class GroupRecyclerViewAdapter :
     }
 
     private fun isSelected(itemView: View) {
-        if(selectedItem != itemView) {
-            selectedItem!!.isSelected = false
+        if (selectedItem != itemView) {
+            selectedItem.isSelected = false
             itemView.isSelected = !itemView.isSelected
             selectedItem = itemView
         }
@@ -86,7 +86,7 @@ class GroupRecyclerViewAdapter :
             oldItem: ResponseGroupData.Data,
             newItem: ResponseGroupData.Data,
         ): Boolean {
-            return oldItem === newItem
+            return oldItem.name == newItem.name
         }
 
         override fun areContentsTheSame(
