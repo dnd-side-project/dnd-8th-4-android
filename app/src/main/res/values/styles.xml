@@ -57,14 +57,22 @@
     </style>
 
     <!--  Material Button  -->
-    <style name="MaterialButton.8.14.Sb" parent="Widget.MaterialComponents.Button">
+    <style name="MaterialButton" parent="Widget.MaterialComponents.Button">
         <item name="android:minWidth">0dp</item>
         <item name="android:minHeight">0dp</item>
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
+        <item name="android:stateListAnimator">@null</item>
+    </style>
+
+    <style name="MaterialButton.14.sb" parent="MaterialButton">
+        <item name="android:textSize">14dp</item>
+        <item name="android:fontWeight">600</item>
+    </style>
+
+    <style name="MaterialButton.8.14.Sb" parent="MaterialButton">
         <item name="cornerRadius">8dp</item>
         <item name="android:textSize">14dp</item>
         <item name="android:fontWeight">600</item>
-        <item name="android:stateListAnimator">@null</item>
     </style>
 </resources>
