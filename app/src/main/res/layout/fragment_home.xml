@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -75,6 +75,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <include
+            android:id="@+id/activity_no_group"
             layout="@layout/activity_no_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -84,6 +85,7 @@
             app:layout_constraintTop_toBottomOf="@id/layout_home_top" />
 
         <include
+            android:id="@+id/activity_group"
             layout="@layout/activity_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -95,12 +97,12 @@
             android:id="@+id/btn_floating_action"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_pencil"
             android:layout_margin="16dp"
-            app:tint="@color/white"
+            android:src="@drawable/ic_pencil"
             app:backgroundTint="@color/black"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:tint="@color/white"
             tools:ignore="ContentDescription" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
