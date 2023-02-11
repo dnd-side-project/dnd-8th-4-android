@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -9,8 +10,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="25dp"
-        android:background="@drawable/bottom_sheet_dialog_24">
+        android:background="@drawable/bottom_sheet_dialog_24"
+        android:paddingBottom="25dp">
 
         <View
             android:id="@+id/view_line"
@@ -26,20 +27,22 @@
             android:id="@+id/iv_bookmark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:layout_marginTop="29dp"
+            android:paddingStart="16dp"
             android:src="@drawable/ic_bookmark"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/view_line" />
 
         <TextView
+            android:id="@+id/tv_bookmark"
             style="@style/TextView.Body.16.R"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:paddingStart="8dp"
             android:text="@string/bottom_sheet_bookmark"
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="@id/iv_bookmark"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/iv_bookmark"
             app:layout_constraintTop_toTopOf="@id/iv_bookmark" />
 
@@ -48,18 +51,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="26dp"
+            android:paddingStart="16dp"
             android:src="@drawable/ic_clip"
             app:layout_constraintStart_toStartOf="@id/iv_bookmark"
             app:layout_constraintTop_toBottomOf="@id/iv_bookmark" />
 
         <TextView
+            android:id="@+id/tv_clip"
             style="@style/TextView.Body.16.R"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:paddingStart="8dp"
             android:text="@string/bottom_sheet_clip"
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="@id/iv_clip"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/iv_clip"
             app:layout_constraintTop_toTopOf="@id/iv_clip" />
 
@@ -75,20 +81,22 @@
             android:id="@+id/iv_modify"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:layout_marginTop="25dp"
+            android:paddingStart="16dp"
             android:src="@drawable/ic_modify"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/view_line2" />
 
         <TextView
+            android:id="@+id/tv_modify"
             style="@style/TextView.Body.16.R"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:paddingStart="8dp"
             android:text="@string/bottom_sheet_modify"
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="@id/iv_modify"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/iv_modify"
             app:layout_constraintTop_toTopOf="@id/iv_modify" />
 
@@ -97,19 +105,50 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="26dp"
+            android:paddingStart="16dp"
             android:src="@drawable/ic_remove"
             app:layout_constraintStart_toStartOf="@id/iv_modify"
             app:layout_constraintTop_toBottomOf="@id/iv_modify" />
 
         <TextView
+            android:id="@+id/tv_remove"
             style="@style/TextView.Body.16.R"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:paddingStart="8dp"
             android:text="@string/bottom_sheet_remove"
             android:textColor="@color/color_eb0555"
-            android:layout_marginStart="8dp"
             app:layout_constraintBottom_toBottomOf="@id/iv_remove"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/iv_remove"
             app:layout_constraintTop_toTopOf="@id/iv_remove" />
+
+        <androidx.constraintlayout.helper.widget.Layer
+            android:id="@+id/layer_remove"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="iv_remove,tv_remove"
+            tools:ignore="MissingConstraints" />
+
+        <androidx.constraintlayout.helper.widget.Layer
+            android:id="@+id/layer_bookmark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="iv_bookmark,tv_bookmark"
+            tools:ignore="MissingConstraints" />
+
+        <androidx.constraintlayout.helper.widget.Layer
+            android:id="@+id/layer_clip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="iv_clip,tv_clip"
+            tools:ignore="MissingConstraints" />
+
+        <androidx.constraintlayout.helper.widget.Layer
+            android:id="@+id/layer_modify"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="tv_modify,iv_modify"
+            tools:ignore="MissingConstraints" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
