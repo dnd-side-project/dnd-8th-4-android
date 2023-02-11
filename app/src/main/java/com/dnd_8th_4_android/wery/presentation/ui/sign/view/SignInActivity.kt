@@ -1,8 +1,10 @@
 package com.dnd_8th_4_android.wery.presentation.ui.sign.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
 import androidx.activity.viewModels
+import com.dnd_8th_4_android.wery.MainActivity
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.databinding.ActivitySignInBinding
 import com.dnd_8th_4_android.wery.domain.model.DialogInfo
@@ -54,6 +56,28 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
 
     // TODO 추후 서버 통신 및 뷰모델 연결 예정
     private fun loginClickListener() {
+        // 자동 로그인 상태값 체크
+        binding.btnLogin.setOnClickListener {
+            setAutoLogin()
+
+            if (true) { // 홈화면 이동
+                setAccessToken()
+                finish()
+                startActivity(Intent(this, MainActivity::class.java))
+            } else {
+                showErrorDialog()
+            }
+        }
+
+    }
+
+    private fun setAccessToken() = signInViewModel.saveAccessToken("a")
+
+    private fun setAutoLogin() {
+        if (binding.cbAutoLogin.isChecked) signInViewModel.saveAutoLoginState(true)
+        else signInViewModel.saveAutoLoginState(false)
+    }
+    private fun showErrorDialog() {
         val dialog = DialogFragmentUtil(
             DialogInfo(
                 null,
@@ -62,8 +86,7 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
                 resources.getString(R.string.sign_in_confirm)
             )
         ) {}
-        binding.btnLogin.setOnClickListener {
-            dialog.show(supportFragmentManager, dialog.tag)
-        }
+
+        dialog.show(supportFragmentManager, dialog.tag)
     }
 }
