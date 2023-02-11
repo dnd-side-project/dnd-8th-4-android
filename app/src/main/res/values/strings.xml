@@ -13,10 +13,10 @@
     <!-- SignInActivity -->
     <string name="sign_in_id_hint">이메일을 입력하세요.</string>
     <string name="sign_in_pw_hint">비밀번호를 입력하세요.</string>
-    <string name="sign_in_keep_login">로그인 상태 유지</string>
+    <string name="sign_in_auto_login">로그인 상태 유지</string>
     <string name="sign_in_login">로그인</string>
     <string name="sign_in_find_id">아이디 찾기</string>
-    <string name="sign_in_find_pw">비밀번호 찾기</string>
+    <string name="sign_in_reset_pw">비밀번호 재설정</string>
     <string name="sign_in_sign_up">회원가입</string>
 
     <!-- homeFragment -->
