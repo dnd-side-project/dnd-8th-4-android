@@ -9,7 +9,7 @@ import com.dnd_8th_4_android.wery.databinding.ActivityOnboardingBinding
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseActivity
 import com.dnd_8th_4_android.wery.presentation.ui.onboard.adapter.OnBoardingAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.onboard.viewmodel.OnBoardingViewModel
-import com.dnd_8th_4_android.wery.presentation.ui.sign.SignInActivity
+import com.dnd_8th_4_android.wery.presentation.ui.sign.view.SignInActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

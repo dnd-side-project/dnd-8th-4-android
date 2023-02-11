@@ -41,7 +41,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_close"
-                style="@style/MaterialButton.14.sb"
+                style="@style/MaterialButton.14.Sb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -50,7 +50,7 @@
                 android:textColor="@color/color_9da1a6" />
 
             <com.google.android.material.button.MaterialButton
-                style="@style/MaterialButton.14.sb"
+                style="@style/MaterialButton.14.Sb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/white"
