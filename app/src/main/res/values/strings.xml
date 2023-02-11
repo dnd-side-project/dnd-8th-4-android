@@ -28,6 +28,11 @@
     <string name="home_my_group">내 그룹</string>
     <string name="home_recent_post">최신 글</string>
     <string name="home_all_my_group">전체보기</string>
+    <string name="home_item_post_comment">댓글</string>
+    <string name="home_item_post_hit">조회</string>
+    <string name="home_item_post_emotion_button">공감하기</string>
+    <string name="home_item_post_comment_write_button">댓글쓰기</string>
+    <string name="home_item_post_image_count_slash">/</string>
 
     <!-- bottomSheetFragment -->
     <string name="bottom_sheet_bookmark">북마크 하기</string>
@@ -40,4 +45,5 @@
     <string name="post_remove">삭제</string>
     <string name="post_remove_content">이 동작은 취소할 수 없으며 내 프로필, 내가 속한 그룹의 피드, 그리고 앱 검색 결과에서 삭제됩니다.</string>
     <string name="post_remove_title">게시물을 삭제하시겠어요?</string>
+
 </resources>
