@@ -21,6 +21,7 @@
                 android:id="@+id/iv_friend_image"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:layout_marginTop="20dp"
                 android:src="@drawable/shape_f0f1f3_oval_f6f7f9"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -61,63 +62,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
+                android:lineSpacingExtra="22.4dp"
+                android:lineSpacingMultiplier="0"
                 android:ellipsize="end"
                 android:maxLines="4"
                 android:textColor="@color/black"
                 app:layout_constraintTop_toBottomOf="@id/iv_friend_image"
                 tools:text="피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다. 피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다. 피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다. 피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다." />
 
-            <ImageView
-                android:id="@+id/iv_friend_post_image"
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/vp_post_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:adjustViewBounds="true"
-                android:src="@drawable/shape_f0f1f3_radius_16_f6f7f9"
                 app:layout_constraintTop_toBottomOf="@id/tv_friend_content" />
-
-            <ImageView
-                android:id="@+id/iv_post_image_count"
-                android:layout_width="46dp"
-                android:layout_height="24dp"
-                android:layout_margin="12dp"
-                android:src="@drawable/shape_80000000_radius_20"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/iv_friend_post_image" />
-
-            <TextView
-                android:id="@+id/tv_post_image_count"
-                style="@style/TextView.Caption.10.R"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="1dp"
-                android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="@id/iv_post_image_count"
-                app:layout_constraintEnd_toStartOf="@id/tv_post_slash"
-                app:layout_constraintTop_toTopOf="@id/iv_post_image_count"
-                tools:text="N" />
-
-            <TextView
-                android:id="@+id/tv_post_slash"
-                style="@style/TextView.Caption.10.R"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                app:layout_constraintEnd_toEndOf="@id/iv_post_image_count"
-                app:layout_constraintStart_toStartOf="@id/iv_post_image_count"
-                app:layout_constraintTop_toTopOf="@id/tv_post_image_count"
-                tools:text="/" />
-
-            <TextView
-                android:id="@+id/tv_post_image_all_count"
-                style="@style/TextView.Caption.10.R"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="1dp"
-                android:textColor="@color/white"
-                app:layout_constraintStart_toEndOf="@id/tv_post_slash"
-                app:layout_constraintTop_toTopOf="@id/tv_post_image_count"
-                tools:text="N" />
 
             <ImageView
                 android:id="@+id/iv_emotion_left"
@@ -126,7 +84,7 @@
                 android:layout_marginTop="12.5dp"
                 android:src="@drawable/shape_f0f1f3_oval_f6f7f9"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/iv_friend_post_image" />
+                app:layout_constraintTop_toBottomOf="@id/vp_post_image" />
 
             <ImageView
                 android:id="@+id/iv_emotion_right"
@@ -136,7 +94,7 @@
                 android:layout_marginTop="12.5dp"
                 android:src="@drawable/shape_f0f1f3_oval_f6f7f9"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/iv_friend_post_image" />
+                app:layout_constraintTop_toBottomOf="@id/vp_post_image" />
 
             <TextView
                 android:id="@+id/tv_emotion_count"
@@ -300,6 +258,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <View
+            android:id="@+id/view_line"
             android:layout_width="match_parent"
             android:layout_height="8dp"
             android:background="@color/color_fafbfd"

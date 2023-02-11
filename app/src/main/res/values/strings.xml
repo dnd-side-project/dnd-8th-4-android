@@ -23,6 +23,7 @@
     <string name="home_item_post_hit">조회</string>
     <string name="home_item_post_emotion_button">공감하기</string>
     <string name="home_item_post_comment_write_button">댓글쓰기</string>
+    <string name="home_item_post_image_count_slash">/</string>
 
     <!-- bottomSheetFragment -->
     <string name="bottom_sheet_bookmark">북마크 하기</string>
