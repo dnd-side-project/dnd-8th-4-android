@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/inset_white_radius_10_16"
+        android:orientation="vertical"
+        android:paddingHorizontal="36dp"
+        android:paddingVertical="22dp">
+
+        <TextView
+            android:id="@+id/tv_title"
+            style="@style/TextView.Body.16.M"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:textColor="@color/black"
+            tools:text="Title" />
+
+        <TextView
+            android:id="@+id/tv_text"
+            style="@style/TextView.Body.14.R.160"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray500"
+            tools:text="text" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_negative"
+                style="@style/MaterialButton.14.Sb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:backgroundTint="@color/white"
+                android:textColor="@color/gray500"
+                tools:text="button" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_positive"
+                style="@style/MaterialButton.14.Sb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/white"
+                android:textColor="@color/black"
+                tools:text="button" />
+        </LinearLayout>
+    </LinearLayout>
+</layout>
