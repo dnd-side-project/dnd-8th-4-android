@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--  TextView  -->
+    <!--  TextView 100 -->
     <style name="TextView.Title.24.Sb" parent="Widget.AppCompat.TextView">
         <item name="android:fontWeight">600</item>
         <item name="android:textSize">24dp</item>
@@ -56,6 +56,86 @@
         <item name="android:textSize">10dp</item>
     </style>
 
+
+    <!--  TextView 160 -->
+    <style name="TextView.Title.24.Sb.160" parent="Widget.AppCompat.TextView">
+        <item name="android:fontWeight">600</item>
+        <item name="android:textSize">24dp</item>
+        <item name="android:lineSpacingMultiplier">0</item>
+        <item name="android:lineSpacingExtra">38.4dp</item>
+    </style>
+
+    <style name="TextView.Title.20.Sb.160" parent="Widget.AppCompat.TextView">
+        <item name="android:fontWeight">600</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:lineSpacingMultiplier">0</item>
+        <item name="android:lineSpacingExtra">32dp</item>
+    </style>
+
+    <style name="TextView.Title.16.Sb.160" parent="Widget.AppCompat.TextView">
+        <item name="android:fontWeight">600</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:lineSpacingMultiplier">0</item>
+        <item name="android:lineSpacingExtra">25.6dp</item>
+    </style>
+
+    <style name="TextView.Title.14.Sb.160" parent="Widget.AppCompat.TextView">
+        <item name="android:fontWeight">600</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:lineSpacingMultiplier">0</item>
+        <item name="android:lineSpacingExtra">22.4dp</item>
+    </style>
+
+    <style name="TextView.Body.16.M.160" parent="Widget.AppCompat.TextView">
+        <item name="android:fontWeight">500</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:lineSpacingMultiplier">0</item>
+        <item name="android:lineSpacingExtra">25.6dp</item>
+    </style>
+
+    <style name="TextView.Body.14.M.160" parent="Widget.AppCompat.TextView">
+        <item name="android:fontWeight">500</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:lineSpacingMultiplier">0</item>
+        <item name="android:lineSpacingExtra">22.4dp</item>
+    </style>
+
+    <style name="TextView.Body.14.R.160" parent="Widget.AppCompat.TextView">
+        <item name="android:fontWeight">500</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:lineSpacingMultiplier">0</item>
+        <item name="android:lineSpacingExtra">19.2dp</item>
+    </style>
+
+    <style name="TextView.Body.12.M.160" parent="Widget.AppCompat.TextView">
+        <item name="android:fontWeight">500</item>
+        <item name="android:textSize">12dp</item>
+        <item name="android:lineSpacingMultiplier">0</item>
+        <item name="android:lineSpacingExtra">25.6dp</item>
+    </style>
+
+    <style name="TextView.Body.16.R.160" parent="Widget.AppCompat.TextView">
+        <item name="android:fontWeight">400</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:lineSpacingMultiplier">0</item>
+        <item name="android:lineSpacingExtra">22.4dp</item>
+    </style>
+
+    <style name="TextView.Body.12.R.160" parent="Widget.AppCompat.TextView">
+        <item name="android:fontWeight">400</item>
+        <item name="android:textSize">12dp</item>
+        <item name="android:lineSpacingMultiplier">0</item>
+        <item name="android:lineSpacingExtra">19.2dp</item>
+    </style>
+
+    <style name="TextView.Caption.10.R.160" parent="Widget.AppCompat.TextView">
+        <item name="android:fontWeight">400</item>
+        <item name="android:textSize">10dp</item>
+        <item name="android:lineSpacingMultiplier">0</item>
+        <item name="android:lineSpacingExtra">16dp</item>
+    </style>
+
+
     <!--  Material Button  -->
     <style name="MaterialButton" parent="Widget.MaterialComponents.Button">
         <item name="android:minWidth">0dp</item>
@@ -75,7 +155,6 @@
         <item name="android:textSize">14dp</item>
         <item name="android:fontWeight">600</item>
     </style>
-
 
     <!--  BottomDialog  -->
     <style name="BottomDialog">
