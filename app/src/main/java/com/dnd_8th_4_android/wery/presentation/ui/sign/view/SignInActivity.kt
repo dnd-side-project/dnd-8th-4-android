@@ -16,7 +16,6 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initStartView()
-        initDataBinding()
         afterDataBinding()
     }
 
@@ -24,12 +23,9 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
         binding.viewModel = signInViewModel
     }
 
-    private fun initDataBinding() {
-
-    }
-
     private fun afterDataBinding() {
         setPWVisibility()
+        setAutoLoginState()
     }
 
     private fun setPWVisibility() {
@@ -44,6 +40,12 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
                     InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
             }
             binding.etvPw.setSelection(binding.etvPw.text.length)
+        }
+    }
+
+    private fun setAutoLoginState() {
+        binding.tvAutoLogin.setOnClickListener {
+            binding.cbAutoLogin.isChecked = !binding.cbAutoLogin.isChecked
         }
     }
 }

@@ -116,12 +116,12 @@
                 style="@style/TextView.Body.14.R"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:paddingStart="16dp"
                 android:text="@string/sign_in_auto_login"
                 android:textColor="@color/black"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/cb_auto_login"
                 app:layout_constraintStart_toEndOf="@id/cb_auto_login"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="@id/cb_auto_login" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.button.MaterialButton
