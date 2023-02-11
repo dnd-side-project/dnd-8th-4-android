@@ -4,6 +4,9 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.dnd_8th_4_android.wery.presentation.ui.sign.viewmodel.SignInViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -47,12 +50,13 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="90dp"
-            android:background="@drawable/shape_ffffff_radius_8_e0e2e5"
+            android:background="@{viewModel.id.length == 0 ? @drawable/shape_ffffff_radius_8_e0e2e5 : @drawable/shape_white_radius_8_black}"
             android:hint="@string/sign_in_id_hint"
             android:inputType="text"
             android:maxLines="1"
             android:paddingHorizontal="16dp"
             android:paddingVertical="12dp"
+            android:text="@={viewModel.id}"
             android:textColor="@color/black"
             android:textColorHint="@color/color_9da1a6"
             app:layout_constraintEnd_toEndOf="parent"
@@ -65,12 +69,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:background="@drawable/shape_ffffff_radius_8_e0e2e5"
+            android:background="@{viewModel.pw.length == 0 ? @drawable/shape_ffffff_radius_8_e0e2e5 : @drawable/shape_white_radius_8_black}"
             android:hint="@string/sign_in_pw_hint"
-            android:inputType="text"
+            android:inputType="textPassword"
             android:maxLines="1"
             android:paddingHorizontal="16dp"
             android:paddingVertical="12dp"
+            android:text="@={viewModel.pw}"
             android:textColor="@color/black"
             android:textColorHint="@color/color_9da1a6"
             app:layout_constraintEnd_toEndOf="@id/etv_id"
@@ -82,7 +87,7 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:paddingHorizontal="16dp"
-            android:src="@drawable/ic_blind_off"
+            android:src="@drawable/selector_blind"
             app:layout_constraintBottom_toBottomOf="@id/etv_pw"
             app:layout_constraintEnd_toEndOf="@id/etv_pw"
             app:layout_constraintTop_toTopOf="@id/etv_pw" />
@@ -111,12 +116,12 @@
                 style="@style/TextView.Body.14.R"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:paddingStart="16dp"
                 android:text="@string/sign_in_auto_login"
                 android:textColor="@color/black"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/cb_auto_login"
                 app:layout_constraintStart_toEndOf="@id/cb_auto_login"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="@id/cb_auto_login" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.button.MaterialButton
@@ -126,7 +131,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:background="@drawable/selector_btn"
-            android:enabled="false"
+            android:enabled="@{viewModel.id.length != 0 &amp; viewModel.pw.length != 0 ? true : false}"
             android:paddingVertical="12dp"
             android:text="@string/sign_in_login"
             android:textColor="@color/white"
