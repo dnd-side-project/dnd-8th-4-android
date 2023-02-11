@@ -1,8 +1,7 @@
 package com.dnd_8th_4_android.wery.presentation.ui.sign.view
 
-import android.content.res.Resources.Theme
 import android.os.Bundle
-import android.widget.Toast
+import android.text.InputType
 import androidx.activity.viewModels
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.databinding.ActivitySignInBinding
@@ -26,8 +25,25 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
     }
 
     private fun initDataBinding() {
+
     }
 
     private fun afterDataBinding() {
+        setPWVisibility()
+    }
+
+    private fun setPWVisibility() {
+        binding.ivBlind.setOnClickListener {
+            if (it.isSelected) {
+                it.isSelected = false
+                binding.etvPw.inputType =
+                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+            } else {
+                it.isSelected = true
+                binding.etvPw.inputType =
+                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+            }
+            binding.etvPw.setSelection(binding.etvPw.text.length)
+        }
     }
 }

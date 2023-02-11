@@ -71,7 +71,7 @@
             android:layout_marginTop="8dp"
             android:background="@{viewModel.pw.length == 0 ? @drawable/shape_ffffff_radius_8_e0e2e5 : @drawable/shape_white_radius_8_black}"
             android:hint="@string/sign_in_pw_hint"
-            android:inputType="text"
+            android:inputType="textPassword"
             android:maxLines="1"
             android:paddingHorizontal="16dp"
             android:paddingVertical="12dp"
@@ -87,7 +87,7 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:paddingHorizontal="16dp"
-            android:src="@drawable/ic_blind_off"
+            android:src="@drawable/selector_blind"
             app:layout_constraintBottom_toBottomOf="@id/etv_pw"
             app:layout_constraintEnd_toEndOf="@id/etv_pw"
             app:layout_constraintTop_toTopOf="@id/etv_pw" />
