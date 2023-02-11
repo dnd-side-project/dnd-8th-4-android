@@ -25,7 +25,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="8dp"
-                android:background="@drawable/shape_f6f7f9_radius_24"
+                android:background="@drawable/shape_gray100_radius_24"
                 android:hint="@string/home_search_hint"
                 android:imeOptions="actionSearch"
                 android:inputType="text"

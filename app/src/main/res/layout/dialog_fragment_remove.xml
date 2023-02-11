@@ -8,7 +8,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/inset_ffffff_radius_10_16"
+        android:background="@drawable/inset_white_radius_10_16"
         android:orientation="vertical"
         android:paddingHorizontal="36dp"
         android:paddingVertical="20dp">
@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:text="@string/post_remove_content"
-            android:textColor="@color/color_9da1a6" />
+            android:textColor="@color/gray500" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -47,7 +47,7 @@
                 android:layout_marginEnd="8dp"
                 android:backgroundTint="@color/white"
                 android:text="@string/post_cancel"
-                android:textColor="@color/color_9da1a6" />
+                android:textColor="@color/gray500" />
 
             <com.google.android.material.button.MaterialButton
                 style="@style/MaterialButton.14.Sb"

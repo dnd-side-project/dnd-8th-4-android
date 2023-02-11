@@ -86,6 +86,7 @@
         <item name="android:windowTitleStyle">@null</item>
         <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
         <item name="android:background">@android:color/transparent</item>
+    </style>
 
     <style name="MaterialButton.8.16.Sb" parent="MaterialButton">
         <item name="cornerRadius">8dp</item>

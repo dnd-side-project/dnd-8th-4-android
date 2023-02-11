@@ -29,7 +29,8 @@
                 android:src="@drawable/ic_back"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -50,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="90dp"
-            android:background="@{viewModel.id.length == 0 ? @drawable/shape_ffffff_radius_8_e0e2e5 : @drawable/shape_white_radius_8_black}"
+            android:background="@{viewModel.id.length == 0 ? @drawable/shape_white_radius_8_e0e2e5 : @drawable/shape_white_radius_8_black}"
             android:hint="@string/sign_in_id_hint"
             android:inputType="text"
             android:maxLines="1"
@@ -58,7 +59,7 @@
             android:paddingVertical="12dp"
             android:text="@={viewModel.id}"
             android:textColor="@color/black"
-            android:textColorHint="@color/color_9da1a6"
+            android:textColorHint="@color/gray500"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/iv_logo" />
@@ -69,7 +70,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:background="@{viewModel.pw.length == 0 ? @drawable/shape_ffffff_radius_8_e0e2e5 : @drawable/shape_white_radius_8_black}"
+            android:background="@{viewModel.pw.length == 0 ? @drawable/shape_white_radius_8_e0e2e5 : @drawable/shape_white_radius_8_black}"
             android:hint="@string/sign_in_pw_hint"
             android:inputType="textPassword"
             android:maxLines="1"
@@ -77,7 +78,7 @@
             android:paddingVertical="12dp"
             android:text="@={viewModel.pw}"
             android:textColor="@color/black"
-            android:textColorHint="@color/color_9da1a6"
+            android:textColorHint="@color/gray500"
             app:layout_constraintEnd_toEndOf="@id/etv_id"
             app:layout_constraintStart_toStartOf="@id/etv_id"
             app:layout_constraintTop_toBottomOf="@id/etv_id" />
@@ -162,7 +163,7 @@
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:layout_marginHorizontal="8dp"
-                android:background="@color/color_9da1a6" />
+                android:background="@color/gray500" />
 
             <TextView
                 android:id="@+id/tv_reset_pw"
@@ -175,7 +176,7 @@
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:layout_marginHorizontal="8dp"
-                android:background="@color/color_9da1a6" />
+                android:background="@color/gray500" />
 
             <TextView
                 android:id="@+id/tv_sign_up"

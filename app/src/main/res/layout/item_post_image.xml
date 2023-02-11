@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            android:src="@drawable/shape_f0f1f3_radius_16_f6f7f9"
+            android:src="@drawable/shape_f0f1f3_radius_16_gray100"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
