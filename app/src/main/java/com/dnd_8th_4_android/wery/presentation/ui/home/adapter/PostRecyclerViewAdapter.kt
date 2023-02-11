@@ -1,5 +1,6 @@
 package com.dnd_8th_4_android.wery.presentation.ui.home.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponsePostData
 import com.dnd_8th_4_android.wery.databinding.ItemPostBinding
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class PostRecyclerViewAdapter :
     ListAdapter<ResponsePostData.Data, PostRecyclerViewAdapter.ViewHolder>(
@@ -15,6 +17,7 @@ class PostRecyclerViewAdapter :
     ) {
     private lateinit var binding: ItemPostBinding
     private lateinit var postImageAdapter: PostImageAdapter
+    private lateinit var itemClickListener: PopupClickListener
 
     inner class ViewHolder(private val binding: ItemPostBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ResponsePostData.Data) {
@@ -39,6 +42,10 @@ class PostRecyclerViewAdapter :
 
             binding.tvTime.text = item.time
             binding.tvHitCount.text = item.hit
+
+            binding.ivPopup.setOnClickListener {
+                itemClickListener.onClicked()
+            }
 
             if(adapterPosition == currentList.lastIndex) {
                 binding.viewLine.visibility = View.GONE
@@ -69,5 +76,17 @@ class PostRecyclerViewAdapter :
         ): Boolean {
             return oldItem == newItem
         }
+    }
+
+    fun setItemClickListener(listener: () -> Unit) {
+        itemClickListener = object : PopupClickListener {
+            override fun onClicked() {
+                listener()
+            }
+        }
+    }
+
+    interface PopupClickListener {
+        fun onClicked()
     }
 }

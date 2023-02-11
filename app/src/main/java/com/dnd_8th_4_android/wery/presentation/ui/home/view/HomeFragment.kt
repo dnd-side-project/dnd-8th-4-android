@@ -39,6 +39,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         postRecyclerViewAdapter = PostRecyclerViewAdapter()
         postRecyclerViewAdapter.submitList(postList)
         binding.activityGroup.rvMyGroupPost.adapter = postRecyclerViewAdapter
+        postRecyclerViewAdapter.setItemClickListener {
+            val bottomSheet = PopupBottomDialogDialog()
+            bottomSheet.show(childFragmentManager, bottomSheet.tag)
+        }
     }
 
     override fun initDataBinding() {}
