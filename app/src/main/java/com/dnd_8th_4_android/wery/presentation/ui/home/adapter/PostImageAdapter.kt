@@ -13,6 +13,7 @@ class PostImageAdapter(private val itemList: List<Int>) :
     inner class ViewHolder(private val binding: ItemPostImageBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Int) {
+            binding.ivFriendPostImage.clipToOutline = true
             Glide.with(binding.ivFriendPostImage.context).load(item)
                 .into(binding.ivFriendPostImage)
             binding.tvPostImageCount.text = "${adapterPosition+1}"

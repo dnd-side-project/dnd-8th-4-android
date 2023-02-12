@@ -11,13 +11,26 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/iv_friend_post_image"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_friend_post_image"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:src="@drawable/shape_radius_16_gray100"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="0dp"
+            android:background="@drawable/shape_gray100_radius_12_gray200"
+            android:gravity="center"
+            android:padding="1dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/iv_friend_post_image"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@drawable/shape_gray100_radius_12_gray200"
+                android:src="@drawable/bg_no_group"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ImageView
             android:id="@+id/iv_post_image_count"
@@ -26,7 +39,7 @@
             android:layout_margin="12dp"
             android:src="@drawable/shape_80000000_radius_20"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/iv_friend_post_image" />
+            app:layout_constraintTop_toTopOf="@id/layout_friend_post_image" />
 
         <TextView
             android:id="@+id/tv_post_image_count"
