@@ -17,14 +17,24 @@
             android:layout_height="0dp"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/iv_friend_image"
+            <LinearLayout
+                android:id="@+id/layout_friend_image"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginTop="20dp"
-                android:src="@drawable/shape_f0f1f3_oval_gray100"
+                android:background="@drawable/shape_oval_gray100"
+                android:gravity="center"
+                android:padding="1dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/iv_friend_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/shape_oval_gray100"
+                    android:src="@drawable/bg_no_group" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/tv_friend_name"
@@ -34,8 +44,8 @@
                 android:layout_marginStart="8dp"
                 android:textColor="@color/black"
                 app:layout_constraintBottom_toTopOf="@id/tv_friend_group"
-                app:layout_constraintStart_toEndOf="@id/iv_friend_image"
-                app:layout_constraintTop_toTopOf="@id/iv_friend_image"
+                app:layout_constraintStart_toEndOf="@id/layout_friend_image"
+                app:layout_constraintTop_toTopOf="@id/layout_friend_image"
                 tools:text="User" />
 
             <TextView
@@ -43,7 +53,7 @@
                 style="@style/TextView.Body.12.R"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="@+id/iv_friend_image"
+                app:layout_constraintBottom_toBottomOf="@+id/layout_friend_image"
                 app:layout_constraintStart_toStartOf="@id/tv_friend_name"
                 app:layout_constraintTop_toBottomOf="@+id/tv_friend_name"
                 tools:text="Group" />
@@ -53,9 +63,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_dots_three_vertical"
-                app:layout_constraintBottom_toBottomOf="@id/iv_friend_image"
+                app:layout_constraintBottom_toBottomOf="@id/layout_friend_image"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/iv_friend_image" />
+                app:layout_constraintTop_toTopOf="@id/layout_friend_image" />
 
             <TextView
                 android:id="@+id/tv_friend_content"
@@ -66,7 +76,7 @@
                 android:ellipsize="end"
                 android:maxLines="4"
                 android:textColor="@color/black"
-                app:layout_constraintTop_toBottomOf="@id/iv_friend_image"
+                app:layout_constraintTop_toBottomOf="@id/layout_friend_image"
                 tools:text="피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다. 피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다. 피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다. 피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다." />
 
             <androidx.viewpager2.widget.ViewPager2
@@ -81,7 +91,7 @@
                 android:layout_width="18dp"
                 android:layout_height="18dp"
                 android:layout_marginTop="12.5dp"
-                android:src="@drawable/shape_f0f1f3_oval_gray100"
+                android:src="@drawable/shape_oval_gray100"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/vp_post_image" />
 
@@ -91,7 +101,7 @@
                 android:layout_height="18dp"
                 android:layout_marginStart="11dp"
                 android:layout_marginTop="12.5dp"
-                android:src="@drawable/shape_f0f1f3_oval_gray100"
+                android:src="@drawable/shape_oval_gray100"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/vp_post_image" />
 

@@ -26,6 +26,7 @@ class GroupRecyclerViewAdapter :
     inner class GroupViewHolder(private val binding: ItemMyGroupBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ResponseGroupData.Data) {
+            binding.ivMyGroup.clipToOutline = true
             binding.tvGroupName.text = item.name
             binding.layoutMyGroup.setOnClickListener {
                 isSelected(itemView)

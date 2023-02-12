@@ -1,6 +1,5 @@
 package com.dnd_8th_4_android.wery.presentation.ui.home.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +8,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponsePostData
 import com.dnd_8th_4_android.wery.databinding.ItemPostBinding
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class PostRecyclerViewAdapter :
     ListAdapter<ResponsePostData.Data, PostRecyclerViewAdapter.ViewHolder>(
@@ -21,6 +19,7 @@ class PostRecyclerViewAdapter :
 
     inner class ViewHolder(private val binding: ItemPostBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ResponsePostData.Data) {
+            binding.ivFriendImage.clipToOutline = true
 //            Glide.with(binding.ivFriendImage.context).load(item.image)
 //                .into(binding.ivFriendImage)
 
