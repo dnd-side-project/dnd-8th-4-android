@@ -3,11 +3,16 @@ package com.dnd_8th_4_android.wery.presentation.ui.home.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponsePostData
 import com.dnd_8th_4_android.wery.databinding.ItemPostBinding
+
 
 class PostRecyclerViewAdapter :
     ListAdapter<ResponsePostData.Data, PostRecyclerViewAdapter.ViewHolder>(
@@ -31,14 +36,34 @@ class PostRecyclerViewAdapter :
             binding.vpPostImage.adapter = postImageAdapter
 
             // TODO 감정 표현 개수에 따른 표시
-//            Glide.with(binding.ivEmotionLeft.context).load(item.emotion[0])
-//                .into(binding.ivEmotionLeft)
+            when(item.emotion.size) {
+                0 -> {
+                    binding.ivEmotionLeft.isVisible = false
+                    binding.ivEmotionRight.isVisible = false
+                    binding.tvEmotionCount.isVisible = false
+                }
+                1 -> {
+                    Glide.with(binding.ivEmotionLeft.context).load(item.emotion[0])
+                        .into(binding.ivEmotionLeft)
 
-//            Glide.with(binding.ivEmotionRight.context).load(item.emotion[1])
-//                .into(binding.ivEmotionRight)
+                    binding.tvEmotionCount.setPadding(
+                        binding.root.resources.getDimension(R.dimen.postList_emotion_left_4).toInt(), 0, 0, 0)
+                    binding.ivEmotionRight.isVisible = false
+                }
+                else -> {
+                    Glide.with(binding.ivEmotionLeft.context).load(item.emotion[0])
+                        .into(binding.ivEmotionLeft)
 
-//            binding.tvCommentCount.text = item.comment.size.toString()
+                    Glide.with(binding.ivEmotionRight.context).load(item.emotion[1])
+                        .into(binding.ivEmotionRight)
 
+                    binding.tvEmotionCount.setPadding(
+                        binding.root.resources.getDimension(R.dimen.postList_emotion_left_15).toInt(), 0, 0, 0)
+                }
+            }
+
+            binding.tvEmotionCount.text = item.emotion.size.toString()
+            binding.tvCommentCount.text = item.comment.size.toString()
             binding.tvTime.text = item.time
             binding.tvHitCount.text = item.hit
 

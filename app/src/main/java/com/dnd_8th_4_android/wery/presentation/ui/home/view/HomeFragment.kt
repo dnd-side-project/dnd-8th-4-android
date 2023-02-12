@@ -54,7 +54,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                     bottomSheet.show(childFragmentManager, bottomSheet.tag)
                 }
             } else {
-
+                // TODO 그룹이 없는 경우
             }
         }
     }
@@ -94,6 +94,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 "Group1",
                 "111111111피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다. ",
                 listOf(R.drawable.bg_no_group, R.drawable.bg_crying_face),
+                listOf(),
+                listOf("안녕하세요", "DND 여러분"),
                 "1H:MM",
                 "11"
             ),
@@ -102,6 +104,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 "Group2",
                 "222222222피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다. 피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다. ",
                 listOf(R.drawable.bg_no_group, R.drawable.bg_crying_face),
+                listOf(R.drawable.bg_crying_face),
+                listOf("안녕하세요", "DND 여러분", "asd"),
                 "2H:MM",
                 "22"
             ),
@@ -110,6 +114,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 "Group3",
                 "33333333피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다. 피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다. 피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다.",
                 listOf(R.drawable.bg_no_group, R.drawable.bg_crying_face),
+                listOf(R.drawable.bg_crying_face, R.drawable.bg_crying_face),
+                listOf("안녕하세요", "DND 여러분", "adsf", "dsa"),
                 "3H:MM",
                 "33"
             ),
@@ -118,6 +124,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 "Group4",
                 "4444444444피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다. 피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다. 피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다. 피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다.",
                 listOf(R.drawable.bg_no_group, R.drawable.bg_crying_face),
+                listOf(R.drawable.bg_crying_face, R.drawable.bg_crying_face, R.drawable.bg_crying_face),
+                listOf("안녕하세요", "DND 여러분", "adsf", "dsa"),
                 "4H:MM",
                 "44"
             ),

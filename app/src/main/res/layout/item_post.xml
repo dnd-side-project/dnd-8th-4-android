@@ -118,11 +118,10 @@
                 style="@style/TextView.Body.12.R"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
                 android:textColor="@color/gray500"
-                app:layout_constraintBottom_toBottomOf="@id/iv_emotion_right"
-                app:layout_constraintStart_toEndOf="@id/iv_emotion_right"
-                app:layout_constraintTop_toTopOf="@id/iv_emotion_right"
+                app:layout_constraintBottom_toBottomOf="@id/tv_comment"
+                app:layout_constraintStart_toEndOf="@id/iv_emotion_left"
+                app:layout_constraintTop_toTopOf="@id/tv_comment"
                 tools:text="1" />
 
             <TextView
