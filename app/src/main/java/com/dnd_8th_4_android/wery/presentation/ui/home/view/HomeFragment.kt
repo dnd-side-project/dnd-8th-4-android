@@ -1,6 +1,8 @@
 package com.dnd_8th_4_android.wery.presentation.ui.home.view
 
 import android.app.Activity
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -52,6 +54,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 postRecyclerViewAdapter.setItemClickListener {
                     val bottomSheet = PopupBottomDialogDialog()
                     bottomSheet.show(childFragmentManager, bottomSheet.tag)
+                }
+
+                binding.activityGroup.layoutSwipeRefresh.setOnRefreshListener {
+                    Handler(Looper.getMainLooper())
+                        .postDelayed({
+                            binding.activityGroup.layoutSwipeRefresh.isRefreshing = false
+                            groupRecyclerViewAdapter.submitList(groupList)
+                            postRecyclerViewAdapter.submitList(postList)
+                        }, 1000)
                 }
             } else {
                 // TODO 그룹이 없는 경우
@@ -124,7 +135,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 "Group4",
                 "4444444444피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다. 피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다. 피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다. 피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다.",
                 listOf(R.drawable.bg_no_group, R.drawable.bg_crying_face),
-                listOf(R.drawable.bg_crying_face, R.drawable.bg_crying_face, R.drawable.bg_crying_face),
+                listOf(
+                    R.drawable.bg_crying_face,
+                    R.drawable.bg_crying_face,
+                    R.drawable.bg_crying_face
+                ),
                 listOf("안녕하세요", "DND 여러분", "adsf", "dsa"),
                 "4H:MM",
                 "44"

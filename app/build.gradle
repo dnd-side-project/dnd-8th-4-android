@@ -81,4 +81,7 @@ dependencies {
 
     // Viewpager indicator
     implementation "com.tbuonomo:dotsindicator:4.3"
+
+    // Swipe refresh layout
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 }
