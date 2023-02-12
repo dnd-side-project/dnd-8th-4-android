@@ -6,7 +6,7 @@
     <string name="bottom_navigation_group">group</string>
     <string name="bottom_navigation_mission">mission</string>
     <string name="bottom_navigation_mypage">myPage</string>
-    
+
     <!-- OnBoardingActivity -->
     <string name="onBoarding_next">다음</string>
 
@@ -20,6 +20,13 @@
     <string name="sign_in_sign_up">회원가입</string>
     <string name="sign_in_error">아이디 또는 비밀번호가 일치하지 않습니다.</string>
     <string name="sign_in_confirm">확인</string>
+
+    <!-- WritingActivity -->
+    <string name="writing_select_group">그룹 선택</string>
+    <string name="writing_register">등록</string>
+    <string name="writing_add_place">장소 추가하기</string>
+    <string name="writing_note_hint">어떤 이야기를 해볼까요?</string>
+    <string name="writing_my_group">내 그룹</string>
 
     <!-- homeFragment -->
     <string name="home_search_hint">원하는 키워드를 검색해보세요.</string>
