@@ -22,9 +22,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".MainActivity"/>
+        <activity android:name=".MainActivity" />
         <activity android:name=".presentation.ui.onboard.view.OnBoardingActivity" />
-        <activity android:name=".presentation.ui.sign.view.SignInActivity"
+        <activity android:name=".presentation.ui.sign.view.SignInActivity" />
+        <activity android:name=".presentation.ui.write.view.WritingActivity"
             android:exported="true"/>
     </application>
 
