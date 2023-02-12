@@ -5,6 +5,11 @@
 
     <data>
 
+        <import type="android.view.View" />
+
+        <variable
+            name="vm"
+            type="com.dnd_8th_4_android.wery.presentation.ui.home.viewmodel.HomeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -80,7 +85,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="?android:attr/actionBarSize"
-            android:visibility="gone"
+            android:visibility="@{!vm.isExistGroup() ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/layout_home_top" />
 
@@ -90,6 +95,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="?android:attr/actionBarSize"
+            android:visibility="@{vm.isExistGroup() ? View.VISIBLE : View.GONE}"
             app:layout_constraintTop_toBottomOf="@id/layout_home_top" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton

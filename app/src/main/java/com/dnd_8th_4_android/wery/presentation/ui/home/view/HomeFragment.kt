@@ -7,6 +7,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.core.widget.doBeforeTextChanged
+import androidx.fragment.app.viewModels
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseGroupData
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponsePostData
@@ -14,9 +15,12 @@ import com.dnd_8th_4_android.wery.databinding.FragmentHomeBinding
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseFragment
 import com.dnd_8th_4_android.wery.presentation.ui.home.adapter.GroupRecyclerViewAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.home.adapter.PostRecyclerViewAdapter
+import com.dnd_8th_4_android.wery.presentation.ui.home.viewmodel.HomeViewModel
 import com.dnd_8th_4_android.wery.presentation.util.MarginItemDecoration
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
+    private val homeViewModel: HomeViewModel by viewModels()
+
     private lateinit var groupRecyclerViewAdapter: GroupRecyclerViewAdapter
     private lateinit var postRecyclerViewAdapter: PostRecyclerViewAdapter
 
@@ -24,28 +28,36 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private lateinit var postList: MutableList<ResponsePostData.Data>
 
     override fun initStartView() {
-        makeList()
-        groupRecyclerViewAdapter = GroupRecyclerViewAdapter()
-        groupRecyclerViewAdapter.submitList(groupList)
-        binding.activityGroup.rvMyGroup.apply {
-            adapter = groupRecyclerViewAdapter
-            addItemDecoration(
-                MarginItemDecoration(
-                    resources.getDimension(R.dimen.groupList_item_margin).toInt()
-                )
-            )
-        }
-
-        postRecyclerViewAdapter = PostRecyclerViewAdapter()
-        postRecyclerViewAdapter.submitList(postList)
-        binding.activityGroup.rvMyGroupPost.adapter = postRecyclerViewAdapter
-        postRecyclerViewAdapter.setItemClickListener {
-            val bottomSheet = PopupBottomDialogDialog()
-            bottomSheet.show(childFragmentManager, bottomSheet.tag)
-        }
+        binding.vm = homeViewModel
     }
 
-    override fun initDataBinding() {}
+    override fun initDataBinding() {
+        homeViewModel.isExistGroup.observe(viewLifecycleOwner) { isExistGroup ->
+            if (isExistGroup) {
+                makeList()
+                groupRecyclerViewAdapter = GroupRecyclerViewAdapter()
+                groupRecyclerViewAdapter.submitList(groupList)
+                binding.activityGroup.rvMyGroup.apply {
+                    adapter = groupRecyclerViewAdapter
+                    addItemDecoration(
+                        MarginItemDecoration(
+                            resources.getDimension(R.dimen.groupList_item_margin).toInt()
+                        )
+                    )
+                }
+
+                postRecyclerViewAdapter = PostRecyclerViewAdapter()
+                postRecyclerViewAdapter.submitList(postList)
+                binding.activityGroup.rvMyGroupPost.adapter = postRecyclerViewAdapter
+                postRecyclerViewAdapter.setItemClickListener {
+                    val bottomSheet = PopupBottomDialogDialog()
+                    bottomSheet.show(childFragmentManager, bottomSheet.tag)
+                }
+            } else {
+
+            }
+        }
+    }
 
     override fun initAfterBinding() {
         binding.etSearch.doBeforeTextChanged { _, _, _, after ->
