@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="8dp"
             android:text="@string/home_all_my_group"
             android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="@id/layout_all_group"

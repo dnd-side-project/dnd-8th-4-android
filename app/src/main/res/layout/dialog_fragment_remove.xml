@@ -21,17 +21,17 @@
             android:textColor="@color/black" />
 
         <TextView
-            style="@style/TextView.Body.14.R"
+            style="@style/TextView.Body.14.R.160"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="16dp"
             android:text="@string/post_remove_content"
             android:textColor="@color/gray500" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="24dp"
             android:orientation="horizontal">
 
             <View

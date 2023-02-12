@@ -59,12 +59,10 @@
 
             <TextView
                 android:id="@+id/tv_friend_content"
-                style="@style/TextView.Body.14.R"
+                style="@style/TextView.Body.14.M.160"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:lineSpacingExtra="22.4dp"
-                android:lineSpacingMultiplier="0"
                 android:ellipsize="end"
                 android:maxLines="4"
                 android:textColor="@color/black"
@@ -185,7 +183,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_emotion"
             android:layout_width="0dp"
-            android:layout_height="43dp"
+            android:layout_height="46dp"
             android:layout_marginTop="12dp"
             app:layout_constraintEnd_toStartOf="@id/layout_comment_write"
             app:layout_constraintStart_toStartOf="parent"
@@ -223,7 +221,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_comment_write"
             android:layout_width="0dp"
-            android:layout_height="43dp"
+            android:layout_height="46dp"
             android:layout_marginTop="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/layout_emotion"
@@ -262,7 +260,7 @@
             android:id="@+id/view_line"
             android:layout_width="match_parent"
             android:layout_height="8dp"
-            android:background="@color/gray50"
+            android:background="@color/gray100"
             app:layout_constraintTop_toBottomOf="@id/layout_comment_write" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

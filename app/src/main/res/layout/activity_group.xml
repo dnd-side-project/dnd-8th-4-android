@@ -34,7 +34,7 @@
                 android:layout_marginTop="16dp"
                 android:clipToPadding="false"
                 android:orientation="horizontal"
-                android:padding="16dp"
+                android:paddingHorizontal="16dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_myGroup" />
@@ -43,7 +43,8 @@
                 android:id="@+id/view_line"
                 android:layout_width="match_parent"
                 android:layout_height="8dp"
-                android:background="@color/gray50"
+                android:layout_marginTop="16dp"
+                android:background="@color/gray100"
                 app:layout_constraintTop_toBottomOf="@id/rv_myGroup" />
 
             <TextView

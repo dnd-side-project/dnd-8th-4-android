@@ -22,7 +22,7 @@
         <ImageView
             android:id="@+id/iv_post_image_count"
             android:layout_width="46dp"
-            android:layout_height="24dp"
+            android:layout_height="22dp"
             android:layout_margin="12dp"
             android:src="@drawable/shape_80000000_radius_20"
             app:layout_constraintEnd_toEndOf="parent"
@@ -61,6 +61,5 @@
             app:layout_constraintStart_toEndOf="@id/tv_post_slash"
             app:layout_constraintTop_toTopOf="@id/tv_post_image_count"
             tools:text="N" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
