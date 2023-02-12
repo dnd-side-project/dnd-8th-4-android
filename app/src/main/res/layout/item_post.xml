@@ -15,6 +15,7 @@
             android:id="@+id/layout_post"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:paddingHorizontal="16dp"
             app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
@@ -78,32 +79,39 @@
                 android:textColor="@color/black"
                 app:layout_constraintTop_toBottomOf="@id/layout_friend_image"
                 tools:text="피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다. 피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다. 피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다. 피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다." />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/vp_post_image"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                app:layout_constraintTop_toBottomOf="@id/tv_friend_content" />
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/vp_post_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            app:layout_constraintTop_toBottomOf="@id/layout_post" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_emotion_top"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:paddingHorizontal="16dp"
+            app:layout_constraintTop_toBottomOf="@id/vp_post_image">
 
             <ImageView
                 android:id="@+id/iv_emotion_left"
                 android:layout_width="18dp"
                 android:layout_height="18dp"
-                android:layout_marginTop="12.5dp"
                 android:src="@drawable/shape_oval_gray100"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/vp_post_image" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:id="@+id/iv_emotion_right"
                 android:layout_width="18dp"
                 android:layout_height="18dp"
                 android:layout_marginStart="11dp"
-                android:layout_marginTop="12.5dp"
                 android:src="@drawable/shape_oval_gray100"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/vp_post_image" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tv_emotion_count"
@@ -185,25 +193,26 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <View
+            android:id="@+id/view_line_bottom"
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_marginTop="12dp"
             android:background="@color/gray50"
-            app:layout_constraintBottom_toTopOf="@id/layout_emotion" />
+            app:layout_constraintTop_toBottomOf="@id/layout_emotion_top" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_emotion"
+            android:id="@+id/layout_emotion_bottom"
             android:layout_width="0dp"
             android:layout_height="46dp"
-            android:layout_marginTop="12dp"
             app:layout_constraintEnd_toStartOf="@id/layout_comment_write"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layout_post">
+            app:layout_constraintTop_toBottomOf="@id/view_line_bottom">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                app:layout_constraintEnd_toEndOf="@id/layout_emotion"
-                app:layout_constraintStart_toStartOf="@id/layout_emotion">
+                app:layout_constraintEnd_toEndOf="@id/layout_emotion_bottom"
+                app:layout_constraintStart_toStartOf="@id/layout_emotion_bottom">
 
                 <ImageView
                     android:id="@+id/iv_emotion_button"
@@ -232,10 +241,9 @@
             android:id="@+id/layout_comment_write"
             android:layout_width="0dp"
             android:layout_height="46dp"
-            android:layout_marginTop="12dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/layout_emotion"
-            app:layout_constraintTop_toBottomOf="@id/layout_post">
+            app:layout_constraintStart_toEndOf="@id/layout_emotion_bottom"
+            app:layout_constraintTop_toBottomOf="@id/view_line_bottom">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="wrap_content"
@@ -271,6 +279,6 @@
             android:layout_width="match_parent"
             android:layout_height="8dp"
             android:background="@color/gray100"
-            app:layout_constraintTop_toBottomOf="@id/layout_comment_write" />
+            app:layout_constraintTop_toBottomOf="@id/layout_emotion_bottom" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
