@@ -1,4 +1,4 @@
-package com.dnd_8th_4_android.wery.presentation.ui.write.view
+package com.dnd_8th_4_android.wery.presentation.ui.write.upload.view
 
 import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.app.Activity
@@ -14,8 +14,8 @@ import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.databinding.ActivityWritingBinding
 import com.dnd_8th_4_android.wery.domain.model.DialogInfo
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseActivity
-import com.dnd_8th_4_android.wery.presentation.ui.write.adapter.UploadPhotoAdapter
-import com.dnd_8th_4_android.wery.presentation.ui.write.viewmodel.WritingViewModel
+import com.dnd_8th_4_android.wery.presentation.ui.write.upload.adapter.UploadPhotoAdapter
+import com.dnd_8th_4_android.wery.presentation.ui.write.upload.viewmodel.WritingViewModel
 import com.dnd_8th_4_android.wery.presentation.util.DialogFragmentUtil
 
 class WritingActivity : BaseActivity<ActivityWritingBinding>(R.layout.activity_writing) {

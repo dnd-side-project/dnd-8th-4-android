@@ -28,6 +28,10 @@
     <string name="writing_note_hint">어떤 이야기를 해볼까요?</string>
     <string name="writing_my_group">내 그룹</string>
 
+    <!-- SearchPlaceActivity -->
+    <string name="search_place_add_place">장소 추가하기</string>
+    <string name="search_place_hint">장소명, 지번, 도로명으로 검색</string>
+
     <!-- homeFragment -->
     <string name="home_search_hint">원하는 키워드를 검색해보세요.</string>
     <string name="home_noGroup_title">가입된 그룹이 없어요</string>
