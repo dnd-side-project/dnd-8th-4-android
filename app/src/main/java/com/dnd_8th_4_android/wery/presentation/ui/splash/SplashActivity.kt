@@ -11,7 +11,6 @@ import com.dnd_8th_4_android.wery.data.local.AuthLocalDataSource
 import com.dnd_8th_4_android.wery.domain.model.SplashType
 import com.dnd_8th_4_android.wery.presentation.ui.onboard.view.OnBoardingActivity
 import com.dnd_8th_4_android.wery.presentation.ui.sign.view.SignInActivity
-import dagger.hilt.android.AndroidEntryPoint
 
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {
