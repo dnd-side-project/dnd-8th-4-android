@@ -8,7 +8,7 @@
         android:id="@+id/iv_noGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/bg_no_group"
+        android:src="@drawable/img_no_group"
         app:layout_constraintBottom_toTopOf="@id/layout_noGroup"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,7 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="3dp"
-                android:src="@drawable/bg_crying_face"
+                android:src="@drawable/img_crying_face"
                 app:layout_constraintBottom_toBottomOf="@id/tv_noGroup_title"
                 app:layout_constraintStart_toEndOf="@id/tv_noGroup_title"
                 app:layout_constraintTop_toTopOf="@id/tv_noGroup_title" />

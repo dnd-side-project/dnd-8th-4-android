@@ -5,6 +5,7 @@ data class ResponsePostData(
     val data: Data,
 ) {
     data class Data(
+        val id: Int,
 //        val image: Int,
         val name: String,
         val groupName: String,
@@ -14,5 +15,6 @@ data class ResponsePostData(
         val comment: List<String>,
         val time: String,
         val hit: String,
+        var isSelectedEmotion: Int,
     )
 }

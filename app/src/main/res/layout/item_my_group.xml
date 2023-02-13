@@ -28,7 +28,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/selector_btn_group"
-                android:src="@drawable/bg_no_group" />
+                android:src="@drawable/img_no_group" />
         </LinearLayout>
 
         <TextView
@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:ellipsize="end"
-            android:maxEms="3"
+            android:maxEms="4"
             android:maxLines="1"
             android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="@id/layout_my_group_image"

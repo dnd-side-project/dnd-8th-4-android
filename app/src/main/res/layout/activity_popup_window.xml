@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="312dp"
+        android:layout_height="58dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingVertical="8dp"
+        android:paddingHorizontal="12dp"
+        android:background="@drawable/img_popup_window">
+
+        <ImageView
+            android:id="@+id/iv_emotion_one"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/shape_gray300_radius_8" />
+
+        <ImageView
+            android:id="@+id/iv_emotion_two"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/shape_gray300_radius_8" />
+
+        <ImageView
+            android:id="@+id/iv_emotion_three"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/shape_gray300_radius_8" />
+
+        <ImageView
+            android:id="@+id/iv_emotion_four"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/shape_gray300_radius_8" />
+
+        <ImageView
+            android:id="@+id/iv_emotion_five"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/shape_gray300_radius_8" />
+
+        <ImageView
+            android:id="@+id/iv_emotion_six"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/shape_gray300_radius_8" />
+    </LinearLayout>
+</layout>
