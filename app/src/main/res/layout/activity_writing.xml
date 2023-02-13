@@ -5,6 +5,10 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.dnd_8th_4_android.wery.presentation.ui.write.viewmodel.WritingViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -159,24 +163,44 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:src="@drawable/ic_camera"
-                                app:layout_constraintBottom_toTopOf="@id/tv_photo_cnt"
+                                app:layout_constraintBottom_toTopOf="@id/layout_photo_cnt"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
 
-                            <TextView
-                                android:id="@+id/tv_photo_cnt"
-                                style="@style/TextView.Body.12.R"
+                            <LinearLayout
+                                android:id="@+id/layout_photo_cnt"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
-                                android:text="0/5"
-                                android:textAlignment="center"
-                                android:textColor="@color/gray800"
+                                android:gravity="center_horizontal"
+                                android:orientation="horizontal"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="@id/iv_camera"
                                 app:layout_constraintStart_toStartOf="@id/iv_camera"
-                                app:layout_constraintTop_toBottomOf="@id/iv_camera" />
+                                app:layout_constraintTop_toBottomOf="@id/iv_camera">
+
+                                <TextView
+                                    android:id="@+id/tv_photo_cnt"
+                                    style="@style/TextView.Body.12.R"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="4dp"
+                                    android:text="@{Integer.toString(viewModel.photoCnt)}"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/gray800"
+                                    tools:text="0" />
+
+                                <TextView
+                                    style="@style/TextView.Body.12.R"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="4dp"
+                                    android:text="/5"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/gray800" />
+                            </LinearLayout>
+
+
                         </androidx.constraintlayout.widget.ConstraintLayout>
                     </com.google.android.material.card.MaterialCardView>
 
