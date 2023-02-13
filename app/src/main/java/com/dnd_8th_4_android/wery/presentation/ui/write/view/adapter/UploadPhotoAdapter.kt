@@ -1,5 +1,7 @@
 package com.dnd_8th_4_android.wery.presentation.ui.write.view.adapter
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -9,34 +11,46 @@ import com.bumptech.glide.Glide
 import com.dnd_8th_4_android.wery.databinding.ItemWritingPhotoBinding
 
 
-class UploadPhotoAdapter : ListAdapter<String, UploadPhotoAdapter.UploadPhotoViewAdapter>(
-    uploadPhotoDiffUtil
-) {
+class UploadPhotoAdapter(private val onItemDelete: (String) -> Unit) :
+    ListAdapter<String, UploadPhotoAdapter.UploadPhotoViewAdapter>(
+        uploadPhotoDiffUtil
+    ) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UploadPhotoViewAdapter {
         val binding =
             ItemWritingPhotoBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return UploadPhotoViewAdapter(binding)
+        return UploadPhotoViewAdapter(binding, onItemDelete)
     }
 
     override fun onBindViewHolder(holder: UploadPhotoViewAdapter, position: Int) {
         holder.onBind(getItem(position))
-        holder.setDeleteListener()
     }
 
-    class UploadPhotoViewAdapter(val binding: ItemWritingPhotoBinding) :
+    class UploadPhotoViewAdapter(
+        val binding: ItemWritingPhotoBinding,
+        val onItemDelete: (String) -> Unit
+    ) :
         RecyclerView.ViewHolder(binding.root) {
-        fun onBind(imgUrl: String) {
-            binding.ivPhoto.clipToOutline = true
-            Glide.with(binding.root).load(imgUrl).into(binding.ivPhoto)
-        }
+        private var currentPhoto: String? = null
 
-        fun setDeleteListener() {
+        init {
             binding.ivDelete.setOnClickListener {
-
+                currentPhoto?.let {
+                    onItemDelete(it)
+                }
             }
         }
+
+        fun onBind(imgUrl: String) {
+            currentPhoto = imgUrl
+
+            binding.photoCardView.clipToOutline = true
+            binding.ivPhoto.clipToOutline = true
+            Glide.with(binding.root).load(imgUrl)
+                .placeholder(ColorDrawable(Color.parseColor("#E0E2E5"))).into(binding.ivPhoto)
+        }
     }
+
 
     companion object {
         private val uploadPhotoDiffUtil = object : DiffUtil.ItemCallback<String>() {
