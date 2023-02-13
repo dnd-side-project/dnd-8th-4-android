@@ -51,7 +51,6 @@ class UploadPhotoAdapter(private val onItemDelete: (String) -> Unit) :
         }
     }
 
-
     companion object {
         private val uploadPhotoDiffUtil = object : DiffUtil.ItemCallback<String>() {
             override fun areItemsTheSame(

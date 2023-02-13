@@ -1,12 +1,12 @@
 package com.dnd_8th_4_android.wery.presentation.ui.write.view
 
 import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
@@ -24,22 +24,49 @@ class WritingActivity : BaseActivity<ActivityWritingBinding>(R.layout.activity_w
     private val writingViewModel: WritingViewModel by viewModels()
 
     private val requestPermissionLauncher =
-        registerForActivityResult(
-            ActivityResultContracts.RequestPermission()
-        ) { isGranted: Boolean ->
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
             if (isGranted) {
-                // 권한 요청 성공 -> 갤러리 열기
-                Toast.makeText(this, "requestPermissonLauncher:갤러리 열기ㅋㅋ", Toast.LENGTH_SHORT)
-                    .show()
+                openGallery()
             } else checkRequestPermission()
         }
+
+    private val requestPhotoActivity =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK && it.data?.data != null) {
+                val clipData = it?.data?.clipData
+                val clipDataSize = clipData?.itemCount
+
+                clipData?.let { _ ->
+                    if (checkPhotoLimits(clipDataSize!!)) {
+                        val currentList = uploadPhotoAdapter.currentList.toMutableList()
+                        for (i in 0 until clipDataSize) { //선택 한 사진 수만큼 반복
+                            val selectedImageUri = clipData.getItemAt(i).uri
+                            currentList.add(selectedImageUri.toString())
+                        }
+                        uploadPhotoAdapter.submitList(currentList)
+                    }
+                }
+            }
+        }
+
+    private fun checkPhotoLimits(selectedPhotoCnt: Int): Boolean {
+        val totalPhotoCnt = uploadPhotoAdapter.currentList.size + selectedPhotoCnt
+        if (totalPhotoCnt > 5) {
+            showToast("이미지는 최대 5장까지 등록 가능합니다.")
+            return false
+        }
+
+        writingViewModel.setPhotoCnt(totalPhotoCnt)
+
+        return true
+    }
 
     // 권한 체크 함수
     private fun checkRequestPermission() {
         if (ContextCompat.checkSelfPermission(this, WRITE_EXTERNAL_STORAGE)
             == PackageManager.PERMISSION_GRANTED
         ) {
-            Toast.makeText(this, "requestPermissonLauncher:갤러리 열기 ㅎㅎ", Toast.LENGTH_SHORT).show()
+            openGallery()
         } else permissionDialog()
 
     }
@@ -90,19 +117,15 @@ class WritingActivity : BaseActivity<ActivityWritingBinding>(R.layout.activity_w
 
     private fun setRvAdapter() {
         uploadPhotoAdapter = UploadPhotoAdapter { imgUrl -> onItemDelete(imgUrl) }
-        val itemList =
-            mutableListOf<String>(
-                "https://blog.kakaocdn.net/dn/tEMUl/btrDc6957nj/NwJoDw0EOapJNDSNRNZK8K/img.jpg",
-                "https://blog.kakaocdn.net/dn/tEMUl/btrDc6957nj/NwJoDw0EOapJNDSNRNZK8K/img.jpg"
-            )
         binding.rvPhoto.adapter = uploadPhotoAdapter
-        uploadPhotoAdapter.submitList(itemList)
     }
 
     private fun onItemDelete(imgUrl: String) {
         val currentList = uploadPhotoAdapter.currentList.toMutableList()
         currentList.remove(imgUrl)
         uploadPhotoAdapter.submitList(currentList)
+
+        writingViewModel.setPhotoCnt(currentList.size)
     }
 
     private fun setPhotoCnt() {
@@ -110,10 +133,10 @@ class WritingActivity : BaseActivity<ActivityWritingBinding>(R.layout.activity_w
             binding.tvPhotoCnt.apply {
                 if (it == 0) {
                     setTextAppearance(R.style.TextView_Body_12_R)
-                    setTextColor(resources.getColor(R.color.black, null))
+                    setTextColor(resources.getColor(R.color.gray800, null))
                 } else {
                     setTextAppearance(R.style.TextView_Body_12_M)
-                    setTextColor(resources.getColor(R.color.gray800, null))
+                    setTextColor(resources.getColor(R.color.black, null))
                 }
             }
         }
@@ -123,5 +146,15 @@ class WritingActivity : BaseActivity<ActivityWritingBinding>(R.layout.activity_w
         binding.photoCardView.setOnClickListener {
             requestPermissionLauncher.launch(WRITE_EXTERNAL_STORAGE)
         }
+    }
+
+    private fun openGallery() {
+        val intent = Intent()
+        intent.apply {
+            type = "image/*"
+            putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+            action = Intent.ACTION_PICK
+        }
+        requestPhotoActivity.launch(intent)
     }
 }

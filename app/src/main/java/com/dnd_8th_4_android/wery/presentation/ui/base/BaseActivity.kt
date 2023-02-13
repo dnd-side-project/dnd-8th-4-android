@@ -3,6 +3,7 @@ package com.dnd_8th_4_android.wery.presentation.ui.base
 import android.annotation.SuppressLint
 import android.content.pm.ActivityInfo
 import android.os.Bundle
+import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -38,5 +39,9 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutRes: Int) 
         fun log() {
             Timber.d("${className}LifeCycleEvent", "${lifecycle.currentState}")
         }
+    }
+
+    protected fun showToast(message: String) {
+        Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
     }
 }
