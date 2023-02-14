@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/sign_navigation"
+    app:startDestination="@id/signInFragment">
+
+    <fragment
+        android:id="@+id/signInFragment"
+        android:name="com.dnd_8th_4_android.wery.presentation.ui.sign.view.SignInFragment"
+        android:label="SignInFragment"
+        tools:layout="@layout/fragment_sign_in">
+        <action
+            android:id="@+id/action_signInFragment_to_signUpUseAgreementFragment"
+            app:destination="@id/signUpUseAgreementFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpUseAgreementFragment"
+        android:name="com.dnd_8th_4_android.wery.presentation.ui.sign.view.SignUpUseAgreementFragment"
+        android:label="SignUpUseAgreementFragment"
+        tools:layout="@layout/fragment_sign_up_use_agreement">
+        <action
+            android:id="@+id/action_signUpUseAgreementFragment_to_signUpNameFragment"
+            app:destination="@id/signUpNameFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpNameFragment"
+        android:name="com.dnd_8th_4_android.wery.presentation.ui.sign.view.SignUpNameFragment"
+        android:label="SignUpNameFragment"
+        tools:layout="@layout/fragment_sign_up_name">
+        <action
+            android:id="@+id/action_signUpNameFragment_to_signUpEmailFragment"
+            app:destination="@id/signUpEmailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpEmailFragment"
+        android:name="com.dnd_8th_4_android.wery.presentation.ui.sign.view.SignUpEmailFragment"
+        android:label="SignUpEmailFragment"
+        tools:layout="@layout/fragment_sign_up_email">
+        <action
+            android:id="@+id/action_signUpEmailFragment_to_signUpPasswordFragment"
+            app:destination="@id/signUpPasswordFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpPasswordFragment"
+        android:name="com.dnd_8th_4_android.wery.presentation.ui.sign.view.SignUpPasswordFragment"
+        android:label="SignUpPasswordFragment"
+        tools:layout="@layout/fragment_sign_up_password">
+        <action
+            android:id="@+id/action_signUpPasswordFragment_to_signUpNicknameFragment"
+            app:destination="@id/signUpNicknameFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpNicknameFragment"
+        android:name="com.dnd_8th_4_android.wery.presentation.ui.sign.view.SignUpNicknameFragment"
+        android:label="SignUpNicknameFragment"
+        tools:layout="@layout/fragment_sign_up_nickname">
+    </fragment>
+</navigation>
