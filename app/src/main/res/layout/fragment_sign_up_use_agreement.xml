@@ -4,6 +4,9 @@
 
     <data>
 
+        <variable
+            name="vm"
+            type="com.dnd_8th_4_android.wery.presentation.ui.sign.viewmodel.SignUpUseAgreementViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -65,7 +68,8 @@
                 android:layout_width="18dp"
                 android:layout_height="18dp"
                 android:background="@drawable/selector_checkbox"
-                android:button="@null" />
+                android:button="@null"
+                android:onClick="@{(v) -> vm.onClickCheckBox(v)}" />
 
             <TextView
                 style="@style/TextView.Body.14.R"
@@ -101,7 +105,8 @@
                 android:layout_width="18dp"
                 android:layout_height="18dp"
                 android:background="@drawable/selector_checkbox"
-                android:button="@null" />
+                android:button="@null"
+                android:onClick="@{(v) -> vm.onClickCheckBox(v)}" />
 
             <TextView
                 style="@style/TextView.Body.14.R"
@@ -137,7 +142,8 @@
                 android:layout_width="18dp"
                 android:layout_height="18dp"
                 android:background="@drawable/selector_checkbox"
-                android:button="@null" />
+                android:button="@null"
+                android:onClick="@{(v) -> vm.onClickCheckBox(v)}" />
 
             <TextView
                 style="@style/TextView.Body.14.R"
@@ -167,6 +173,7 @@
             android:layout_marginBottom="24dp"
             android:background="@drawable/selector_btn"
             android:paddingVertical="16dp"
+            android:enabled="@{vm.isEnabled()}"
             android:text="@string/sign_up_use_agreement_next"
             android:textColor="@color/white"
             app:backgroundTint="@null"
