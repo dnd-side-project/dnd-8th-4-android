@@ -39,6 +39,11 @@
     <string name="sign_up_email_hint">wery7942@mail.com</string>
     <string name="sign_up_email_error">올바른 형태의 이메일 주소를 입력해 주세요.</string>
 
+    <!-- FragmentSignUpPassword -->
+    <string name="sign_up_password_title">we’ry에서 사용할\n비밀번호를 입력해주세요.</string>
+    <string name="sign_up_password_content">8~12자 영문 대 소문자, 숫자, 특수문자를 사용해주세요.</string>
+    <string name="sign_up_password_hint">비밀번호</string>
+
     <!-- WritingActivity -->
     <string name="writing_select_group">그룹 선택</string>
     <string name="writing_register">등록</string>
