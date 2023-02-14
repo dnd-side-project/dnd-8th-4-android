@@ -82,7 +82,14 @@ class PostRecyclerViewAdapter :
             }
 
             binding.tvEmotionCount.text = item.emotion.size.toString()
-            binding.tvCommentCount.text = item.comment.size.toString()
+
+            if (item.comment.isNotEmpty()) {
+                binding.tvCommentCount.text = item.comment.size.toString()
+            } else {
+                binding.tvComment.isVisible = false
+                binding.tvCommentCount.isVisible = false
+            }
+
             binding.tvTime.text = item.time
             binding.tvHitCount.text = item.hit
 

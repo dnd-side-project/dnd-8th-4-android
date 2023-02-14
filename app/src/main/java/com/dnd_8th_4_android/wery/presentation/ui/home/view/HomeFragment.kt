@@ -151,7 +151,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 "111111111피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다. ",
                 listOf(R.drawable.img_no_group),
                 mutableListOf(),
-                listOf("안녕하세요", "DND 여러분"),
+                listOf(),
                 "1H:MM",
                 "11",
                 0
@@ -164,7 +164,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 "222222222피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다. 피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다. ",
                 listOf(R.drawable.img_no_group, R.drawable.img_crying_face),
                 mutableListOf(R.drawable.img_crying_face),
-                listOf("안녕하세요", "DND 여러분", "asd"),
+                listOf("안녕하세요", "DND 여러분"),
                 "2H:MM",
                 "22",
                 0
