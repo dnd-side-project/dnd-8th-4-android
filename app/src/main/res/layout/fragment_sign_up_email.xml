@@ -15,25 +15,45 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tv_name"
+        android:id="@+id/tv_email"
         style="@style/TextView.Title.20.Sb.160"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="@string/sign_up_name_title"
+        android:text="@string/sign_up_email_title"
         android:textColor="@color/black"
         app:layout_constraintTop_toBottomOf="@id/iv_back" />
 
+    <TextView
+        android:id="@+id/tv_email_content"
+        style="@style/TextView.Body.14.M.160"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/sign_up_email_content"
+        app:layout_constraintTop_toBottomOf="@id/tv_email" />
+
     <EditText
+        android:id="@+id/et_email"
         style="@style/TextView.Title.16.Sb"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="166dp"
+        android:layout_marginTop="120dp"
         android:background="@drawable/selector_et_sign_up"
-        android:textColor="@drawable/selector_et_sign_up"
-        android:hint="@string/sign_up_name_hint"
+        android:hint="@string/sign_up_email_hint"
         android:padding="16dp"
-        app:layout_constraintTop_toBottomOf="@id/tv_name" />
+        android:textColor="@drawable/selector_et_sign_up"
+        app:layout_constraintTop_toBottomOf="@id/tv_email_content" />
+
+    <TextView
+        style="@style/TextView.Body.12.R"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:paddingStart="16dp"
+        android:text="@string/sign_up_email_error"
+        android:textColor="@color/color_eb0555"
+        app:layout_constraintTop_toBottomOf="@id/et_email" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_next"

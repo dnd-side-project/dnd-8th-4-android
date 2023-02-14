@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/et_sign_up_selected" android:state_focused="true"/>
-    <item android:drawable="@drawable/et_sign_up_normal" android:state_focused="false"/>
+    <item android:color="@color/gray800"
+        android:drawable="@drawable/et_sign_up_selected" android:state_focused="true"/>
+    <item android:color="@color/gray500"
+        android:drawable="@drawable/et_sign_up_normal" android:state_focused="false"/>
 </selector>
