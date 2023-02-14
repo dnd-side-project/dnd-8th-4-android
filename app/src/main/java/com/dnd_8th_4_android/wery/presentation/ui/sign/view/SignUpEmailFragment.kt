@@ -20,15 +20,14 @@ class SignUpEmailFragment :
     }
 
     override fun initAfterBinding() {
-        binding.etEmail.requestFocus()
-        binding.etEmail.setOnClickListener {
-            val emailText = binding.etEmail.text.toString()
-            binding.btnNext.isEnabled = emailText != ""
-        }
+//        binding.etEmail.requestFocus()
+//        binding.etEmail.setOnClickListener {
+//            val emailText = binding.etEmail.text.toString()
+//            binding.btnNext.isEnabled = emailText != ""
+//        }
 
-        binding.etEmail.doBeforeTextChanged { text, _, _, _ ->
-            val emailText = text.toString()
-            binding.btnNext.isEnabled = emailText != ""
+        binding.etEmail.doBeforeTextChanged { _, _, _, after ->
+            binding.btnNext.isEnabled = after > 0
         }
 
         binding.btnNext.setOnClickListener {

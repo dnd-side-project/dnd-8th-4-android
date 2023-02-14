@@ -31,14 +31,15 @@
             app:layout_constraintTop_toBottomOf="@id/iv_back" />
 
         <EditText
+            android:id="@+id/et_name"
             style="@style/TextView.Title.16.Sb"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="166dp"
             android:background="@drawable/selector_et_sign_up"
-            android:textColor="@drawable/selector_et_sign_up"
             android:hint="@string/sign_up_name_hint"
             android:padding="16dp"
+            android:textColor="@drawable/selector_et_sign_up"
             app:layout_constraintTop_toBottomOf="@id/tv_name" />
 
         <com.google.android.material.button.MaterialButton
@@ -48,6 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
             android:background="@drawable/selector_btn"
+            android:enabled="false"
             android:paddingVertical="16dp"
             android:text="@string/sign_up_use_agreement_next"
             android:textColor="@color/white"

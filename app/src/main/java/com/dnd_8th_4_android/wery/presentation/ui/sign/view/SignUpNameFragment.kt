@@ -1,5 +1,6 @@
 package com.dnd_8th_4_android.wery.presentation.ui.sign.view
 
+import androidx.core.widget.doBeforeTextChanged
 import androidx.navigation.fragment.findNavController
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.databinding.FragmentSignUpNameBinding
@@ -16,6 +17,10 @@ class SignUpNameFragment :
     }
 
     override fun initAfterBinding() {
+        binding.etName.doBeforeTextChanged { _, _, _, after ->
+            binding.btnNext.isEnabled = after > 0
+        }
+
         binding.btnNext.setOnClickListener { goToSignUpEmail() }
     }
 
