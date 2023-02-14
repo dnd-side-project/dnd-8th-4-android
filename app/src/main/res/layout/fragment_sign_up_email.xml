@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingHorizontal="16dp">
+
+    <ImageView
+        android:id="@+id/iv_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="11dp"
+        android:src="@drawable/ic_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_email"
+        style="@style/TextView.Title.20.Sb.160"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/sign_up_email_title"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/iv_back" />
+
+    <TextView
+        android:id="@+id/tv_email_content"
+        style="@style/TextView.Body.14.M.160"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/sign_up_email_content"
+        android:textColor="@color/gray500"
+        app:layout_constraintTop_toBottomOf="@id/tv_email" />
+
+    <EditText
+        android:id="@+id/et_email"
+        style="@style/TextView.Title.16.Sb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="120dp"
+        android:background="@drawable/selector_et_sign_up"
+        android:hint="@string/sign_up_email_hint"
+        android:padding="16dp"
+        android:textColor="@drawable/selector_et_sign_up"
+        app:layout_constraintTop_toBottomOf="@id/tv_email_content" />
+
+    <TextView
+        style="@style/TextView.Body.12.R"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:paddingStart="16dp"
+        android:text="@string/sign_up_email_error"
+        android:textColor="@color/color_eb0555"
+        app:layout_constraintTop_toBottomOf="@id/et_email" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_next"
+        style="@style/MaterialButton.8.16.M"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/selector_btn"
+        android:paddingVertical="16dp"
+        android:text="@string/sign_up_use_agreement_next"
+        android:textColor="@color/white"
+        app:backgroundTint="@null"
+        app:cornerRadius="8dp"
+        app:layout_constraintBottom_toBottomOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

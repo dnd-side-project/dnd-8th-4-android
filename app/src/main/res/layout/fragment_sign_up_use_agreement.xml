@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingHorizontal="16dp">
+
+    <ImageView
+        android:id="@+id/iv_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="11dp"
+        android:src="@drawable/ic_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_agreement_title"
+        style="@style/TextView.Title.20.Sb.160"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/sign_up_use_agreement_title"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/iv_back" />
+
+    <CheckBox
+        android:id="@+id/cb_all_agree"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="137dp"
+        android:background="@drawable/selector_checkbox"
+        android:button="@null"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_agreement_title" />
+
+    <TextView
+        style="@style/TextView.Body.16.M"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="@string/sign_up_use_agreement_all_agree"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@id/cb_all_agree"
+        app:layout_constraintStart_toEndOf="@id/cb_all_agree"
+        app:layout_constraintTop_toTopOf="@id/cb_all_agree" />
+
+    <LinearLayout
+        android:id="@+id/layout_age"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/cb_all_agree">
+
+        <CheckBox
+            android:id="@+id/cb_age"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:background="@drawable/selector_checkbox"
+            android:button="@null" />
+
+        <TextView
+            style="@style/TextView.Body.14.R"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/sign_up_use_agreement_age_content"
+            android:textColor="@color/black" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/iv_next_age"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_next" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_use_agreement"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="19dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/layout_age">
+
+        <CheckBox
+            android:id="@+id/cb_use_agreement"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:background="@drawable/selector_checkbox"
+            android:button="@null" />
+
+        <TextView
+            style="@style/TextView.Body.14.R"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/sign_up_use_agreement_conetent"
+            android:textColor="@color/black" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/iv_next_use_agreement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_next" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_private_information"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="19dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/layout_use_agreement">
+
+        <CheckBox
+            android:id="@+id/cb_private_information"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:background="@drawable/selector_checkbox"
+            android:button="@null" />
+
+        <TextView
+            style="@style/TextView.Body.14.R"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/sign_up_use_agreement_private_information_content"
+            android:textColor="@color/black" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/iv_next_private_information"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_next" />
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_next"
+        style="@style/MaterialButton.8.16.M"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/selector_btn"
+        android:paddingVertical="16dp"
+        android:text="@string/sign_up_use_agreement_next"
+        android:textColor="@color/white"
+        app:backgroundTint="@null"
+        app:cornerRadius="8dp"
+        app:layout_constraintBottom_toBottomOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

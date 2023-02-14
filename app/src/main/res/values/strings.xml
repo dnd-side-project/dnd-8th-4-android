@@ -21,6 +21,34 @@
     <string name="sign_in_error">아이디 또는 비밀번호가 일치하지 않습니다.</string>
     <string name="sign_in_confirm">확인</string>
 
+    <!-- FragmentSignUpUseAgreement -->
+    <string name="sign_up_use_agreement_title">서비스 이용 약관에 동의해 주세요.</string>
+    <string name="sign_up_use_agreement_all_agree">모두 동의</string>
+    <string name="sign_up_use_agreement_age_content">[필수] 만 14세 이상입니다.</string>
+    <string name="sign_up_use_agreement_private_information_content">[필수] 개인정보 처리방침 동의</string>
+    <string name="sign_up_use_agreement_next">다음</string>
+    <string name="sign_up_use_agreement_conetent">[필수] 서비스 이용약관 동의</string>
+
+    <!-- FragmentSignUpName -->
+    <string name="sign_up_name_title">이름을 입력해주세요</string>
+    <string name="sign_up_name_hint">홍길동</string>
+
+    <!-- FragmentSignUpEmail -->
+    <string name="sign_up_email_title">이메일을 입력해주세요</string>
+    <string name="sign_up_email_content">로그인 또는 회원가입을 위해 사용됩니다.</string>
+    <string name="sign_up_email_hint">wery7942@mail.com</string>
+    <string name="sign_up_email_error">올바른 형태의 이메일 주소를 입력해 주세요.</string>
+
+    <!-- FragmentSignUpPassword -->
+    <string name="sign_up_password_title">we’ry에서 사용할\n비밀번호를 입력해주세요.</string>
+    <string name="sign_up_password_content">8~12자 영문 대 소문자, 숫자, 특수문자를 사용해주세요.</string>
+    <string name="sign_up_password_hint">비밀번호</string>
+
+    <!-- FragmentSignUpNickname -->
+    <string name="sign_up_nickname_title">we’ry에서 사용할\n별명을 입력해주세요.</string>
+    <string name="sign_up_nickname_hint">위어리깜찍이7942</string>
+    <string name="sign_up_nickname_error">이미 사용중인 별명입니다.</string>
+
     <!-- WritingActivity -->
     <string name="writing_select_group">그룹 선택</string>
     <string name="writing_register">등록</string>
@@ -54,5 +82,7 @@
     <string name="post_remove">삭제</string>
     <string name="post_remove_content">이 동작은 취소할 수 없으며 내 프로필, 내가 속한 그룹의 피드, 그리고 앱 검색 결과에서 삭제됩니다.</string>
     <string name="post_remove_title">게시물을 삭제하시겠어요?</string>
+
+
 
 </resources>
