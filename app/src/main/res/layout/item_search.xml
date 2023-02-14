@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginVertical="21dp"
+        android:background="@color/selector_layout_search"
         android:orientation="vertical"
         android:paddingHorizontal="16dp">
 
@@ -28,6 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:background="@color/selector_layout_search"
         android:paddingHorizontal="16dp"
         android:paddingVertical="12dp">
 
