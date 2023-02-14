@@ -1,57 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.dnd_8th_4_android.wery.data.remote.model.write.ResponseSearchPlace.Document" />
+    </data>
 
     <LinearLayout
-        android:id="@+id/ll_single"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="21dp"
-        android:background="@color/selector_layout_search"
-        android:orientation="vertical"
-        android:paddingHorizontal="16dp">
+        android:orientation="vertical">
 
-        <TextView
-            style="@style/TextView.Body.12.R"
+        <LinearLayout
+            android:id="@+id/ll_single"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textColor="@color/black"
-            tools:text="중앙역 맞은편" />
+            android:layout_marginVertical="21dp"
+            android:background="@color/selector_layout_search"
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp"
+            android:visibility="gone">
+
+            <TextView
+                style="@style/TextView.Body.12.R"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@{data.place_name}"
+                android:textColor="@color/black"
+                tools:text="중앙역 맞은편" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_multiple"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/selector_layout_search"
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="12dp">
+
+            <TextView
+                style="@style/TextView.Body.12.R"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@{data.place_name}"
+                android:textColor="@color/black"
+                tools:text="중앙역 맞은편" />
+
+            <TextView
+                style="@style/TextView.Body.12.R"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@{data.road_address_name}"
+                android:textColor="@color/gray500"
+                android:textSize="10dp"
+                tools:text="경기도 안산시 단원구 고잔동 고잔2길 41" />
+        </LinearLayout>
+
     </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_multiple"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@color/selector_layout_search"
-        android:paddingHorizontal="16dp"
-        android:paddingVertical="12dp">
-
-        <TextView
-            style="@style/TextView.Body.12.R"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textColor="@color/black"
-            tools:text="중앙역 맞은편" />
-
-        <TextView
-            style="@style/TextView.Body.12.R"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textColor="@color/gray500"
-            android:textSize="10dp"
-            tools:text="경기도 안산시 단원구 고잔동 고잔2길 41" />
-    </LinearLayout>
-
-</LinearLayout>
+</layout>
