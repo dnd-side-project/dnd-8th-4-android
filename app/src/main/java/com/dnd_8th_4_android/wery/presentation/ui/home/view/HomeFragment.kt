@@ -8,6 +8,7 @@ import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.PopupWindow
+import android.widget.ScrollView
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.core.widget.doBeforeTextChanged
@@ -23,6 +24,7 @@ import com.dnd_8th_4_android.wery.presentation.ui.home.adapter.GroupRecyclerView
 import com.dnd_8th_4_android.wery.presentation.ui.home.adapter.PostRecyclerViewAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.home.viewmodel.HomeViewModel
 import com.dnd_8th_4_android.wery.presentation.util.MarginItemDecoration
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
@@ -91,6 +93,22 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     }
 
     override fun initAfterBinding() {
+        val bottomNavigationView = requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigation)
+        bottomNavigationView.setOnItemReselectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.homeFragment -> {
+                    binding.activityGroup.layoutSwipeRefresh.isRefreshing = true
+                    binding.activityGroup.scrollView.fullScroll(ScrollView.FOCUS_UP)
+                    Handler(Looper.getMainLooper())
+                        .postDelayed({
+                            binding.activityGroup.layoutSwipeRefresh.isRefreshing = false
+                            groupRecyclerViewAdapter.submitList(groupList)
+                            postRecyclerViewAdapter.submitList(postList)
+                        }, 1000)
+                }
+            }
+        }
+
         binding.etSearch.doBeforeTextChanged { _, _, _, after ->
             binding.ivSearchClose.isVisible = after > 0
         }
