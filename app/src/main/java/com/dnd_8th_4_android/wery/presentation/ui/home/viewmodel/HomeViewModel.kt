@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponsePostData
+import com.dnd_8th_4_android.wery.domain.model.PopupWindowType
 import kotlinx.coroutines.launch
 
 class HomeViewModel : ViewModel() {
@@ -14,13 +15,32 @@ class HomeViewModel : ViewModel() {
     private val _isUpdateList = MutableLiveData<List<ResponsePostData.Data>>()
     val isUpdateList: LiveData<List<ResponsePostData.Data>> = _isUpdateList
 
-    fun setUpdateList(onePosition: Int, twoPosition: Int, list: List<ResponsePostData.Data>) {
-        viewModelScope.launch {
-            val list2 = list.map {
-                it.copy()
-            }
-            list2[onePosition].isSelectedEmotion = twoPosition
-            _isUpdateList.postValue(list2)
+    fun setUpdateList(position: Int, emotionPosition: Int, postList: List<ResponsePostData.Data>) {
+        val postCopyList = postList.map {
+            it.copy()
         }
+        postCopyList[position].isSelectedEmotion = emotionPosition
+
+        when (emotionPosition) {
+            PopupWindowType.Type1.emotionPosition -> {
+                postCopyList[position].emotion.add(PopupWindowType.Type1.drawable)
+            }
+            PopupWindowType.Type2.emotionPosition -> {
+                postCopyList[position].emotion.add(PopupWindowType.Type2.drawable)
+            }
+            PopupWindowType.Type3.emotionPosition -> {
+                postCopyList[position].emotion.add(PopupWindowType.Type3.drawable)
+            }
+            PopupWindowType.Type4.emotionPosition -> {
+                postCopyList[position].emotion.add(PopupWindowType.Type4.drawable)
+            }
+            PopupWindowType.Type5.emotionPosition -> {
+                postCopyList[position].emotion.add(PopupWindowType.Type5.drawable)
+            }
+            PopupWindowType.Type6.emotionPosition -> {
+                postCopyList[position].emotion.add(PopupWindowType.Type6.drawable)
+            }
+        }
+        _isUpdateList.value = postCopyList
     }
 }

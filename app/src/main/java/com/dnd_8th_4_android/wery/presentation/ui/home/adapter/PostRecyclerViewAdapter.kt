@@ -7,7 +7,9 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
+import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponsePostData
 import com.dnd_8th_4_android.wery.databinding.ItemPostBinding
 import com.dnd_8th_4_android.wery.domain.model.PopupWindowType
@@ -20,20 +22,37 @@ class PostRecyclerViewAdapter :
     private lateinit var postImageAdapter: PostImageAdapter
     private lateinit var popupBottomClickListener: PopupBottomClickListener
     private lateinit var popupWindowClickListener: PopupWindowClickListener
+    private var viewPagerPosition = 0
 
     inner class ViewHolder(private val binding: ItemPostBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ResponsePostData.Data) {
             binding.ivFriendImage.clipToOutline = true
-//            Glide.with(binding.ivFriendImage.context).load(item.image)
-//                .into(binding.ivFriendImage)
+            Glide.with(binding.ivFriendImage.context).load(item.image)
+                .into(binding.ivFriendImage)
 
             binding.tvFriendName.text = item.name
             binding.tvFriendGroup.text = item.groupName
             binding.tvFriendContent.text = item.content
 
+            // ViewPager Padding 설정
+            val pagerPadding = binding.root.resources.getDimension(R.dimen.view_pager_padding_width)
+            val offsetPx = binding.root.resources.getDimension(R.dimen.view_pager_padding_width)
+            binding.vpPostImage.clipChildren = false
+            binding.vpPostImage.setPadding(pagerPadding.toInt(), 0, pagerPadding.toInt(), 0)
+            binding.vpPostImage.setPageTransformer { page, position ->
+                page.translationX = position * offsetPx
+            }
+
             postImageAdapter = PostImageAdapter(item.contentImage)
             binding.vpPostImage.adapter = postImageAdapter
+            binding.vpPostImage.registerOnPageChangeCallback(object :
+                ViewPager2.OnPageChangeCallback() {
+                override fun onPageSelected(position: Int) {
+                    super.onPageSelected(position)
+                    viewPagerPosition = position
+                }
+            })
 
             when (item.emotion.size) {
                 0 -> {
@@ -42,12 +61,18 @@ class PostRecyclerViewAdapter :
                     binding.tvEmotionCount.isVisible = false
                 }
                 1 -> {
+                    binding.tvEmotionCount.isVisible = true
+                    binding.ivEmotionLeft.isVisible = true
+                    binding.ivEmotionRight.isVisible = false
+
                     Glide.with(binding.ivEmotionLeft.context).load(item.emotion[0])
                         .into(binding.ivEmotionLeft)
-
-                    binding.ivEmotionRight.isVisible = false
                 }
                 else -> {
+                    binding.ivEmotionLeft.isVisible = true
+                    binding.ivEmotionRight.isVisible = true
+                    binding.tvEmotionCount.isVisible = true
+
                     Glide.with(binding.ivEmotionLeft.context).load(item.emotion[0])
                         .into(binding.ivEmotionLeft)
 
@@ -74,23 +99,21 @@ class PostRecyclerViewAdapter :
                     PopupWindowType.Type3.emotionPosition -> {
                         binding.ivEmotionButton.setImageResource(PopupWindowType.Type3.drawable)
                         binding.tvEmotionButton.text = PopupWindowType.Type3.emotionName
-
                     }
                     PopupWindowType.Type4.emotionPosition -> {
                         binding.ivEmotionButton.setImageResource(PopupWindowType.Type4.drawable)
                         binding.tvEmotionButton.text = PopupWindowType.Type4.emotionName
-
                     }
                     PopupWindowType.Type5.emotionPosition -> {
                         binding.ivEmotionButton.setImageResource(PopupWindowType.Type5.drawable)
                         binding.tvEmotionButton.text = PopupWindowType.Type5.emotionName
-
                     }
                     PopupWindowType.Type6.emotionPosition -> {
                         binding.ivEmotionButton.setImageResource(PopupWindowType.Type6.drawable)
                         binding.tvEmotionButton.text = PopupWindowType.Type6.emotionName
                     }
                 }
+                binding.vpPostImage.setCurrentItem(viewPagerPosition, false)
             }
 
             binding.ivPopup.setOnClickListener {
@@ -99,10 +122,6 @@ class PostRecyclerViewAdapter :
 
             binding.layoutEmotionButton.setOnClickListener {
                 popupWindowClickListener.onClicked(binding.layoutEmotionButton, adapterPosition)
-            }
-
-            if (adapterPosition == currentList.lastIndex) {
-                binding.viewLine.visibility = View.GONE
             }
         }
     }

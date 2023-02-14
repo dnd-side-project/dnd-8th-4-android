@@ -32,47 +32,41 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <ImageView
-            android:id="@+id/iv_post_image_count"
+        <LinearLayout
+            android:id="@+id/layout_post_image_count"
             android:layout_width="46dp"
             android:layout_height="22dp"
             android:layout_margin="12dp"
-            android:src="@drawable/shape_80000000_radius_20"
+            android:gravity="center"
+            android:background="@drawable/shape_80000000_radius_20"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/layout_friend_post_image" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/tv_post_image_count"
-            style="@style/TextView.Caption.10.R"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="1dp"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="@id/iv_post_image_count"
-            app:layout_constraintEnd_toStartOf="@id/tv_post_slash"
-            app:layout_constraintTop_toTopOf="@id/iv_post_image_count"
-            tools:text="N" />
+            <TextView
+                android:id="@+id/tv_post_image_count"
+                style="@style/TextView.Caption.10.R"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="1dp"
+                android:textColor="@color/white"
+                tools:text="N" />
 
-        <TextView
-            android:id="@+id/tv_post_slash"
-            style="@style/TextView.Caption.10.R"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/home_item_post_image_count_slash"
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="@id/iv_post_image_count"
-            app:layout_constraintStart_toStartOf="@id/iv_post_image_count"
-            app:layout_constraintTop_toTopOf="@id/tv_post_image_count" />
+            <TextView
+                android:id="@+id/tv_post_slash"
+                style="@style/TextView.Caption.10.R"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/home_item_post_image_count_slash"
+                android:textColor="@color/white" />
 
-        <TextView
-            android:id="@+id/tv_post_image_all_count"
-            style="@style/TextView.Caption.10.R"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="1dp"
-            android:textColor="@color/white"
-            app:layout_constraintStart_toEndOf="@id/tv_post_slash"
-            app:layout_constraintTop_toTopOf="@id/tv_post_image_count"
-            tools:text="N" />
+            <TextView
+                android:id="@+id/tv_post_image_all_count"
+                style="@style/TextView.Caption.10.R"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="1dp"
+                android:textColor="@color/white"
+                tools:text="N" />
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

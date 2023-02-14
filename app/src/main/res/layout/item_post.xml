@@ -85,8 +85,8 @@
             android:id="@+id/vp_post_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="20dp"
             android:overScrollMode="never"
+            android:clipToPadding="false"
             android:layout_marginTop="12dp"
             app:layout_constraintTop_toBottomOf="@id/layout_post" />
 
@@ -106,16 +106,16 @@
                 android:layout_marginEnd="4dp">
 
                 <ImageView
-                    android:id="@+id/iv_emotion_left"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:src="@drawable/shape_oval_gray100" />
-
-                <ImageView
                     android:id="@+id/iv_emotion_right"
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     android:layout_marginStart="11dp"
+                    android:src="@drawable/shape_oval_gray100" />
+
+                <ImageView
+                    android:id="@+id/iv_emotion_left"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
                     android:src="@drawable/shape_oval_gray100" />
             </FrameLayout>
 

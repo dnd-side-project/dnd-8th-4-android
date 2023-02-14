@@ -75,7 +75,7 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="56dp"
+                    android:layout_height="48dp"
                     android:layout_marginBottom="?android:attr/actionBarSize"
                     android:background="@color/gray100"
                     app:layout_constraintTop_toBottomOf="@id/rv_myGroup_post">
@@ -84,6 +84,7 @@
                         android:layout_width="44dp"
                         android:layout_height="16dp"
                         android:background="@color/gray400"
+                        android:layout_marginBottom="8dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"

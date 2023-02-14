@@ -2,6 +2,7 @@ package com.dnd_8th_4_android.wery.presentation.ui.home.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.dnd_8th_4_android.wery.databinding.ItemPostImageBinding
@@ -16,8 +17,12 @@ class PostImageAdapter(private val itemList: List<Int>) :
             binding.ivFriendPostImage.clipToOutline = true
             Glide.with(binding.ivFriendPostImage.context).load(item)
                 .into(binding.ivFriendPostImage)
-            binding.tvPostImageCount.text = "${adapterPosition+1}"
+            binding.tvPostImageCount.text = "${adapterPosition.inc()}"
             binding.tvPostImageAllCount.text = itemList.size.toString()
+
+            if(itemList.size == 1) {
+                binding.layoutPostImageCount.isVisible = false
+            }
         }
     }
 

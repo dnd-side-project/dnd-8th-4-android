@@ -9,7 +9,6 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.PopupWindow
 import android.widget.TextView
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.view.isVisible
 import androidx.core.widget.doBeforeTextChanged
 import androidx.fragment.app.viewModels
@@ -28,7 +27,7 @@ import com.dnd_8th_4_android.wery.presentation.util.MarginItemDecoration
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private val homeViewModel: HomeViewModel by viewModels()
-    private lateinit var activityPopupWindowBinding: ActivityPopupWindowBinding
+    private var activityPopupWindowBinding: ActivityPopupWindowBinding? = null
 
     private lateinit var groupRecyclerViewAdapter: GroupRecyclerViewAdapter
     private lateinit var postRecyclerViewAdapter: PostRecyclerViewAdapter
@@ -112,6 +111,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        activityPopupWindowBinding = null
+    }
+
     private fun makeList() {
         groupList = mutableListOf(
             ResponseGroupData.Data("안녕하세요"),
@@ -123,11 +127,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         postList = arrayListOf(
             ResponsePostData.Data(
                 1,
+                R.drawable.img_no_group,
                 "User1",
                 "Group1",
                 "111111111피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다. ",
-                listOf(R.drawable.img_no_group, R.drawable.img_crying_face),
-                listOf(),
+                listOf(R.drawable.img_no_group),
+                mutableListOf(),
                 listOf("안녕하세요", "DND 여러분"),
                 "1H:MM",
                 "11",
@@ -135,11 +140,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             ),
             ResponsePostData.Data(
                 2,
+                R.drawable.img_no_group,
                 "User2",
                 "Group2",
                 "222222222피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다. 피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다. ",
                 listOf(R.drawable.img_no_group, R.drawable.img_crying_face),
-                listOf(R.drawable.img_crying_face),
+                mutableListOf(R.drawable.img_crying_face),
                 listOf("안녕하세요", "DND 여러분", "asd"),
                 "2H:MM",
                 "22",
@@ -147,11 +153,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             ),
             ResponsePostData.Data(
                 3,
+                R.drawable.img_no_group,
                 "User3",
                 "Group3",
                 "33333333피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다. 피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다. 피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다.",
-                listOf(R.drawable.img_no_group, R.drawable.img_crying_face),
-                listOf(R.drawable.img_crying_face, R.drawable.img_crying_face),
+                listOf(R.drawable.img_no_group),
+                mutableListOf(R.drawable.img_crying_face, R.drawable.img_crying_face),
                 listOf("안녕하세요", "DND 여러분", "adsf", "dsa"),
                 "3H:MM",
                 "33",
@@ -159,11 +166,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             ),
             ResponsePostData.Data(
                 4,
+                R.drawable.img_no_group,
                 "User4",
                 "Group4",
                 "4444444444피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다. 피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다. 피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다. 피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다.",
                 listOf(R.drawable.img_no_group, R.drawable.img_crying_face),
-                listOf(
+                mutableListOf(
                     R.drawable.img_crying_face,
                     R.drawable.img_crying_face,
                     R.drawable.img_crying_face
@@ -192,43 +200,43 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private fun getGradePopUp(view: View, position: Int) {
         // 팝업 생성
         val popupWindow = PopupWindow(
-            activityPopupWindowBinding.root,
+            activityPopupWindowBinding!!.root,
             WindowManager.LayoutParams.WRAP_CONTENT,
             WindowManager.LayoutParams.WRAP_CONTENT,
             true
         )
         // 현재 유지시킬 뷰 설정(이 줄을 없애면 키보드가 올라옴)
-        popupWindow.contentView = activityPopupWindowBinding.root
+        popupWindow.contentView = activityPopupWindowBinding!!.root
 
         // 어떤 레이아웃 밑에 팝업을 달건지 설정
         popupWindow.showAsDropDown(view, 50, -250)
 
-        activityPopupWindowBinding.ivEmotionOne.setOnClickListener {
+        activityPopupWindowBinding!!.ivEmotionOne.setOnClickListener {
             setEmotion(position, PopupWindowType.Type1.emotionPosition)
             popupWindow.dismiss()
         }
 
-        activityPopupWindowBinding.ivEmotionTwo.setOnClickListener {
+        activityPopupWindowBinding!!.ivEmotionTwo.setOnClickListener {
             setEmotion(position, PopupWindowType.Type2.emotionPosition)
             popupWindow.dismiss()
         }
 
-        activityPopupWindowBinding.ivEmotionThree.setOnClickListener {
+        activityPopupWindowBinding!!.ivEmotionThree.setOnClickListener {
             setEmotion(position, PopupWindowType.Type3.emotionPosition)
             popupWindow.dismiss()
         }
 
-        activityPopupWindowBinding.ivEmotionFour.setOnClickListener {
+        activityPopupWindowBinding!!.ivEmotionFour.setOnClickListener {
             setEmotion(position, PopupWindowType.Type4.emotionPosition)
             popupWindow.dismiss()
         }
 
-        activityPopupWindowBinding.ivEmotionFive.setOnClickListener {
+        activityPopupWindowBinding!!.ivEmotionFive.setOnClickListener {
             setEmotion(position, PopupWindowType.Type5.emotionPosition)
             popupWindow.dismiss()
         }
 
-        activityPopupWindowBinding.ivEmotionSix.setOnClickListener {
+        activityPopupWindowBinding!!.ivEmotionSix.setOnClickListener {
             setEmotion(position, PopupWindowType.Type6.emotionPosition)
             popupWindow.dismiss()
         }
