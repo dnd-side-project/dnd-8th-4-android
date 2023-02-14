@@ -21,6 +21,13 @@
     <string name="sign_in_error">아이디 또는 비밀번호가 일치하지 않습니다.</string>
     <string name="sign_in_confirm">확인</string>
 
+    <!-- FragmentUseAgreement -->
+    <string name="sign_up_use_agreement_title">서비스 이용 약관에 동의해 주세요.</string>
+    <string name="sign_up_all_agree">모두 동의</string>
+    <string name="sign_up_age_content">[필수] 만 14세 이상입니다.</string>
+    <string name="sign_up_private_information_content">[필수] 개인정보 처리방침 동의</string>
+    <string name="sign_up_next">다음</string>
+
     <!-- WritingActivity -->
     <string name="writing_select_group">그룹 선택</string>
     <string name="writing_register">등록</string>
