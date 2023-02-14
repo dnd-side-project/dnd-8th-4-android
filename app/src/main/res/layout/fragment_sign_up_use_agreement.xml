@@ -39,7 +39,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:text="@string/sign_up_all_agree"
+        android:text="@string/sign_up_use_agreement_all_agree"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="@id/cb_all_agree"
         app:layout_constraintStart_toEndOf="@id/cb_all_agree"
@@ -66,7 +66,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="@string/sign_up_age_content"
+            android:text="@string/sign_up_use_agreement_age_content"
             android:textColor="@color/black" />
 
         <View
@@ -102,7 +102,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="[필수] 서비스 이용약관 동의"
+            android:text="@string/sign_up_use_agreement_conetent"
             android:textColor="@color/black" />
 
         <View
@@ -138,7 +138,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="@string/sign_up_private_information_content"
+            android:text="@string/sign_up_use_agreement_private_information_content"
             android:textColor="@color/black" />
 
         <View
@@ -161,7 +161,7 @@
         android:layout_marginBottom="24dp"
         android:background="@drawable/selector_btn"
         android:paddingVertical="16dp"
-        android:text="@string/sign_up_next"
+        android:text="@string/sign_up_use_agreement_next"
         android:textColor="@color/white"
         app:backgroundTint="@null"
         app:cornerRadius="8dp"
