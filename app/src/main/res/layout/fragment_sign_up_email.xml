@@ -53,11 +53,13 @@
             app:layout_constraintTop_toBottomOf="@id/tv_email_content" />
 
         <TextView
+            android:id="@+id/tv_email_error"
             style="@style/TextView.Body.12.R"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:paddingStart="16dp"
+            android:visibility="gone"
             android:text="@string/sign_up_email_error"
             android:textColor="@color/color_eb0555"
             app:layout_constraintTop_toBottomOf="@id/et_email" />
@@ -70,6 +72,7 @@
             android:layout_marginBottom="24dp"
             android:background="@drawable/selector_btn"
             android:paddingVertical="16dp"
+            android:enabled="false"
             android:text="@string/sign_up_use_agreement_next"
             android:textColor="@color/white"
             app:backgroundTint="@null"
