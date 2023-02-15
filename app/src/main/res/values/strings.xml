@@ -61,6 +61,10 @@
     <string name="writing_add_place">장소 추가하기</string>
     <string name="writing_note_hint">어떤 이야기를 해볼까요?</string>
     <string name="writing_my_group">내 그룹</string>
+    <string name="writing_close">글쓰기 종료</string>
+    <string name="writing_text_close">글쓰기 종료 시 작성 중인 글은 저장되지 않아요.</string>
+    <string name="writing_title_close">글쓰기를 종료하시겠어요?</string>
+    <string name="writing_cancel">취소</string>
 
     <!-- SearchPlaceActivity -->
     <string name="search_place_add_place">장소 추가하기</string>

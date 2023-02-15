@@ -125,7 +125,8 @@ class WritingActivity : BaseActivity<ActivityWritingBinding>(R.layout.activity_w
         setPhotoAddListener()
         selectGroupListener()
         registerListener()
-        addMyPlace()
+        addPlaceListener()
+        closeListener()
     }
 
     private fun setRvAdapter() {
@@ -171,7 +172,7 @@ class WritingActivity : BaseActivity<ActivityWritingBinding>(R.layout.activity_w
         requestPhotoActivity.launch(intent)
     }
 
-    private fun addMyPlace() {
+    private fun addPlaceListener() {
         writingViewModel.selectedPlace.value = getString(R.string.search_place_hint)
         binding.layoutAddPlace.setOnClickListener {
             requestSearchActivity.launch(Intent(this, SearchPlaceActivity::class.java))
@@ -193,4 +194,20 @@ class WritingActivity : BaseActivity<ActivityWritingBinding>(R.layout.activity_w
         }
     }
 
+    private fun closeListener() {
+        binding.ivClose.setOnClickListener {
+            if (binding.tvRegister.isEnabled) {
+                DialogFragmentUtil(
+                    DialogInfo(
+                        getString(R.string.writing_title_close),
+                        getString(R.string.writing_text_close),
+                        getString(R.string.writing_cancel),
+                        getString(R.string.writing_close)
+                    )
+                ) { finish() }.show(supportFragmentManager, null)
+            } else {
+                finish()
+            }
+        }
+    }
 }

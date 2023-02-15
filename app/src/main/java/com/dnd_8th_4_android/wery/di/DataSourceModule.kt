@@ -15,9 +15,7 @@ object DataSourceModule {
 
     @Provides
     @Singleton
-    fun provideUserDataSource(
-        placeService: PlaceService
-    ): PlaceRemoteDataSource {
+    fun provideUserDataSource(placeService: PlaceService): PlaceRemoteDataSource {
         return PlaceRemoteDataSourceImpl(placeService)
     }
 }

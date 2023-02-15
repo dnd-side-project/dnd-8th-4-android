@@ -14,5 +14,5 @@ interface RepositoryModule {
 
     @Binds
     @Singleton
-    fun bindsDiariesRepository(placeRepositoryImpl: PlaceRepositoryImpl): PlaceRepository
+    fun bindsPlaceRepository(placeRepositoryImpl: PlaceRepositoryImpl): PlaceRepository
 }
