@@ -9,6 +9,7 @@ data class ResponsePostData(
         val id: Int,
         val image: Int,
         val name: String,
+        val location: String,
         val groupName: String,
         val content: String,
         val contentImage: List<Int>,

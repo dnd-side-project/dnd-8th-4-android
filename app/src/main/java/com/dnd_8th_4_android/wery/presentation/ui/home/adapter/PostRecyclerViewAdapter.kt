@@ -32,6 +32,7 @@ class PostRecyclerViewAdapter :
                 .into(binding.ivFriendImage)
 
             binding.tvFriendName.text = item.name
+            binding.tvLocation.text = item.location
             binding.tvFriendGroup.text = item.groupName
             binding.tvFriendContent.text = item.content
 
