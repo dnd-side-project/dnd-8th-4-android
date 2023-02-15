@@ -123,6 +123,7 @@ class WritingActivity : BaseActivity<ActivityWritingBinding>(R.layout.activity_w
 
     private fun initAfterBinding() {
         setPhotoAddListener()
+        selectGroupListener()
         addMyPlace()
     }
 
@@ -173,6 +174,12 @@ class WritingActivity : BaseActivity<ActivityWritingBinding>(R.layout.activity_w
         writingViewModel.selectedPlace.value = getString(R.string.search_place_hint)
         binding.layoutAddPlace.setOnClickListener {
             requestSearchActivity.launch(Intent(this, SearchPlaceActivity::class.java))
+        }
+    }
+
+    private fun selectGroupListener() {
+        binding.tvSelectGroup.setOnClickListener {
+            SelectGroupBottomDialog().show(supportFragmentManager, null)
         }
     }
 }
