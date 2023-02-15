@@ -24,7 +24,11 @@ import com.dnd_8th_4_android.wery.presentation.ui.home.adapter.GroupRecyclerView
 import com.dnd_8th_4_android.wery.presentation.ui.home.adapter.PostRecyclerViewAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.home.viewmodel.HomeViewModel
 import com.dnd_8th_4_android.wery.presentation.util.MarginItemDecoration
+import com.dnd_8th_4_android.wery.presentation.util.hideKeyboard
+import com.dnd_8th_4_android.wery.presentation.util.showKeyboard
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.internal.ViewUtils.hideKeyboard
+import com.google.android.material.internal.ViewUtils.showKeyboard
 
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
@@ -116,7 +120,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         binding.etSearch.setOnEditorActionListener { textView, actionId, _ ->
             val searchKeyword = textView.text.toString()
             if (actionId == EditorInfo.IME_ACTION_SEARCH && searchKeyword.isNotEmpty()) {
-                hideKeyboard(textView)
+                binding.etSearch.hideKeyboard()
                 binding.etSearch.clearFocus()
                 // TODO 검색 동작
             }
@@ -125,7 +129,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
         binding.ivSearchClose.setOnClickListener {
             binding.etSearch.text.clear()
-            showKeyboard(binding.etSearch)
+            binding.etSearch.showKeyboard()
         }
     }
 
@@ -204,19 +208,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 0
             ),
         )
-    }
-
-    private fun hideKeyboard(textView: TextView) {
-        val inputMethodManager =
-            requireContext().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.hideSoftInputFromWindow(textView.windowToken, 0)
-    }
-
-    private fun showKeyboard(view: View) {
-        view.requestFocus()
-        val inputMethodManager =
-            requireContext().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
     }
 
     private fun getGradePopUp(view: View, position: Int) {
