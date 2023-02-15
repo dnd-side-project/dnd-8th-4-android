@@ -21,11 +21,11 @@ class SignUpPasswordFragment :
 
     override fun initDataBinding() {
         viewModel.textCount.observe(viewLifecycleOwner) {
-            if (it in 0..12) {
+            if (it in 8..12) {
                 binding.tvCount.setTextColor(
                     ContextCompat.getColor(
                         requireContext(),
-                        R.color.black
+                        R.color.gray600
                     )
                 )
             } else {

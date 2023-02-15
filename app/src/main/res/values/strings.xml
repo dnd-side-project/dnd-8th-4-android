@@ -52,6 +52,8 @@
     <string name="sign_up_nickname_title">we’ry에서 사용할\n별명을 입력해주세요.</string>
     <string name="sign_up_nickname_hint">위어리깜찍이7942</string>
     <string name="sign_up_nickname_error">이미 사용중인 별명입니다.</string>
+    <string name="sign_up_nickname_count_error">14자를 초과했습니다.</string>
+    <string name="sign_up_nickname_max_count">/14</string>
 
     <!-- WritingActivity -->
     <string name="writing_select_group">그룹 선택</string>

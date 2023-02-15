@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
+        <variable
+            name="vm"
+            type="com.dnd_8th_4_android.wery.presentation.ui.sign.viewmodel.SignUpNicknameViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -38,18 +42,45 @@
             android:layout_marginTop="120dp"
             android:background="@drawable/selector_et_sign_up"
             android:hint="@string/sign_up_nickname_hint"
+            android:inputType="text"
+            android:maxLines="1"
             android:padding="16dp"
             android:textColor="@drawable/selector_et_sign_up"
+            app:addTextChangedListener="@{vm.textWatcher}"
             app:layout_constraintTop_toBottomOf="@id/tv_nickname" />
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/et_nickname">
+
+            <TextView
+                android:id="@+id/tv_count"
+                style="@style/TextView.Body.12.R"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{vm.textCount.toString()}"
+                tools:text="N" />
+
+            <TextView
+                style="@style/TextView.Body.12.R"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sign_up_nickname_max_count" />
+        </LinearLayout>
+
         <TextView
+            android:id="@+id/tv_nickname_error"
             style="@style/TextView.Body.12.R"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:paddingStart="16dp"
             android:text="@string/sign_up_nickname_error"
             android:textColor="@color/color_eb0555"
+            android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@id/et_nickname" />
 
         <com.google.android.material.button.MaterialButton
@@ -59,6 +90,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
             android:background="@drawable/selector_btn"
+            android:enabled="@{vm.isEnabled}"
             android:paddingVertical="16dp"
             android:text="@string/sign_up_use_agreement_next"
             android:textColor="@color/white"
