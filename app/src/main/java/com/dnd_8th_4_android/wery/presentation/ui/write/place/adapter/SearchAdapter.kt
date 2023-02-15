@@ -7,9 +7,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.dnd_8th_4_android.wery.data.remote.model.write.ResponseSearchPlace.Document
 import com.dnd_8th_4_android.wery.databinding.ItemSearchBinding
-import com.dnd_8th_4_android.wery.databinding.ItemWritingPhotoBinding
 
-class SearchAdapter() :
+class SearchAdapter(private val onItemClick: (Document) -> Unit) :
     ListAdapter<Document, SearchAdapter.SearchViewAdapter>(
         searchPlaceDiffUtil
     ) {
@@ -17,7 +16,7 @@ class SearchAdapter() :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewAdapter {
         val binding =
             ItemSearchBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return SearchViewAdapter(binding)
+        return SearchViewAdapter(binding, onItemClick)
     }
 
     override fun onBindViewHolder(holder: SearchViewAdapter, position: Int) {
@@ -25,11 +24,29 @@ class SearchAdapter() :
     }
 
     class SearchViewAdapter(
-        val binding: ItemSearchBinding
+        val binding: ItemSearchBinding,
+        val onItemClick: (Document) -> Unit
     ) :
         RecyclerView.ViewHolder(binding.root) {
+        private var searchData: Document? = null
+
+        init {
+            binding.apply {
+                llSingle.setOnClickListener {
+                    searchData?.let {
+                        onItemClick(it)
+                    }
+                }
+                llMultiple.setOnClickListener {
+                    searchData?.let {
+                        onItemClick(it)
+                    }
+                }
+            }
+        }
 
         fun onBind(data: Document) {
+            searchData = data
             binding.data = data
         }
     }

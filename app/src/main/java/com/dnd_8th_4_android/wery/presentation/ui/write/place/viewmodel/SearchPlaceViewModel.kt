@@ -1,6 +1,5 @@
 package com.dnd_8th_4_android.wery.presentation.ui.write.place.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -22,8 +21,6 @@ class SearchPlaceViewModel @Inject constructor(private val placeRepository: Plac
         viewModelScope.launch {
             placeRepository.searchPlace(header, query).onSuccess {
                 _searchPlace.value = it.documents
-                Log.d("kite", it.documents.toString())
-            }.onFailure {
             }
         }
     }

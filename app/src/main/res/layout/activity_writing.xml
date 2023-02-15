@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="viewModel"
             type="com.dnd_8th_4_android.wery.presentation.ui.write.upload.viewmodel.WritingViewModel" />
@@ -34,6 +33,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <LinearLayout
+                android:id="@+id/layout_select_group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -47,7 +47,8 @@
                     style="@style/TextView.Title.16.Sb"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/writing_select_group"
+                    android:text="@{viewModel.selectedGroup}"
+                    tools:text="@string/writing_select_group"
                     android:textColor="@color/black"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -58,7 +59,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginStart="4dp"
-                    android:src="@drawable/ic_expand_more" />
+                    android:src="@{viewModel.selectedGroupState ? @drawable/ic_expandless : @drawable/ic_expand_more}"
+                    tools:src="@drawable/ic_expand_more" />
 
             </LinearLayout>
 
@@ -67,7 +69,7 @@
                 style="@style/TextView.Title.14.Sb"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:enabled="false"
+                android:enabled="@{(viewModel.selectedGroup != @string/writing_select_group &amp; (viewModel.noteTxt.length != 0 || viewModel.photoCnt >= 1)) ? true : false}"
                 android:gravity="center"
                 android:paddingHorizontal="16dp"
                 android:text="@string/writing_register"
@@ -99,6 +101,7 @@
                 android:orientation="vertical">
 
                 <RelativeLayout
+                    android:id="@+id/layout_add_place"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -120,8 +123,10 @@
                         android:layout_centerVertical="true"
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="16dp"
+                        android:text="@={viewModel.selectedPlace}"
                         android:layout_toEndOf="@id/iv_location"
-                        android:text="@string/writing_add_place" />
+                        android:textColor="@{viewModel.selectedPlace.equals(@string/search_place_hint) ? @color/gray500 : @color/gray600}"
+                        tools:text="@string/search_place_hint" />
 
                     <View
                         android:layout_width="match_parent"
@@ -234,6 +239,7 @@
                     android:background="@null"
                     android:hint="@string/writing_note_hint"
                     android:padding="16dp"
+                    android:text="@={viewModel.noteTxt}"
                     android:textColor="@color/black"
                     android:textColorHint="@color/gray500" />
 
