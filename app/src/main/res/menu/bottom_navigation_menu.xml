@@ -2,25 +2,21 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/homeFragment"
-        android:enabled="true"
         android:icon="@drawable/ic_main"
         android:title="@string/bottom_navigation_main" />
 
     <item
         android:id="@+id/groupFragment"
-        android:enabled="true"
         android:icon="@drawable/ic_group"
         android:title="@string/bottom_navigation_group" />
 
     <item
         android:id="@+id/missionFragment"
-        android:enabled="true"
         android:icon="@drawable/ic_mission"
         android:title="@string/bottom_navigation_mission" />
 
     <item
         android:id="@+id/myPageFragment"
-        android:enabled="true"
         android:icon="@drawable/ic_mypage"
         android:title="@string/bottom_navigation_mypage" />
 </menu>
