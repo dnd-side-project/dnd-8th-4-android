@@ -39,6 +39,7 @@
     <string name="sign_up_email_content">로그인 또는 회원가입을 위해 사용됩니다.</string>
     <string name="sign_up_email_hint">wery7942@mail.com</string>
     <string name="sign_up_email_error">올바른 형태의 이메일 주소를 입력해 주세요.</string>
+    <string name="sign_up_email_dialog_error">이미 가입된 이메일 입니다.</string>
 
     <!-- FragmentSignUpPassword -->
     <string name="sign_up_password_title">we’ry에서 사용할\n비밀번호를 입력해주세요.</string>
