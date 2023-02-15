@@ -5,13 +5,15 @@ import com.dnd_8th_4_android.wery.data.remote.model.write.ResponseGroupList
 import com.dnd_8th_4_android.wery.databinding.DialogFragmentSelectGroupBinding
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseBottomDialogFragment
 import com.dnd_8th_4_android.wery.presentation.ui.write.upload.adapter.SelectGroupAdapter
+import com.dnd_8th_4_android.wery.presentation.ui.write.upload.viewmodel.WritingViewModel
 
-class SelectGroupBottomDialog :
+class SelectGroupBottomDialog(private val viewModel: WritingViewModel) :
     BaseBottomDialogFragment<DialogFragmentSelectGroupBinding>(R.layout.dialog_fragment_select_group) {
 
     private lateinit var selectGroupAdapter: SelectGroupAdapter
+
     override fun initAfterBinding() {
-        selectGroupAdapter = SelectGroupAdapter()
+        selectGroupAdapter = SelectGroupAdapter { data -> getSelectedGroup(data) }
         selectGroupAdapter.itemList =
             mutableListOf<ResponseGroupList>(
                 ResponseGroupList(
@@ -43,8 +45,33 @@ class SelectGroupBottomDialog :
                     0L,
                     "Group6",
                     "https://i1.sndcdn.com/avatars-sn8HgEgiucAccV0D-yogYJA-t240x240.jpg"
+                ),
+                ResponseGroupList(
+                    0L,
+                    "Group7",
+                    "https://i1.sndcdn.com/avatars-sn8HgEgiucAccV0D-yogYJA-t240x240.jpg"
+                ),
+                ResponseGroupList(
+                    0L,
+                    "Group8",
+                    "https://i1.sndcdn.com/avatars-sn8HgEgiucAccV0D-yogYJA-t240x240.jpg"
+                ),
+                ResponseGroupList(
+                    0L,
+                    "Group9",
+                    "https://i1.sndcdn.com/avatars-sn8HgEgiucAccV0D-yogYJA-t240x240.jpg"
                 )
             )
         binding.rvGroupList.adapter = selectGroupAdapter
+    }
+
+    private fun getSelectedGroup(data: ResponseGroupList) {
+        viewModel.selectedGroup.value = data.groupName
+        dismiss()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.selectedGroupState.value = false
     }
 }

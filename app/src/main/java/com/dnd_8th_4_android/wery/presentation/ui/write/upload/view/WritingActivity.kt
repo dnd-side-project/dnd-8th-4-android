@@ -178,8 +178,11 @@ class WritingActivity : BaseActivity<ActivityWritingBinding>(R.layout.activity_w
     }
 
     private fun selectGroupListener() {
-        binding.tvSelectGroup.setOnClickListener {
-            SelectGroupBottomDialog().show(supportFragmentManager, null)
+        writingViewModel.selectedGroup.value = getString(R.string.writing_select_group)
+        binding.layoutSelectGroup.setOnClickListener {
+            writingViewModel.selectedGroupState.value = true
+            SelectGroupBottomDialog(writingViewModel).show(supportFragmentManager, null)
         }
     }
+
 }
