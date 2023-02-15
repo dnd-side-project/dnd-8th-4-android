@@ -41,6 +41,8 @@
             android:layout_marginTop="166dp"
             android:background="@drawable/selector_et_sign_up"
             android:hint="@string/sign_up_name_hint"
+            android:inputType="text"
+            android:maxLines="1"
             android:padding="16dp"
             android:textColor="@drawable/selector_et_sign_up"
             app:addTextChangedListener="@{vm.textWatcher}"
@@ -52,7 +54,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="@string/sign_up_password_error"
+            android:text="@string/sign_up_name_error"
             android:textColor="@color/color_eb0555"
             android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@id/et_name" />
