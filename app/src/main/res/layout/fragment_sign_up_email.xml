@@ -54,6 +54,7 @@
             android:inputType="textEmailAddress"
             android:maxLines="1"
             android:padding="16dp"
+            android:text="@={vm.signUpEmail}"
             android:textColor="@drawable/selector_et_sign_up"
             app:addTextChangedListener="@{vm.textWatcher}"
             app:layout_constraintTop_toBottomOf="@id/tv_email_content" />

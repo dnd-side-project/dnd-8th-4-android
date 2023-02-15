@@ -3,24 +3,29 @@ package com.dnd_8th_4_android.wery.presentation.ui.sign.view
 import android.text.InputType
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.databinding.FragmentSignUpPasswordBinding
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseFragment
 import com.dnd_8th_4_android.wery.presentation.ui.sign.viewmodel.SignUpPasswordViewModel
+import com.dnd_8th_4_android.wery.presentation.ui.sign.viewmodel.SignViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.regex.Pattern
 
+@AndroidEntryPoint
 class SignUpPasswordFragment :
     BaseFragment<FragmentSignUpPasswordBinding>(R.layout.fragment_sign_up_password) {
-    private val viewModel: SignUpPasswordViewModel by viewModels()
+    private val signUpPasswordViewModel: SignUpPasswordViewModel by viewModels()
+    private val signViewModel: SignViewModel by activityViewModels()
 
     override fun initStartView() {
-        binding.vm = viewModel
+        binding.vm = signUpPasswordViewModel
     }
 
     override fun initDataBinding() {
-        viewModel.textCount.observe(viewLifecycleOwner) {
+        signUpPasswordViewModel.textCount.observe(viewLifecycleOwner) {
             if (it in 8..12) {
                 binding.tvCount.setTextColor(
                     ContextCompat.getColor(
@@ -42,16 +47,18 @@ class SignUpPasswordFragment :
     override fun initAfterBinding() {
         binding.ivBlind.setOnClickListener {
             it.isSelected = !it.isSelected
-            viewModel.togglePasswordVisible()
+            signUpPasswordViewModel.togglePasswordVisible()
             changeInputType()
         }
 
         binding.btnNext.setOnClickListener {
-            if (viewModel.textCount.value in 8..12) {
+            if (signUpPasswordViewModel.textCount.value in 8..12) {
                 val edtPassword = binding.etPassword.text.toString()
                 val pattern = Pattern.compile("^[a-zA-Z\\d!@#$%^&+=]*$")
                 val isSuccess = pattern.matcher(edtPassword).find()
                 if (isSuccess) {
+                    signViewModel.signUpPassword.value =
+                        signUpPasswordViewModel.signUpPassword.value
                     goToSignUpNickname()
                 } else {
                     binding.tvPasswordError.isVisible = true
@@ -61,7 +68,7 @@ class SignUpPasswordFragment :
     }
 
     private fun changeInputType() {
-        if (viewModel.isPasswordVisible.value == true) {
+        if (signUpPasswordViewModel.isPasswordVisible.value == true) {
             binding.etPassword.inputType =
                 InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
         } else {

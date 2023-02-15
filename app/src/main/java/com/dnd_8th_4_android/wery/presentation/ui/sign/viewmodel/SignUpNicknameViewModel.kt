@@ -5,8 +5,12 @@ import android.text.TextWatcher
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class SignUpNicknameViewModel : ViewModel() {
+@HiltViewModel
+class SignUpNicknameViewModel @Inject constructor() : ViewModel() {
+    val signUpNickname = MutableLiveData<String>()
 
     private val _isEnabled = MutableLiveData<Boolean>()
     val isEnabled: LiveData<Boolean> = _isEnabled

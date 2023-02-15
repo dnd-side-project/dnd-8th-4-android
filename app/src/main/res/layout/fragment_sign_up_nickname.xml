@@ -45,6 +45,7 @@
             android:inputType="text"
             android:maxLines="1"
             android:padding="16dp"
+            android:text="@={vm.signUpNickname}"
             android:textColor="@drawable/selector_et_sign_up"
             app:addTextChangedListener="@{vm.textWatcher}"
             app:layout_constraintTop_toBottomOf="@id/tv_nickname" />
