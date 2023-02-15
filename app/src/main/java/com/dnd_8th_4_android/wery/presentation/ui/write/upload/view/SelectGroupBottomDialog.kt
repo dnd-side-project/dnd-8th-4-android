@@ -63,6 +63,7 @@ class SelectGroupBottomDialog(private val viewModel: WritingViewModel) :
                 )
             )
         binding.rvGroupList.adapter = selectGroupAdapter
+        binding.tvGroupCnt.text = selectGroupAdapter.itemList.size.toString()
     }
 
     private fun getSelectedGroup(data: ResponseGroupList) {
