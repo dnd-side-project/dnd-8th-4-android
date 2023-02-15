@@ -1,4 +1,4 @@
-package com.dnd_8th_4_android.wery.di
+package com.dnd_8th_4_android.wery.presentation.di
 
 import com.dnd_8th_4_android.wery.data.api.PlaceService
 import com.dnd_8th_4_android.wery.data.remote.model.datasource.PlaceRemoteDataSource

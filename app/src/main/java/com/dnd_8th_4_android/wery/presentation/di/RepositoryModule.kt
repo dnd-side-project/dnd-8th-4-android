@@ -1,4 +1,4 @@
-package com.dnd_8th_4_android.wery.di
+package com.dnd_8th_4_android.wery.presentation.di
 
 import com.dnd_8th_4_android.wery.data.repository.PlaceRepositoryImpl
 import com.dnd_8th_4_android.wery.domain.repository.PlaceRepository
