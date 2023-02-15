@@ -10,6 +10,7 @@ class WritingViewModel : ViewModel() {
     private var _photoCnt = MutableLiveData<Int>(0)
     val photoCnt: LiveData<Int> = _photoCnt
 
+    var noteTxt = MutableLiveData<String>()
     var selectedPlace = MutableLiveData<String>()
     var selectedGroup = MutableLiveData<String>()
     var selectedGroupState = MutableLiveData<Boolean>(false)
@@ -17,4 +18,5 @@ class WritingViewModel : ViewModel() {
     fun setPhotoCnt(cntValue: Int) {
         _photoCnt.value = cntValue
     }
+
 }

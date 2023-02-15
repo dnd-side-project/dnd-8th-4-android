@@ -124,6 +124,7 @@ class WritingActivity : BaseActivity<ActivityWritingBinding>(R.layout.activity_w
     private fun initAfterBinding() {
         setPhotoAddListener()
         selectGroupListener()
+        registerListener()
         addMyPlace()
     }
 
@@ -182,6 +183,13 @@ class WritingActivity : BaseActivity<ActivityWritingBinding>(R.layout.activity_w
         binding.layoutSelectGroup.setOnClickListener {
             writingViewModel.selectedGroupState.value = true
             SelectGroupBottomDialog(writingViewModel).show(supportFragmentManager, null)
+        }
+    }
+
+    private fun registerListener() {
+        binding.tvRegister.setOnClickListener {
+            // TODO 서버통신 글쓰기 예정
+            finish()
         }
     }
 

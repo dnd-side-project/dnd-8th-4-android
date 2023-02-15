@@ -69,7 +69,7 @@
                 style="@style/TextView.Title.14.Sb"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:enabled="false"
+                android:enabled="@{(viewModel.selectedGroup != @string/writing_select_group &amp; (viewModel.noteTxt.length != 0 || viewModel.photoCnt >= 1)) ? true : false}"
                 android:gravity="center"
                 android:paddingHorizontal="16dp"
                 android:text="@string/writing_register"
@@ -239,6 +239,7 @@
                     android:background="@null"
                     android:hint="@string/writing_note_hint"
                     android:padding="16dp"
+                    android:text="@={viewModel.noteTxt}"
                     android:textColor="@color/black"
                     android:textColorHint="@color/gray500" />
 
