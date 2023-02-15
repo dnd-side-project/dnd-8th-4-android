@@ -43,6 +43,8 @@
     <string name="sign_up_password_title">we’ry에서 사용할\n비밀번호를 입력해주세요.</string>
     <string name="sign_up_password_content">8~12자 영문 대 소문자, 숫자, 특수문자를 사용해주세요.</string>
     <string name="sign_up_password_hint">비밀번호</string>
+    <string name="sign_up_password_error">영문 대 소문자, 숫자, 특수문자만 사용할 수 있어요.</string>
+    <string name="sign_up_password_max_count">/12</string>
 
     <!-- FragmentSignUpNickname -->
     <string name="sign_up_nickname_title">we’ry에서 사용할\n별명을 입력해주세요.</string>
