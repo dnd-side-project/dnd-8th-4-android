@@ -14,6 +14,7 @@ import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.databinding.ActivityWritingBinding
 import com.dnd_8th_4_android.wery.domain.model.DialogInfo
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseActivity
+import com.dnd_8th_4_android.wery.presentation.ui.write.place.view.SearchPlaceActivity
 import com.dnd_8th_4_android.wery.presentation.ui.write.upload.adapter.UploadPhotoAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.write.upload.viewmodel.WritingViewModel
 import com.dnd_8th_4_android.wery.presentation.util.DialogFragmentUtil
@@ -32,7 +33,7 @@ class WritingActivity : BaseActivity<ActivityWritingBinding>(R.layout.activity_w
 
     private val requestPhotoActivity =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            if (it.resultCode == Activity.RESULT_OK && it.data?.data != null) {
+            if (it.resultCode == Activity.RESULT_OK) {
                 val clipData = it?.data?.clipData
                 val clipDataSize = clipData?.itemCount
 
@@ -46,6 +47,15 @@ class WritingActivity : BaseActivity<ActivityWritingBinding>(R.layout.activity_w
                         uploadPhotoAdapter.submitList(currentList)
                     }
                 }
+            }
+        }
+
+    private val requestSearchActivity =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { it ->
+            if (it.resultCode == Activity.RESULT_OK) {
+                val selectedPlace = it.data?.getStringExtra("selectedPlace")
+                    ?: getString(R.string.search_place_hint)
+                writingViewModel.selectedPlace.value = selectedPlace
             }
         }
 
@@ -113,6 +123,7 @@ class WritingActivity : BaseActivity<ActivityWritingBinding>(R.layout.activity_w
 
     private fun initAfterBinding() {
         setPhotoAddListener()
+        addMyPlace()
     }
 
     private fun setRvAdapter() {
@@ -156,5 +167,12 @@ class WritingActivity : BaseActivity<ActivityWritingBinding>(R.layout.activity_w
             action = Intent.ACTION_PICK
         }
         requestPhotoActivity.launch(intent)
+    }
+
+    private fun addMyPlace() {
+        writingViewModel.selectedPlace.value = getString(R.string.search_place_hint)
+        binding.layoutAddPlace.setOnClickListener {
+            requestSearchActivity.launch(Intent(this, SearchPlaceActivity::class.java))
+        }
     }
 }

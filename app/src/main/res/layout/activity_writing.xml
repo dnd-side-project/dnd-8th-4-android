@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="viewModel"
             type="com.dnd_8th_4_android.wery.presentation.ui.write.upload.viewmodel.WritingViewModel" />
@@ -99,6 +98,7 @@
                 android:orientation="vertical">
 
                 <RelativeLayout
+                    android:id="@+id/layout_add_place"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -120,8 +120,10 @@
                         android:layout_centerVertical="true"
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="16dp"
+                        android:text="@={viewModel.selectedPlace}"
                         android:layout_toEndOf="@id/iv_location"
-                        android:text="@string/writing_add_place" />
+                        android:textColor="@{viewModel.selectedPlace.equals(@string/search_place_hint) ? @color/gray500 : @color/gray600}"
+                        tools:text="@string/search_place_hint" />
 
                     <View
                         android:layout_width="match_parent"
