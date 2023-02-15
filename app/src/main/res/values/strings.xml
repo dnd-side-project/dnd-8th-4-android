@@ -32,6 +32,7 @@
     <!-- FragmentSignUpName -->
     <string name="sign_up_name_title">이름을 입력해주세요</string>
     <string name="sign_up_name_hint">홍길동</string>
+    <string name="sign_up_name_error">올바른 이름을 입력해 주세요.</string>
 
     <!-- FragmentSignUpEmail -->
     <string name="sign_up_email_title">이메일을 입력해주세요</string>

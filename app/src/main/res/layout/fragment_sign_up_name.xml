@@ -4,6 +4,9 @@
 
     <data>
 
+        <variable
+            name="vm"
+            type="com.dnd_8th_4_android.wery.presentation.ui.sign.viewmodel.SignUpNameViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -40,7 +43,19 @@
             android:hint="@string/sign_up_name_hint"
             android:padding="16dp"
             android:textColor="@drawable/selector_et_sign_up"
+            app:addTextChangedListener="@{vm.textWatcher}"
             app:layout_constraintTop_toBottomOf="@id/tv_name" />
+
+        <TextView
+            android:id="@+id/tv_name_error"
+            style="@style/TextView.Body.12.R"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/sign_up_password_error"
+            android:textColor="@color/color_eb0555"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/et_name" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_next"
@@ -49,7 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
             android:background="@drawable/selector_btn"
-            android:enabled="false"
+            android:enabled="@{vm.isEnabled}"
             android:paddingVertical="16dp"
             android:text="@string/sign_up_use_agreement_next"
             android:textColor="@color/white"
