@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <import type="android.view.View" />
         <variable
             name="data"
             type="com.dnd_8th_4_android.wery.data.remote.model.write.ResponseSearchPlace.Document" />
@@ -17,12 +17,13 @@
         <LinearLayout
             android:id="@+id/ll_single"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="21dp"
+            android:layout_height="match_parent"
+            android:clickable="true"
             android:background="@color/selector_layout_search"
             android:orientation="vertical"
             android:paddingHorizontal="16dp"
-            android:visibility="gone">
+            android:paddingVertical="21dp"
+            android:visibility="@{data.road_address_name.empty == true ? View.VISIBLE : View.GONE}">
 
             <TextView
                 style="@style/TextView.Body.12.R"
@@ -41,6 +42,8 @@
             android:layout_height="wrap_content"
             android:background="@color/selector_layout_search"
             android:orientation="vertical"
+            android:clickable="true"
+            android:visibility="@{data.road_address_name.empty == false ? View.VISIBLE : View.GONE}"
             android:paddingHorizontal="16dp"
             android:paddingVertical="12dp">
 

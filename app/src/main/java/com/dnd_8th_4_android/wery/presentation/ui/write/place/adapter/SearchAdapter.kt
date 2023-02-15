@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.dnd_8th_4_android.wery.data.remote.model.write.ResponseSearchPlace.Document
 import com.dnd_8th_4_android.wery.databinding.ItemSearchBinding
-import com.dnd_8th_4_android.wery.databinding.ItemWritingPhotoBinding
 
 class SearchAdapter() :
     ListAdapter<Document, SearchAdapter.SearchViewAdapter>(
