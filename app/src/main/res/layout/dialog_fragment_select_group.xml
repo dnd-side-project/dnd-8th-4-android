@@ -53,9 +53,11 @@
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_group_list"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="vertical"
+            app:layout_constrainedHeight="true"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
