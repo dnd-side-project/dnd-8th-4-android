@@ -12,7 +12,7 @@ import com.dnd_8th_4_android.wery.databinding.ActivitySearchPlaceBinding
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseActivity
 import com.dnd_8th_4_android.wery.presentation.ui.write.place.adapter.SearchAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.write.place.viewmodel.SearchPlaceViewModel
-import com.dnd_8th_4_android.wery.presentation.util.ViewExt
+import com.dnd_8th_4_android.wery.presentation.util.hideKeyboard
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -43,7 +43,7 @@ class SearchPlaceActivity :
                     "KakaoAK 577bae1f4d5f3e349cb0b4c286bfa7a1",
                     binding.etvSearch.text.toString()
                 )
-                ViewExt(this).hideKeyboard(textView)
+                binding.etvSearch.hideKeyboard()
                 showSearchResult()
             }
             false
