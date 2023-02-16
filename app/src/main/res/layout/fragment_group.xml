@@ -5,6 +5,11 @@
 
     <data>
 
+        <import type="android.view.View" />
+
+        <variable
+            name="vm"
+            type="com.dnd_8th_4_android.wery.presentation.ui.group.viewmodel.GroupViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -110,7 +115,7 @@
                             layout="@layout/activity_no_group_bookmark"
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
-                            android:visibility="gone"
+                            android:visibility="@{!vm.isExistGroup() ? View.VISIBLE : View.GONE}"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <include
@@ -118,6 +123,7 @@
                             layout="@layout/activity_group_bookmark"
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
+                            android:visibility="@{vm.isExistGroup() ? View.VISIBLE : View.GONE}"
                             app:layout_constraintTop_toTopOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -146,6 +152,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
+                        android:text="@{vm.groupCount.toString()}"
                         app:layout_constraintBottom_toBottomOf="@id/tv_group_list"
                         app:layout_constraintStart_toEndOf="@id/tv_group_list"
                         app:layout_constraintTop_toTopOf="@id/tv_group_list"
