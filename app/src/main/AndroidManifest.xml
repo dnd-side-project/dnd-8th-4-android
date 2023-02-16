@@ -36,6 +36,8 @@
         <activity
             android:name=".presentation.ui.write.place.view.SearchPlaceActivity"
             android:exported="true" />
+        <activity android:name=".presentation.ui.detail.view.PostDetailActivity"
+            android:exported="true"/>
     </application>
 
 </manifest>
