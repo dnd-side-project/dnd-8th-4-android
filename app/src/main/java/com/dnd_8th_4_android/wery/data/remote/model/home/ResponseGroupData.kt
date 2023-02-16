@@ -6,6 +6,7 @@ data class ResponseGroupData(
     val data: Data,
 ) : BaseResponse() {
     data class Data(
+        val id: Int,
         val image: Int,
         val name: String,
     )

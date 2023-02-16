@@ -6,11 +6,12 @@ data class ResponseGroupListData(
     val data: Data,
 ) : BaseResponse() {
     data class Data(
+        val id: Int,
         val image: Int,
         val name: String,
         val introduce: String,
         val time: String,
         val number: Int,
-        var isSelected: Boolean
+        var isSelected: Boolean,
     )
 }

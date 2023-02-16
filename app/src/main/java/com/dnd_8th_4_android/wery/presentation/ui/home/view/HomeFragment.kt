@@ -1,15 +1,12 @@
 package com.dnd_8th_4_android.wery.presentation.ui.home.view
 
-import android.app.Activity
 import android.os.Handler
 import android.os.Looper
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
 import android.widget.PopupWindow
 import android.widget.ScrollView
-import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.core.widget.doBeforeTextChanged
 import androidx.fragment.app.viewModels
@@ -27,8 +24,6 @@ import com.dnd_8th_4_android.wery.presentation.util.MarginItemDecoration
 import com.dnd_8th_4_android.wery.presentation.util.hideKeyboard
 import com.dnd_8th_4_android.wery.presentation.util.showKeyboard
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.internal.ViewUtils.hideKeyboard
-import com.google.android.material.internal.ViewUtils.showKeyboard
 
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
@@ -97,7 +92,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     }
 
     override fun initAfterBinding() {
-        val bottomNavigationView = requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigation)
+        val bottomNavigationView =
+            requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigation)
         bottomNavigationView.setOnItemReselectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.homeFragment -> {
@@ -140,10 +136,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     private fun makeList() {
         groupList = mutableListOf(
-            ResponseGroupData.Data(R.drawable.img_no_group, "안녕하세요"),
-            ResponseGroupData.Data(R.drawable.img_no_group, "DND활동중입니다"),
-            ResponseGroupData.Data(R.drawable.img_no_group, "저희는8조입니다"),
-            ResponseGroupData.Data(R.drawable.img_no_group, "Group111111")
+            ResponseGroupData.Data(1, R.drawable.img_no_group, "안녕하세요"),
+            ResponseGroupData.Data(2, R.drawable.img_no_group, "DND활동중입니다"),
+            ResponseGroupData.Data(3, R.drawable.img_no_group, "저희는8조입니다"),
+            ResponseGroupData.Data(4, R.drawable.img_no_group, "Group111111")
         )
 
         postList = arrayListOf(

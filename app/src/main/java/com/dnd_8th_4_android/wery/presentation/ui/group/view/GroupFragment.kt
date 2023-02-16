@@ -36,6 +36,7 @@ class GroupFragment : BaseFragment<FragmentGroupBinding>(R.layout.fragment_group
                 groupRecyclerViewAdapter = GroupBookmarkRecyclerViewAdapter()
                 groupRecyclerViewAdapter.submitList(groupBookmarkData)
                 binding.activityGroupBookmark.rvGroupBookmarkList.apply {
+                    itemAnimator = null
                     adapter = groupRecyclerViewAdapter
                     addItemDecoration(
                         MarginItemDecoration(
@@ -52,7 +53,7 @@ class GroupFragment : BaseFragment<FragmentGroupBinding>(R.layout.fragment_group
 
                 groupListViewAdapter.apply {
                     setBookmarkClickListener {
-                        viewModel.setUpdateBookmark(it, groupList)
+                        viewModel.setUpdateBookmark(it, groupBookmarkData, groupList)
                     }
                 }
             } else {
@@ -62,7 +63,9 @@ class GroupFragment : BaseFragment<FragmentGroupBinding>(R.layout.fragment_group
 
         viewModel.isUpdateBookmark.observe(viewLifecycleOwner) {
             groupListViewAdapter.submitList(it.toMutableList())
+            groupRecyclerViewAdapter.submitList(viewModel.isUpdateGroup.value!!.toMutableList())
             groupList = it
+            groupBookmarkData = viewModel.isUpdateGroup.value!!
         }
     }
 
@@ -88,23 +91,20 @@ class GroupFragment : BaseFragment<FragmentGroupBinding>(R.layout.fragment_group
     }
 
     private fun makeList() {
-        groupBookmarkData = mutableListOf(
-            ResponseGroupData.Data(R.drawable.img_no_group, "안녕하세요"),
-            ResponseGroupData.Data(R.drawable.img_no_group, "DND활동중입니다"),
-            ResponseGroupData.Data(R.drawable.img_no_group, "저희는8조입니다"),
-            ResponseGroupData.Data(R.drawable.img_no_group, "Group111111")
-        )
+        groupBookmarkData = mutableListOf()
 
         groupList = arrayListOf(
             ResponseGroupListData.Data(
+                1,
                 R.drawable.img_no_group,
                 "산본 솜주먹11",
                 "1111소개글은 최대 12자까지만",
                 "11.11.11",
                 10,
-                true
+                false
             ),
             ResponseGroupListData.Data(
+                2,
                 R.drawable.img_no_group,
                 "산본 솜주먹22",
                 "2222소개글은 최대 12자까지만111111",
@@ -113,6 +113,7 @@ class GroupFragment : BaseFragment<FragmentGroupBinding>(R.layout.fragment_group
                 false
             ),
             ResponseGroupListData.Data(
+                3,
                 R.drawable.img_no_group,
                 "산본 솜주먹33",
                 "33333소개글은 최대 12자까지만111111",

@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.dnd_8th_4_android.wery.data.remote.model.group.ResponseGroupListData
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseGroupData
 import com.dnd_8th_4_android.wery.databinding.ItemMyGroupBinding
 
@@ -40,7 +39,7 @@ class GroupBookmarkRecyclerViewAdapter :
                 oldItem: ResponseGroupData.Data,
                 newItem: ResponseGroupData.Data,
             ): Boolean {
-                return oldItem == newItem
+                return oldItem.id == newItem.id
             }
 
             override fun areContentsTheSame(
