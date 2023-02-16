@@ -82,24 +82,24 @@ class GroupRecyclerViewAdapter :
         }
     }
 
-    object diffUtil : DiffUtil.ItemCallback<ResponseGroupData.Data>() {
-        override fun areItemsTheSame(
-            oldItem: ResponseGroupData.Data,
-            newItem: ResponseGroupData.Data,
-        ): Boolean {
-            return oldItem.name == newItem.name
-        }
-
-        override fun areContentsTheSame(
-            oldItem: ResponseGroupData.Data,
-            newItem: ResponseGroupData.Data,
-        ): Boolean {
-            return oldItem == newItem
-        }
-    }
-
     companion object {
         const val ITEM_ALL_GROUP = 0
         const val ITEM_GROUP = 1
+
+        private val diffUtil = object : DiffUtil.ItemCallback<ResponseGroupData.Data>() {
+            override fun areItemsTheSame(
+                oldItem: ResponseGroupData.Data,
+                newItem: ResponseGroupData.Data,
+            ): Boolean {
+                return oldItem == newItem
+            }
+
+            override fun areContentsTheSame(
+                oldItem: ResponseGroupData.Data,
+                newItem: ResponseGroupData.Data,
+            ): Boolean {
+                return oldItem == newItem
+            }
+        }
     }
 }

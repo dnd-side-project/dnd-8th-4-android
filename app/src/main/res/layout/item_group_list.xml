@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="20dp">
+
+        <LinearLayout
+            android:id="@+id/layout_group_image"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/shape_radius_16_gray100"
+            android:gravity="center"
+            android:padding="1dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/iv_group_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/shape_radius_16_gray100"
+                android:src="@drawable/img_no_group"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_group_name"
+            style="@style/TextView.Title.14.Sb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toTopOf="@id/tv_group_introduce"
+            app:layout_constraintStart_toEndOf="@id/layout_group_image"
+            app:layout_constraintTop_toTopOf="@id/layout_group_image"
+            tools:text="산본 솜주먹" />
+
+        <TextView
+            android:id="@+id/tv_group_introduce"
+            style="@style/TextView.Body.12.R"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:ems="9"
+            android:maxLines="1"
+            android:textColor="@color/gray500"
+            app:layout_constraintBottom_toBottomOf="@id/layout_group_image"
+            app:layout_constraintStart_toEndOf="@id/layout_group_image"
+            app:layout_constraintTop_toBottomOf="@id/tv_group_name"
+            tools:text="소개글은 최대 12자까지만111111" />
+
+        <ImageView
+            android:id="@+id/iv_group_bookmark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/selector_bookmark"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_group_number"
+            style="@style/TextView.Body.12.R"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:textColor="@color/gray500"
+            app:layout_constraintBottom_toBottomOf="@id/iv_group_bookmark"
+            app:layout_constraintEnd_toStartOf="@id/iv_group_bookmark"
+            app:layout_constraintTop_toTopOf="@id/iv_group_bookmark"
+            tools:text="50" />
+
+        <ImageView
+            android:id="@+id/iv_group_people"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:src="@drawable/ic_people"
+            app:layout_constraintBottom_toBottomOf="@id/iv_group_bookmark"
+            app:layout_constraintEnd_toStartOf="@id/tv_group_number"
+            app:layout_constraintTop_toTopOf="@id/iv_group_bookmark" />
+
+        <TextView
+            android:id="@+id/tv_group_time"
+            style="@style/TextView.Body.12.R"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:textColor="@color/gray500"
+            app:layout_constraintBottom_toBottomOf="@id/iv_group_bookmark"
+            app:layout_constraintEnd_toStartOf="@id/iv_group_people"
+            app:layout_constraintTop_toTopOf="@id/iv_group_bookmark"
+            tools:text="23.05.12" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
