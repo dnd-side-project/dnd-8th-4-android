@@ -34,7 +34,7 @@
                     android:imeOptions="actionSearch"
                     android:inputType="text"
                     android:paddingHorizontal="38dp"
-                    app:layout_constraintEnd_toStartOf="@id/iv_location_collection"
+                    app:layout_constraintEnd_toStartOf="@id/iv_post_bookmark"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -59,11 +59,11 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
-                    android:id="@+id/iv_location_collection"
+                    android:id="@+id/iv_post_bookmark"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
-                    android:src="@drawable/ic_location_collection"
+                    android:src="@drawable/ic_bookmark"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/iv_notification"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -110,6 +110,7 @@
                             layout="@layout/activity_no_group_bookmark"
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
+                            android:visibility="gone"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <include
@@ -124,7 +125,6 @@
                         android:id="@+id/view_line"
                         android:layout_width="match_parent"
                         android:layout_height="8dp"
-                        android:layout_marginTop="28dp"
                         android:background="@color/gray100"
                         app:layout_constraintTop_toBottomOf="@id/layout_group_bookmark" />
 
@@ -152,12 +152,21 @@
                         tools:text="N" />
 
                     <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_group_list"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
+                        app:dividerColor="@{@color/gray100}"
+                        app:dividerHeight="@{@dimen/group_list_item_divider_height}"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_group_list" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/gray100"
+                        app:layout_constraintTop_toBottomOf="@id/rv_group_list" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.core.widget.NestedScrollView>
 

@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/groupFragment"
-        android:name="com.dnd_8th_4_android.wery.presentation.ui.group.GroupFragment"
+        android:name="com.dnd_8th_4_android.wery.presentation.ui.group.view.GroupFragment"
         android:label="GroupFragment"
         tools:layout="@layout/fragment_group" />
     <fragment

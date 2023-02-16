@@ -13,13 +13,23 @@
         android:paddingHorizontal="16dp"
         android:paddingVertical="20dp">
 
-        <ImageView
-            android:id="@+id/iv_group_image"
+        <LinearLayout
+            android:id="@+id/layout_group_image"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:src="@drawable/shape_gray300_radius_8"
+            android:background="@drawable/shape_radius_16_gray100"
+            android:gravity="center"
+            android:padding="1dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/iv_group_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/shape_radius_16_gray100"
+                android:src="@drawable/img_no_group"/>
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tv_group_name"
@@ -29,8 +39,8 @@
             android:layout_marginStart="12dp"
             android:textColor="@color/black"
             app:layout_constraintBottom_toTopOf="@id/tv_group_introduce"
-            app:layout_constraintStart_toEndOf="@id/iv_group_image"
-            app:layout_constraintTop_toTopOf="@id/iv_group_image"
+            app:layout_constraintStart_toEndOf="@id/layout_group_image"
+            app:layout_constraintTop_toTopOf="@id/layout_group_image"
             tools:text="산본 솜주먹" />
 
         <TextView
@@ -44,8 +54,8 @@
             android:ems="9"
             android:maxLines="1"
             android:textColor="@color/gray500"
-            app:layout_constraintBottom_toBottomOf="@id/iv_group_image"
-            app:layout_constraintStart_toEndOf="@id/iv_group_image"
+            app:layout_constraintBottom_toBottomOf="@id/layout_group_image"
+            app:layout_constraintStart_toEndOf="@id/layout_group_image"
             app:layout_constraintTop_toBottomOf="@id/tv_group_name"
             tools:text="소개글은 최대 12자까지만111111" />
 
@@ -81,6 +91,7 @@
             app:layout_constraintTop_toTopOf="@id/iv_group_bookmark" />
 
         <TextView
+            android:id="@+id/tv_group_time"
             style="@style/TextView.Body.12.R"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -140,10 +140,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     private fun makeList() {
         groupList = mutableListOf(
-            ResponseGroupData.Data("안녕하세요"),
-            ResponseGroupData.Data("DND활동중입니다"),
-            ResponseGroupData.Data("저희는8조입니다"),
-            ResponseGroupData.Data("Group111111")
+            ResponseGroupData.Data(R.drawable.img_no_group, "안녕하세요"),
+            ResponseGroupData.Data(R.drawable.img_no_group, "DND활동중입니다"),
+            ResponseGroupData.Data(R.drawable.img_no_group, "저희는8조입니다"),
+            ResponseGroupData.Data(R.drawable.img_no_group, "Group111111")
         )
 
         postList = arrayListOf(
