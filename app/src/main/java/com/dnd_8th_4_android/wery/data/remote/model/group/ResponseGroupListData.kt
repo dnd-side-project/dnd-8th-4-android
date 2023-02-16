@@ -11,6 +11,6 @@ data class ResponseGroupListData(
         val introduce: String,
         val time: String,
         val number: Int,
-        val isSelected: Boolean
+        var isSelected: Boolean
     )
 }

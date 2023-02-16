@@ -23,7 +23,7 @@ class GroupFragment : BaseFragment<FragmentGroupBinding>(R.layout.fragment_group
     private lateinit var groupListViewAdapter: GroupListRecyclerViewAdapter
 
     private lateinit var groupBookmarkData: MutableList<ResponseGroupData.Data>
-    private lateinit var groupList: MutableList<ResponseGroupListData.Data>
+    private lateinit var groupList: List<ResponseGroupListData.Data>
 
     override fun initStartView() {
         binding.vm = viewModel
@@ -47,10 +47,22 @@ class GroupFragment : BaseFragment<FragmentGroupBinding>(R.layout.fragment_group
                 groupListViewAdapter = GroupListRecyclerViewAdapter()
                 groupListViewAdapter.submitList(groupList)
                 binding.rvGroupList.adapter = groupListViewAdapter
+                binding.rvGroupList.itemAnimator = null
                 viewModel.groupCount.value = groupList.size
+
+                groupListViewAdapter.apply {
+                    setBookmarkClickListener {
+                        viewModel.setUpdateBookmark(it, groupList)
+                    }
+                }
             } else {
                 // TODO 북마크한 그룹이 없는 경우
             }
+        }
+
+        viewModel.isUpdateBookmark.observe(viewLifecycleOwner) {
+            groupListViewAdapter.submitList(it.toMutableList())
+            groupList = it
         }
     }
 
