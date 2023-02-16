@@ -11,6 +11,11 @@
         android:title="@string/bottom_navigation_group" />
 
     <item
+        android:id="@+id/mapFragment"
+        android:icon="@drawable/ic_map"
+        android:title="@string/bottom_navigation_map" />
+
+    <item
         android:id="@+id/missionFragment"
         android:icon="@drawable/ic_mission"
         android:title="@string/bottom_navigation_mission" />
