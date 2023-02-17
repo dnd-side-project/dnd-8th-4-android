@@ -5,6 +5,10 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.dnd_8th_4_android.wery.presentation.ui.create.viewmodel.CreateGroupViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -146,17 +150,38 @@
                 android:text="@string/create_group_group_name"
                 android:textColor="@color/black" />
 
-            <EditText
-                android:id="@+id/etv_group_name"
-                style="@style/TextView.Body.14.R"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/shape_white_radius_8_gray300"
-                android:hint="@string/create_group_name_hint"
-                android:padding="16dp"
-                android:textColor="@color/black"
-                android:textColorHint="@color/gray500" />
+                android:layout_marginTop="16dp">
+
+                <EditText
+                    android:id="@+id/etv_group_name"
+                    style="@style/TextView.Body.14.R"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_white_radius_8_gray300"
+                    android:hint="@string/create_group_name_hint"
+                    android:padding="16dp"
+                    android:text="@{viewModel.groupNameTxt}"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray500"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/iv_group_name_close"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:src="@drawable/ic_search_close"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -179,7 +204,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:text="@string/create_group_name_limit"
+                    android:text="@{viewModel.groupNameCntTxt}"
+                    tools:text="0/12"
                     android:textColor="@color/gray600" />
             </RelativeLayout>
 
@@ -192,17 +218,37 @@
                 android:text="@string/create_group_introduce"
                 android:textColor="@color/black" />
 
-            <EditText
-                android:id="@+id/etv_group_introduce"
-                style="@style/TextView.Body.14.R"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/shape_white_radius_8_gray300"
-                android:hint="@string/create_group_introduce_hint"
-                android:padding="16dp"
-                android:textColor="@color/black"
-                android:textColorHint="@color/gray500" />
+                android:layout_marginTop="16dp">
+
+                <EditText
+                    android:id="@+id/etv_group_introduce"
+                    style="@style/TextView.Body.14.R"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_white_radius_8_gray300"
+                    android:hint="@string/create_group_introduce_hint"
+                    android:padding="16dp"
+                    android:text="@{viewModel.groupIntroduceTxt}"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray500"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/iv_group_introduce_close"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:src="@drawable/ic_search_close"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -225,11 +271,11 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:text="@string/create_group_introduce_limit"
+                    android:text="@{viewModel.groupIntroduceCntTxt}"
+                    tools:text="0/25"
                     android:textColor="@color/gray600" />
             </RelativeLayout>
-
-
         </LinearLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
