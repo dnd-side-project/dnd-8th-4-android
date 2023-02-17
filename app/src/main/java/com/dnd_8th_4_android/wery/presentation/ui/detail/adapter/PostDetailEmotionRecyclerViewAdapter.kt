@@ -20,7 +20,7 @@ class PostDetailEmotionRecyclerViewAdapter :
         RecyclerView.ViewHolder(binding.root) {
         fun bind() {
             binding.layoutEmotionPlus.setOnClickListener {
-                popupWindowClickListener.onClicked(binding.layoutEmotionPlus, adapterPosition)
+                popupWindowClickListener.onClicked(binding.layoutEmotionPlus)
             }
         }
     }
@@ -80,16 +80,16 @@ class PostDetailEmotionRecyclerViewAdapter :
         return if (originSize == 0) 0 else originSize.inc()
     }
 
-    fun setPopupWindowClickListener(listener: (View, Int) -> Unit) {
+    fun setPopupWindowClickListener(listener: (View) -> Unit) {
         popupWindowClickListener = object : PopupWindowClickListener {
-            override fun onClicked(view: View, position: Int) {
-                listener(view, position)
+            override fun onClicked(view: View) {
+                listener(view)
             }
         }
     }
 
     interface PopupWindowClickListener {
-        fun onClicked(view: View, position: Int)
+        fun onClicked(view: View)
     }
 
     companion object {
