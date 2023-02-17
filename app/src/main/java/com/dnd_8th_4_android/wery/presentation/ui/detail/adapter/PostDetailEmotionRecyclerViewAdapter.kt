@@ -1,6 +1,5 @@
 package com.dnd_8th_4_android.wery.presentation.ui.detail.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -26,6 +25,8 @@ class PostDetailEmotionRecyclerViewAdapter :
     class EmotionViewHolder(private val binding: ItemPostDetailEmotionBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Pair<Int, Int>) {
+            binding.ivFriendImage.clipToOutline = true
+            binding.ivEmotion.clipToOutline = true
             Glide.with(binding.ivFriendImage.context).load(item.first)
                 .into(binding.ivFriendImage)
 
