@@ -1,7 +1,6 @@
 package com.dnd_8th_4_android.wery.presentation.ui.detail.view
 
 import android.os.Bundle
-import android.view.View
 import android.view.WindowManager
 import android.widget.PopupWindow
 import androidx.activity.viewModels
@@ -55,9 +54,6 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
         // 감정 이모지
         postDetailEmotionRecyclerViewAdapter = PostDetailEmotionRecyclerViewAdapter()
         postDetailEmotionRecyclerViewAdapter.submitList(emotionList)
-        postDetailEmotionRecyclerViewAdapter.setPopupWindowClickListener { view ->
-            getGradePopUp(view)
-        }
         binding.rvEmotion.apply {
             adapter = postDetailEmotionRecyclerViewAdapter
             addItemDecoration(
@@ -67,6 +63,7 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
             )
             itemAnimator = null
         }
+        binding.layoutEmotionPlus.setOnClickListener { getGradePopUp() }
 
         // 댓글
         postDetailCommentRecyclerViewAdapter = PostDetailCommentRecyclerViewAdapter(commentList)
@@ -156,7 +153,7 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
         )
     }
 
-    private fun getGradePopUp(view: View) {
+    private fun getGradePopUp() {
         // 팝업 생성
         val popupWindow = PopupWindow(
             activityPopupWindowBinding!!.root,
@@ -168,7 +165,7 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
         popupWindow.contentView = activityPopupWindowBinding!!.root
 
         // 어떤 레이아웃 밑에 팝업을 달건지 설정
-        popupWindow.showAsDropDown(view, -10, -260)
+        popupWindow.showAsDropDown(binding.layoutEmotionPlus, -10, -260)
 
         activityPopupWindowBinding!!.ivEmotionOne.setOnClickListener {
             setEmotion(PopupWindowType.Type1.emotionPosition)
