@@ -10,6 +10,9 @@ class PostDetailViewModel : ViewModel() {
     private val _isUpdateList = MutableLiveData<MutableList<ResponsePostDetailEmotionData.Data>>()
     val isUpdateList: LiveData<MutableList<ResponsePostDetailEmotionData.Data>> = _isUpdateList
 
+    private val _emotionCount = MutableLiveData<Int>()
+    val emotionCount: LiveData<Int> = _emotionCount
+
     fun setUpdateList(
         emotionPosition: Int,
         emotionList: List<ResponsePostDetailEmotionData.Data>,
@@ -82,5 +85,9 @@ class PostDetailViewModel : ViewModel() {
             }
         }
         _isUpdateList.value = emotionCopyList
+    }
+
+    fun setEmotionCount(count: Int) {
+        _emotionCount.value = count
     }
 }

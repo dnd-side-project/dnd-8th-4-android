@@ -1,6 +1,7 @@
 package com.dnd_8th_4_android.wery.presentation.ui.detail.view
 
 import android.os.Bundle
+import android.view.View
 import android.view.WindowManager
 import android.widget.PopupWindow
 import androidx.activity.viewModels
@@ -37,6 +38,7 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding.vm = viewModel
         activityPopupWindowBinding = ActivityPopupWindowBinding.inflate(layoutInflater)
 
         initStartView()
@@ -46,6 +48,7 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
 
     private fun initStartView() {
         makeList()
+        viewModel.setEmotionCount(emotionList.size)
 
         // 게시글 이미지
         postDetailImageRecyclerViewAdapter = PostDetailImageRecyclerViewAdapter(imageList)
@@ -78,6 +81,15 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
         viewModel.isUpdateList.observe(this) {
             postDetailEmotionRecyclerViewAdapter.submitList(it.toMutableList())
             emotionList = it
+            viewModel.setEmotionCount(it.size)
+        }
+
+        viewModel.emotionCount.observe(this) {
+            binding.layoutEmotionText.visibility = if (it != 0) {
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
         }
     }
 
