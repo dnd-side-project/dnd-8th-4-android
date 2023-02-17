@@ -13,10 +13,10 @@ class PostDetailImageRecyclerViewAdapter(private val list: ResponsePostDetailIma
 
     inner class ViewHolder(private val binding: ItemPostDetailImageBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: ResponsePostDetailImageData.Data) {
+        fun bind(item: Int) {
             binding.ivFriendPostImage.clipToOutline = true
 
-            Glide.with(binding.ivFriendPostImage.context).load(item.imageList[adapterPosition])
+            Glide.with(binding.ivFriendPostImage.context).load(item)
                 .into(binding.ivFriendPostImage)
         }
     }
@@ -31,6 +31,6 @@ class PostDetailImageRecyclerViewAdapter(private val list: ResponsePostDetailIma
     override fun getItemCount(): Int = list.imageList.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(list)
+        holder.bind(list.imageList[position])
     }
 }
