@@ -23,6 +23,13 @@ class PostDetailViewModel : ViewModel() {
     private val _emotionCount = MutableLiveData<Int>()
     val emotionCount: LiveData<Int> = _emotionCount
 
+    private val _isSelected = MutableLiveData(false)
+    val isSelected: LiveData<Boolean> = _isSelected
+
+    fun setSelected() {
+        _isSelected.value = _isSelected.value != true
+    }
+
     fun setUpdateList(
         emotionPosition: Int,
         emotionList: List<ResponsePostDetailEmotionData.Data>,

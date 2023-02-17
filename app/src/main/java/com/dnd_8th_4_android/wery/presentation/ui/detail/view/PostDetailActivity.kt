@@ -21,6 +21,7 @@ import com.dnd_8th_4_android.wery.presentation.ui.detail.adapter.PostDetailStick
 import com.dnd_8th_4_android.wery.presentation.ui.detail.viewmodel.PostDetailViewModel
 import com.dnd_8th_4_android.wery.presentation.util.MarginItemDecoration
 import com.dnd_8th_4_android.wery.presentation.util.PopupBottomDialogDialog
+import com.dnd_8th_4_android.wery.presentation.util.hideKeyboard
 
 class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.activity_post_detail) {
     private val viewModel: PostDetailViewModel by viewModels()
@@ -97,6 +98,12 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
         binding.ivPopup.setOnClickListener {
             val bottomSheet = PopupBottomDialogDialog()
             bottomSheet.show(supportFragmentManager, bottomSheet.tag)
+        }
+
+        binding.etComment.setOnClickListener { viewModel.setSelected() }
+        binding.ivSticker.setOnClickListener {
+            viewModel.setSelected()
+            binding.etComment.hideKeyboard()
         }
     }
 
