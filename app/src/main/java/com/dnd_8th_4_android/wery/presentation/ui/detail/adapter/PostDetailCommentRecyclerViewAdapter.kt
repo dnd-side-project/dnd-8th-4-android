@@ -2,7 +2,8 @@ package com.dnd_8th_4_android.wery.presentation.ui.detail.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.bumptech.glide.Glide
 import com.dnd_8th_4_android.wery.data.remote.model.detail.ResponsePostDetailCommentData
@@ -11,8 +12,8 @@ import com.dnd_8th_4_android.wery.data.remote.model.detail.ResponsePostDetailCom
 import com.dnd_8th_4_android.wery.databinding.ItemPostDetailCommentBinding
 import com.dnd_8th_4_android.wery.databinding.ItemPostDetailCommentImageBinding
 
-class PostDetailCommentRecyclerViewAdapter(private val list: List<ResponsePostDetailCommentData.Data>) :
-    RecyclerView.Adapter<ViewHolder>() {
+class PostDetailCommentRecyclerViewAdapter :
+    ListAdapter<ResponsePostDetailCommentData.Data, ViewHolder>(diffUtil) {
 
     class CommentImageViewHolder(private val binding: ItemPostDetailCommentImageBinding) :
         ViewHolder(binding.root) {
@@ -61,12 +62,10 @@ class PostDetailCommentRecyclerViewAdapter(private val list: List<ResponsePostDe
         }
     }
 
-    override fun getItemCount() = list.size
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         when (holder) {
             is CommentImageViewHolder -> {
-                val commentImageData = list[position]
+                val commentImageData = currentList[position]
                 holder.bind(
                     ResponsePostDetailCommentImageData.Data(
                         commentImageData.friendImage,
@@ -77,7 +76,7 @@ class PostDetailCommentRecyclerViewAdapter(private val list: List<ResponsePostDe
                 )
             }
             is CommentViewHolder -> {
-                val commentNoImageData = list[position]
+                val commentNoImageData = currentList[position]
                 holder.bind(
                     ResponsePostDetailCommentNoImageData.Data(
                         commentNoImageData.friendImage,
@@ -91,7 +90,7 @@ class PostDetailCommentRecyclerViewAdapter(private val list: List<ResponsePostDe
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (list[position].sticker != 0) {
+        return if (currentList[position].sticker != 0) {
             ITEM_COMMENT_IMAGE
         } else {
             ITEM_COMMENT
@@ -101,5 +100,22 @@ class PostDetailCommentRecyclerViewAdapter(private val list: List<ResponsePostDe
     companion object {
         private const val ITEM_COMMENT_IMAGE = 0
         private const val ITEM_COMMENT = 1
+
+        private val diffUtil =
+            object : DiffUtil.ItemCallback<ResponsePostDetailCommentData.Data>() {
+                override fun areItemsTheSame(
+                    oldItem: ResponsePostDetailCommentData.Data,
+                    newItem: ResponsePostDetailCommentData.Data,
+                ): Boolean {
+                    return oldItem == newItem
+                }
+
+                override fun areContentsTheSame(
+                    oldItem: ResponsePostDetailCommentData.Data,
+                    newItem: ResponsePostDetailCommentData.Data,
+                ): Boolean {
+                    return oldItem == newItem
+                }
+            }
     }
 }

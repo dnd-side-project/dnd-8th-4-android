@@ -1,9 +1,12 @@
 package com.dnd_8th_4_android.wery.presentation.ui.detail.view
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.view.WindowManager
 import android.widget.PopupWindow
+import android.widget.ScrollView
 import androidx.activity.viewModels
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.data.remote.model.detail.ResponsePostDetailCommentData
@@ -70,16 +73,23 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
         binding.layoutEmotionPlus.setOnClickListener { getGradePopUp() }
 
         // 댓글
-        postDetailCommentRecyclerViewAdapter = PostDetailCommentRecyclerViewAdapter(commentList)
-        binding.rvComment.adapter = postDetailCommentRecyclerViewAdapter
+        postDetailCommentRecyclerViewAdapter = PostDetailCommentRecyclerViewAdapter()
+        postDetailCommentRecyclerViewAdapter.submitList(commentList)
+        binding.rvComment.apply {
+            adapter = postDetailCommentRecyclerViewAdapter
+            itemAnimator = null
+        }
 
         // 스티커
         postDetailStickerRecyclerViewAdapter = PostDetailStickerRecyclerViewAdapter(stickerList)
+        postDetailStickerRecyclerViewAdapter.setStickerClickListener { sticker ->
+            viewModel.setUpdateComment(commentList, sticker)
+        }
         binding.rvSticker.adapter = postDetailStickerRecyclerViewAdapter
     }
 
     private fun initDataBinding() {
-        viewModel.isUpdateList.observe(this) {
+        viewModel.isUpdateEmotion.observe(this) {
             postDetailEmotionRecyclerViewAdapter.submitList(it.toMutableList())
             emotionList = it
             viewModel.setEmotionCount(it.size)
@@ -91,6 +101,15 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
             } else {
                 View.GONE
             }
+        }
+
+        viewModel.isUpdateComment.observe(this) {
+            postDetailCommentRecyclerViewAdapter.submitList(it.toMutableList())
+            commentList = it
+            Handler(Looper.getMainLooper())
+                .postDelayed({
+                    binding.scrollView.fullScroll(ScrollView.FOCUS_DOWN)
+                }, 10)
         }
     }
 
@@ -198,7 +217,7 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
     }
 
     private fun setEmotion(emotionPosition: Int) {
-        // 감정 이모지를 등록하는 사용자 이미지 필요
-        viewModel.setUpdateList(emotionPosition, emotionList, R.drawable.img_no_group)
+        // TODO 감정 이모지를 등록하는 사용자 이미지 필요
+        viewModel.setUpdateEmotion(emotionPosition, emotionList, R.drawable.img_no_group)
     }
 }
