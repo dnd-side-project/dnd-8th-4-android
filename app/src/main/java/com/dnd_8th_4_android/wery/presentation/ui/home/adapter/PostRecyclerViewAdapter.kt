@@ -143,24 +143,6 @@ class PostRecyclerViewAdapter :
         holder.bind(currentList[position])
     }
 
-    companion object {
-        private val diffUtil = object : DiffUtil.ItemCallback<ResponsePostData.Data>() {
-            override fun areItemsTheSame(
-                oldItem: ResponsePostData.Data,
-                newItem: ResponsePostData.Data,
-            ): Boolean {
-                return oldItem == newItem
-            }
-
-            override fun areContentsTheSame(
-                oldItem: ResponsePostData.Data,
-                newItem: ResponsePostData.Data,
-            ): Boolean {
-                return oldItem == newItem
-            }
-        }
-    }
-
     fun setPopupBottomClickListener(listener: () -> Unit) {
         popupBottomClickListener = object : PopupBottomClickListener {
             override fun onClicked() {
@@ -183,5 +165,23 @@ class PostRecyclerViewAdapter :
 
     interface PopupWindowClickListener {
         fun onClicked(view: View, position: Int)
+    }
+
+    companion object {
+        private val diffUtil = object : DiffUtil.ItemCallback<ResponsePostData.Data>() {
+            override fun areItemsTheSame(
+                oldItem: ResponsePostData.Data,
+                newItem: ResponsePostData.Data,
+            ): Boolean {
+                return oldItem == newItem
+            }
+
+            override fun areContentsTheSame(
+                oldItem: ResponsePostData.Data,
+                newItem: ResponsePostData.Data,
+            ): Boolean {
+                return oldItem == newItem
+            }
+        }
     }
 }

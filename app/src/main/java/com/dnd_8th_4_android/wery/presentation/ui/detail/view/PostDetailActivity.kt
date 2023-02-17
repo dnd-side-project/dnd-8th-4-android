@@ -1,12 +1,17 @@
 package com.dnd_8th_4_android.wery.presentation.ui.detail.view
 
 import android.os.Bundle
+import android.view.View
+import android.view.WindowManager
+import android.widget.PopupWindow
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.data.remote.model.detail.ResponsePostDetailCommentData
 import com.dnd_8th_4_android.wery.data.remote.model.detail.ResponsePostDetailEmotionData
 import com.dnd_8th_4_android.wery.data.remote.model.detail.ResponsePostDetailImageData
 import com.dnd_8th_4_android.wery.data.remote.model.detail.ResponsePostDetailStickerData
+import com.dnd_8th_4_android.wery.databinding.ActivityPopupWindowBinding
 import com.dnd_8th_4_android.wery.databinding.ActivityPostDetailBinding
+import com.dnd_8th_4_android.wery.domain.model.PopupWindowType
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseActivity
 import com.dnd_8th_4_android.wery.presentation.ui.detail.adapter.PostDetailCommentRecyclerViewAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.detail.adapter.PostDetailEmotionRecyclerViewAdapter
@@ -16,6 +21,8 @@ import com.dnd_8th_4_android.wery.presentation.util.MarginItemDecoration
 import com.dnd_8th_4_android.wery.presentation.util.PopupBottomDialogDialog
 
 class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.activity_post_detail) {
+    private var activityPopupWindowBinding: ActivityPopupWindowBinding? = null
+
     private lateinit var postDetailImageRecyclerViewAdapter: PostDetailImageRecyclerViewAdapter
     private lateinit var postDetailEmotionRecyclerViewAdapter: PostDetailEmotionRecyclerViewAdapter
     private lateinit var postDetailCommentRecyclerViewAdapter: PostDetailCommentRecyclerViewAdapter
@@ -28,6 +35,7 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        activityPopupWindowBinding = ActivityPopupWindowBinding.inflate(layoutInflater)
 
         initStartView()
         initDataBinding()
@@ -44,6 +52,9 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
         // 감정 이모지
         postDetailEmotionRecyclerViewAdapter = PostDetailEmotionRecyclerViewAdapter()
         postDetailEmotionRecyclerViewAdapter.submitList(emotionList)
+        postDetailEmotionRecyclerViewAdapter.setPopupWindowClickListener { view, position ->
+            getGradePopUp(view, position)
+        }
         binding.rvEmotion.apply {
             adapter = postDetailEmotionRecyclerViewAdapter
             addItemDecoration(
@@ -71,6 +82,11 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
             val bottomSheet = PopupBottomDialogDialog()
             bottomSheet.show(supportFragmentManager, bottomSheet.tag)
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        activityPopupWindowBinding = null
     }
 
     private fun makeList() {
@@ -131,5 +147,54 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
                 R.drawable.img_photo_delete,
             )
         )
+    }
+
+    private fun getGradePopUp(view: View, position: Int) {
+        // 팝업 생성
+        val popupWindow = PopupWindow(
+            activityPopupWindowBinding!!.root,
+            WindowManager.LayoutParams.WRAP_CONTENT,
+            WindowManager.LayoutParams.WRAP_CONTENT,
+            true
+        )
+        // 현재 유지시킬 뷰 설정(이 줄을 없애면 키보드가 올라옴)
+        popupWindow.contentView = activityPopupWindowBinding!!.root
+
+        // 어떤 레이아웃 밑에 팝업을 달건지 설정
+        popupWindow.showAsDropDown(view, -10, -260)
+
+        activityPopupWindowBinding!!.ivEmotionOne.setOnClickListener {
+            setEmotion(position, PopupWindowType.Type1.emotionPosition)
+            popupWindow.dismiss()
+        }
+
+        activityPopupWindowBinding!!.ivEmotionTwo.setOnClickListener {
+            setEmotion(position, PopupWindowType.Type2.emotionPosition)
+            popupWindow.dismiss()
+        }
+
+        activityPopupWindowBinding!!.ivEmotionThree.setOnClickListener {
+            setEmotion(position, PopupWindowType.Type3.emotionPosition)
+            popupWindow.dismiss()
+        }
+
+        activityPopupWindowBinding!!.ivEmotionFour.setOnClickListener {
+            setEmotion(position, PopupWindowType.Type4.emotionPosition)
+            popupWindow.dismiss()
+        }
+
+        activityPopupWindowBinding!!.ivEmotionFive.setOnClickListener {
+            setEmotion(position, PopupWindowType.Type5.emotionPosition)
+            popupWindow.dismiss()
+        }
+
+        activityPopupWindowBinding!!.ivEmotionSix.setOnClickListener {
+            setEmotion(position, PopupWindowType.Type6.emotionPosition)
+            popupWindow.dismiss()
+        }
+    }
+
+    private fun setEmotion(position: Int, emotionPosition: Int) {
+
     }
 }

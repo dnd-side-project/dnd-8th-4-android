@@ -1,6 +1,7 @@
 package com.dnd_8th_4_android.wery.presentation.ui.detail.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -9,15 +10,17 @@ import com.bumptech.glide.Glide
 import com.dnd_8th_4_android.wery.data.remote.model.detail.ResponsePostDetailEmotionData
 import com.dnd_8th_4_android.wery.databinding.ItemPostDetailEmotionBinding
 import com.dnd_8th_4_android.wery.databinding.ItemPostDetailEmotionPlusBinding
+import com.dnd_8th_4_android.wery.presentation.ui.home.adapter.PostRecyclerViewAdapter
 
 class PostDetailEmotionRecyclerViewAdapter :
     ListAdapter<ResponsePostDetailEmotionData.Data, RecyclerView.ViewHolder>(diffUtil) {
+    private lateinit var popupWindowClickListener: PopupWindowClickListener
 
-    class EmotionPlusViewHolder(private val binding: ItemPostDetailEmotionPlusBinding) :
+    inner class EmotionPlusViewHolder(private val binding: ItemPostDetailEmotionPlusBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind() {
             binding.layoutEmotionPlus.setOnClickListener {
-                // TODO 감정 이모지 window popup 추가
+                popupWindowClickListener.onClicked(binding.layoutEmotionPlus, adapterPosition)
             }
         }
     }
@@ -75,6 +78,18 @@ class PostDetailEmotionRecyclerViewAdapter :
     override fun getItemCount(): Int {
         val originSize = currentList.size
         return if (originSize == 0) 0 else originSize.inc()
+    }
+
+    fun setPopupWindowClickListener(listener: (View, Int) -> Unit) {
+        popupWindowClickListener = object : PopupWindowClickListener {
+            override fun onClicked(view: View, position: Int) {
+                listener(view, position)
+            }
+        }
+    }
+
+    interface PopupWindowClickListener {
+        fun onClicked(view: View, position: Int)
     }
 
     companion object {
