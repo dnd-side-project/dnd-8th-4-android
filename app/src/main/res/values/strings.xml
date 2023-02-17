@@ -103,7 +103,11 @@
     <string name="no_group_content">별을 누르면 즐겨 찾는 그룹을 설정할 수 있어요.</string>
 
     <!-- GroupFragment -->
-    <string name="fragment_group_title">그룹 목록</string>
+    <string name="group_title">그룹 목록</string>
 
-
+    <!-- PostDetailActivity -->
+    <string name="post_detail_hit">조회</string>
+    <string name="post_detail_emotion">공감</string>
+    <string name="post_detail_comment">댓글</string>
+    <string name="post_detail_hint">댓글을 남겨주세요.</string>
 </resources>

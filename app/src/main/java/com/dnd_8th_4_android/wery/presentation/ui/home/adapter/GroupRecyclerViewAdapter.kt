@@ -83,8 +83,8 @@ class GroupRecyclerViewAdapter :
     }
 
     companion object {
-        const val ITEM_ALL_GROUP = 0
-        const val ITEM_GROUP = 1
+        private const val ITEM_ALL_GROUP = 0
+        private const val ITEM_GROUP = 1
 
         private val diffUtil = object : DiffUtil.ItemCallback<ResponseGroupData.Data>() {
             override fun areItemsTheSame(

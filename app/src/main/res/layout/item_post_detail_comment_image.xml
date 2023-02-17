@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="20dp">
+
+        <LinearLayout
+            android:id="@+id/layout_friend_image"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/shape_oval_gray100"
+            android:gravity="center"
+            android:padding="1dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/iv_friend_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/shape_oval_gray100"
+                android:src="@drawable/img_no_group" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_friend_name"
+            style="@style/TextView.Title.14.Sb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toEndOf="@id/layout_friend_image"
+            app:layout_constraintTop_toTopOf="@id/layout_friend_image"
+            tools:text="User" />
+
+        <ImageView
+            android:id="@+id/iv_sticker"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/img_no_group"
+            app:layout_constraintStart_toStartOf="@id/tv_friend_name"
+            app:layout_constraintTop_toBottomOf="@id/tv_friend_name" />
+
+        <TextView
+            android:id="@+id/tv_time"
+            style="@style/TextView.Body.12.R"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            app:layout_constraintStart_toStartOf="@id/tv_friend_name"
+            app:layout_constraintTop_toBottomOf="@id/iv_sticker"
+            tools:text="HH:MM" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
