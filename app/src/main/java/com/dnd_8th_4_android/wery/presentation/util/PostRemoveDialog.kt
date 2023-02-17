@@ -1,4 +1,4 @@
-package com.dnd_8th_4_android.wery.presentation.ui.home.view
+package com.dnd_8th_4_android.wery.presentation.util
 
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.databinding.DialogFragmentRemoveBinding

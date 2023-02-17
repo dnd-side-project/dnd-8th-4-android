@@ -21,6 +21,7 @@ import com.dnd_8th_4_android.wery.presentation.ui.home.adapter.GroupRecyclerView
 import com.dnd_8th_4_android.wery.presentation.ui.home.adapter.PostRecyclerViewAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.home.viewmodel.HomeViewModel
 import com.dnd_8th_4_android.wery.presentation.util.MarginItemDecoration
+import com.dnd_8th_4_android.wery.presentation.util.PopupBottomDialogDialog
 import com.dnd_8th_4_android.wery.presentation.util.hideKeyboard
 import com.dnd_8th_4_android.wery.presentation.util.showKeyboard
 import com.google.android.material.bottomnavigation.BottomNavigationView

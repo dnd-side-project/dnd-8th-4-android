@@ -13,6 +13,7 @@ import com.dnd_8th_4_android.wery.presentation.ui.detail.adapter.PostDetailEmoti
 import com.dnd_8th_4_android.wery.presentation.ui.detail.adapter.PostDetailImageRecyclerViewAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.detail.adapter.PostDetailStickerRecyclerViewAdapter
 import com.dnd_8th_4_android.wery.presentation.util.MarginItemDecoration
+import com.dnd_8th_4_android.wery.presentation.util.PopupBottomDialogDialog
 
 class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.activity_post_detail) {
     private lateinit var postDetailImageRecyclerViewAdapter: PostDetailImageRecyclerViewAdapter
@@ -35,6 +36,7 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
 
     private fun initStartView() {
         makeList()
+
         // 게시글 이미지
         postDetailImageRecyclerViewAdapter = PostDetailImageRecyclerViewAdapter(imageList)
         binding.rvPostImage.adapter = postDetailImageRecyclerViewAdapter
@@ -65,7 +67,10 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
     }
 
     private fun initAfterBinding() {
-
+        binding.ivPopup.setOnClickListener {
+            val bottomSheet = PopupBottomDialogDialog()
+            bottomSheet.show(supportFragmentManager, bottomSheet.tag)
+        }
     }
 
     private fun makeList() {
