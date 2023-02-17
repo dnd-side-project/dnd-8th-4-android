@@ -34,7 +34,15 @@ class PostDetailViewModel : ViewModel() {
 
         if (emotionCopyList.contains(oldEmotionData)) {
             val index = emotionCopyList.indexOf(oldEmotionData)
-            emotionCopyList[index].emotion = popupWindowImage[emotionPosition]
+
+            if (emotionCopyList[index].emotion == popupWindowImage[emotionPosition]) {
+                setOldEmotionData(0, 0)
+                emotionCopyList.removeAt(index)
+            } else {
+                setOldEmotionData(emotionPosition, userImage)
+                emotionCopyList[index].emotion = popupWindowImage[emotionPosition]
+            }
+
         } else {
             when (emotionPosition) {
                 PopupWindowType.Type1.emotionPosition -> {
@@ -86,15 +94,20 @@ class PostDetailViewModel : ViewModel() {
                     )
                 }
             }
+            setOldEmotionData(emotionPosition, userImage)
         }
-        oldEmotionData = ResponsePostDetailEmotionData.Data(
-            userImage,
-            popupWindowImage[emotionPosition]
-        )
+
         _isUpdateList.value = emotionCopyList
     }
 
     fun setEmotionCount(count: Int) {
         _emotionCount.value = count
+    }
+
+    private fun setOldEmotionData(emotionPosition: Int, userImage: Int) {
+        oldEmotionData = ResponsePostDetailEmotionData.Data(
+            userImage,
+            popupWindowImage[emotionPosition]
+        )
     }
 }
