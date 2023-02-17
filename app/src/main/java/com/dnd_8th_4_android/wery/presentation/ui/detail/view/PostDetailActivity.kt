@@ -5,21 +5,25 @@ import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.data.remote.model.detail.ResponsePostDetailCommentData
 import com.dnd_8th_4_android.wery.data.remote.model.detail.ResponsePostDetailEmotionData
 import com.dnd_8th_4_android.wery.data.remote.model.detail.ResponsePostDetailImageData
+import com.dnd_8th_4_android.wery.data.remote.model.detail.ResponsePostDetailStickerData
 import com.dnd_8th_4_android.wery.databinding.ActivityPostDetailBinding
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseActivity
 import com.dnd_8th_4_android.wery.presentation.ui.detail.adapter.PostDetailCommentRecyclerViewAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.detail.adapter.PostDetailEmotionRecyclerViewAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.detail.adapter.PostDetailImageRecyclerViewAdapter
+import com.dnd_8th_4_android.wery.presentation.ui.detail.adapter.PostDetailStickerRecyclerViewAdapter
 import com.dnd_8th_4_android.wery.presentation.util.MarginItemDecoration
 
 class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.activity_post_detail) {
     private lateinit var postDetailImageRecyclerViewAdapter: PostDetailImageRecyclerViewAdapter
     private lateinit var postDetailEmotionRecyclerViewAdapter: PostDetailEmotionRecyclerViewAdapter
     private lateinit var postDetailCommentRecyclerViewAdapter: PostDetailCommentRecyclerViewAdapter
+    private lateinit var postDetailStickerRecyclerViewAdapter: PostDetailStickerRecyclerViewAdapter
 
     private lateinit var imageList: ResponsePostDetailImageData.Data
     private lateinit var emotionList: List<ResponsePostDetailEmotionData.Data>
     private lateinit var commentList: List<ResponsePostDetailCommentData.Data>
+    private lateinit var stickerList: ResponsePostDetailStickerData.Data
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +55,9 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
         postDetailCommentRecyclerViewAdapter = PostDetailCommentRecyclerViewAdapter(commentList)
         binding.rvComment.adapter = postDetailCommentRecyclerViewAdapter
 
+        // 스티커
+        postDetailStickerRecyclerViewAdapter = PostDetailStickerRecyclerViewAdapter(stickerList)
+        binding.rvSticker.adapter = postDetailStickerRecyclerViewAdapter
     }
 
     private fun initDataBinding() {
@@ -108,6 +115,16 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
                 "댓글은 최대 200자로 제한 합니다.댓글은 최대 200자로 제한 합니다.댓글은 최대 200자로 제한 합니다.댓글은 최대 200자로 제한 합니다.댓글은 최대 200자로 제한 합니다.댓글은 최대 200자로 제한 합니다.댓글은 최대 200자로 제한 합니다.댓글은 최대 200자로 제한 합니다.댓글은 최대 200자로 제한 합니다.댓글은 최대 200자로 제한 합니다.댓글은 최대 200자로 제한 합니다.",
                 "22:22"
             ),
+        )
+
+        stickerList = ResponsePostDetailStickerData.Data(
+            listOf(
+                R.drawable.img_no_group,
+                R.drawable.img_crying_face,
+                R.drawable.img_checkbox_checked,
+                R.drawable.img_checkbox_default,
+                R.drawable.img_photo_delete,
+            )
         )
     }
 }
