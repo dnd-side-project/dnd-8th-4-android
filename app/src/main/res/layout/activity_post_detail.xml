@@ -309,7 +309,7 @@
                     android:layout_height="1dp"
                     android:layout_marginTop="8dp"
                     android:background="@color/gray100"
-                    app:layout_constraintTop_toBottomOf="@id/rv_emotion" />
+                    app:layout_constraintTop_toBottomOf="@id/layout_emotion_plus" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_comment"

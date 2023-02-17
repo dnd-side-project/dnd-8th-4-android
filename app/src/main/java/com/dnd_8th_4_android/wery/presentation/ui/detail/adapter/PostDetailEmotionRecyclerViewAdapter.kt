@@ -17,13 +17,13 @@ class PostDetailEmotionRecyclerViewAdapter :
 
     class ViewHolder(private val binding: ItemPostDetailEmotionBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Pair<Int, Int>) {
+        fun bind(item: ResponsePostDetailEmotionData.Data) {
             binding.ivFriendImage.clipToOutline = true
             binding.ivEmotion.clipToOutline = true
-            Glide.with(binding.ivFriendImage.context).load(item.first)
+            Glide.with(binding.ivFriendImage.context).load(item.image)
                 .into(binding.ivFriendImage)
 
-            Glide.with(binding.ivEmotion.context).load(item.second)
+            Glide.with(binding.ivEmotion.context).load(item.emotion)
                 .into(binding.ivEmotion)
         }
     }
@@ -35,7 +35,7 @@ class PostDetailEmotionRecyclerViewAdapter :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(currentList[position].imageEmotion)
+        holder.bind(currentList[position])
     }
 
     companion object {

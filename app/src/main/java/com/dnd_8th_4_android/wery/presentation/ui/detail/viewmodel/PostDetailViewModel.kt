@@ -7,6 +7,16 @@ import com.dnd_8th_4_android.wery.data.remote.model.detail.ResponsePostDetailEmo
 import com.dnd_8th_4_android.wery.domain.model.PopupWindowType
 
 class PostDetailViewModel : ViewModel() {
+    private var oldEmotionData = ResponsePostDetailEmotionData.Data(0, 0)
+    private val popupWindowImage = listOf(
+        PopupWindowType.Type1.drawable,
+        PopupWindowType.Type2.drawable,
+        PopupWindowType.Type3.drawable,
+        PopupWindowType.Type4.drawable,
+        PopupWindowType.Type5.drawable,
+        PopupWindowType.Type6.drawable
+    )
+
     private val _isUpdateList = MutableLiveData<MutableList<ResponsePostDetailEmotionData.Data>>()
     val isUpdateList: LiveData<MutableList<ResponsePostDetailEmotionData.Data>> = _isUpdateList
 
@@ -22,68 +32,65 @@ class PostDetailViewModel : ViewModel() {
             it.copy()
         } as MutableList<ResponsePostDetailEmotionData.Data>
 
-        when (emotionPosition) {
-            PopupWindowType.Type1.emotionPosition -> {
-                emotionCopyList.add(
-                    ResponsePostDetailEmotionData.Data(
-                        Pair(
+        if (emotionCopyList.contains(oldEmotionData)) {
+            val index = emotionCopyList.indexOf(oldEmotionData)
+            emotionCopyList[index].emotion = popupWindowImage[emotionPosition]
+        } else {
+            when (emotionPosition) {
+                PopupWindowType.Type1.emotionPosition -> {
+                    emotionCopyList.add(
+                        ResponsePostDetailEmotionData.Data(
                             userImage,
                             PopupWindowType.Type1.drawable
                         )
                     )
-                )
-            }
-            PopupWindowType.Type2.emotionPosition -> {
-                emotionCopyList.add(
-                    ResponsePostDetailEmotionData.Data(
-                        Pair(
+                }
+                PopupWindowType.Type2.emotionPosition -> {
+                    emotionCopyList.add(
+                        ResponsePostDetailEmotionData.Data(
                             userImage,
                             PopupWindowType.Type2.drawable
                         )
                     )
-                )
-            }
-            PopupWindowType.Type3.emotionPosition -> {
-                emotionCopyList.add(
-                    ResponsePostDetailEmotionData.Data(
-                        Pair(
+                }
+                PopupWindowType.Type3.emotionPosition -> {
+                    emotionCopyList.add(
+                        ResponsePostDetailEmotionData.Data(
                             userImage,
                             PopupWindowType.Type3.drawable
                         )
                     )
-                )
-            }
-            PopupWindowType.Type4.emotionPosition -> {
-                emotionCopyList.add(
-                    ResponsePostDetailEmotionData.Data(
-                        Pair(
+                }
+                PopupWindowType.Type4.emotionPosition -> {
+                    emotionCopyList.add(
+                        ResponsePostDetailEmotionData.Data(
                             userImage,
                             PopupWindowType.Type4.drawable
                         )
                     )
-                )
-            }
-            PopupWindowType.Type5.emotionPosition -> {
-                emotionCopyList.add(
-                    ResponsePostDetailEmotionData.Data(
-                        Pair(
+                }
+                PopupWindowType.Type5.emotionPosition -> {
+                    emotionCopyList.add(
+                        ResponsePostDetailEmotionData.Data(
                             userImage,
                             PopupWindowType.Type5.drawable
                         )
                     )
-                )
-            }
-            PopupWindowType.Type6.emotionPosition -> {
-                emotionCopyList.add(
-                    ResponsePostDetailEmotionData.Data(
-                        Pair(
+                }
+                PopupWindowType.Type6.emotionPosition -> {
+                    emotionCopyList.add(
+                        ResponsePostDetailEmotionData.Data(
                             userImage,
                             PopupWindowType.Type6.drawable
                         )
                     )
-                )
+                }
             }
         }
+        oldEmotionData = ResponsePostDetailEmotionData.Data(
+            userImage,
+            popupWindowImage[emotionPosition]
+        )
         _isUpdateList.value = emotionCopyList
     }
 

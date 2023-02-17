@@ -115,27 +115,7 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
                 )
             )
 
-        emotionList =
-            listOf(
-                ResponsePostDetailEmotionData.Data(
-                    Pair(
-                        R.drawable.img_no_group,
-                        R.drawable.img_crying_face
-                    )
-                ),
-                ResponsePostDetailEmotionData.Data(
-                    Pair(
-                        R.drawable.img_no_group,
-                        R.drawable.img_crying_face
-                    )
-                ),
-                ResponsePostDetailEmotionData.Data(
-                    Pair(
-                        R.drawable.img_no_group,
-                        R.drawable.img_crying_face
-                    )
-                )
-            )
+        emotionList = listOf()
 
         commentList = listOf(
             ResponsePostDetailCommentData.Data(
