@@ -167,7 +167,7 @@
                                 android:id="@+id/iv_camera"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:src="@drawable/ic_camera"
+                                android:src="@drawable/ic_camera_writing"
                                 app:layout_constraintBottom_toTopOf="@id/layout_photo_cnt"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
