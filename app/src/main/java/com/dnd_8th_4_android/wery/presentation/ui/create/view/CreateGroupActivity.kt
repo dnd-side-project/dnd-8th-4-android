@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.text.Spannable
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
+import android.view.View
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.core.widget.addTextChangedListener
@@ -50,11 +52,19 @@ class CreateGroupActivity :
     }
 
     private fun initAfterBinding() {
-        setTxtError(binding.etvGroupName, binding.tvGroupNameLimit, 12)
-        setTxtError(binding.etvGroupIntroduce, binding.tvGroupIntroduceLimit, 25)
+        setTxtError(binding.etvGroupName, binding.tvGroupNameLimit, 12, binding.ivGroupNameClose)
+        setTxtError(
+            binding.etvGroupIntroduce,
+            binding.tvGroupIntroduceLimit,
+            25,
+            binding.ivGroupIntroduceClose
+        )
+
+        setTxtCancelListener(binding.etvGroupName, binding.ivGroupNameClose)
+        setTxtCancelListener(binding.etvGroupIntroduce, binding.ivGroupIntroduceClose)
     }
 
-    private fun setTxtError(etv: EditText, tv: TextView, lenCnt: Int) {
+    private fun setTxtError(etv: EditText, tv: TextView, lenCnt: Int, ivClose: ImageView) {
         etv.addTextChangedListener {
             if (it?.length!! > lenCnt) {
                 etv.setBackgroundResource(R.drawable.shape_white_radius_8_eb0555)
@@ -84,6 +94,18 @@ class CreateGroupActivity :
                     Spanned.SPAN_EXCLUSIVE_INCLUSIVE
                 )
             }
+
+            if (!v.hasFocus()) ivClose.visibility = View.GONE else ivClose.visibility = View.VISIBLE
+        }
+    }
+
+    private fun setTxtCancelListener(etv: EditText, ivClose: ImageView) {
+        etv.addTextChangedListener {
+            if (it!!.isNotEmpty()) ivClose.visibility = View.VISIBLE
+            else ivClose.visibility = View.GONE
+        }
+        ivClose.setOnClickListener {
+            etv.text.clear()
         }
     }
 }
