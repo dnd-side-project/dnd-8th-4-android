@@ -8,7 +8,6 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.PopupWindow
 import android.widget.ScrollView
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import com.dnd_8th_4_android.wery.R
@@ -114,10 +113,17 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
                 .postDelayed({
                     binding.scrollView.fullScroll(ScrollView.FOCUS_DOWN)
                 }, 100)
+            binding.etComment.hint = "댓글을 남겨주세요."
+            binding.ivSticker.isSelected = false
+            binding.ivSend.isSelected = false
         }
 
         viewModel.isSelected.observe(this) {
             binding.rvSticker.isVisible = it
+        }
+
+        viewModel.isEnabled.observe(this) {
+            binding.ivSticker.isEnabled = !it
         }
     }
 
@@ -127,33 +133,40 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
             bottomSheet.show(supportFragmentManager, bottomSheet.tag)
         }
 
-        binding.etComment.setOnClickListener {
-            viewModel.setUnSelected()
-            Handler(Looper.getMainLooper())
-                .postDelayed({
-                    binding.scrollView.fullScroll(ScrollView.FOCUS_DOWN)
-                }, 100)
+        binding.etComment.setOnFocusChangeListener { _, gainFocus ->
+            if (gainFocus) {
+                viewModel.setUnSelected()
+                binding.ivSend.isSelected = true
+                binding.etComment.hint = "원하는 스티커를 두번 선택해 보세요."
+                binding.ivSticker.isSelected = false
+            }
         }
 
         binding.ivSticker.setOnClickListener {
-            if (binding.etComment.text.toString() == "") {
-                viewModel.setSelected()
-                binding.etComment.hideKeyboard()
-            } else {
-                Toast.makeText(this, "댓글이 작성한 상태에서는 스티커를 등록할 수 없습니다.", Toast.LENGTH_SHORT).show()
-            }
+            binding.ivSend.isSelected = false
+            viewModel.setSelected()
+            binding.etComment.hideKeyboard()
+            binding.ivSticker.isSelected = !binding.ivSticker.isSelected
             Handler(Looper.getMainLooper())
                 .postDelayed({
                     binding.scrollView.fullScroll(ScrollView.FOCUS_DOWN)
                 }, 100)
+
+            if (it.isSelected) {
+                binding.etComment.hint = "원하는 스티커를 두번 선택해 보세요."
+            } else {
+                binding.etComment.hint = "댓글을 남겨주세요."
+            }
         }
 
-        binding.etComment.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(10))
+        binding.etComment.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(200))
 
         binding.ivSend.setOnClickListener {
-            viewModel.setUpdateComment(commentList, binding.etComment.text.toString(), 0)
-            binding.etComment.setText("")
-            binding.etComment.hideKeyboard()
+            if (binding.etComment.text.toString() != "") {
+                viewModel.setUpdateComment(commentList, binding.etComment.text.toString(), 0)
+                binding.etComment.setText("")
+                binding.etComment.hideKeyboard()
+            }
         }
     }
 
