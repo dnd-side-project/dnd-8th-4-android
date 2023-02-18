@@ -43,24 +43,9 @@ class SelectGroupBottomDialog(private val viewModel: WritingViewModel) :
                 ),
                 ResponseGroupList(
                     0L,
-                    "Group6",
-                    "https://i1.sndcdn.com/avatars-sn8HgEgiucAccV0D-yogYJA-t240x240.jpg"
+                    "먹짱패밀리",
+                    "https://mblogthumb-phinf.pstatic.net/MjAxNzA2MTRfMTM5/MDAxNDk3NDMzNzc3NzMz.bYz_7N23reM5QXP_MwApEZ6cMuP7HT0VF_FuE3j4bEYg.Lb1I_8WU9JFipAHpxlkSfHCGVnZ9ssflRaM1xgN2wGEg.JPEG.vazx1234/2017-06-14_18%3B45%3B09.JPG?type=w800"
                 ),
-                ResponseGroupList(
-                    0L,
-                    "Group7",
-                    "https://i1.sndcdn.com/avatars-sn8HgEgiucAccV0D-yogYJA-t240x240.jpg"
-                ),
-                ResponseGroupList(
-                    0L,
-                    "Group8",
-                    "https://i1.sndcdn.com/avatars-sn8HgEgiucAccV0D-yogYJA-t240x240.jpg"
-                ),
-                ResponseGroupList(
-                    0L,
-                    "Group9",
-                    "https://i1.sndcdn.com/avatars-sn8HgEgiucAccV0D-yogYJA-t240x240.jpg"
-                )
             )
         binding.rvGroupList.adapter = selectGroupAdapter
         binding.tvGroupCnt.text = selectGroupAdapter.itemList.size.toString()

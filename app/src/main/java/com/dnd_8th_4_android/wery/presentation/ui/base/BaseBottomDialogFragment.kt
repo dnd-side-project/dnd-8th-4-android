@@ -34,7 +34,8 @@ abstract class BaseBottomDialogFragment<T : ViewDataBinding>(@LayoutRes val layo
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        dialog?.window?.attributes?.windowAnimations = R.style.DialogAnimation
+        dialog?.setCanceledOnTouchOutside(true)
         initAfterBinding()
     }
 
