@@ -209,6 +209,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:text="0/12"
+                    android:bufferType="spannable"
                     android:textColor="@color/gray600" />
             </RelativeLayout>
 
@@ -279,6 +280,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:text="0/25"
+                    android:bufferType="spannable"
                     android:textColor="@color/gray600" />
             </RelativeLayout>
         </LinearLayout>
