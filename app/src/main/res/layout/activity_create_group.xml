@@ -65,6 +65,7 @@
                 android:paddingHorizontal="16dp"
                 android:text="@string/create_group_done"
                 android:textColor="@color/selector_txt"
+                android:enabled="@{viewModel.groupNameTxt.length() >= 1 &amp; 12 > viewModel.groupNameTxt.length() ? true : false}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

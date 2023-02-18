@@ -179,6 +179,9 @@ class CreateGroupActivity :
         binding.frameLayoutImg.setOnClickListener {
             requestPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
         }
+        binding.ivGroupImg.setOnClickListener {
+            openGallery()
+        }
     }
 
     private fun openGallery() {
