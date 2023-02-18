@@ -41,15 +41,15 @@ class CreateGroupActivity :
     private val requestPhotoActivity =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == Activity.RESULT_OK) {
-                val clipData = it?.data?.clipData!!.getItemAt(0).uri
 
-                clipData?.let { _ ->
-                    Glide.with(this).load(clipData).into(binding.ivGroupImg)
+                val clipData = it?.data?.clipData
+                if (clipData == null) {
+                    val selectedImageUri = it?.data?.data!!
+                    Glide.with(this).load(selectedImageUri).into(binding.ivGroupImg)
                     binding.frameLayoutImg.visibility = View.GONE
                 }
             }
         }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
