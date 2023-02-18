@@ -44,6 +44,9 @@ class PostDetailViewModel : ViewModel() {
     private val _isEnabled = MutableLiveData<Boolean>()
     val isEnabled: LiveData<Boolean> = _isEnabled
 
+    private val _commentCount = MutableLiveData<Int>()
+    val commentCount: LiveData<Int> = _commentCount
+
     fun setUpdateEmotion(
         emotionPosition: Int,
         emotionList: List<ResponsePostDetailEmotionData.Data>,
@@ -123,6 +126,10 @@ class PostDetailViewModel : ViewModel() {
 
     fun setEmotionCount(count: Int) {
         _emotionCount.value = count
+    }
+
+    fun setCommentCount(count: Int) {
+        _commentCount.value = count
     }
 
     private fun setOldEmotionData(emotionPosition: Int, userImage: Int) {

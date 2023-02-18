@@ -55,6 +55,7 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
     private fun initStartView() {
         makeList()
         viewModel.setEmotionCount(emotionList.size)
+        viewModel.setCommentCount(commentList.size)
 
         // 게시글 이미지
         postDetailImageRecyclerViewAdapter = PostDetailImageRecyclerViewAdapter(imageList)
@@ -99,7 +100,7 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
         }
 
         viewModel.emotionCount.observe(this) {
-            binding.layoutEmotionText.visibility = if (it != 0) {
+            binding.layoutEmotionCount.visibility = if (it != 0) {
                 View.VISIBLE
             } else {
                 View.GONE
@@ -109,6 +110,8 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
         viewModel.isUpdateComment.observe(this) {
             postDetailCommentRecyclerViewAdapter.submitList(it.toMutableList())
             commentList = it
+            viewModel.setCommentCount(it.size)
+
             Handler(Looper.getMainLooper())
                 .postDelayed({
                     binding.scrollView.fullScroll(ScrollView.FOCUS_DOWN)
@@ -116,6 +119,14 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
             binding.etComment.hint = "댓글을 남겨주세요."
             binding.ivSticker.isSelected = false
             binding.ivSend.isSelected = false
+        }
+
+        viewModel.commentCount.observe(this) {
+            binding.layoutCommentCount.visibility = if (it != 0) {
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
         }
 
         viewModel.isSelected.observe(this) {
