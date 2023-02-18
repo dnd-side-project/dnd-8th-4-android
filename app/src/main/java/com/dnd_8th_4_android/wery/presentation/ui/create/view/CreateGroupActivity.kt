@@ -1,6 +1,12 @@
 package com.dnd_8th_4_android.wery.presentation.ui.create.view
 
+import android.Manifest
+import android.app.Activity
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.text.Spannable
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
@@ -8,17 +14,42 @@ import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
+import com.bumptech.glide.Glide
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.databinding.ActivityCreateGroupBinding
+import com.dnd_8th_4_android.wery.domain.model.DialogInfo
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseActivity
 import com.dnd_8th_4_android.wery.presentation.ui.create.viewmodel.CreateGroupViewModel
+import com.dnd_8th_4_android.wery.presentation.util.DialogFragmentUtil
 
 class CreateGroupActivity :
     BaseActivity<ActivityCreateGroupBinding>(R.layout.activity_create_group) {
 
     private val createGroupViewModel: CreateGroupViewModel by viewModels()
+
+    private val requestPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+            if (isGranted) {
+                openGallery()
+            } else checkRequestPermission()
+        }
+
+    private val requestPhotoActivity =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                val clipData = it?.data?.clipData!!.getItemAt(0).uri
+
+                clipData?.let { _ ->
+                    Glide.with(this).load(clipData).into(binding.ivGroupImg)
+                    binding.frameLayoutImg.visibility = View.GONE
+                }
+            }
+        }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +66,38 @@ class CreateGroupActivity :
     private fun initDataBinding() {
         setGroupNameUi()
         setGroupIntroUi()
+    }
+
+    // 권한 체크 함수
+    private fun checkRequestPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            == PackageManager.PERMISSION_GRANTED
+        ) {
+            openGallery()
+        } else permissionDialog()
+
+    }
+
+    // 권한 요청
+    private fun permissionDialog() {
+        fun doPositiveClick() {
+            startActivity(
+                Intent(
+                    Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                    Uri.fromParts("package", packageName, null)
+                )
+            )
+        }
+
+        val dialog = DialogFragmentUtil(
+            DialogInfo(
+                "갤러리 접근 권한",
+                "갤러리 접근 권한이 필요합니다.\n확인을 누르면 설정화면으로 이동합니다.",
+                "닫기",
+                "확인"
+            )
+        ) { doPositiveClick() }
+        dialog.show(supportFragmentManager, dialog.tag)
     }
 
     private fun setGroupNameUi() {
@@ -62,6 +125,8 @@ class CreateGroupActivity :
 
         setTxtCancelListener(binding.etvGroupName, binding.ivGroupNameClose)
         setTxtCancelListener(binding.etvGroupIntroduce, binding.ivGroupIntroduceClose)
+
+        setGroupImg()
     }
 
     private fun setTxtError(etv: EditText, tv: TextView, lenCnt: Int, ivClose: ImageView) {
@@ -107,5 +172,21 @@ class CreateGroupActivity :
         ivClose.setOnClickListener {
             etv.text.clear()
         }
+    }
+
+    private fun setGroupImg() {
+        binding.ivGroupImg.clipToOutline = true
+        binding.frameLayoutImg.setOnClickListener {
+            requestPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        }
+    }
+
+    private fun openGallery() {
+        val intent = Intent()
+        intent.apply {
+            type = "image/*"
+            action = Intent.ACTION_PICK
+        }
+        requestPhotoActivity.launch(intent)
     }
 }

@@ -86,8 +86,8 @@
             android:layout_height="0dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/shape_gray100_radius_12_gray200"
-            android:paddingHorizontal="40dp"
             app:layout_constraintDimensionRatio="1:1"
+            android:scaleType="fitXY"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/layout_create_group_top" />
@@ -142,7 +142,7 @@
             android:paddingHorizontal="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/frame_layout_img">
+            app:layout_constraintTop_toBottomOf="@id/iv_group_img">
 
             <TextView
                 style="@style/TextView.Title.16.Sb"
