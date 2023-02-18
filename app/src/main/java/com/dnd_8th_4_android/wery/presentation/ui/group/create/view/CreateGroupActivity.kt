@@ -1,4 +1,4 @@
-package com.dnd_8th_4_android.wery.presentation.ui.create.view
+package com.dnd_8th_4_android.wery.presentation.ui.group.create.view
 
 import android.Manifest
 import android.app.Activity
@@ -23,7 +23,7 @@ import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.databinding.ActivityCreateGroupBinding
 import com.dnd_8th_4_android.wery.domain.model.DialogInfo
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseActivity
-import com.dnd_8th_4_android.wery.presentation.ui.create.viewmodel.CreateGroupViewModel
+import com.dnd_8th_4_android.wery.presentation.ui.group.create.viewmodel.CreateGroupViewModel
 import com.dnd_8th_4_android.wery.presentation.util.DialogFragmentUtil
 
 class CreateGroupActivity :
@@ -127,6 +127,10 @@ class CreateGroupActivity :
         setTxtCancelListener(binding.etvGroupIntroduce, binding.ivGroupIntroduceClose)
 
         setGroupImg()
+
+        binding.ivClose.setOnClickListener {
+            finish()
+        }
     }
 
     private fun setTxtError(etv: EditText, tv: TextView, lenCnt: Int, ivClose: ImageView) {

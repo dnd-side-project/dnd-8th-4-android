@@ -37,11 +37,14 @@
             android:id="@+id/iv_logo"
             android:layout_width="160dp"
             android:layout_height="160dp"
-            android:layout_marginTop="40dp"
+
             android:background="@color/black"
+            app:layout_constraintBottom_toTopOf="@+id/etv_id"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layout_sign_in_top" />
+            app:layout_constraintTop_toBottomOf="@+id/layout_sign_in_top"
+            app:layout_constraintVertical_chainStyle="packed" />
 
         <EditText
             android:id="@+id/etv_id"
@@ -59,9 +62,11 @@
             android:text="@={viewModel.id}"
             android:textColor="@color/black"
             android:textColorHint="@color/gray500"
+            app:layout_constraintBottom_toTopOf="@+id/etv_pw"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_logo" />
+            app:layout_constraintTop_toBottomOf="@+id/iv_logo" />
 
         <EditText
             android:id="@+id/etv_pw"
@@ -78,9 +83,11 @@
             android:text="@={viewModel.pw}"
             android:textColor="@color/black"
             android:textColorHint="@color/gray500"
+            app:layout_constraintBottom_toTopOf="@+id/btn_login"
             app:layout_constraintEnd_toEndOf="@id/etv_id"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="@id/etv_id"
-            app:layout_constraintTop_toBottomOf="@id/etv_id" />
+            app:layout_constraintTop_toBottomOf="@+id/etv_id" />
 
         <ImageView
             android:id="@+id/iv_blind"
@@ -137,9 +144,11 @@
             android:textColor="@color/white"
             app:backgroundTint="@null"
             app:cornerRadius="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/layout_menu"
             app:layout_constraintEnd_toEndOf="@+id/etv_pw"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="@id/layout_auto_login"
-            app:layout_constraintTop_toBottomOf="@id/layout_auto_login" />
+            app:layout_constraintTop_toBottomOf="@+id/layout_auto_login" />
 
         <LinearLayout
             android:id="@+id/layout_menu"
@@ -147,6 +156,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:orientation="horizontal"
+            android:layout_marginBottom="104dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/btn_login"
             app:layout_constraintStart_toStartOf="@id/btn_login"
             app:layout_constraintTop_toBottomOf="@id/btn_login">

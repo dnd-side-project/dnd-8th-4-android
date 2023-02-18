@@ -1,5 +1,7 @@
 package com.dnd_8th_4_android.wery.presentation.ui.sign.view
 
+import android.app.Activity
+import android.content.Intent
 import android.text.InputType
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -7,6 +9,7 @@ import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.databinding.FragmentSignInBinding
 import com.dnd_8th_4_android.wery.domain.model.DialogInfo
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseFragment
+import com.dnd_8th_4_android.wery.presentation.ui.home.view.MainActivity
 import com.dnd_8th_4_android.wery.presentation.ui.sign.viewmodel.SignInViewModel
 import com.dnd_8th_4_android.wery.presentation.util.DialogFragmentUtil
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,6 +30,10 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sig
         setPWVisibility()
         setAutoLoginState()
         loginClickListener()
+        binding.btnLogin.setOnClickListener {
+            requireActivity().finish()
+            startActivity(Intent(requireContext(),MainActivity::class.java))
+        }
     }
 
     private fun setPWVisibility() {

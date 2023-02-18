@@ -1,5 +1,6 @@
 package com.dnd_8th_4_android.wery.presentation.ui.group.view
 
+import android.content.Intent
 import android.view.inputmethod.EditorInfo
 import androidx.core.view.isVisible
 import androidx.core.widget.doBeforeTextChanged
@@ -9,6 +10,7 @@ import com.dnd_8th_4_android.wery.data.remote.model.group.ResponseGroupListData
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseGroupData
 import com.dnd_8th_4_android.wery.databinding.FragmentGroupBinding
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseFragment
+import com.dnd_8th_4_android.wery.presentation.ui.group.create.view.CreateGroupActivity
 import com.dnd_8th_4_android.wery.presentation.ui.group.adapter.GroupBookmarkRecyclerViewAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.group.adapter.GroupListRecyclerViewAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.group.viewmodel.GroupViewModel
@@ -87,6 +89,10 @@ class GroupFragment : BaseFragment<FragmentGroupBinding>(R.layout.fragment_group
         binding.ivSearchClose.setOnClickListener {
             binding.etSearch.text.clear()
             binding.etSearch.showKeyboard()
+        }
+
+        binding.btnFloatingAction.setOnClickListener {
+            startActivity(Intent(requireContext(), CreateGroupActivity::class.java))
         }
     }
 

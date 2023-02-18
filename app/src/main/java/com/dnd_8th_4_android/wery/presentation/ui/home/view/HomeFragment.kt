@@ -1,5 +1,6 @@
 package com.dnd_8th_4_android.wery.presentation.ui.home.view
 
+import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import android.view.View
@@ -20,6 +21,7 @@ import com.dnd_8th_4_android.wery.presentation.ui.base.BaseFragment
 import com.dnd_8th_4_android.wery.presentation.ui.home.adapter.GroupRecyclerViewAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.home.adapter.PostRecyclerViewAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.home.viewmodel.HomeViewModel
+import com.dnd_8th_4_android.wery.presentation.ui.write.upload.view.WritingActivity
 import com.dnd_8th_4_android.wery.presentation.util.MarginItemDecoration
 import com.dnd_8th_4_android.wery.presentation.util.PopupBottomDialogDialog
 import com.dnd_8th_4_android.wery.presentation.util.hideKeyboard
@@ -127,6 +129,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         binding.ivSearchClose.setOnClickListener {
             binding.etSearch.text.clear()
             binding.etSearch.showKeyboard()
+        }
+
+        binding.btnFloatingAction.setOnClickListener {
+            startActivity(Intent(requireContext(), WritingActivity::class.java))
         }
     }
 

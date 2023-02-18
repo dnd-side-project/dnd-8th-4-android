@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="com.dnd_8th_4_android.wery.presentation.ui.create.viewmodel.CreateGroupViewModel" />
+            type="com.dnd_8th_4_android.wery.presentation.ui.group.create.viewmodel.CreateGroupViewModel" />
 
     </data>
 

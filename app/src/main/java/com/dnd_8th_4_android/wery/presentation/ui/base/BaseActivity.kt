@@ -24,6 +24,7 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutRes: Int) 
         binding = DataBindingUtil.setContentView(this, layoutRes)
         binding.lifecycleOwner = this
 
+        overridePendingTransition(0, 0)
     }
 
     override fun onDestroy() {
