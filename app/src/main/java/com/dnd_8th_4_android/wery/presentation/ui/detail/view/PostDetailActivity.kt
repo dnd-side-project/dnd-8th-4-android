@@ -3,11 +3,14 @@ package com.dnd_8th_4_android.wery.presentation.ui.detail.view
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.text.InputFilter
 import android.view.View
 import android.view.WindowManager
 import android.widget.PopupWindow
 import android.widget.ScrollView
+import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.core.view.isVisible
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.data.remote.model.detail.ResponsePostDetailCommentData
 import com.dnd_8th_4_android.wery.data.remote.model.detail.ResponsePostDetailEmotionData
@@ -83,7 +86,8 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
         // 스티커
         postDetailStickerRecyclerViewAdapter = PostDetailStickerRecyclerViewAdapter(stickerList)
         postDetailStickerRecyclerViewAdapter.setStickerClickListener { sticker ->
-            viewModel.setUpdateComment(commentList, sticker)
+            viewModel.setUpdateComment(commentList, "", sticker)
+            viewModel.setSelected()
         }
         binding.rvSticker.adapter = postDetailStickerRecyclerViewAdapter
     }
@@ -109,7 +113,11 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
             Handler(Looper.getMainLooper())
                 .postDelayed({
                     binding.scrollView.fullScroll(ScrollView.FOCUS_DOWN)
-                }, 10)
+                }, 100)
+        }
+
+        viewModel.isSelected.observe(this) {
+            binding.rvSticker.isVisible = it
         }
     }
 
@@ -119,9 +127,32 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
             bottomSheet.show(supportFragmentManager, bottomSheet.tag)
         }
 
-        binding.etComment.setOnClickListener { viewModel.setSelected() }
+        binding.etComment.setOnClickListener {
+            viewModel.setUnSelected()
+            Handler(Looper.getMainLooper())
+                .postDelayed({
+                    binding.scrollView.fullScroll(ScrollView.FOCUS_DOWN)
+                }, 100)
+        }
+
         binding.ivSticker.setOnClickListener {
-            viewModel.setSelected()
+            if (binding.etComment.text.toString() == "") {
+                viewModel.setSelected()
+                binding.etComment.hideKeyboard()
+            } else {
+                Toast.makeText(this, "댓글이 작성한 상태에서는 스티커를 등록할 수 없습니다.", Toast.LENGTH_SHORT).show()
+            }
+            Handler(Looper.getMainLooper())
+                .postDelayed({
+                    binding.scrollView.fullScroll(ScrollView.FOCUS_DOWN)
+                }, 100)
+        }
+
+        binding.etComment.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(10))
+
+        binding.ivSend.setOnClickListener {
+            viewModel.setUpdateComment(commentList, binding.etComment.text.toString(), 0)
+            binding.etComment.setText("")
             binding.etComment.hideKeyboard()
         }
     }

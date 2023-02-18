@@ -21,8 +21,10 @@ class PostDetailViewModel : ViewModel() {
         PopupWindowType.Type6.drawable
     )
 
-    private val _isUpdateEmotion = MutableLiveData<MutableList<ResponsePostDetailEmotionData.Data>>()
-    val isUpdateEmotion: LiveData<MutableList<ResponsePostDetailEmotionData.Data>> = _isUpdateEmotion
+    private val _isUpdateEmotion =
+        MutableLiveData<MutableList<ResponsePostDetailEmotionData.Data>>()
+    val isUpdateEmotion: LiveData<MutableList<ResponsePostDetailEmotionData.Data>> =
+        _isUpdateEmotion
 
     private val _emotionCount = MutableLiveData<Int>()
     val emotionCount: LiveData<Int> = _emotionCount
@@ -30,8 +32,10 @@ class PostDetailViewModel : ViewModel() {
     private val _isSelected = MutableLiveData(false)
     val isSelected: LiveData<Boolean> = _isSelected
 
-    private val _isUpdateComment = MutableLiveData<MutableList<ResponsePostDetailCommentData.Data>>()
-    val isUpdateComment: LiveData<MutableList<ResponsePostDetailCommentData.Data>> = _isUpdateComment
+    private val _isUpdateComment =
+        MutableLiveData<MutableList<ResponsePostDetailCommentData.Data>>()
+    val isUpdateComment: LiveData<MutableList<ResponsePostDetailCommentData.Data>> =
+        _isUpdateComment
 
     private val formatter = DateTimeFormatter.ofPattern("HH:MM")
 
@@ -127,16 +131,21 @@ class PostDetailViewModel : ViewModel() {
         _isSelected.value = _isSelected.value != true
     }
 
+    fun setUnSelected() {
+        _isSelected.value = false
+    }
+
     fun setUpdateComment(
         commentList: List<ResponsePostDetailCommentData.Data>,
-        sticker: Int
+        comment: String,
+        sticker: Int,
     ) {
         val commentCopyList = commentList.map {
             it.copy()
         } as MutableList<ResponsePostDetailCommentData.Data>
 
+        // TODO 사용자 정보 등록 필요
         if (sticker != 0) {
-            // TODO 사용자 정보 등록 필요
             commentCopyList.add(
                 ResponsePostDetailCommentData.Data(
                     R.drawable.img_no_group,
@@ -147,7 +156,15 @@ class PostDetailViewModel : ViewModel() {
                 )
             )
         } else {
-            // TODO 스티커가 없을 때의 댓글 등록
+            commentCopyList.add(
+                ResponsePostDetailCommentData.Data(
+                    R.drawable.img_no_group,
+                    "User1",
+                    0,
+                    comment,
+                    (LocalDateTime.now()).format(formatter)
+                )
+            )
         }
         _isUpdateComment.value = commentCopyList
     }
