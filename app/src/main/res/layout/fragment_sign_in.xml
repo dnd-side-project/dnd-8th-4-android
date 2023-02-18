@@ -83,7 +83,7 @@
             android:text="@={viewModel.pw}"
             android:textColor="@color/black"
             android:textColorHint="@color/gray500"
-            app:layout_constraintBottom_toTopOf="@+id/btn_login"
+            app:layout_constraintBottom_toTopOf="@+id/layout_auto_login"
             app:layout_constraintEnd_toEndOf="@id/etv_id"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="@id/etv_id"
@@ -105,6 +105,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@id/btn_login"
             app:layout_constraintStart_toStartOf="@id/etv_pw"
             app:layout_constraintTop_toBottomOf="@id/etv_pw">
 
