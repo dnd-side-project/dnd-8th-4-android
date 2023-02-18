@@ -1,6 +1,9 @@
 package com.dnd_8th_4_android.wery.presentation.ui.create.view
 
 import android.os.Bundle
+import android.text.Spannable
+import android.text.Spanned
+import android.text.style.ForegroundColorSpan
 import androidx.activity.viewModels
 import androidx.core.widget.addTextChangedListener
 import com.dnd_8th_4_android.wery.R
@@ -37,12 +40,34 @@ class CreateGroupActivity :
         }
 
         binding.etvGroupName.addTextChangedListener {
-            if (it?.length!! > 12) binding.etvGroupName.setBackgroundResource(R.drawable.shape_white_radius_8_eb0555)
-            else binding.etvGroupName.setBackgroundResource(R.drawable.shape_white_radius_8_black)
+            if (it?.length!! > 12) {
+                binding.etvGroupName.setBackgroundResource(R.drawable.shape_white_radius_8_eb0555)
+                (binding.tvGroupNameLimit.text as Spannable).setSpan(
+                    ForegroundColorSpan(resources.getColor(R.color.color_eb0555, null)), 0, 2,
+                    Spanned.SPAN_EXCLUSIVE_INCLUSIVE
+                )
+            } else {
+                binding.etvGroupName.setBackgroundResource(R.drawable.shape_white_radius_8_black)
+                var end = 1
+                end = if (it.length < 10) 1 else 2
+
+                (binding.tvGroupNameLimit.text as Spannable).setSpan(
+                    ForegroundColorSpan(resources.getColor(R.color.black, null)), 0, end,
+                    Spanned.SPAN_EXCLUSIVE_INCLUSIVE
+                )
+            }
         }
 
         binding.etvGroupName.setOnFocusChangeListener { v, hasFocus ->
-            if (!v.hasFocus()) binding.etvGroupName.setBackgroundResource(R.drawable.shape_white_radius_8_gray300)
+            if (!v.hasFocus() && binding.etvGroupName.text.length < 12) {
+                binding.etvGroupName.setBackgroundResource(R.drawable.shape_white_radius_8_gray300)
+                var end = 1
+                end = if (binding.etvGroupName.text.length < 10) 1 else 2
+                (binding.tvGroupNameLimit.text as Spannable).setSpan(
+                    ForegroundColorSpan(resources.getColor(R.color.gray600, null)), 0, end,
+                    Spanned.SPAN_EXCLUSIVE_INCLUSIVE
+                )
+            }
         }
     }
 
@@ -53,14 +78,35 @@ class CreateGroupActivity :
         }
 
         binding.etvGroupIntroduce.addTextChangedListener {
-            if (it?.length!! > 25) binding.etvGroupIntroduce.setBackgroundResource(R.drawable.shape_white_radius_8_eb0555)
-            else binding.etvGroupIntroduce.setBackgroundResource(R.drawable.shape_white_radius_8_black)
+            if (it?.length!! > 25) {
+                binding.etvGroupIntroduce.setBackgroundResource(R.drawable.shape_white_radius_8_eb0555)
+                (binding.tvGroupIntroduceLimit.text as Spannable).setSpan(
+                    ForegroundColorSpan(resources.getColor(R.color.color_eb0555, null)), 0, 2,
+                    Spanned.SPAN_EXCLUSIVE_INCLUSIVE
+                )
+            } else {
+                binding.etvGroupIntroduce.setBackgroundResource(R.drawable.shape_white_radius_8_black)
+                var end = 1
+                end = if (it.length < 10) 1 else 2
+
+                (binding.tvGroupIntroduceLimit.text as Spannable).setSpan(
+                    ForegroundColorSpan(resources.getColor(R.color.black, null)), 0, end,
+                    Spanned.SPAN_EXCLUSIVE_INCLUSIVE
+                )
+            }
         }
 
         binding.etvGroupIntroduce.setOnFocusChangeListener { v, hasFocus ->
-            if (!v.hasFocus()) binding.etvGroupIntroduce.setBackgroundResource(R.drawable.shape_white_radius_8_gray300)
+            if (!v.hasFocus() && binding.etvGroupIntroduce.text.length < 25) {
+                binding.etvGroupIntroduce.setBackgroundResource(R.drawable.shape_white_radius_8_gray300)
+                var end = 1
+                end = if (binding.etvGroupIntroduce.text.length < 10) 1 else 2
+                (binding.tvGroupIntroduceLimit.text as Spannable).setSpan(
+                    ForegroundColorSpan(resources.getColor(R.color.gray600, null)), 0, end,
+                    Spanned.SPAN_EXCLUSIVE_INCLUSIVE
+                )
+            }
         }
-
     }
 
     private fun initAfterBinding() {

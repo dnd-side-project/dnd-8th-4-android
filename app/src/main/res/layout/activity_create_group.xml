@@ -198,7 +198,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
-                    android:text="@{viewModel.groupNameTxt.length() > 12 ? @string/create_group_name_info : @string/create_group_name_error_cnt_msg}"
+                    android:text="@{viewModel.groupNameTxt.length() > 12 ? @string/create_group_name_error_cnt_msg : @string/create_group_name_info}"
                     android:textColor="@{viewModel.groupNameTxt.length() > 12 ? @color/color_eb0555 : @color/gray600}" />
 
                 <TextView
