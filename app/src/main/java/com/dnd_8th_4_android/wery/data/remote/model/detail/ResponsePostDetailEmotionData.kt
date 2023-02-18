@@ -6,6 +6,7 @@ data class ResponsePostDetailEmotionData(
     val data : Data
 ): BaseResponse() {
     data class Data(
-        val imageEmotion: Pair<Int, Int>
+        var image : Int,
+        var emotion: Int
     )
 }

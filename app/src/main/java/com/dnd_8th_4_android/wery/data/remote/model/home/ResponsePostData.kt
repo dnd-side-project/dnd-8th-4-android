@@ -12,7 +12,7 @@ data class ResponsePostData(
         val location: String,
         val groupName: String,
         val content: String,
-        val contentImage: List<Int>,
+        val contentImage: ArrayList<Int>,
         var emotion: MutableList<Int>,
         val comment: List<String>,
         val time: String,
