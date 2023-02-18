@@ -92,12 +92,12 @@
     <string name="create_group_name_info">그룹명과 사진은 개설 후에도 변경할 수 있어요!</string>
     <string name="create_group_introduce">그룹 소개</string>
     <string name="create_group_introduce_hint">어떤 그룹인가요?</string>
-    <string name="create_group_name_error_cnt_msg">최대 %s글자까지 입력 가능해요</string>
-    <string name="create_group_introduce_error_cnt_msg">최대 %s글자까지 입력 가능해요</string>
+    <string name="create_group_name_error_cnt_msg">최대 12자까지 입력 가능해요</string>
+    <string name="create_group_introduce_error_cnt_msg">최대 25자까지 입력 가능해요</string>
     <string name="create_group_done">완료</string>
     <string name="create_add_photo">사진 추가</string>
-    <string name="create_group_name_limit">%s/12</string>
-    <string name="create_group_introduce_limit">%s/25</string>
+    <string name="create_group_name_limit">%d/12</string>
+    <string name="create_group_introduce_limit">%d/25</string>
 
     <!-- bottomSheetFragment -->
     <string name="bottom_sheet_bookmark">북마크 하기</string>

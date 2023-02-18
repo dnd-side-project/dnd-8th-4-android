@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View" />
 
         <variable
             name="viewModel"
@@ -163,7 +164,9 @@
                     android:background="@drawable/shape_white_radius_8_gray300"
                     android:hint="@string/create_group_name_hint"
                     android:padding="16dp"
-                    android:text="@{viewModel.groupNameTxt}"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:text="@={viewModel.groupNameTxt}"
                     android:textColor="@color/black"
                     android:textColorHint="@color/gray500"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -177,6 +180,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
                     android:src="@drawable/ic_search_close"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -194,8 +198,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
-                    android:text="@string/create_group_name_info"
-                    android:textColor="@color/gray600" />
+                    android:text="@{viewModel.groupNameTxt.length() > 12 ? @string/create_group_name_info : @string/create_group_name_error_cnt_msg}"
+                    android:textColor="@{viewModel.groupNameTxt.length() > 12 ? @color/color_eb0555 : @color/gray600}" />
 
                 <TextView
                     android:id="@+id/tv_group_name_limit"
@@ -204,8 +208,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:text="@{viewModel.groupNameCntTxt}"
-                    tools:text="0/12"
+                    android:text="0/12"
                     android:textColor="@color/gray600" />
             </RelativeLayout>
 
@@ -231,7 +234,9 @@
                     android:background="@drawable/shape_white_radius_8_gray300"
                     android:hint="@string/create_group_introduce_hint"
                     android:padding="16dp"
-                    android:text="@{viewModel.groupIntroduceTxt}"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:text="@={viewModel.groupIntroduceTxt}"
                     android:textColor="@color/black"
                     android:textColorHint="@color/gray500"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -244,6 +249,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
+                    android:visibility="gone"
                     android:src="@drawable/ic_search_close"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -260,6 +266,7 @@
                     style="@style/TextView.Body.12.R"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:visibility="@{viewModel.groupIntroduceTxt.length() > 25 ? View.VISIBLE : View.INVISIBLE}"
                     android:layout_alignParentStart="true"
                     android:text="@string/create_group_introduce_error_cnt_msg"
                     android:textColor="@color/color_eb0555" />
@@ -271,8 +278,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:text="@{viewModel.groupIntroduceCntTxt}"
-                    tools:text="0/25"
+                    android:text="0/25"
                     android:textColor="@color/gray600" />
             </RelativeLayout>
         </LinearLayout>
