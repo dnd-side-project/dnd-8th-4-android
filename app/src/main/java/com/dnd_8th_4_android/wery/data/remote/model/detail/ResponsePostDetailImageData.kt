@@ -6,6 +6,6 @@ data class ResponsePostDetailImageData(
     val data : Data
 ): BaseResponse() {
     data class Data(
-        val imageList: List<Int>
+        val imageList: ArrayList<Int>
     )
 }

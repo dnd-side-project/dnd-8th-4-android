@@ -1,5 +1,6 @@
 package com.dnd_8th_4_android.wery.presentation.ui.home.adapter
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,7 @@ import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponsePostData
 import com.dnd_8th_4_android.wery.databinding.ItemPostBinding
 import com.dnd_8th_4_android.wery.domain.model.PopupWindowType
+import com.dnd_8th_4_android.wery.presentation.ui.detail.view.PostDetailActivity
 
 class PostRecyclerViewAdapter :
     ListAdapter<ResponsePostData.Data, PostRecyclerViewAdapter.ViewHolder>(
@@ -34,7 +36,7 @@ class PostRecyclerViewAdapter :
             binding.tvFriendName.text = item.name
             binding.tvLocation.text = item.location
             binding.tvFriendGroup.text = item.groupName
-            binding.tvFriendContent.text = item.content
+            binding.tvContent.text = item.content
 
             // ViewPager Padding 설정
             val pagerPadding = binding.root.resources.getDimension(R.dimen.view_pager_padding_width)
@@ -131,6 +133,17 @@ class PostRecyclerViewAdapter :
             binding.layoutEmotionButton.setOnClickListener {
                 popupWindowClickListener.onClicked(binding.layoutEmotionButton, adapterPosition)
             }
+
+            binding.layoutCommentWrite.setOnClickListener {
+                val intent = Intent(binding.root.context, PostDetailActivity::class.java)
+                intent.putExtra(GROUP_NAME, item.groupName)
+                intent.putExtra(NAME, item.name)
+                intent.putExtra(TIME, item.time)
+                intent.putExtra(LOCATION, item.location)
+                intent.putExtra(CONTENT, item.content)
+                intent.putIntegerArrayListExtra(IMAGE, item.contentImage)
+                binding.root.context.startActivity(intent)
+            }
         }
     }
 
@@ -168,6 +181,14 @@ class PostRecyclerViewAdapter :
     }
 
     companion object {
+        // TODO 보류 : Activity에서 API 호출 필요
+        const val GROUP_NAME = "group_name"
+        const val NAME = "name"
+        const val TIME = "time"
+        const val LOCATION = "location"
+        const val CONTENT = "content"
+        const val IMAGE = "image"
+
         private val diffUtil = object : DiffUtil.ItemCallback<ResponsePostData.Data>() {
             override fun areItemsTheSame(
                 oldItem: ResponsePostData.Data,

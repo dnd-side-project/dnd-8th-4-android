@@ -82,15 +82,15 @@
                 style="@style/TextView.Body.14.R"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="13dp"
                 android:layout_marginStart="4dp"
+                android:layout_marginTop="13dp"
                 android:textColor="@color/gray600"
-                app:layout_constraintTop_toBottomOf="@id/layout_friend_image"
                 app:layout_constraintStart_toEndOf="@id/iv_location"
+                app:layout_constraintTop_toBottomOf="@id/layout_friend_image"
                 tools:text="고잔동 맥도날드" />
 
             <TextView
-                android:id="@+id/tv_friend_content"
+                android:id="@+id/tv_content"
                 style="@style/TextView.Body.14.M.160"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

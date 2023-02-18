@@ -24,6 +24,7 @@ import com.dnd_8th_4_android.wery.presentation.ui.detail.adapter.PostDetailEmoti
 import com.dnd_8th_4_android.wery.presentation.ui.detail.adapter.PostDetailImageRecyclerViewAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.detail.adapter.PostDetailStickerRecyclerViewAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.detail.viewmodel.PostDetailViewModel
+import com.dnd_8th_4_android.wery.presentation.ui.home.adapter.PostRecyclerViewAdapter
 import com.dnd_8th_4_android.wery.presentation.util.MarginItemDecoration
 import com.dnd_8th_4_android.wery.presentation.util.PopupBottomDialogDialog
 import com.dnd_8th_4_android.wery.presentation.util.hideKeyboard
@@ -139,6 +140,10 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
     }
 
     private fun initAfterBinding() {
+        binding.ivBack.setOnClickListener {
+            finish()
+        }
+
         binding.ivPopup.setOnClickListener {
             val bottomSheet = PopupBottomDialogDialog()
             bottomSheet.show(supportFragmentManager, bottomSheet.tag)
@@ -148,7 +153,7 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
             if (gainFocus) {
                 viewModel.setUnSelected()
                 binding.ivSend.isSelected = true
-                binding.etComment.hint = "원하는 스티커를 두번 선택해 보세요."
+                binding.etComment.hint = "원하는 스티커를 두 번 선택해 보세요."
                 binding.ivSticker.isSelected = false
             }
         }
@@ -164,7 +169,7 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
                 }, 100)
 
             if (it.isSelected) {
-                binding.etComment.hint = "원하는 스티커를 두번 선택해 보세요."
+                binding.etComment.hint = "원하는 스티커를 두 번 선택해 보세요."
             } else {
                 binding.etComment.hint = "댓글을 남겨주세요."
             }
@@ -187,13 +192,17 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
     }
 
     private fun makeList() {
+        with(binding) {
+            tvGroupName.text = intent.getStringExtra(PostRecyclerViewAdapter.GROUP_NAME).toString()
+            tvFriendName.text = intent.getStringExtra(PostRecyclerViewAdapter.NAME).toString()
+            tvTime.text = intent.getStringExtra(PostRecyclerViewAdapter.TIME).toString()
+            tvLocation.text = intent.getStringExtra(PostRecyclerViewAdapter.LOCATION).toString()
+            tvContent.text = intent.getStringExtra(PostRecyclerViewAdapter.CONTENT).toString()
+        }
+
         imageList =
             ResponsePostDetailImageData.Data(
-                listOf(
-                    R.drawable.img_no_group,
-                    R.drawable.img_no_group,
-                    R.drawable.img_no_group
-                )
+                intent.getIntegerArrayListExtra(PostRecyclerViewAdapter.IMAGE) ?: arrayListOf()
             )
 
         emotionList = listOf()

@@ -18,6 +18,7 @@ class PostDetailCommentRecyclerViewAdapter :
     class CommentImageViewHolder(private val binding: ItemPostDetailCommentImageBinding) :
         ViewHolder(binding.root) {
         fun bind(item: ResponsePostDetailCommentImageData.Data) {
+            binding.ivFriendImage.clipToOutline = true
             Glide.with(binding.ivFriendImage.context).load(item.friendImage)
                 .into(binding.ivFriendImage)
 
@@ -33,8 +34,10 @@ class PostDetailCommentRecyclerViewAdapter :
     class CommentViewHolder(private val binding: ItemPostDetailCommentBinding) :
         ViewHolder(binding.root) {
         fun bind(item: ResponsePostDetailCommentNoImageData.Data) {
+            binding.ivFriendImage.clipToOutline = true
             Glide.with(binding.ivFriendImage.context).load(item.friendImage)
                 .into(binding.ivFriendImage)
+
             binding.tvFriendName.text = item.name
             binding.tvFriendComment.text = item.comment
             binding.tvTime.text = item.time

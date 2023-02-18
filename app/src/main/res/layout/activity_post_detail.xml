@@ -175,13 +175,11 @@
                         tools:text="고잔동 맥도날드" />
 
                     <TextView
-                        android:id="@+id/tv_friend_content"
+                        android:id="@+id/tv_content"
                         style="@style/TextView.Body.14.M.160"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
-                        android:ellipsize="end"
-                        android:maxLines="4"
                         android:textColor="@color/black"
                         app:layout_constraintTop_toBottomOf="@id/iv_location"
                         tools:text="피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다. 피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다. 피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다. 피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다." />
