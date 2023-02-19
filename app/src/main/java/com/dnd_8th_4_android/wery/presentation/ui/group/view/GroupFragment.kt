@@ -105,7 +105,6 @@ class GroupFragment : BaseFragment<FragmentGroupBinding>(R.layout.fragment_group
                 R.drawable.img_no_group,
                 "산본 솜주먹11",
                 "1111소개글은 최대 12자까지만",
-                "11.11.11",
                 10,
                 false
             ),
@@ -114,7 +113,6 @@ class GroupFragment : BaseFragment<FragmentGroupBinding>(R.layout.fragment_group
                 R.drawable.img_no_group,
                 "산본 솜주먹22",
                 "2222소개글은 최대 12자까지만111111",
-                "22.22.22",
                 20,
                 false
             ),
@@ -123,7 +121,6 @@ class GroupFragment : BaseFragment<FragmentGroupBinding>(R.layout.fragment_group
                 R.drawable.img_no_group,
                 "산본 솜주먹33",
                 "33333소개글은 최대 12자까지만111111",
-                "33.33.33",
                 30,
                 false
             ),

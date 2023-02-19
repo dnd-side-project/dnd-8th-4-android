@@ -28,7 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/shape_radius_16_gray100"
-                android:src="@drawable/img_no_group"/>
+                android:src="@drawable/img_no_group" />
         </LinearLayout>
 
         <TextView
@@ -51,13 +51,13 @@
             android:layout_marginStart="12dp"
             android:layout_marginTop="8dp"
             android:ellipsize="end"
-            android:ems="9"
+            android:ems="13"
             android:maxLines="1"
-            android:textColor="@color/gray500"
+            android:textColor="@color/gray700"
             app:layout_constraintBottom_toBottomOf="@id/layout_group_image"
             app:layout_constraintStart_toEndOf="@id/layout_group_image"
             app:layout_constraintTop_toBottomOf="@id/tv_group_name"
-            tools:text="소개글은 최대 12자까지만111111" />
+            tools:text="소개글은 소개글은 소개글은 소개글은 소개글은" />
 
         <ImageView
             android:id="@+id/iv_group_bookmark"
@@ -73,7 +73,7 @@
             style="@style/TextView.Caption.12.R"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="12dp"
             android:textColor="@color/gray500"
             app:layout_constraintBottom_toBottomOf="@id/iv_group_bookmark"
             app:layout_constraintEnd_toStartOf="@id/iv_group_bookmark"
@@ -89,17 +89,5 @@
             app:layout_constraintBottom_toBottomOf="@id/iv_group_bookmark"
             app:layout_constraintEnd_toStartOf="@id/tv_group_number"
             app:layout_constraintTop_toTopOf="@id/iv_group_bookmark" />
-
-        <TextView
-            android:id="@+id/tv_group_time"
-            style="@style/TextView.Caption.12.R"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="12dp"
-            android:textColor="@color/gray500"
-            app:layout_constraintBottom_toBottomOf="@id/iv_group_bookmark"
-            app:layout_constraintEnd_toStartOf="@id/iv_group_people"
-            app:layout_constraintTop_toTopOf="@id/iv_group_bookmark"
-            tools:text="23.05.12" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -22,7 +22,6 @@ class GroupListRecyclerViewAdapter :
                 .into(binding.ivGroupImage)
             binding.tvGroupName.text = item.name
             binding.tvGroupIntroduce.text = item.introduce
-            binding.tvGroupTime.text = item.time
             binding.tvGroupNumber.text = item.number.toString()
             binding.ivGroupBookmark.isSelected = item.isSelected
 

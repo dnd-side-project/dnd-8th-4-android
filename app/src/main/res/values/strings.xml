@@ -118,7 +118,8 @@
     <string name="no_group_content">별을 누르면 즐겨 찾는 그룹을 설정할 수 있어요.</string>
 
     <!-- GroupFragment -->
-    <string name="group_title">그룹 목록</string>
+    <string name="group_title">내 그룹</string>
+    <string name="group_filter">업데이트순</string>
 
     <!-- PostDetailActivity -->
     <string name="post_detail_hit">조회</string>

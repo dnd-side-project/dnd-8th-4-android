@@ -10,7 +10,6 @@ data class ResponseGroupListData(
         val image: Int,
         val name: String,
         val introduce: String,
-        val time: String,
         val number: Int,
         var isSelected: Boolean,
     )
