@@ -4,6 +4,7 @@
     <dimen name="postList_emotion_left_4">4dp</dimen>
     <dimen name="postList_emotion_left_15">15dp</dimen>
     <dimen name="view_pager_padding_width">16dp</dimen>
+    <dimen name="view_pager_offset">8dp</dimen>
     <dimen name="group_list_item_divider_height">1dp</dimen>
     <dimen name="post_detail_emotion_item_margin">8dp</dimen>
 </resources>

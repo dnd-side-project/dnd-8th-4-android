@@ -23,7 +23,7 @@
             android:background="@color/selector_layout_search"
             android:orientation="vertical"
             android:paddingHorizontal="16dp"
-            android:paddingVertical="21dp"
+            android:paddingVertical="22dp"
             android:visibility="@{data.road_address_name.empty == true ? View.VISIBLE : View.GONE}">
 
             <TextView
