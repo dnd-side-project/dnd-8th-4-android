@@ -37,7 +37,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private lateinit var postRecyclerViewAdapter: PostRecyclerViewAdapter
 
     private lateinit var groupList: MutableList<ResponseGroupData.Data>
-    private lateinit var postList: List<ResponsePostData.Data>
+    private lateinit var postList: MutableList<ResponsePostData.Data>
 
     override fun initStartView() {
         activityPopupWindowBinding = ActivityPopupWindowBinding.inflate(layoutInflater)
@@ -48,8 +48,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         homeViewModel.isExistGroup.observe(viewLifecycleOwner) { isExistGroup ->
             if (isExistGroup) {
                 makeList()
-                groupRecyclerViewAdapter = GroupRecyclerViewAdapter()
-                groupRecyclerViewAdapter.submitList(groupList)
+
+                binding.activityGroup.layoutAllGroup.isSelected = true
+                groupRecyclerViewAdapter =
+                    GroupRecyclerViewAdapter(groupList, binding.activityGroup.layoutAllGroup)
                 binding.activityGroup.rvMyGroup.apply {
                     adapter = groupRecyclerViewAdapter
                     addItemDecoration(
@@ -79,8 +81,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                     Handler(Looper.getMainLooper())
                         .postDelayed({
                             binding.activityGroup.layoutSwipeRefresh.isRefreshing = false
-                            groupRecyclerViewAdapter.submitList(groupList)
-                            postRecyclerViewAdapter.submitList(postList)
+                            groupRecyclerViewAdapter.submitList(groupList.toMutableList())
+                            postRecyclerViewAdapter.submitList(postList.toMutableList())
                         }, 1000)
                 }
             } else {
@@ -89,8 +91,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         }
 
         homeViewModel.isUpdateList.observe(viewLifecycleOwner) {
-            postRecyclerViewAdapter.submitList(it.toMutableList())
+            postList.clear()
             postList = it
+            postRecyclerViewAdapter.submitList(postList.toMutableList())
         }
     }
 
@@ -105,7 +108,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                     Handler(Looper.getMainLooper())
                         .postDelayed({
                             binding.activityGroup.layoutSwipeRefresh.isRefreshing = false
-                            groupRecyclerViewAdapter.submitList(groupList)
+                            groupRecyclerViewAdapter.submitList(groupList.toMutableList())
                             postRecyclerViewAdapter.submitList(postList)
                         }, 1000)
                 }
@@ -129,6 +132,18 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         binding.ivSearchClose.setOnClickListener {
             binding.etSearch.text.clear()
             binding.etSearch.showKeyboard()
+        }
+
+        binding.activityGroup.layoutAllGroup.setOnClickListener {
+            if (groupRecyclerViewAdapter.selectedItem != binding.activityGroup.layoutAllGroup) {
+                binding.activityGroup.layoutAllGroup.isSelected =
+                    !binding.activityGroup.layoutAllGroup.isSelected
+                groupRecyclerViewAdapter.apply {
+                    selectedItem.isSelected = false
+                    selectedItem = binding.activityGroup.layoutAllGroup
+                }
+            }
+            // TODO 전체보기 피드 호출
         }
 
         binding.btnFloatingAction.setOnClickListener {

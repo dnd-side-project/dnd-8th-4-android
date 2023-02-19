@@ -3,22 +3,21 @@ package com.dnd_8th_4_android.wery.presentation.ui.home.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponsePostData
 import com.dnd_8th_4_android.wery.domain.model.PopupWindowType
-import kotlinx.coroutines.launch
 
 class HomeViewModel : ViewModel() {
     private val _isExistGroup = MutableLiveData<Boolean>(true)
     val isExistGroup: LiveData<Boolean> = _isExistGroup
 
-    private val _isUpdateList = MutableLiveData<List<ResponsePostData.Data>>()
-    val isUpdateList: LiveData<List<ResponsePostData.Data>> = _isUpdateList
+    private val _isUpdateList = MutableLiveData<MutableList<ResponsePostData.Data>>()
+    val isUpdateList: LiveData<MutableList<ResponsePostData.Data>> = _isUpdateList
 
     fun setUpdateList(position: Int, emotionPosition: Int, postList: List<ResponsePostData.Data>) {
         val postCopyList = postList.map {
             it.copy()
-        }
+        } as MutableList<ResponsePostData.Data>
+
         postCopyList[position].isSelectedEmotion = emotionPosition
 
         when (emotionPosition) {

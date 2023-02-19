@@ -59,9 +59,9 @@ class PostRecyclerViewAdapter :
 
             when (item.emotion.size) {
                 0 -> {
+                    binding.tvEmotionCount.isVisible = false
                     binding.ivEmotionLeft.isVisible = false
                     binding.ivEmotionRight.isVisible = false
-                    binding.tvEmotionCount.isVisible = false
                 }
                 1 -> {
                     binding.tvEmotionCount.isVisible = true
@@ -194,7 +194,7 @@ class PostRecyclerViewAdapter :
                 oldItem: ResponsePostData.Data,
                 newItem: ResponsePostData.Data,
             ): Boolean {
-                return oldItem == newItem
+                return oldItem.id == newItem.id
             }
 
             override fun areContentsTheSame(
