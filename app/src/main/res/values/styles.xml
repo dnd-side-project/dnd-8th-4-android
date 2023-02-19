@@ -142,7 +142,7 @@
     </style>
 
     <style name="TextView.Body.14.R.160" parent="Widget.AppCompat.TextView">
-        <item name="android:fontWeight">500</item>
+        <item name="android:fontWeight">400</item>
         <item name="android:textSize">14dp</item>
         <item name="android:lineSpacingMultiplier">0</item>
         <item name="android:lineSpacingExtra">22.4dp</item>

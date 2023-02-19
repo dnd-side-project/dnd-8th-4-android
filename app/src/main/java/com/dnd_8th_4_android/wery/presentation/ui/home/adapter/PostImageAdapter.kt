@@ -10,6 +10,7 @@ import com.dnd_8th_4_android.wery.databinding.ItemPostImageBinding
 class PostImageAdapter(private val itemList: List<Int>) :
     RecyclerView.Adapter<PostImageAdapter.ViewHolder>() {
     private lateinit var binding: ItemPostImageBinding
+    private lateinit var postDetailImageListener: PostDetailImageListener
 
     inner class ViewHolder(private val binding: ItemPostImageBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -23,6 +24,10 @@ class PostImageAdapter(private val itemList: List<Int>) :
             if(itemList.size == 1) {
                 binding.layoutPostImageCount.isVisible = false
             }
+
+            binding.ivFriendPostImage.setOnClickListener {
+                postDetailImageListener.onClicked()
+            }
         }
     }
 
@@ -35,5 +40,17 @@ class PostImageAdapter(private val itemList: List<Int>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(itemList[position])
+    }
+
+    fun setPostDetailImageListener(listener: () -> Unit) {
+        postDetailImageListener = object : PostDetailImageListener {
+            override fun onClicked() {
+                listener()
+            }
+        }
+    }
+
+    interface PostDetailImageListener {
+        fun onClicked()
     }
 }

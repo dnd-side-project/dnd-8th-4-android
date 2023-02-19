@@ -49,6 +49,9 @@ class PostRecyclerViewAdapter :
             }
 
             postImageAdapter = PostImageAdapter(item.contentImage)
+            postImageAdapter.setPostDetailImageListener {
+                goToPostDetail(item, false)
+            }
             binding.vpPostImage.adapter = postImageAdapter
             binding.vpPostImage.registerOnPageChangeCallback(object :
                 ViewPager2.OnPageChangeCallback() {
@@ -138,15 +141,10 @@ class PostRecyclerViewAdapter :
                 popupWindowClickListener.onClicked(binding.layoutEmotionButton, adapterPosition)
             }
 
+            binding.tvContent.setOnClickListener { goToPostDetail(item, false) }
+
             binding.layoutCommentWrite.setOnClickListener {
-                val intent = Intent(binding.root.context, PostDetailActivity::class.java)
-                intent.putExtra(GROUP_NAME, item.groupName)
-                intent.putExtra(NAME, item.name)
-                intent.putExtra(TIME, item.time)
-                intent.putExtra(LOCATION, item.location)
-                intent.putExtra(CONTENT, item.content)
-                intent.putIntegerArrayListExtra(IMAGE, item.contentImage)
-                binding.root.context.startActivity(intent)
+                goToPostDetail(item, true)
             }
         }
     }
@@ -158,6 +156,18 @@ class PostRecyclerViewAdapter :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(currentList[position])
+    }
+
+    fun goToPostDetail(item: ResponsePostData.Data, checkWrite: Boolean) {
+        val intent = Intent(binding.root.context, PostDetailActivity::class.java)
+        intent.putExtra(WRITE_CHECK, checkWrite)
+        intent.putExtra(GROUP_NAME, item.groupName)
+        intent.putExtra(NAME, item.name)
+        intent.putExtra(TIME, item.time)
+        intent.putExtra(LOCATION, item.location)
+        intent.putExtra(CONTENT, item.content)
+        intent.putIntegerArrayListExtra(IMAGE, item.contentImage)
+        binding.root.context.startActivity(intent)
     }
 
     fun setPopupBottomClickListener(listener: () -> Unit) {
@@ -186,6 +196,7 @@ class PostRecyclerViewAdapter :
 
     companion object {
         // TODO 보류 : Activity에서 API 호출 필요
+        const val WRITE_CHECK = "write_check"
         const val GROUP_NAME = "group_name"
         const val NAME = "name"
         const val TIME = "time"

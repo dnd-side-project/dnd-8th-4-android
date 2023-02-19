@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.text.InputFilter
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.PopupWindow
@@ -28,10 +29,12 @@ import com.dnd_8th_4_android.wery.presentation.ui.home.adapter.PostRecyclerViewA
 import com.dnd_8th_4_android.wery.presentation.util.MarginItemDecoration
 import com.dnd_8th_4_android.wery.presentation.util.PopupBottomDialogDialog
 import com.dnd_8th_4_android.wery.presentation.util.hideKeyboard
+import com.dnd_8th_4_android.wery.presentation.util.showKeyboard
 
 class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.activity_post_detail) {
     private val viewModel: PostDetailViewModel by viewModels()
     private var activityPopupWindowBinding: ActivityPopupWindowBinding? = null
+    private var writeButton = false
 
     private lateinit var postDetailImageRecyclerViewAdapter: PostDetailImageRecyclerViewAdapter
     private lateinit var postDetailEmotionRecyclerViewAdapter: PostDetailEmotionRecyclerViewAdapter
@@ -61,6 +64,7 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
         // 게시글 이미지
         postDetailImageRecyclerViewAdapter = PostDetailImageRecyclerViewAdapter(imageList)
         binding.rvPostImage.adapter = postDetailImageRecyclerViewAdapter
+        binding.rvPostImage.isNestedScrollingEnabled = false
 
         // 감정 이모지
         postDetailEmotionRecyclerViewAdapter = PostDetailEmotionRecyclerViewAdapter()
@@ -82,6 +86,7 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
         binding.rvComment.apply {
             adapter = postDetailCommentRecyclerViewAdapter
             itemAnimator = null
+            isNestedScrollingEnabled = false
         }
 
         // 스티커
@@ -117,7 +122,7 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
                 .postDelayed({
                     binding.scrollView.fullScroll(ScrollView.FOCUS_DOWN)
                 }, 100)
-            binding.etComment.hint = "댓글을 남겨주세요."
+            binding.etComment.hint = resources.getString(R.string.post_detail_hint)
             binding.ivSticker.isSelected = false
             binding.ivSend.isSelected = false
         }
@@ -140,6 +145,15 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
     }
 
     private fun initAfterBinding() {
+        if (writeButton) {
+            Handler(Looper.getMainLooper())
+                .postDelayed({
+                    binding.scrollView.fullScroll(ScrollView.FOCUS_DOWN)
+                    binding.etComment.requestFocus()
+                    binding.etComment.showKeyboard()
+                }, 100)
+        }
+
         binding.ivBack.setOnClickListener {
             finish()
         }
@@ -153,7 +167,7 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
             if (gainFocus) {
                 viewModel.setUnSelected()
                 binding.ivSend.isSelected = true
-                binding.etComment.hint = "원하는 스티커를 두 번 선택해 보세요."
+                binding.etComment.hint = resources.getString(R.string.post_detail_hint)
                 binding.ivSticker.isSelected = false
             }
         }
@@ -169,9 +183,9 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
                 }, 100)
 
             if (it.isSelected) {
-                binding.etComment.hint = "원하는 스티커를 두 번 선택해 보세요."
+                binding.etComment.hint = resources.getString(R.string.post_detail_hint_sticker)
             } else {
-                binding.etComment.hint = "댓글을 남겨주세요."
+                binding.etComment.hint = resources.getString(R.string.post_detail_hint)
             }
         }
 
@@ -193,6 +207,7 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
 
     private fun makeList() {
         with(binding) {
+            writeButton = intent.getBooleanExtra(PostRecyclerViewAdapter.WRITE_CHECK, false)
             tvGroupName.text = intent.getStringExtra(PostRecyclerViewAdapter.GROUP_NAME).toString()
             tvFriendName.text = intent.getStringExtra(PostRecyclerViewAdapter.NAME).toString()
             tvTime.text = intent.getStringExtra(PostRecyclerViewAdapter.TIME).toString()

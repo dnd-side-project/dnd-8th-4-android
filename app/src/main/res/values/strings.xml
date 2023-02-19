@@ -126,4 +126,5 @@
     <string name="post_detail_emotion">공감</string>
     <string name="post_detail_comment">댓글</string>
     <string name="post_detail_hint">댓글을 남겨주세요.</string>
+    <string name="post_detail_hint_sticker">원하는 스티커를 선택해 보세요.</string>
 </resources>
