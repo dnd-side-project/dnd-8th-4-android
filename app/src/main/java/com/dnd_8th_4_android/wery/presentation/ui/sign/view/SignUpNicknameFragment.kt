@@ -48,6 +48,9 @@ class SignUpNicknameFragment :
     }
 
     override fun initAfterBinding() {
+        val hintList = requireContext().resources.getStringArray(R.array.nickname_hint).toList()
+        binding.etNickname.hint = hintList.shuffled().take(1).joinToString()
+
         binding.btnNext.setOnClickListener {
             Log.e("태그2", signViewModel.signUpName.value.toString())
             Log.e("태그2", signViewModel.signUpEmail.value.toString())

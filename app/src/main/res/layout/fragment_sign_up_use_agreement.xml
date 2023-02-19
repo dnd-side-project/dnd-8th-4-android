@@ -37,7 +37,7 @@
             android:id="@+id/cb_all_agree"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_marginTop="137dp"
+            android:layout_marginTop="120dp"
             android:background="@drawable/selector_checkbox"
             android:button="@null"
             app:layout_constraintStart_toStartOf="parent"

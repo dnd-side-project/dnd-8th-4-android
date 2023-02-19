@@ -34,6 +34,17 @@
             android:textColor="@color/black"
             app:layout_constraintTop_toBottomOf="@id/iv_back" />
 
+        <TextView
+            android:id="@+id/tv_comment"
+            style="@style/TextView.Body.14.M"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/sign_up_nickname_comment"
+            android:textColor="@color/gray500"
+            app:layout_constraintTop_toBottomOf="@id/tv_nickname"
+            app:layout_constraintStart_toStartOf="@id/tv_nickname"/>
+
         <EditText
             android:id="@+id/et_nickname"
             style="@style/TextView.Title.16.Sb"
@@ -41,14 +52,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="120dp"
             android:background="@drawable/selector_et_sign_up"
-            android:hint="@string/sign_up_nickname_hint"
             android:inputType="text"
             android:maxLines="1"
             android:padding="16dp"
             android:text="@={vm.signUpNickname}"
             android:textColor="@drawable/selector_et_sign_up"
             app:addTextChangedListener="@{vm.textWatcher}"
-            app:layout_constraintTop_toBottomOf="@id/tv_nickname" />
+            app:layout_constraintTop_toBottomOf="@id/tv_comment" />
 
         <LinearLayout
             android:layout_width="wrap_content"

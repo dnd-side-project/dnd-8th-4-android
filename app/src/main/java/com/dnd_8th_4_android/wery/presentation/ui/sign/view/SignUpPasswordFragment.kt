@@ -62,7 +62,13 @@ class SignUpPasswordFragment :
                     goToSignUpNickname()
                 } else {
                     binding.tvPasswordError.isVisible = true
+                    binding.tvPasswordError.text =
+                        requireContext().resources.getString(R.string.sign_up_password_error)
                 }
+            } else {
+                binding.tvPasswordError.isVisible = true
+                binding.tvPasswordError.text =
+                    requireContext().resources.getString(R.string.sign_up_password_length_error)
             }
         }
     }
