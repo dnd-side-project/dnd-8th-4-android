@@ -280,7 +280,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:text="0/25"
+                    android:text="0/30"
                     android:bufferType="spannable"
                     android:textColor="@color/gray600" />
             </RelativeLayout>

@@ -99,7 +99,7 @@
     <string name="create_group_done">완료</string>
     <string name="create_add_photo">사진 추가</string>
     <string name="create_group_name_limit">%d/12</string>
-    <string name="create_group_introduce_limit">%d/25</string>
+    <string name="create_group_introduce_limit">%d/30</string>
 
     <!-- bottomSheetFragment -->
     <string name="bottom_sheet_bookmark">북마크 하기</string>

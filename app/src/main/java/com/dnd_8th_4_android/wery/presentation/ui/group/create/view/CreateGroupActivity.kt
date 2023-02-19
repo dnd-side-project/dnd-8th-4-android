@@ -119,7 +119,7 @@ class CreateGroupActivity :
         setTxtError(
             binding.etvGroupIntroduce,
             binding.tvGroupIntroduceLimit,
-            25,
+            30,
             binding.ivGroupIntroduceClose
         )
 
