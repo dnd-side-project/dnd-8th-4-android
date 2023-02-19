@@ -6,6 +6,7 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.activity.viewModels
 import androidx.core.widget.addTextChangedListener
+import com.dnd_8th_4_android.wery.BuildConfig
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.data.remote.model.write.ResponseSearchPlace.Document
 import com.dnd_8th_4_android.wery.databinding.ActivitySearchPlaceBinding
@@ -40,7 +41,7 @@ class SearchPlaceActivity :
             val searchKeyword = textView.text.toString()
             if (actionId == EditorInfo.IME_ACTION_SEARCH && searchKeyword.isNotEmpty()) {
                 searchPlaceViewModel.getSearchPlace(
-                    "KakaoAK 577bae1f4d5f3e349cb0b4c286bfa7a1",
+                    BuildConfig.KAKAO_API_KEY,
                     binding.etvSearch.text.toString()
                 )
                 binding.etvSearch.hideKeyboard()

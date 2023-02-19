@@ -5,6 +5,9 @@ plugins {
     id 'com.google.dagger.hilt.android'
 }
 
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
 android {
     namespace 'com.dnd_8th_4_android.wery'
     compileSdk 33
@@ -15,6 +18,11 @@ android {
         targetSdk 33
         versionCode 1
         versionName "1.0"
+
+        buildConfigField "String", "KAKAO_NATIVE_APP_KEY", properties['kakao_native_app_key']
+        buildConfigField "String", "KAKAO_API_KEY", properties['kakao_api_key']
+
+        manifestPlaceholders = [KAKAO_NATIVE_APP_KEY: properties['kakao_native_app_key']]
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -87,4 +95,7 @@ dependencies {
 
     // double click listener
     implementation 'com.github.pedromassango:doubleClick:3.0'
+
+    // KaKao Map
+    implementation files('libs/libDaumMapAndroid.jar')
 }
