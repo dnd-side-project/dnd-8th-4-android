@@ -65,7 +65,7 @@
                 android:paddingHorizontal="16dp"
                 android:text="@string/create_group_done"
                 android:textColor="@color/selector_txt"
-                android:enabled="@{viewModel.groupNameTxt.length() >= 1 &amp; 12 > viewModel.groupNameTxt.length() ? true : false}"
+                android:enabled="@{viewModel.groupNameTxt.length() >= 1 &amp; 12 > viewModel.groupNameTxt.length() &amp; viewModel.groupIntroduceTxt.length() >=1 &amp; 30 > viewModel.groupIntroduceTxt.length() ? true : false}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -86,50 +86,41 @@
             android:layout_width="120dp"
             android:layout_height="0dp"
             android:layout_marginTop="20dp"
-            android:background="@drawable/shape_gray100_radius_12_gray200"
+            android:background="@drawable/shap_gray100_radius_40_gray200"
             app:layout_constraintDimensionRatio="1:1"
             android:scaleType="fitXY"
+            android:src="@drawable/ic_location_pink"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/layout_create_group_top" />
 
         <FrameLayout
             android:id="@+id/frame_layout_img"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="0dp"
+            app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintBottom_toBottomOf="@id/iv_group_img"
-            app:layout_constraintEnd_toEndOf="@id/iv_group_img"
-            app:layout_constraintStart_toStartOf="@id/iv_group_img"
-            app:layout_constraintTop_toTopOf="@id/iv_group_img">
+            app:layout_constraintEnd_toEndOf="@id/iv_group_img">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_frame"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
                 <ImageView
                     android:id="@+id/iv_group_camera"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:background="@drawable/shape_oval_white_gray200"
+                    android:scaleType="fitXY"
                     android:src="@drawable/ic_camera_group"
-                    app:layout_constraintBottom_toTopOf="@id/tv_add_photo"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_chainStyle="packed" />
 
-                <TextView
-                    android:id="@+id/tv_add_photo"
-                    style="@style/TextView.Body.14.M"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="@string/create_add_photo"
-                    android:textColor="@color/gray500"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/iv_group_camera" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </FrameLayout>
@@ -280,7 +271,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:text="0/25"
+                    android:text="0/30"
                     android:bufferType="spannable"
                     android:textColor="@color/gray600" />
             </RelativeLayout>

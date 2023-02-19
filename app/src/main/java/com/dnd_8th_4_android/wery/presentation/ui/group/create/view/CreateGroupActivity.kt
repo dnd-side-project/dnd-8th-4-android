@@ -34,19 +34,19 @@ class CreateGroupActivity :
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
             if (isGranted) {
-                openGallery()
+                showSelectImgBottomSheet()
             } else checkRequestPermission()
         }
 
     private val requestPhotoActivity =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == Activity.RESULT_OK) {
-
                 val clipData = it?.data?.clipData
+
                 if (clipData == null) {
-                    val selectedImageUri = it?.data?.data!!
-                    Glide.with(this).load(selectedImageUri).into(binding.ivGroupImg)
-                    binding.frameLayoutImg.visibility = View.GONE
+                    Glide.with(this).load(it?.data?.data!!).into(binding.ivGroupImg)
+                } else {
+                    Glide.with(this).load(clipData.getItemAt(0).uri).into(binding.ivGroupImg)
                 }
             }
         }
@@ -73,7 +73,7 @@ class CreateGroupActivity :
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
             == PackageManager.PERMISSION_GRANTED
         ) {
-            openGallery()
+            showSelectImgBottomSheet()
         } else permissionDialog()
 
     }
@@ -119,7 +119,7 @@ class CreateGroupActivity :
         setTxtError(
             binding.etvGroupIntroduce,
             binding.tvGroupIntroduceLimit,
-            25,
+            30,
             binding.ivGroupIntroduceClose
         )
 
@@ -183,9 +183,13 @@ class CreateGroupActivity :
         binding.frameLayoutImg.setOnClickListener {
             requestPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
         }
-        binding.ivGroupImg.setOnClickListener {
-            openGallery()
-        }
+    }
+
+    private fun showSelectImgBottomSheet() {
+        SelectGroupImgBottomDialog({ openGallery() }, { removePhoto() }).show(
+            supportFragmentManager,
+            null
+        )
     }
 
     private fun openGallery() {
@@ -195,5 +199,10 @@ class CreateGroupActivity :
             action = Intent.ACTION_PICK
         }
         requestPhotoActivity.launch(intent)
+    }
+
+    private fun removePhoto() {
+        // TODO 추후 서버 통신을 위해 이미지 값 null 로 설정할 것
+        Glide.with(this).load(R.drawable.ic_location_pink).into(binding.ivGroupImg)
     }
 }
