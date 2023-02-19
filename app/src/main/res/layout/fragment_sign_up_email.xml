@@ -61,7 +61,7 @@
 
         <TextView
             android:id="@+id/tv_email_error"
-            style="@style/TextView.Body.12.R"
+            style="@style/TextView.Caption.12.R"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"

@@ -73,7 +73,7 @@
     <string name="search_place_hint">장소명, 지번, 도로명으로 검색</string>
 
     <!-- HomeFragment -->
-    <string name="home_search_hint">원하는 키워드를 검색해보세요.</string>
+    <string name="home_search_hint">어떤 추억이 궁금하신가요?</string>
     <string name="home_noGroup_title">가입된 그룹이 없어요</string>
     <string name="home_noGroup_content">초대받은 그룹이 없다면\n친한 친구와 그룹을 만들어보세요!</string>
     <string name="home_group_create">그룹 만들기</string>

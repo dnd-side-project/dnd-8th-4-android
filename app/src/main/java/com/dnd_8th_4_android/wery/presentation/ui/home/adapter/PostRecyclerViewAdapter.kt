@@ -1,6 +1,7 @@
 package com.dnd_8th_4_android.wery.presentation.ui.home.adapter
 
 import android.content.Intent
+import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -87,6 +88,8 @@ class PostRecyclerViewAdapter :
             binding.tvEmotionCount.text = item.emotion.size.toString()
 
             if (item.comment.isNotEmpty()) {
+                binding.tvComment.isVisible = true
+                binding.tvCommentCount.isVisible = true
                 binding.tvCommentCount.text = item.comment.size.toString()
             } else {
                 binding.tvComment.isVisible = false
@@ -96,7 +99,7 @@ class PostRecyclerViewAdapter :
             binding.tvTime.text = item.time
             binding.tvHitCount.text = item.hit
 
-            if (item.isSelectedEmotion != 0) {
+            if (item.isSelectedEmotion != -1) {
                 when (item.isSelectedEmotion) {
                     PopupWindowType.Type1.emotionPosition -> {
                         binding.ivEmotionButton.setImageResource(PopupWindowType.Type1.drawable)
@@ -123,6 +126,7 @@ class PostRecyclerViewAdapter :
                         binding.tvEmotionButton.text = PopupWindowType.Type6.emotionName
                     }
                 }
+                binding.tvEmotionButton.setTypeface(null, Typeface.BOLD)
                 binding.vpPostImage.setCurrentItem(viewPagerPosition, false)
             }
 
@@ -194,7 +198,7 @@ class PostRecyclerViewAdapter :
                 oldItem: ResponsePostData.Data,
                 newItem: ResponsePostData.Data,
             ): Boolean {
-                return oldItem.id == newItem.id
+                return oldItem == newItem
             }
 
             override fun areContentsTheSame(

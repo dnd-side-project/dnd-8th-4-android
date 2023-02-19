@@ -186,7 +186,7 @@
 
                                 <TextView
                                     android:id="@+id/tv_photo_cnt"
-                                    style="@style/TextView.Body.12.R"
+                                    style="@style/TextView.Caption.12.R"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="4dp"
@@ -196,7 +196,7 @@
                                     tools:text="0" />
 
                                 <TextView
-                                    style="@style/TextView.Body.12.R"
+                                    style="@style/TextView.Caption.12.R"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="4dp"

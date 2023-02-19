@@ -4,17 +4,21 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseGroupData
 import com.dnd_8th_4_android.wery.databinding.ItemMyGroupBinding
 
 class GroupRecyclerViewAdapter(
     private val list: MutableList<ResponseGroupData.Data>,
-    initItem: View,
+    initItemImage: View,
+    initItemText: TextView
 ) :
     RecyclerView.Adapter<GroupRecyclerViewAdapter.ViewHolder>() {
     private lateinit var binding: ItemMyGroupBinding
-    var selectedItem = initItem
+    var selectedItemImage = initItemImage
+    var selectedItemText = initItemText
 
     inner class ViewHolder(private val binding: ItemMyGroupBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -22,7 +26,16 @@ class GroupRecyclerViewAdapter(
             binding.ivMyGroup.clipToOutline = true
             binding.tvGroupName.text = item.name
             binding.layoutMyGroup.setOnClickListener {
-                isSelected(itemView)
+                if (selectedItemImage != binding.layoutMyGroupImage) {
+                    selectedItemImage.isSelected = false
+                    selectedItemText.setTextAppearance(R.style.TextView_Caption_12_R)
+
+                    binding.tvGroupName.setTextAppearance(R.style.TextView_Title_12_Sb)
+
+                    binding.ivMyGroup.isSelected = true
+                    binding.layoutMyGroupImage.isSelected = !binding.layoutMyGroupImage.isSelected
+                    selectedItemImage = binding.layoutMyGroupImage
+                }
             }
         }
     }
@@ -37,14 +50,6 @@ class GroupRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(list[position])
-    }
-
-    private fun isSelected(itemView: View) {
-        if (selectedItem != itemView) {
-            selectedItem.isSelected = false
-            itemView.isSelected = !itemView.isSelected
-            selectedItem = itemView
-        }
     }
 
     @SuppressLint("NotifyDataSetChanged")

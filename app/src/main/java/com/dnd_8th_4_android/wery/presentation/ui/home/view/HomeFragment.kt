@@ -9,6 +9,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.PopupWindow
 import android.widget.ScrollView
 import androidx.core.view.isVisible
+import androidx.core.widget.TextViewCompat.setTextAppearance
 import androidx.core.widget.doBeforeTextChanged
 import androidx.fragment.app.viewModels
 import com.dnd_8th_4_android.wery.R
@@ -27,7 +28,6 @@ import com.dnd_8th_4_android.wery.presentation.util.PopupBottomDialogDialog
 import com.dnd_8th_4_android.wery.presentation.util.hideKeyboard
 import com.dnd_8th_4_android.wery.presentation.util.showKeyboard
 import com.google.android.material.bottomnavigation.BottomNavigationView
-
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private val homeViewModel: HomeViewModel by viewModels()
@@ -49,9 +49,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             if (isExistGroup) {
                 makeList()
 
-                binding.activityGroup.layoutAllGroup.isSelected = true
+                binding.activityGroup.ivAllGroup.isSelected = true
+                binding.activityGroup.tvAllGroup.setTextAppearance(R.style.TextView_Title_12_Sb)
+
                 groupRecyclerViewAdapter =
-                    GroupRecyclerViewAdapter(groupList, binding.activityGroup.layoutAllGroup)
+                    GroupRecyclerViewAdapter(
+                        groupList,
+                        binding.activityGroup.ivAllGroup,
+                        binding.activityGroup.tvAllGroup
+                    )
                 binding.activityGroup.rvMyGroup.apply {
                     adapter = groupRecyclerViewAdapter
                     addItemDecoration(
@@ -134,13 +140,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             binding.etSearch.showKeyboard()
         }
 
-        binding.activityGroup.layoutAllGroup.setOnClickListener {
-            if (groupRecyclerViewAdapter.selectedItem != binding.activityGroup.layoutAllGroup) {
-                binding.activityGroup.layoutAllGroup.isSelected =
-                    !binding.activityGroup.layoutAllGroup.isSelected
+        binding.activityGroup.ivAllGroup.setOnClickListener {
+            if (groupRecyclerViewAdapter.selectedItemImage != binding.activityGroup.ivAllGroup) {
+                binding.activityGroup.ivAllGroup.isSelected =
+                    !binding.activityGroup.ivAllGroup.isSelected
+                binding.activityGroup.tvAllGroup.setTextAppearance(R.style.TextView_Title_12_Sb)
+
                 groupRecyclerViewAdapter.apply {
-                    selectedItem.isSelected = false
-                    selectedItem = binding.activityGroup.layoutAllGroup
+                    selectedItemImage.isSelected = false
+                    selectedItemImage = binding.activityGroup.ivAllGroup
+                    selectedItemText = binding.activityGroup.tvAllGroup
                 }
             }
             // TODO 전체보기 피드 호출
@@ -177,7 +186,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 listOf(),
                 "1H:MM",
                 "11",
-                0
+                -1
             ),
             ResponsePostData.Data(
                 2,
@@ -191,7 +200,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 listOf("안녕하세요", "DND 여러분"),
                 "2H:MM",
                 "22",
-                0
+                -1
             ),
             ResponsePostData.Data(
                 3,
@@ -205,7 +214,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 listOf("안녕하세요", "DND 여러분", "adsf", "dsa"),
                 "3H:MM",
                 "33",
-                0
+                -1
             ),
             ResponsePostData.Data(
                 4,
@@ -223,7 +232,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 listOf("안녕하세요", "DND 여러분", "adsf", "dsa"),
                 "4H:MM",
                 "44",
-                0
+                -1
             ),
         )
     }

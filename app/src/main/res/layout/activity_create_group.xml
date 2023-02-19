@@ -195,7 +195,7 @@
 
                 <TextView
                     android:id="@+id/tv_group_name_msg"
-                    style="@style/TextView.Body.12.R"
+                    style="@style/TextView.Caption.12.R"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
@@ -204,7 +204,7 @@
 
                 <TextView
                     android:id="@+id/tv_group_name_limit"
-                    style="@style/TextView.Body.12.R"
+                    style="@style/TextView.Caption.12.R"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -265,7 +265,7 @@
 
                 <TextView
                     android:id="@+id/tv_group_introduce_msg"
-                    style="@style/TextView.Body.12.R"
+                    style="@style/TextView.Caption.12.R"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:visibility="@{viewModel.groupIntroduceTxt.length() > 25 ? View.VISIBLE : View.INVISIBLE}"
@@ -275,7 +275,7 @@
 
                 <TextView
                     android:id="@+id/tv_group_introduce_limit"
-                    style="@style/TextView.Body.12.R"
+                    style="@style/TextView.Caption.12.R"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"

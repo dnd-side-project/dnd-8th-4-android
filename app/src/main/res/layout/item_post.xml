@@ -51,9 +51,10 @@
 
             <TextView
                 android:id="@+id/tv_friend_group"
-                style="@style/TextView.Body.12.R"
+                style="@style/TextView.Caption.12.R"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/gray700"
                 app:layout_constraintBottom_toBottomOf="@+id/layout_friend_image"
                 app:layout_constraintStart_toStartOf="@id/tv_friend_name"
                 app:layout_constraintTop_toBottomOf="@+id/tv_friend_name"
@@ -72,7 +73,7 @@
                 android:id="@+id/iv_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_location"
+                android:src="@drawable/ic_location_pink"
                 app:layout_constraintBottom_toBottomOf="@id/tv_location"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/tv_location" />
@@ -84,14 +85,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="13dp"
-                android:textColor="@color/gray600"
+                android:textColor="@color/color_f47aff"
                 app:layout_constraintStart_toEndOf="@id/iv_location"
                 app:layout_constraintTop_toBottomOf="@id/layout_friend_image"
                 tools:text="고잔동 맥도날드" />
 
             <TextView
                 android:id="@+id/tv_content"
-                style="@style/TextView.Body.14.M.160"
+                style="@style/TextView.Body.14.R.160"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
@@ -142,7 +143,7 @@
 
             <TextView
                 android:id="@+id/tv_emotion_count"
-                style="@style/TextView.Body.12.R"
+                style="@style/TextView.Caption.12.R"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/gray500"
@@ -150,7 +151,7 @@
 
             <TextView
                 android:id="@+id/tv_comment"
-                style="@style/TextView.Body.12.R"
+                style="@style/TextView.Caption.12.R"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -159,7 +160,7 @@
 
             <TextView
                 android:id="@+id/tv_comment_count"
-                style="@style/TextView.Body.12.R"
+                style="@style/TextView.Caption.12.R"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -173,7 +174,7 @@
 
             <TextView
                 android:id="@+id/tv_time"
-                style="@style/TextView.Body.12.R"
+                style="@style/TextView.Caption.12.R"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="4dp"
@@ -189,7 +190,7 @@
 
             <TextView
                 android:id="@+id/tv_hit"
-                style="@style/TextView.Body.12.R"
+                style="@style/TextView.Caption.12.R"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="4dp"
@@ -198,7 +199,7 @@
 
             <TextView
                 android:id="@+id/tv_hit_count"
-                style="@style/TextView.Body.12.R"
+                style="@style/TextView.Caption.12.R"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/gray500"
@@ -240,7 +241,7 @@
 
                 <TextView
                     android:id="@+id/tv_emotion_button"
-                    style="@style/TextView.Body.12.R"
+                    style="@style/TextView.Caption.12.R"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
@@ -277,7 +278,7 @@
 
                 <TextView
                     android:id="@+id/tv_comment_write_button"
-                    style="@style/TextView.Body.12.R"
+                    style="@style/TextView.Caption.12.R"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"

@@ -13,7 +13,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class PostDetailViewModel : ViewModel() {
-    private var oldEmotionData = ResponsePostDetailEmotionData.Data(0, 0)
+    private var oldEmotionData = ResponsePostDetailEmotionData.Data(-1,-1)
     private val popupWindowImage = listOf(
         PopupWindowType.Type1.drawable,
         PopupWindowType.Type2.drawable,
@@ -60,7 +60,7 @@ class PostDetailViewModel : ViewModel() {
             val index = emotionCopyList.indexOf(oldEmotionData)
 
             if (emotionCopyList[index].emotion == popupWindowImage[emotionPosition]) {
-                setOldEmotionData(0, 0)
+                setOldEmotionData(-1, -1)
                 emotionCopyList.removeAt(index)
             } else {
                 setOldEmotionData(emotionPosition, userImage)

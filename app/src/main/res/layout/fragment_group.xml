@@ -30,7 +30,7 @@
 
                 <EditText
                     android:id="@+id/et_search"
-                    style="@style/TextView.Body.12.R"
+                    style="@style/TextView.Caption.12.R"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginEnd="8dp"

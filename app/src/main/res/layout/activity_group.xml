@@ -42,32 +42,26 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_myGroup">
 
-                    <LinearLayout
-                        android:id="@+id/layout_all_group"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:background="@drawable/selector_btn_all_my_group"
-                        android:gravity="center"
+                    <ImageView
+                        android:id="@+id/iv_all_group"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/selector_btn_all_my_group"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_all_my_group" />
-                    </LinearLayout>
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        style="@style/TextView.Body.12.R"
+                        android:id="@+id/tv_all_group"
+                        style="@style/TextView.Caption.12.R"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
                         android:layout_marginTop="8dp"
                         android:text="@string/home_all_my_group"
                         android:textColor="@color/black"
-                        app:layout_constraintEnd_toEndOf="@id/layout_all_group"
-                        app:layout_constraintStart_toStartOf="@id/layout_all_group"
-                        app:layout_constraintTop_toBottomOf="@id/layout_all_group" />
+                        app:layout_constraintEnd_toEndOf="@id/iv_all_group"
+                        app:layout_constraintStart_toStartOf="@id/iv_all_group"
+                        app:layout_constraintTop_toBottomOf="@id/iv_all_group" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.recyclerview.widget.RecyclerView

@@ -56,7 +56,7 @@
 
         <TextView
             android:id="@+id/tv_noGroup_content"
-            style="@style/TextView.Body.12.R.160"
+            style="@style/TextView.Caption.12.R.160"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"

@@ -27,7 +27,7 @@
             android:visibility="@{data.road_address_name.empty == true ? View.VISIBLE : View.GONE}">
 
             <TextView
-                style="@style/TextView.Body.12.R"
+                style="@style/TextView.Caption.12.R"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
@@ -49,7 +49,7 @@
             android:paddingVertical="12dp">
 
             <TextView
-                style="@style/TextView.Body.12.R"
+                style="@style/TextView.Caption.12.R"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
@@ -59,7 +59,7 @@
                 tools:text="중앙역 맞은편" />
 
             <TextView
-                style="@style/TextView.Body.12.R"
+                style="@style/TextView.Caption.12.R"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
