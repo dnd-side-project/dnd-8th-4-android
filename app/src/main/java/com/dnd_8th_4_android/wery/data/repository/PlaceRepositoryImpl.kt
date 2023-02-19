@@ -8,9 +8,8 @@ import javax.inject.Inject
 class PlaceRepositoryImpl @Inject constructor(private val placeRemoteDataSource: PlaceRemoteDataSource) :
     PlaceRepository {
     override suspend fun searchPlace(
-        authorization: String,
         query: String
     ): Result<ResponseSearchPlace> {
-        return placeRemoteDataSource.searchPlace(authorization = authorization, query = query)
+        return placeRemoteDataSource.searchPlace(query = query)
     }
 }

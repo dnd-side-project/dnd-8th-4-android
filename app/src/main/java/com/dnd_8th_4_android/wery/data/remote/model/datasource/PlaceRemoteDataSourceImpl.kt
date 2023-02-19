@@ -7,8 +7,8 @@ import javax.inject.Inject
 class PlaceRemoteDataSourceImpl @Inject constructor(private val placeService: PlaceService) :
     PlaceRemoteDataSource {
 
-    override suspend fun searchPlace(authorization: String, query: String): Result<ResponseSearchPlace> {
-        val response = placeService.searchPlace(authorization, query)
+    override suspend fun searchPlace(query: String): Result<ResponseSearchPlace> {
+        val response = placeService.searchPlace(query=query)
         if (response.isSuccessful) {
             response.body()?.let { return Result.success(it) }
         }
