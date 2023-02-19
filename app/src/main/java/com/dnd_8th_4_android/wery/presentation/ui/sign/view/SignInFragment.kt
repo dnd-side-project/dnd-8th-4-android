@@ -1,6 +1,5 @@
 package com.dnd_8th_4_android.wery.presentation.ui.sign.view
 
-import android.app.Activity
 import android.content.Intent
 import android.text.InputType
 import androidx.fragment.app.viewModels

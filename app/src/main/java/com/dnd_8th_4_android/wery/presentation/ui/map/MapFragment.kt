@@ -10,6 +10,7 @@ import com.dnd_8th_4_android.wery.databinding.FragmentMapBinding
 import com.dnd_8th_4_android.wery.domain.model.DialogInfo
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseFragment
 import com.dnd_8th_4_android.wery.presentation.util.DialogFragmentUtil
+import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
 
 class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {

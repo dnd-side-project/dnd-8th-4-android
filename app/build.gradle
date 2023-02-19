@@ -7,6 +7,7 @@ plugins {
 
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
+def KAKAO_NATIVE_APP_KEY = properties.getProperty('kakao_native_app_key')
 
 android {
     namespace 'com.dnd_8th_4_android.wery'
@@ -19,10 +20,9 @@ android {
         versionCode 1
         versionName "1.0"
 
-        buildConfigField "String", "KAKAO_NATIVE_APP_KEY", properties['kakao_native_app_key']
         buildConfigField "String", "KAKAO_API_KEY", properties['kakao_api_key']
 
-        manifestPlaceholders = [KAKAO_NATIVE_APP_KEY: properties['kakao_native_app_key']]
+        manifestPlaceholders = [KAKAO_NATIVE_APP_KEY: KAKAO_NATIVE_APP_KEY]
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
