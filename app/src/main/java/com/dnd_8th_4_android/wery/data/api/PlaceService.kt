@@ -9,16 +9,10 @@ import retrofit2.http.Query
 import retrofit2.http.Url
 
 interface PlaceService {
-
-    companion object {
-        const val BASE_URL = "https://dapi.kakao.com/v2/"
-    }
-
     @GET
     suspend fun searchPlace(
         @Header("Authorization") authorization: String = BuildConfig.KAKAO_API_KEY,
         @Url url: String = "https://dapi.kakao.com/v2/local/search/keyword.json",
         @Query("query") query: String
     ): Response<ResponseSearchPlace>
-
 }

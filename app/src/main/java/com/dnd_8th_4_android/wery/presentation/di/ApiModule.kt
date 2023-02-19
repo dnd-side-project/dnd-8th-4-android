@@ -1,5 +1,6 @@
 package com.dnd_8th_4_android.wery.presentation.di
 
+import com.dnd_8th_4_android.wery.data.api.AuthService
 import com.dnd_8th_4_android.wery.data.api.PlaceService
 import dagger.Module
 import dagger.Provides
@@ -16,5 +17,11 @@ object ApiModule {
     @Singleton
     fun providePlaceService(retrofit: Retrofit): PlaceService {
         return retrofit.create(PlaceService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAuthService(retrofit: Retrofit): AuthService {
+        return retrofit.create(AuthService::class.java)
     }
 }
