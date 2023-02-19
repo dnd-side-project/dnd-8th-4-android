@@ -41,7 +41,6 @@ class SearchPlaceActivity :
             val searchKeyword = textView.text.toString()
             if (actionId == EditorInfo.IME_ACTION_SEARCH && searchKeyword.isNotEmpty()) {
                 searchPlaceViewModel.getSearchPlace(
-                    BuildConfig.KAKAO_API_KEY,
                     binding.etvSearch.text.toString()
                 )
                 binding.etvSearch.hideKeyboard()

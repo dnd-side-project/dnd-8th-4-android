@@ -1,7 +1,8 @@
-package com.dnd_8th_4_android.wery.domain.repository
+package com.dnd_8th_4_android.wery.data.remote.datasource
 
 import com.dnd_8th_4_android.wery.data.remote.model.write.ResponseSearchPlace
 
-interface PlaceRepository {
+
+interface PlaceRemoteDataSource {
     suspend fun searchPlace(query: String): Result<ResponseSearchPlace>
 }

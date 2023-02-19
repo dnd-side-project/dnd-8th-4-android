@@ -17,9 +17,9 @@ class SearchPlaceViewModel @Inject constructor(private val placeRepository: Plac
     private val _searchPlace = MutableLiveData<List<Document>>()
     var searchPlace: LiveData<List<Document>> = _searchPlace
 
-    fun getSearchPlace(header: String, query: String) {
+    fun getSearchPlace(query: String) {
         viewModelScope.launch {
-            placeRepository.searchPlace(header, query).onSuccess {
+            placeRepository.searchPlace(query).onSuccess {
                 _searchPlace.value = it.documents
             }
         }
