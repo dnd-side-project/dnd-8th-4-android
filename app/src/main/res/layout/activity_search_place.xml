@@ -82,12 +82,11 @@
                 app:layout_constraintStart_toStartOf="@id/etv_search"
                 app:layout_constraintTop_toTopOf="parent" />
 
-
-            <View
+            <Button
                 android:id="@+id/view_focused"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/selector_edittext_search"
+                android:backgroundTint="@color/selector_edittext_search"
                 app:layout_constraintBottom_toBottomOf="@id/etv_search"
                 app:layout_constraintEnd_toEndOf="@id/etv_search"
                 app:layout_constraintStart_toStartOf="@id/etv_search" />
