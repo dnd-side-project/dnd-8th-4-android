@@ -160,11 +160,11 @@
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_group_list"
+                        dividerColor="@{@color/gray100}"
+                        dividerHeight="@{@dimen/group_list_item_divider_height}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        app:dividerColor="@{@color/gray100}"
-                        app:dividerHeight="@{@dimen/group_list_item_divider_height}"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_group_list" />
