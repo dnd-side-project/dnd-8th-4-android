@@ -4,76 +4,91 @@
     <style name="TextView.Title.24.Sb" parent="Widget.AppCompat.TextView">
         <item name="android:fontWeight">600</item>
         <item name="android:textSize">24dp</item>
+        <item name="fontFamily">@font/pretendard_semi_bold</item>
     </style>
 
     <style name="TextView.Title.20.Sb" parent="Widget.AppCompat.TextView">
         <item name="android:fontWeight">600</item>
         <item name="android:textSize">20dp</item>
+        <item name="fontFamily">@font/pretendard_semi_bold</item>
     </style>
 
     <style name="TextView.Title.16.Sb" parent="Widget.AppCompat.TextView">
         <item name="android:fontWeight">600</item>
         <item name="android:textSize">16dp</item>
+        <item name="fontFamily">@font/pretendard_semi_bold</item>
     </style>
 
     <style name="TextView.Title.14.Sb" parent="Widget.AppCompat.TextView">
         <item name="android:fontWeight">600</item>
         <item name="android:textSize">14dp</item>
+        <item name="fontFamily">@font/pretendard_semi_bold</item>
     </style>
 
     <style name="TextView.Title.12.Sb" parent="Widget.AppCompat.TextView">
         <item name="android:fontWeight">600</item>
         <item name="android:textSize">12dp</item>
+        <item name="fontFamily">@font/pretendard_semi_bold</item>
     </style>
 
     <style name="TextView.Body.16.M" parent="Widget.AppCompat.TextView">
         <item name="android:fontWeight">500</item>
         <item name="android:textSize">16dp</item>
+        <item name="fontFamily">@font/pretendard_medium</item>
     </style>
 
     <style name="TextView.Body.14.M" parent="Widget.AppCompat.TextView">
         <item name="android:fontWeight">500</item>
         <item name="android:textSize">14dp</item>
+        <item name="fontFamily">@font/pretendard_medium</item>
     </style>
 
     <style name="TextView.Body.12.M" parent="Widget.AppCompat.TextView">
         <item name="android:fontWeight">500</item>
         <item name="android:textSize">12dp</item>
+        <item name="fontFamily">@font/pretendard_medium</item>
     </style>
 
     <style name="TextView.Body.12.R" parent="Widget.AppCompat.TextView">
         <item name="android:fontWeight">400</item>
         <item name="android:textSize">12dp</item>
+        <item name="fontFamily">@font/pretendard_regular</item>
     </style>
 
     <style name="TextView.Body.16.R" parent="Widget.AppCompat.TextView">
         <item name="android:fontWeight">400</item>
         <item name="android:textSize">16dp</item>
+        <item name="fontFamily">@font/pretendard_regular</item>
     </style>
 
     <style name="TextView.Body.14.R" parent="Widget.AppCompat.TextView">
         <item name="android:fontWeight">500</item>
         <item name="android:textSize">14dp</item>
+        <item name="fontFamily">@font/pretendard_regular</item>
     </style>
 
     <style name="TextView.Caption.12.R" parent="Widget.AppCompat.TextView">
         <item name="android:fontWeight">400</item>
         <item name="android:textSize">12dp</item>
+        <item name="fontFamily">@font/pretendard_regular</item>
     </style>
 
     <style name="TextView.Caption.10.Sb" parent="Widget.AppCompat.TextView">
         <item name="android:fontWeight">600</item>
         <item name="android:textSize">10dp</item>
+        <item name="fontFamily">@font/pretendard_semi_bold</item>
     </style>
 
     <style name="TextView.Caption.10.M" parent="Widget.AppCompat.TextView">
         <item name="android:fontWeight">500</item>
         <item name="android:textSize">10dp</item>
+        <item name="fontFamily">@font/pretendard_medium</item>
     </style>
 
     <style name="TextView.Caption.10.R" parent="Widget.AppCompat.TextView">
         <item name="android:fontWeight">400</item>
         <item name="android:textSize">10dp</item>
+        <item name="fontFamily">@font/pretendard_regular</item>
     </style>
 
 
@@ -83,6 +98,7 @@
         <item name="android:textSize">24dp</item>
         <item name="android:lineSpacingMultiplier">0</item>
         <item name="android:lineSpacingExtra">38.4dp</item>
+        <item name="fontFamily">@font/pretendard_semi_bold</item>
     </style>
 
     <style name="TextView.Title.20.Sb.160" parent="Widget.AppCompat.TextView">
@@ -90,6 +106,7 @@
         <item name="android:textSize">20dp</item>
         <item name="android:lineSpacingMultiplier">0</item>
         <item name="android:lineSpacingExtra">32dp</item>
+        <item name="fontFamily">@font/pretendard_semi_bold</item>
     </style>
 
     <style name="TextView.Title.16.Sb.160" parent="Widget.AppCompat.TextView">
@@ -97,6 +114,7 @@
         <item name="android:textSize">16dp</item>
         <item name="android:lineSpacingMultiplier">0</item>
         <item name="android:lineSpacingExtra">25.6dp</item>
+        <item name="fontFamily">@font/pretendard_semi_bold</item>
     </style>
 
     <style name="TextView.Title.14.Sb.160" parent="Widget.AppCompat.TextView">
@@ -104,6 +122,7 @@
         <item name="android:textSize">14dp</item>
         <item name="android:lineSpacingMultiplier">0</item>
         <item name="android:lineSpacingExtra">22.4dp</item>
+        <item name="fontFamily">@font/pretendard_semi_bold</item>
     </style>
 
     <style name="TextView.Title.12.Sb.160" parent="Widget.AppCompat.TextView">
@@ -111,6 +130,7 @@
         <item name="android:textSize">14dp</item>
         <item name="android:lineSpacingMultiplier">0</item>
         <item name="android:lineSpacingExtra">19.2dp</item>
+        <item name="fontFamily">@font/pretendard_semi_bold</item>
     </style>
 
     <style name="TextView.Body.16.M.160" parent="Widget.AppCompat.TextView">
@@ -118,6 +138,7 @@
         <item name="android:textSize">16dp</item>
         <item name="android:lineSpacingMultiplier">0</item>
         <item name="android:lineSpacingExtra">25.6dp</item>
+        <item name="fontFamily">@font/pretendard_medium</item>
     </style>
 
     <style name="TextView.Body.14.M.160" parent="Widget.AppCompat.TextView">
@@ -125,6 +146,7 @@
         <item name="android:textSize">14dp</item>
         <item name="android:lineSpacingMultiplier">0</item>
         <item name="android:lineSpacingExtra">22.4dp</item>
+        <item name="fontFamily">@font/pretendard_medium</item>
     </style>
 
     <style name="TextView.Body.12.M.160" parent="Widget.AppCompat.TextView">
@@ -132,6 +154,7 @@
         <item name="android:textSize">12dp</item>
         <item name="android:lineSpacingMultiplier">0</item>
         <item name="android:lineSpacingExtra">19.2dp</item>
+        <item name="fontFamily">@font/pretendard_medium</item>
     </style>
 
     <style name="TextView.Body.16.R.160" parent="Widget.AppCompat.TextView">
@@ -139,6 +162,7 @@
         <item name="android:textSize">16dp</item>
         <item name="android:lineSpacingMultiplier">0</item>
         <item name="android:lineSpacingExtra">25.6dp</item>
+        <item name="fontFamily">@font/pretendard_regular</item>
     </style>
 
     <style name="TextView.Body.14.R.160" parent="Widget.AppCompat.TextView">
@@ -146,6 +170,7 @@
         <item name="android:textSize">14dp</item>
         <item name="android:lineSpacingMultiplier">0</item>
         <item name="android:lineSpacingExtra">22.4dp</item>
+        <item name="fontFamily">@font/pretendard_regular</item>
     </style>
 
     <style name="TextView.Caption.12.R.160" parent="Widget.AppCompat.TextView">
@@ -153,6 +178,7 @@
         <item name="android:textSize">12dp</item>
         <item name="android:lineSpacingMultiplier">0</item>
         <item name="android:lineSpacingExtra">19.2dp</item>
+        <item name="fontFamily">@font/pretendard_regular</item>
     </style>
 
     <style name="TextView.Caption.10.sb.160" parent="Widget.AppCompat.TextView">
@@ -160,6 +186,7 @@
         <item name="android:textSize">10dp</item>
         <item name="android:lineSpacingMultiplier">0</item>
         <item name="android:lineSpacingExtra">16dp</item>
+        <item name="fontFamily">@font/pretendard_semi_bold</item>
     </style>
 
     <style name="TextView.Caption.10.M.160" parent="Widget.AppCompat.TextView">
@@ -167,6 +194,7 @@
         <item name="android:textSize">12dp</item>
         <item name="android:lineSpacingMultiplier">0</item>
         <item name="android:lineSpacingExtra">16dp</item>
+        <item name="fontFamily">@font/pretendard_medium</item>
     </style>
 
     <style name="TextView.Caption.10.R.160" parent="Widget.AppCompat.TextView">
@@ -174,6 +202,7 @@
         <item name="android:textSize">10dp</item>
         <item name="android:lineSpacingMultiplier">0</item>
         <item name="android:lineSpacingExtra">16dp</item>
+        <item name="fontFamily">@font/pretendard_regular</item>
     </style>
 
 
@@ -189,24 +218,28 @@
     <style name="MaterialButton.14.Sb" parent="MaterialButton">
         <item name="android:textSize">14dp</item>
         <item name="android:fontWeight">600</item>
+        <item name="fontFamily">@font/pretendard_semi_bold</item>
     </style>
 
     <style name="MaterialButton.8.14.Sb" parent="MaterialButton">
         <item name="cornerRadius">8dp</item>
         <item name="android:textSize">14dp</item>
         <item name="android:fontWeight">600</item>
+        <item name="fontFamily">@font/pretendard_semi_bold</item>
     </style>
 
     <style name="MaterialButton.8.16.Sb" parent="MaterialButton">
         <item name="cornerRadius">8dp</item>
         <item name="android:textSize">16dp</item>
         <item name="android:fontWeight">600</item>
+        <item name="fontFamily">@font/pretendard_semi_bold</item>
     </style>
 
     <style name="MaterialButton.8.16.M" parent="MaterialButton">
         <item name="cornerRadius">8dp</item>
         <item name="android:textSize">16dp</item>
         <item name="android:fontWeight">500</item>
+        <item name="fontFamily">@font/pretendard_medium</item>
     </style>
 
     <!--  BottomDialog  -->

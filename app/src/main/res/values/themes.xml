@@ -13,6 +13,5 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
         <item name="android:includeFontPadding">false</item>
-        <item name="fontFamily">@font/pretendard_regular</item>
     </style>
 </resources>

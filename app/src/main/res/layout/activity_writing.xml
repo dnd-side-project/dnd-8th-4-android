@@ -112,7 +112,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginStart="16dp"
                         android:paddingVertical="14dp"
-                        android:src="@drawable/ic_location" />
+                        android:src="@drawable/ic_location_pink" />
 
                     <TextView
                         android:id="@+id/tv_add_place"
@@ -125,7 +125,7 @@
                         android:layout_marginEnd="16dp"
                         android:text="@={viewModel.selectedPlace}"
                         android:layout_toEndOf="@id/iv_location"
-                        android:textColor="@{viewModel.selectedPlace.equals(@string/search_place_hint) ? @color/gray500 : @color/gray600}"
+                        android:textColor="@color/color_f47aff"
                         tools:text="@string/search_place_hint" />
 
                     <View
