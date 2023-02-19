@@ -9,6 +9,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.dnd_8th_4_android.wery.R
@@ -39,14 +40,15 @@ class PostRecyclerViewAdapter :
             binding.tvFriendGroup.text = item.groupName
             binding.tvContent.text = item.content
 
-            // ViewPager Padding 설정
-            val pagerPadding = binding.root.resources.getDimension(R.dimen.view_pager_padding_width)
-            val offsetPx = binding.root.resources.getDimension(R.dimen.view_pager_padding_width)
-            binding.vpPostImage.clipChildren = false
-            binding.vpPostImage.setPadding(pagerPadding.toInt(), 0, pagerPadding.toInt(), 0)
+            val pagerPadding = binding.root.resources.getDimensionPixelOffset(R.dimen.view_pager_padding_width) // 아이템의 padding
+            val offsetPx = binding.root.resources.getDimensionPixelOffset(R.dimen.view_pager_offset)// 아이템 간의 간격
+
+            binding.vpPostImage.setPadding(pagerPadding, 0, pagerPadding, 0)
             binding.vpPostImage.setPageTransformer { page, position ->
                 page.translationX = position * offsetPx
             }
+
+            binding.vpPostImage.offscreenPageLimit = 1 // 몇 개의 페이지를 미리 로드 해둘것인지
 
             postImageAdapter = PostImageAdapter(item.contentImage)
             postImageAdapter.setPostDetailImageListener {
