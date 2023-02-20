@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="3dp"
-        android:src="@drawable/img_crying_face"
+        android:src="@drawable/img_happy_face"
         app:layout_constraintBottom_toBottomOf="@id/tv_noMission_title"
         app:layout_constraintStart_toEndOf="@id/tv_noMission_title"
         app:layout_constraintTop_toTopOf="@id/tv_noMission_title" />

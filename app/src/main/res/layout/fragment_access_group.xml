@@ -57,7 +57,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="11dp"
                     android:layout_marginEnd="8dp"
-                    android:src="@drawable/ic_star"
+                    android:src="@drawable/selector_bookmark"
                     app:layout_constraintEnd_toStartOf="@id/iv_search"
                     app:layout_constraintTop_toTopOf="parent" />
 
