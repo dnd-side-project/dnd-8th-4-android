@@ -135,6 +135,8 @@
     <string name="access_group_newest_post">최신 글</string>
     <string name="access_group_mission_ing">진행 중인 미션</string>
     <string name="access_group_invite_button">초대하기</string>
+    <string name="access_group_day">D-%1$d</string>
+    <string name="access_group_d_day">D-day</string>
 
     <!-- NoMissionActivity -->
     <string name="no_mission_title">미션을 추가해 보세요</string>

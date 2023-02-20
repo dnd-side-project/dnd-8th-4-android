@@ -7,7 +7,7 @@ data class ResponseAccessGroupData(
 ) : BaseResponse() {
     data class Data(
         val id: Int,
-        val day: String,
+        val day: Int,
         val content: String,
         val startDay: String,
         val endDay: String,

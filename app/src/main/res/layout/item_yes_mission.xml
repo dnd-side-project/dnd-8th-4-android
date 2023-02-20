@@ -8,6 +8,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_mission"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/shape_gray100_radius_8"
@@ -27,9 +28,11 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
+                android:id="@+id/iv_fire"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="4dp"
+                android:visibility="gone"
                 android:src="@drawable/img_fire" />
 
             <TextView

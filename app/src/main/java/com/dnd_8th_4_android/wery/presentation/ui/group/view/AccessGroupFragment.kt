@@ -1,5 +1,7 @@
 package com.dnd_8th_4_android.wery.presentation.ui.group.view
 
+import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.data.remote.model.group.ResponseAccessGroupData
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponsePostData
@@ -7,11 +9,13 @@ import com.dnd_8th_4_android.wery.databinding.FragmentAccessGroupBinding
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseFragment
 import com.dnd_8th_4_android.wery.presentation.ui.group.adapter.AccessGroupMissionRecyclerViewAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.group.adapter.GroupListRecyclerViewAdapter
+import com.dnd_8th_4_android.wery.presentation.ui.group.viewmodel.AccessGroupViewModel
 import com.dnd_8th_4_android.wery.presentation.ui.home.adapter.PostRecyclerViewAdapter
 import com.dnd_8th_4_android.wery.presentation.util.MarginItemDecoration
 
 class AccessGroupFragment :
     BaseFragment<FragmentAccessGroupBinding>(R.layout.fragment_access_group) {
+    private val viewModel: AccessGroupViewModel by viewModels()
     private lateinit var accessGroupMissionRecyclerViewAdapter: AccessGroupMissionRecyclerViewAdapter
     private lateinit var postRecyclerViewAdapter: PostRecyclerViewAdapter
 
@@ -19,6 +23,8 @@ class AccessGroupFragment :
     private lateinit var postList: MutableList<ResponsePostData.Data>
 
     override fun initStartView() {
+        binding.vm = viewModel
+
         makeList()
 
         postRecyclerViewAdapter = PostRecyclerViewAdapter()
@@ -31,28 +37,54 @@ class AccessGroupFragment :
     }
 
     override fun initDataBinding() {
-        // TODO 미션이 있는지 없는지 판별
+        viewModel.isExistMission.observe(viewLifecycleOwner) { isExistMission ->
+            if (isExistMission) {
+                binding.tvMissionIngCount.isVisible = true
+                binding.tvMissionIngCount.text = postList.size.toString()
 
-        val pagerPadding = resources.getDimensionPixelOffset(R.dimen.view_pager_padding_width)
-        val offsetPx = resources.getDimensionPixelOffset(R.dimen.view_pager_offset_12)
+                val pagerWidth =
+                    resources.getDimensionPixelOffset(R.dimen.accessGroup_viewPager_width)
+                val screenWidth = resources.displayMetrics.widthPixels
+                val pagerPadding = ((screenWidth - pagerWidth) * 0.5).toInt()
 
-        binding.layoutYesMission.vpYesMission.setPadding(pagerPadding, 0, pagerPadding, 0)
-        binding.layoutYesMission.vpYesMission.setPageTransformer { page, position ->
-            page.translationX = position * offsetPx
-        }
-        binding.layoutYesMission.vpYesMission.offscreenPageLimit = 1
-
-        accessGroupMissionRecyclerViewAdapter = AccessGroupMissionRecyclerViewAdapter()
-        accessGroupMissionRecyclerViewAdapter.submitList(missionList)
-        binding.layoutYesMission.vpYesMission.apply {
-            adapter = accessGroupMissionRecyclerViewAdapter
-            addItemDecoration(
-                MarginItemDecoration(
-                    resources.getDimension(R.dimen.accessGroup_mission_item_margin).toInt()
+                binding.layoutYesMission.vpYesMission.clipToPadding = false
+                binding.layoutYesMission.vpYesMission.clipChildren = false
+                binding.layoutYesMission.vpYesMission.setPadding(
+                    14,
+                    0,
+                    pagerPadding,
+                    0
                 )
-            )
+                binding.layoutYesMission.vpYesMission.setPageTransformer { page, _ ->
+                    page.translationX =
+                        resources.getDimensionPixelOffset(R.dimen.view_pager_offset_12).toFloat()
+                }
+                binding.layoutYesMission.vpYesMission.offscreenPageLimit = 1
+
+                accessGroupMissionRecyclerViewAdapter = AccessGroupMissionRecyclerViewAdapter()
+                accessGroupMissionRecyclerViewAdapter.submitList(missionList)
+                binding.layoutYesMission.vpYesMission.apply {
+                    adapter = accessGroupMissionRecyclerViewAdapter
+                    addItemDecoration(
+                        MarginItemDecoration(
+                            resources.getDimension(R.dimen.accessGroup_mission_item_margin).toInt()
+                        )
+                    )
+                }
+                binding.layoutYesMission.vpIndicator.attachTo(binding.layoutYesMission.vpYesMission)
+            } else {
+                binding.tvMissionIngCount.isVisible = true
+            }
         }
-        binding.layoutYesMission.vpIndicator.attachTo(binding.layoutYesMission.vpYesMission)
+
+        viewModel.isMissionCount.observe(viewLifecycleOwner) {
+            if (it != 0) {
+                binding.tvMissionIngCount.isVisible = true
+                binding.tvMissionIngCount.text = postList.size.toString()
+            } else {
+                binding.tvMissionIngCount.isVisible = false
+            }
+        }
     }
 
     override fun initAfterBinding() {
@@ -66,7 +98,7 @@ class AccessGroupFragment :
         missionList = mutableListOf(
             ResponseAccessGroupData.Data(
                 1,
-                "D-11",
+                1,
                 "홍대 기범 생카 가서 예절샷 찍기1",
                 "11.11.11",
                 "22.22.22",
@@ -74,15 +106,23 @@ class AccessGroupFragment :
             ),
             ResponseAccessGroupData.Data(
                 2,
-                "D-22",
+                2,
                 "홍대 기범 생카 가서 예절샷 찍기1",
                 "33.33.33",
                 "44.44.44",
                 false
             ),
             ResponseAccessGroupData.Data(
-                1,
-                "D-11",
+                3,
+                5,
+                "홍대 기범 생카 가서 예절샷 찍기1",
+                "55.55.55",
+                "66.66.66",
+                false
+            ),
+            ResponseAccessGroupData.Data(
+                4,
+                7,
                 "홍대 기범 생카 가서 예절샷 찍기1",
                 "55.55.55",
                 "66.66.66",

@@ -9,4 +9,5 @@
     <dimen name="group_list_item_divider_height">1dp</dimen>
     <dimen name="post_detail_emotion_item_margin">8dp</dimen>
     <dimen name="accessGroup_mission_item_margin">20dp</dimen>
+    <dimen name="accessGroup_viewPager_width">232dp</dimen>
 </resources>
