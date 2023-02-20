@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.data.local.AuthLocalDataSource
 import com.dnd_8th_4_android.wery.domain.model.SplashType
+import com.dnd_8th_4_android.wery.presentation.ui.home.view.MainActivity
 import com.dnd_8th_4_android.wery.presentation.ui.onboard.view.OnBoardingActivity
 import com.dnd_8th_4_android.wery.presentation.ui.sign.view.SignActivity
 
@@ -45,7 +46,7 @@ class SplashActivity : AppCompatActivity() {
         when (type) {
             SplashType.LOGIN -> moveToNextHandler(Intent(this, SignActivity::class.java))
             SplashType.ONBOARD -> moveToNextHandler(Intent(this, OnBoardingActivity::class.java))
-            SplashType.HOME -> moveToNextHandler(Intent(this, OnBoardingActivity::class.java))
+            SplashType.HOME -> moveToNextHandler(Intent(this, MainActivity::class.java))
         }
     }
 

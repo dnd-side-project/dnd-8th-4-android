@@ -29,9 +29,14 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sig
         setPWVisibility()
         setAutoLoginState()
         loginClickListener()
-        binding.btnLogin.setOnClickListener {
-            requireActivity().finish()
-            startActivity(Intent(requireContext(),MainActivity::class.java))
+
+        signInViewModel.signInData.observe(viewLifecycleOwner) {
+            if (it.data != null) {
+                requireActivity().finish()
+                startActivity(Intent(requireActivity(), MainActivity::class.java))
+            } else {
+                showErrorDialog()
+            }
         }
     }
 
@@ -62,24 +67,13 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sig
         }
     }
 
-    // TODO 추후 서버 통신 및 뷰모델 연결 예정
     private fun loginClickListener() {
         // 자동 로그인 상태값 체크
-//        binding.btnLogin.setOnClickListener {
-//            setAutoLogin()
-//
-//            // 홈화면 이동
-//            if (true) {
-//                setAccessToken()
-//                finish()
-//                startActivity(Intent(this, MainActivity::class.java))
-//            } else {
-//                showErrorDialog()
-//            }
-//        }
+        binding.btnLogin.setOnClickListener {
+            setAutoLogin()
+            signInViewModel.getSignInData()
+        }
     }
-
-    private fun setAccessToken() = signInViewModel.saveAccessToken("a")
 
     private fun setAutoLogin() {
         if (binding.cbAutoLogin.isChecked) signInViewModel.saveAutoLoginState(true)
