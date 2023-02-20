@@ -17,7 +17,7 @@
             android:id="@+id/layout_group_image"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:background="@drawable/shape_radius_16_gray100"
+            android:foreground="@drawable/shape_radius_16_gray100"
             android:gravity="center"
             android:padding="1dp"
             app:layout_constraintStart_toStartOf="parent"
@@ -89,5 +89,12 @@
             app:layout_constraintBottom_toBottomOf="@id/iv_group_bookmark"
             app:layout_constraintEnd_toStartOf="@id/tv_group_number"
             app:layout_constraintTop_toTopOf="@id/iv_group_bookmark" />
+
+        <androidx.constraintlayout.helper.widget.Layer
+            android:id="@+id/layer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="layout_group_image, tv_group_name, tv_group_introduce"
+            tools:ignore="MissingConstraints" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

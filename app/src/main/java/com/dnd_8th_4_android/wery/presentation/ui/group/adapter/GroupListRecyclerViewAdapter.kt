@@ -1,11 +1,14 @@
 package com.dnd_8th_4_android.wery.presentation.ui.group.adapter
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.data.remote.model.group.ResponseGroupListData
 import com.dnd_8th_4_android.wery.databinding.ItemGroupListBinding
 
@@ -28,6 +31,10 @@ class GroupListRecyclerViewAdapter :
             binding.ivGroupBookmark.setOnClickListener {
                 bookmarkClickListener.onClicked(adapterPosition)
             }
+
+            binding.layer.setOnClickListener {
+                goToAccessGroup()
+            }
         }
     }
 
@@ -38,6 +45,16 @@ class GroupListRecyclerViewAdapter :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(currentList[position])
+    }
+
+    private fun goToAccessGroup() {
+        val bundle = Bundle()
+        bundle.putString(GROUP_NAME, binding.tvGroupName.text.toString())
+        bundle.putString(GROUP_NUMBER, binding.tvGroupNumber.text.toString())
+
+        binding.root.findNavController().navigate(
+            R.id.action_groupFragment_to_accessGroupFragment, bundle
+        )
     }
 
     fun setBookmarkClickListener(listener: (Int) -> Unit) {
@@ -53,6 +70,9 @@ class GroupListRecyclerViewAdapter :
     }
 
     companion object {
+        const val GROUP_NAME = "group_name"
+        const val GROUP_NUMBER = "group_number"
+
         private val diffUtil = object : DiffUtil.ItemCallback<ResponseGroupListData.Data>() {
             override fun areItemsTheSame(
                 oldItem: ResponseGroupListData.Data,

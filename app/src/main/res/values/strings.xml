@@ -132,4 +132,22 @@
     <string name="post_detail_comment">댓글</string>
     <string name="post_detail_hint">댓글을 남겨주세요.</string>
     <string name="post_detail_hint_sticker">원하는 스티커를 선택해 보세요.</string>
+
+    <!-- AccessGroupFragment -->
+    <string name="access_group_member">그룹 멤버</string>
+    <string name="access_group_newest_post">최신 글</string>
+    <string name="access_group_mission_ing">진행 중인 미션</string>
+    <string name="access_group_invite_button">초대하기</string>
+    <string name="access_group_day">D-%1$d</string>
+    <string name="access_group_d_day">D-day</string>
+
+    <!-- NoMissionActivity -->
+    <string name="no_mission_title">미션을 추가해 보세요</string>
+    <string name="no_mission_content">멤버와 함께 하고 싶은 버킷리스트가 있나요?</string>
+    <string name="no_mission_button">미션 만들기</string>
+
+    <!-- YesMissionActivity -->
+    <string name="yes_mission_day_flow">~</string>
+    <string name="yes_mission_certify">인증하기</string>
+    <string name="yes_mission_certify_write">인증글 쓰기</string>
 </resources>

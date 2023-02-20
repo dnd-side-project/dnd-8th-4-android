@@ -9,7 +9,6 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.dnd_8th_4_android.wery.R
@@ -40,8 +39,10 @@ class PostRecyclerViewAdapter :
             binding.tvFriendGroup.text = item.groupName
             binding.tvContent.text = item.content
 
-            val pagerPadding = binding.root.resources.getDimensionPixelOffset(R.dimen.view_pager_padding_width) // 아이템의 padding
-            val offsetPx = binding.root.resources.getDimensionPixelOffset(R.dimen.view_pager_offset)// 아이템 간의 간격
+            val pagerPadding =
+                binding.root.resources.getDimensionPixelOffset(R.dimen.view_pager_padding_width) // 아이템의 padding
+            val offsetPx =
+                binding.root.resources.getDimensionPixelOffset(R.dimen.view_pager_offset_8)// 아이템 간의 간격
 
             binding.vpPostImage.setPadding(pagerPadding, 0, pagerPadding, 0)
             binding.vpPostImage.setPageTransformer { page, position ->
