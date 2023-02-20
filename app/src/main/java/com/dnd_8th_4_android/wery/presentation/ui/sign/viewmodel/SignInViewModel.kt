@@ -27,8 +27,8 @@ class SignInViewModel @Inject constructor(
         viewModelScope.launch {
             authRemoteDataSource.loginUser(RequestSignInData(id.value!!, pw.value!!)).onSuccess {
                 _signInData.value = it
-                it.data?.let {
-                    saveAccessToken(it.atk)
+                it.data?.let { result ->
+                    saveAccessToken(result.atk)
                 }
             }
         }
