@@ -28,7 +28,7 @@
             style="@style/TextView.Title.20.Sb.160"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="37dp"
             android:text="@string/sign_up_name_title"
             android:textColor="@color/black"
             app:layout_constraintTop_toBottomOf="@id/iv_back" />
@@ -38,7 +38,7 @@
             style="@style/TextView.Title.16.Sb"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="150dp"
+            android:layout_marginTop="156dp"
             android:background="@drawable/selector_et_sign_up"
             android:hint="@string/sign_up_name_hint"
             android:inputType="text"
