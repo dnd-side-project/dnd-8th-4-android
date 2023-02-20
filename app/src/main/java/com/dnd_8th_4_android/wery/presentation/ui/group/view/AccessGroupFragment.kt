@@ -32,9 +32,19 @@ class AccessGroupFragment :
 
     override fun initDataBinding() {
         // TODO 미션이 있는지 없는지 판별
+
+        val pagerPadding = resources.getDimensionPixelOffset(R.dimen.view_pager_padding_width)
+        val offsetPx = resources.getDimensionPixelOffset(R.dimen.view_pager_offset_12)
+
+        binding.layoutYesMission.vpYesMission.setPadding(pagerPadding, 0, pagerPadding, 0)
+        binding.layoutYesMission.vpYesMission.setPageTransformer { page, position ->
+            page.translationX = position * offsetPx
+        }
+        binding.layoutYesMission.vpYesMission.offscreenPageLimit = 1
+
         accessGroupMissionRecyclerViewAdapter = AccessGroupMissionRecyclerViewAdapter()
         accessGroupMissionRecyclerViewAdapter.submitList(missionList)
-        binding.layoutYesMission.rvYesMission.apply {
+        binding.layoutYesMission.vpYesMission.apply {
             adapter = accessGroupMissionRecyclerViewAdapter
             addItemDecoration(
                 MarginItemDecoration(
@@ -42,6 +52,7 @@ class AccessGroupFragment :
                 )
             )
         }
+        binding.layoutYesMission.vpIndicator.attachTo(binding.layoutYesMission.vpYesMission)
     }
 
     override fun initAfterBinding() {
