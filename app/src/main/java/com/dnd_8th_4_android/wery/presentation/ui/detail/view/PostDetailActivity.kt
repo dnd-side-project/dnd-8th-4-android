@@ -149,9 +149,9 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
             Handler(Looper.getMainLooper())
                 .postDelayed({
                     binding.scrollView.fullScroll(ScrollView.FOCUS_DOWN)
-                    binding.etComment.requestFocus()
-                    binding.etComment.showKeyboard()
-                }, 100)
+                }, 300)
+            binding.etComment.requestFocus()
+            binding.etComment.showKeyboard()
         }
 
         binding.ivBack.setOnClickListener {
