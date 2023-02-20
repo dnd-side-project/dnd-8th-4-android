@@ -28,4 +28,5 @@
     <color name="color_80000000">#80000000</color>
     <color name="color_1af47aff">#1AF47AFF</color>
     <color name="color_33f47aff">#33F47AFF</color>
+    <color name="color_33black">#33000000</color>
 </resources>

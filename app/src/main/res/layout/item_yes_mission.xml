@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_gray100_radius_8"
+    android:backgroundTint="@color/color_3f75ff">
+
+    <LinearLayout
+        android:id="@+id/layout_day"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/shape_33black_radius_4"
+        android:orientation="horizontal"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="4dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:src="@drawable/img_fire" />
+
+        <TextView
+            style="@style/TextView.Title.12.Sb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            tools:text="D-3" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_mission_content"
+        style="@style/TextView.Title.14.Sb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="@id/layout_day"
+        app:layout_constraintTop_toBottomOf="@id/layout_day"
+        tools:text="홍대 기범 생카 가서 예절샷 찍기" />
+
+    <TextView
+        android:id="@+id/tv_start_day"
+        style="@style/TextView.Caption.10.R"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="@id/tv_mission_content"
+        app:layout_constraintTop_toBottomOf="@id/tv_mission_content"
+        tools:text="23.02.10" />
+
+    <TextView
+        android:id="@+id/tv_day_flow"
+        style="@style/TextView.Caption.10.R"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
+        android:text="@string/yes_mission_day_flow"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@id/tv_start_day"
+        app:layout_constraintStart_toEndOf="@id/tv_start_day"
+        app:layout_constraintTop_toTopOf="@id/tv_start_day" />
+
+    <TextView
+        style="@style/TextView.Caption.10.R"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toEndOf="@id/tv_day_flow"
+        app:layout_constraintTop_toTopOf="@id/tv_start_day"
+        tools:text="23.02.16" />
+
+    <com.google.android.material.button.MaterialButton
+        style="@style/MaterialButton.8.12.Sb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="20dp"
+        android:backgroundTint="@color/black"
+        android:paddingVertical="8dp"
+        android:text="@string/yes_mission_certify"
+        app:icon="@drawable/ic_check"
+        app:iconGravity="textStart"
+        app:iconPadding="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_start_day" />
+</androidx.constraintlayout.widget.ConstraintLayout>

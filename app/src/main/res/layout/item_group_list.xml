@@ -17,7 +17,7 @@
             android:id="@+id/layout_group_image"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:background="@drawable/shape_radius_16_gray100"
+            android:foreground="@drawable/shape_radius_16_gray100"
             android:gravity="center"
             android:padding="1dp"
             app:layout_constraintStart_toStartOf="parent"
