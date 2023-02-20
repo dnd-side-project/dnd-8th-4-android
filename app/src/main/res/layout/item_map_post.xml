@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_post_preview">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.7" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_post_left"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:paddingVertical="16dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tv_title"
+                style="@style/TextView.Title.14.Sb"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toTopOf="@id/tv_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="안산 포터블 커피" />
+
+            <TextView
+                android:id="@+id/tv_content"
+                style="@style/TextView.Caption.12.R.160"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:ellipsize="end"
+                android:maxLines="3"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toTopOf="@id/iv_group_img"
+                app:layout_constraintStart_toStartOf="@id/tv_title"
+                app:layout_constraintTop_toBottomOf="@id/tv_title"
+                tools:text="오늘 지예랑 새로 생긴 카페 갔지롱 인절미 라떼가 진짜 맛있더라 세상엔 왜 이렇게 맛있는 것들이 많은 걸까 다음엔 너희랑도 같이 가보고 싶어." />
+
+            <ImageView
+                android:id="@+id/iv_group_img"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/shape_gray100_radius_8"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintStart_toStartOf="@id/tv_content"
+                app:layout_constraintTop_toBottomOf="@id/tv_content" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="@id/iv_group_img"
+                app:layout_constraintStart_toEndOf="@id/iv_group_img"
+                app:layout_constraintTop_toTopOf="@id/iv_group_img">
+
+                <TextView
+                    android:id="@+id/tv_group_name"
+                    style="@style/TextView.Body.12.M"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:textColor="@color/gray700"
+                    tools:text="안산 뉴진스" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="4dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_dot" />
+
+                <TextView
+                    android:id="@+id/tv_create_date"
+                    style="@style/TextView.Caption.12.R"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="@color/gray500"
+                    tools:text="2023.02.19" />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <ImageView
+            android:id="@+id/iv_group_photo"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginVertical="40dp"
+            android:scaleType="fitXY"
+            android:background="@drawable/shape_gray100_radius_8"
+            tools:src="@drawable/img_no_group"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/layout_post_left"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_photo_cnt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            style="@style/TextView.Caption.10.M"
+            android:gravity="center"
+            android:padding="6dp"
+            android:background="@drawable/shape_oval_b3000000"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="@id/iv_group_photo"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="@id/iv_group_photo"
+            tools:text="4" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
