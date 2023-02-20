@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.text.InputFilter
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.PopupWindow
@@ -149,7 +148,7 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
             Handler(Looper.getMainLooper())
                 .postDelayed({
                     binding.scrollView.fullScroll(ScrollView.FOCUS_DOWN)
-                }, 300)
+                }, 500)
             binding.etComment.requestFocus()
             binding.etComment.showKeyboard()
         }

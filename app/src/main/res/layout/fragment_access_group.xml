@@ -7,193 +7,201 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/iv_group_image"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="fitXY"
-            android:src="@drawable/img_sample"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/iv_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="11dp"
-            android:src="@drawable/ic_back_white"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/iv_search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="11dp"
-            android:layout_marginEnd="16dp"
-            android:src="@drawable/ic_search_24"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="11dp"
-            android:layout_marginEnd="8dp"
-            android:src="@drawable/ic_star"
-            app:layout_constraintEnd_toStartOf="@id/iv_search"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_group_name"
-            style="@style/TextView.Title.20.Sb"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginBottom="64dp"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="@id/iv_group_image"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:text="몬베베와 샤월들" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:src="@drawable/ic_next_white"
-            app:layout_constraintBottom_toBottomOf="@id/tv_group_name"
-            app:layout_constraintStart_toEndOf="@id/tv_group_name"
-            app:layout_constraintTop_toTopOf="@id/tv_group_name" />
-
-        <TextView
-            android:id="@+id/tv_group_member"
-            style="@style/TextView.Caption.12.R"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:text="@string/access_group_member"
-            android:textColor="@color/white"
-            app:layout_constraintStart_toStartOf="@id/tv_group_name"
-            app:layout_constraintTop_toBottomOf="@id/tv_group_name" />
-
-        <TextView
-            style="@style/TextView.Caption.12.R"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="@id/tv_group_member"
-            app:layout_constraintStart_toEndOf="@id/tv_group_member"
-            app:layout_constraintTop_toTopOf="@id/tv_group_member"
-            tools:text="12" />
-
-        <com.google.android.material.button.MaterialButton
-            style="@style/MaterialButton.40.12.R"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="40dp"
-            android:backgroundTint="@android:color/transparent"
-            android:paddingHorizontal="12dp"
-            android:paddingVertical="8dp"
-            android:text="@string/access_group_invite_button"
-            app:icon="@drawable/ic_invite"
-            app:iconPadding="4dp"
-            app:layout_constraintBottom_toBottomOf="@id/iv_group_image"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:strokeColor="@color/white"
-            app:strokeWidth="1dp" />
-
-        <TextView
-            android:id="@+id/tv_mission_ing"
-            style="@style/TextView.Title.16.Sb"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="20dp"
-            android:text="@string/access_group_mission_ing"
-            android:textColor="@color/black"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_group_image" />
-
-        <TextView
-            style="@style/TextView.Title.16.Sb"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:textColor="@color/color_f47aff"
-            app:layout_constraintBottom_toBottomOf="@id/tv_mission_ing"
-            app:layout_constraintStart_toEndOf="@id/tv_mission_ing"
-            app:layout_constraintTop_toTopOf="@id/tv_mission_ing"
-            tools:text="4" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_mission"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/tv_mission_ing">
-
-            <include
-                android:id="@+id/layout_no_mission"
-                layout="@layout/activity_no_mission"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginVertical="20dp"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <include
-                android:id="@+id/layout_yes_mission"
-                layout="@layout/activity_yes_mission"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <View
-            android:id="@+id/view_line"
-            android:layout_width="match_parent"
-            android:layout_height="8dp"
-            android:background="@color/gray100"
-            app:layout_constraintTop_toBottomOf="@id/layout_mission" />
-
-        <TextView
-            android:id="@+id/tv_newest_post"
-            style="@style/TextView.Title.16.Sb"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="20dp"
-            android:text="@string/access_group_newest_post"
-            android:textColor="@color/black"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/view_line" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_myGroup_post"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/tv_newest_post" />
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginBottom="?android:attr/actionBarSize"
-            android:background="@color/gray100"
-            app:layout_constraintTop_toBottomOf="@id/rv_myGroup_post">
+            android:layout_height="match_parent">
 
-            <TextView
-                android:layout_width="44dp"
-                android:layout_height="16dp"
-                android:background="@color/gray400"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+            <ImageView
+                android:id="@+id/iv_group_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="fitXY"
+                android:src="@drawable/img_sample"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="11dp"
+                android:src="@drawable/ic_back_white"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/iv_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="11dp"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/ic_search_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="11dp"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/ic_star"
+                app:layout_constraintEnd_toStartOf="@id/iv_search"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_group_name"
+                style="@style/TextView.Title.20.Sb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="64dp"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="@id/iv_group_image"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="몬베베와 샤월들" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:src="@drawable/ic_next_white"
+                app:layout_constraintBottom_toBottomOf="@id/tv_group_name"
+                app:layout_constraintStart_toEndOf="@id/tv_group_name"
+                app:layout_constraintTop_toTopOf="@id/tv_group_name" />
+
+            <TextView
+                android:id="@+id/tv_group_member"
+                style="@style/TextView.Caption.12.R"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/access_group_member"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toStartOf="@id/tv_group_name"
+                app:layout_constraintTop_toBottomOf="@id/tv_group_name" />
+
+            <TextView
+                android:id="@+id/tv_group_member_number"
+                style="@style/TextView.Caption.12.R"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="@id/tv_group_member"
+                app:layout_constraintStart_toEndOf="@id/tv_group_member"
+                app:layout_constraintTop_toTopOf="@id/tv_group_member"
+                tools:text="12" />
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/MaterialButton.40.12.R"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="40dp"
+                android:backgroundTint="@android:color/transparent"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="8dp"
+                android:text="@string/access_group_invite_button"
+                app:icon="@drawable/ic_invite"
+                app:iconPadding="4dp"
+                app:layout_constraintBottom_toBottomOf="@id/iv_group_image"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:strokeColor="@color/white"
+                app:strokeWidth="1dp" />
+
+            <TextView
+                android:id="@+id/tv_mission_ing"
+                style="@style/TextView.Title.16.Sb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="20dp"
+                android:text="@string/access_group_mission_ing"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_group_image" />
+
+            <TextView
+                style="@style/TextView.Title.16.Sb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:textColor="@color/color_f47aff"
+                app:layout_constraintBottom_toBottomOf="@id/tv_mission_ing"
+                app:layout_constraintStart_toEndOf="@id/tv_mission_ing"
+                app:layout_constraintTop_toTopOf="@id/tv_mission_ing"
+                tools:text="4" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_mission"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/tv_mission_ing">
+
+                <include
+                    android:id="@+id/layout_no_mission"
+                    layout="@layout/activity_no_mission"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginVertical="20dp"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <include
+                    android:id="@+id/layout_yes_mission"
+                    layout="@layout/activity_yes_mission"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:id="@+id/view_line"
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:background="@color/gray100"
+                app:layout_constraintTop_toBottomOf="@id/layout_mission" />
+
+            <TextView
+                android:id="@+id/tv_newest_post"
+                style="@style/TextView.Title.16.Sb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="20dp"
+                android:text="@string/access_group_newest_post"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view_line" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_myGroup_post"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintTop_toBottomOf="@id/tv_newest_post" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="?android:attr/actionBarSize"
+                android:background="@color/gray100"
+                app:layout_constraintTop_toBottomOf="@id/rv_myGroup_post">
+
+                <TextView
+                    android:layout_width="44dp"
+                    android:layout_height="16dp"
+                    android:background="@color/gray400"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 </layout>
