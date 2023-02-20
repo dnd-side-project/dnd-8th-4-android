@@ -56,13 +56,13 @@
 
         <TextView
             android:id="@+id/tv_noGroup_content"
-            style="@style/TextView.Caption.12.R.160"
+            style="@style/TextView.Body.14.R.160"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
             android:text="@string/home_noGroup_content"
             android:textAlignment="center"
-            android:textColor="@color/gray500"
+            android:textColor="@color/gray700"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/layout_noGroup_title" />

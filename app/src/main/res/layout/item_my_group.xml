@@ -16,7 +16,7 @@
             android:id="@+id/layout_my_group_image"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:background="@drawable/selector_btn_group"
+            android:foreground="@drawable/selector_btn_group"
             android:gravity="center"
             android:padding="1dp"
             app:layout_constraintEnd_toEndOf="@id/layout_my_group"
@@ -27,7 +27,6 @@
                 android:id="@+id/iv_my_group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/selector_btn_group"
                 android:src="@drawable/img_no_group" />
         </LinearLayout>
 

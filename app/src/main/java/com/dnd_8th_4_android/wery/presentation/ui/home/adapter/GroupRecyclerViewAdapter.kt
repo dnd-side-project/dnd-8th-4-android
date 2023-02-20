@@ -1,6 +1,7 @@
 package com.dnd_8th_4_android.wery.presentation.ui.home.adapter
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +14,7 @@ import com.dnd_8th_4_android.wery.databinding.ItemMyGroupBinding
 class GroupRecyclerViewAdapter(
     private val list: MutableList<ResponseGroupData.Data>,
     initItemImage: View,
-    initItemText: TextView
+    initItemText: TextView,
 ) :
     RecyclerView.Adapter<GroupRecyclerViewAdapter.ViewHolder>() {
     private lateinit var binding: ItemMyGroupBinding
@@ -25,16 +26,17 @@ class GroupRecyclerViewAdapter(
         fun bind(item: ResponseGroupData.Data) {
             binding.ivMyGroup.clipToOutline = true
             binding.tvGroupName.text = item.name
+
             binding.layoutMyGroup.setOnClickListener {
                 if (selectedItemImage != binding.layoutMyGroupImage) {
                     selectedItemImage.isSelected = false
                     selectedItemText.setTextAppearance(R.style.TextView_Caption_12_R)
 
                     binding.tvGroupName.setTextAppearance(R.style.TextView_Title_12_Sb)
-
-                    binding.ivMyGroup.isSelected = true
                     binding.layoutMyGroupImage.isSelected = !binding.layoutMyGroupImage.isSelected
+
                     selectedItemImage = binding.layoutMyGroupImage
+                    selectedItemText = binding.tvGroupName
                 }
             }
         }

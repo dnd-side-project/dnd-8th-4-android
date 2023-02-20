@@ -9,7 +9,6 @@ import android.view.inputmethod.EditorInfo
 import android.widget.PopupWindow
 import android.widget.ScrollView
 import androidx.core.view.isVisible
-import androidx.core.widget.TextViewCompat.setTextAppearance
 import androidx.core.widget.doBeforeTextChanged
 import androidx.fragment.app.viewModels
 import com.dnd_8th_4_android.wery.R
@@ -142,17 +141,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
         binding.activityGroup.ivAllGroup.setOnClickListener {
             if (groupRecyclerViewAdapter.selectedItemImage != binding.activityGroup.ivAllGroup) {
+                with(groupRecyclerViewAdapter) {
+                    selectedItemImage.isSelected = false
+                    selectedItemText.setTextAppearance(R.style.TextView_Caption_12_R)
+                    selectedItemImage = binding.activityGroup.ivAllGroup
+                    selectedItemText = binding.activityGroup.tvAllGroup
+                }
+
                 binding.activityGroup.ivAllGroup.isSelected =
                     !binding.activityGroup.ivAllGroup.isSelected
                 binding.activityGroup.tvAllGroup.setTextAppearance(R.style.TextView_Title_12_Sb)
 
-                groupRecyclerViewAdapter.apply {
-                    selectedItemImage.isSelected = false
-                    selectedItemImage = binding.activityGroup.ivAllGroup
-                    selectedItemText = binding.activityGroup.tvAllGroup
-                }
+                // TODO 전체보기 피드 호출
             }
-            // TODO 전체보기 피드 호출
         }
 
         binding.btnFloatingAction.setOnClickListener {
