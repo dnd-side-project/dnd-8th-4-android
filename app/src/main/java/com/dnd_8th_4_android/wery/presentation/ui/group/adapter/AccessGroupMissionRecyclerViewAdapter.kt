@@ -19,7 +19,7 @@ class AccessGroupMissionRecyclerViewAdapter :
     ) {
     private lateinit var binding: ItemYesMissionBinding
 
-    class ViewHolder(private val binding: ItemYesMissionBinding) :
+    inner class ViewHolder(private val binding: ItemYesMissionBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ResponseAccessGroupData.Data) {
 
@@ -59,7 +59,17 @@ class AccessGroupMissionRecyclerViewAdapter :
             binding.tvStartDay.text = item.startDay
             binding.tvEndDay.text = item.endDay
 
-            // TODO 버튼 Selected 처리
+            if (item.isSelected) {
+                binding.btnCertify.icon =
+                    ContextCompat.getDrawable(binding.root.context, R.drawable.ic_check_write)
+                binding.btnCertify.text =
+                    binding.root.resources.getString(R.string.yes_mission_certify_write)
+            } else {
+                binding.btnCertify.icon =
+                    ContextCompat.getDrawable(binding.root.context, R.drawable.ic_check)
+                binding.btnCertify.text =
+                    binding.root.resources.getString(R.string.yes_mission_certify)
+            }
         }
     }
 

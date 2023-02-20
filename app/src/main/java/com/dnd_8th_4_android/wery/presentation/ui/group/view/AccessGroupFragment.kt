@@ -126,7 +126,7 @@ class AccessGroupFragment :
                 "홍대 기범 생카 가서 예절샷 찍기1",
                 "55.55.55",
                 "66.66.66",
-                false
+                true
             )
         )
 

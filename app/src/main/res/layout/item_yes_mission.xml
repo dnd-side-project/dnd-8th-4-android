@@ -32,8 +32,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="4dp"
-                android:visibility="gone"
-                android:src="@drawable/img_fire" />
+                android:src="@drawable/img_fire"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/tv_remain_day"
@@ -90,6 +90,7 @@
             tools:text="23.02.16" />
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_certify"
             style="@style/MaterialButton.8.12.Sb"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -98,11 +99,11 @@
             android:layout_marginBottom="20dp"
             android:backgroundTint="@color/black"
             android:paddingVertical="8dp"
-            android:text="@string/yes_mission_certify"
             app:icon="@drawable/ic_check"
             app:iconGravity="textStart"
             app:iconPadding="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_start_day" />
+            app:layout_constraintTop_toBottomOf="@id/tv_start_day"
+            tools:text="인증하기" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

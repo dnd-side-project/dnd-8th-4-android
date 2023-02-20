@@ -146,4 +146,5 @@
     <!-- YesMissionActivity -->
     <string name="yes_mission_day_flow">~</string>
     <string name="yes_mission_certify">인증하기</string>
+    <string name="yes_mission_certify_write">인증글 쓰기</string>
 </resources>
