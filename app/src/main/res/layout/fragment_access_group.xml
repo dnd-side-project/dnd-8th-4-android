@@ -91,6 +91,23 @@
             app:layout_constraintTop_toTopOf="@id/tv_group_member"
             tools:text="12" />
 
+        <com.google.android.material.button.MaterialButton
+            style="@style/MaterialButton.40.12.R"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="40dp"
+            android:backgroundTint="@android:color/transparent"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="8dp"
+            android:text="@string/access_group_invite_button"
+            app:icon="@drawable/ic_invite"
+            app:iconPadding="4dp"
+            app:layout_constraintBottom_toBottomOf="@id/iv_group_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:strokeColor="@color/white"
+            app:strokeWidth="1dp" />
+
         <TextView
             android:id="@+id/tv_mission_ing"
             style="@style/TextView.Title.16.Sb"
@@ -114,31 +131,35 @@
             app:layout_constraintTop_toTopOf="@id/tv_mission_ing"
             tools:text="4" />
 
-        <include
-            android:id="@+id/layout_no_mission"
-            layout="@layout/activity_no_mission"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_mission"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="20dp"
-            app:layout_constraintTop_toBottomOf="@id/tv_mission_ing" />
+            app:layout_constraintTop_toBottomOf="@id/tv_mission_ing">
 
-        <include
-            android:id="@+id/layout_yes_mission"
-            layout="@layout/activity_yes_mission"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="20dp"
-            app:layout_constraintTop_toBottomOf="@id/tv_mission_ing" />
+            <include
+                android:id="@+id/layout_no_mission"
+                layout="@layout/activity_no_mission"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginVertical="20dp"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <include
+                android:id="@+id/layout_yes_mission"
+                layout="@layout/activity_yes_mission"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <View
             android:id="@+id/view_line"
             android:layout_width="match_parent"
             android:layout_height="8dp"
-            android:layout_marginTop="20dp"
             android:background="@color/gray100"
-            app:layout_constraintTop_toBottomOf="@id/layout_no_mission" />
+            app:layout_constraintTop_toBottomOf="@id/layout_mission" />
 
         <TextView
             android:id="@+id/tv_newest_post"
