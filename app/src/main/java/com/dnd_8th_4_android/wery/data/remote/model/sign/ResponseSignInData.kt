@@ -6,7 +6,7 @@ data class ResponseSignInData(
     val data: ResultSignIn?
 ) : BaseResponse() {
     data class ResultSignIn(
-        val id: Long,
+        val id: Int,
         val email: String,
         val name: String,
         val nickName: String,

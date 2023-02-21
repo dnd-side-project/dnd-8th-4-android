@@ -29,6 +29,7 @@ class SignInViewModel @Inject constructor(
                 _signInData.value = it
                 it.data?.let { result ->
                     saveAccessToken(result.atk)
+                    saveUserId(result.id)
                 }
             }
         }
@@ -40,5 +41,9 @@ class SignInViewModel @Inject constructor(
 
     fun saveAutoLoginState(value: Boolean) {
         authLocalDataSource.isAutoLogin = value
+    }
+
+    fun saveUserId(value: Int) {
+        authLocalDataSource.userId = value
     }
 }
