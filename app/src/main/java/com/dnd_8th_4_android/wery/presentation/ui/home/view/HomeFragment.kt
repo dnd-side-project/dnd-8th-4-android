@@ -3,7 +3,6 @@ package com.dnd_8th_4_android.wery.presentation.ui.home.view
 import android.content.Intent
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
@@ -38,7 +37,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private lateinit var groupRecyclerViewAdapter: GroupRecyclerViewAdapter
     private lateinit var postRecyclerViewAdapter: PostRecyclerViewAdapter
 
-    private lateinit var groupList: MutableList<ResponseGroupData.Data.GroupInfo>
+    private var groupList = mutableListOf<ResponseGroupData.Data.GroupInfo>()
     private lateinit var postList: MutableList<ResponsePostData.Data>
 
     override fun initStartView() {

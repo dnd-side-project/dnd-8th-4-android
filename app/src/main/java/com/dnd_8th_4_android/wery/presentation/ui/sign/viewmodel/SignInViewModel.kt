@@ -5,11 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dnd_8th_4_android.wery.data.local.AuthLocalDataSource
-import com.dnd_8th_4_android.wery.data.remote.datasource.AuthRemoteDataSource
 import com.dnd_8th_4_android.wery.data.remote.model.sign.RequestSignInData
 import com.dnd_8th_4_android.wery.data.remote.model.sign.ResponseSignInData
 import com.dnd_8th_4_android.wery.domain.repository.AuthRepository
-import com.dnd_8th_4_android.wery.presentation.di.HttpClient
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
