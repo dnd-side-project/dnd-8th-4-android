@@ -3,6 +3,7 @@ package com.dnd_8th_4_android.wery.presentation.di
 
 import android.content.SharedPreferences
 import com.dnd_8th_4_android.wery.BuildConfig
+import com.dnd_8th_4_android.wery.WeRyApplication.Companion.KAKAO_URL
 import com.dnd_8th_4_android.wery.data.remote.XAccessTokenInterceptor
 import com.dnd_8th_4_android.wery.presentation.di.NetWorkModule_ProvideHttpClientFactory.provideHttpClient
 import dagger.Module
@@ -69,7 +70,7 @@ object NetWorkModule {
         @OtherHttpClient okHttpClient: OkHttpClient,
         gsonConverterFactory: GsonConverterFactory): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("https://dapi.kakao.com/")
+            .baseUrl(KAKAO_URL)
             .client(okHttpClient)
             .addConverterFactory(gsonConverterFactory).build()
     }

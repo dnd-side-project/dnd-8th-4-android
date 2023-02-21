@@ -5,6 +5,11 @@ import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
 class WeRyApplication:Application() {
+
+    companion object {
+        val KAKAO_URL = "https://dapi.kakao.com/"
+    }
+
     override fun onCreate() {
         super.onCreate()
     }
