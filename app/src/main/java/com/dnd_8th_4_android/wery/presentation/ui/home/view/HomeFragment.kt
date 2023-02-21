@@ -3,6 +3,7 @@ package com.dnd_8th_4_android.wery.presentation.ui.home.view
 import android.content.Intent
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
@@ -27,7 +28,9 @@ import com.dnd_8th_4_android.wery.presentation.util.PopupBottomDialogDialog
 import com.dnd_8th_4_android.wery.presentation.util.hideKeyboard
 import com.dnd_8th_4_android.wery.presentation.util.showKeyboard
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private val homeViewModel: HomeViewModel by viewModels()
     private var activityPopupWindowBinding: ActivityPopupWindowBinding? = null
@@ -35,12 +38,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private lateinit var groupRecyclerViewAdapter: GroupRecyclerViewAdapter
     private lateinit var postRecyclerViewAdapter: PostRecyclerViewAdapter
 
-    private lateinit var groupList: MutableList<ResponseGroupData.Data>
+    private lateinit var groupList: MutableList<ResponseGroupData.Data.GroupInfo>
     private lateinit var postList: MutableList<ResponsePostData.Data>
 
     override fun initStartView() {
         activityPopupWindowBinding = ActivityPopupWindowBinding.inflate(layoutInflater)
         binding.vm = homeViewModel
+
+        homeViewModel.getSignGroup()
     }
 
     override fun initDataBinding() {
@@ -167,13 +172,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     }
 
     private fun makeList() {
-        groupList = mutableListOf(
-            ResponseGroupData.Data(1, R.drawable.img_no_group, "안녕하세요"),
-            ResponseGroupData.Data(2, R.drawable.img_no_group, "DND활동중입니다"),
-            ResponseGroupData.Data(3, R.drawable.img_no_group, "저희는8조입니다"),
-            ResponseGroupData.Data(4, R.drawable.img_no_group, "Group111111")
-        )
-
         postList = arrayListOf(
             ResponsePostData.Data(
                 1,

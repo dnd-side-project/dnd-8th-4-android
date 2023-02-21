@@ -1,13 +1,23 @@
 package com.dnd_8th_4_android.wery.presentation.ui.home.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseGroupData
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponsePostData
 import com.dnd_8th_4_android.wery.domain.model.PopupWindowType
+import com.dnd_8th_4_android.wery.domain.repository.HomeRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class HomeViewModel : ViewModel() {
-    private val _isExistGroup = MutableLiveData<Boolean>(true)
+@HiltViewModel
+class HomeViewModel @Inject constructor(private val homeRepository: HomeRepository) : ViewModel() {
+    private var groupList = listOf<ResponseGroupData.Data.GroupInfo>()
+
+    private val _isExistGroup = MutableLiveData<Boolean>()
     val isExistGroup: LiveData<Boolean> = _isExistGroup
 
     private val _isUpdateList = MutableLiveData<MutableList<ResponsePostData.Data>>()
@@ -41,5 +51,21 @@ class HomeViewModel : ViewModel() {
             }
         }
         _isUpdateList.value = postCopyList
+    }
+
+    fun getSignGroup() {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                homeRepository.signGroup()
+            }.onSuccess {
+                _isExistGroup.value = it.data.existGroup
+                groupList = it.data.groupInfoList
+
+                Log.e("태그", _isExistGroup.value.toString())
+                Log.e("태그", groupList.toString())
+            }.onFailure {
+                Log.e("태그", it.message.toString())
+            }
+        }
     }
 }

@@ -10,18 +10,16 @@ import com.dnd_8th_4_android.wery.data.remote.model.group.ResponseGroupListData
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseGroupData
 import com.dnd_8th_4_android.wery.databinding.FragmentGroupBinding
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseFragment
-import com.dnd_8th_4_android.wery.presentation.ui.group.create.view.CreateGroupActivity
-import com.dnd_8th_4_android.wery.presentation.ui.group.adapter.GroupBookmarkRecyclerViewAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.group.adapter.GroupListRecyclerViewAdapter
+import com.dnd_8th_4_android.wery.presentation.ui.group.create.view.CreateGroupActivity
 import com.dnd_8th_4_android.wery.presentation.ui.group.viewmodel.GroupViewModel
-import com.dnd_8th_4_android.wery.presentation.util.MarginItemDecoration
 import com.dnd_8th_4_android.wery.presentation.util.hideKeyboard
 import com.dnd_8th_4_android.wery.presentation.util.showKeyboard
 
 class GroupFragment : BaseFragment<FragmentGroupBinding>(R.layout.fragment_group) {
     private val viewModel: GroupViewModel by viewModels()
 
-    private lateinit var groupRecyclerViewAdapter: GroupBookmarkRecyclerViewAdapter
+//    private lateinit var groupRecyclerViewAdapter: GroupBookmarkRecyclerViewAdapter
     private lateinit var groupListViewAdapter: GroupListRecyclerViewAdapter
 
     private lateinit var groupBookmarkData: MutableList<ResponseGroupData.Data>
@@ -35,17 +33,17 @@ class GroupFragment : BaseFragment<FragmentGroupBinding>(R.layout.fragment_group
         viewModel.isExistGroup.observe(viewLifecycleOwner) { isExistGroup ->
             if (isExistGroup) {
                 makeList()
-                groupRecyclerViewAdapter = GroupBookmarkRecyclerViewAdapter()
-                groupRecyclerViewAdapter.submitList(groupBookmarkData)
-                binding.activityGroupBookmark.rvGroupBookmarkList.apply {
-                    itemAnimator = null
-                    adapter = groupRecyclerViewAdapter
-                    addItemDecoration(
-                        MarginItemDecoration(
-                            resources.getDimension(R.dimen.groupList_item_margin).toInt()
-                        )
-                    )
-                }
+//                groupRecyclerViewAdapter = GroupBookmarkRecyclerViewAdapter()
+//                groupRecyclerViewAdapter.submitList(groupBookmarkData)
+//                binding.activityGroupBookmark.rvGroupBookmarkList.apply {
+//                    itemAnimator = null
+//                    adapter = groupRecyclerViewAdapter
+//                    addItemDecoration(
+//                        MarginItemDecoration(
+//                            resources.getDimension(R.dimen.groupList_item_margin).toInt()
+//                        )
+//                    )
+//                }
 
                 groupListViewAdapter = GroupListRecyclerViewAdapter()
                 groupListViewAdapter.submitList(groupList)
@@ -63,12 +61,12 @@ class GroupFragment : BaseFragment<FragmentGroupBinding>(R.layout.fragment_group
             }
         }
 
-        viewModel.isUpdateBookmark.observe(viewLifecycleOwner) {
-            groupListViewAdapter.submitList(it.toMutableList())
-            groupRecyclerViewAdapter.submitList(viewModel.isUpdateGroup.value!!.toMutableList())
-            groupList = it
-            groupBookmarkData = viewModel.isUpdateGroup.value!!
-        }
+//        viewModel.isUpdateBookmark.observe(viewLifecycleOwner) {
+//            groupListViewAdapter.submitList(it.toMutableList())
+//            groupRecyclerViewAdapter.submitList(viewModel.isUpdateGroup.value!!.toMutableList())
+//            groupList = it
+//            groupBookmarkData = viewModel.isUpdateGroup.value!!
+//        }
     }
 
     override fun initAfterBinding() {

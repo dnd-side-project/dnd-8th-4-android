@@ -7,9 +7,9 @@ import com.dnd_8th_4_android.wery.data.repository.AuthRepositoryImpl
 import com.dnd_8th_4_android.wery.data.repository.PlaceRepositoryImpl
 import com.dnd_8th_4_android.wery.data.repository.SignUpRepositoryImpl
 import com.dnd_8th_4_android.wery.domain.repository.AuthRepository
+
 import com.dnd_8th_4_android.wery.domain.repository.PlaceRepository
 import com.dnd_8th_4_android.wery.domain.repository.SignUpRepository
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -38,5 +38,11 @@ object RepositoryModule {
     @Singleton
     fun provideSignUpRepository(signUpDataSource: SignUpDataSource): SignUpRepository {
         return SignUpRepositoryImpl(signUpDataSource)
+    }
+
+    @Provides
+    @Singleton
+    fun provideHomeRepository(homeDataSource: HomeDataSource): HomeRepository {
+        return HomeRepositoryImpl(homeDataSource)
     }
 }

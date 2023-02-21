@@ -12,7 +12,7 @@ import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseGroupData
 import com.dnd_8th_4_android.wery.databinding.ItemMyGroupBinding
 
 class GroupRecyclerViewAdapter(
-    private val list: MutableList<ResponseGroupData.Data>,
+    private val list: MutableList<ResponseGroupData.Data.GroupInfo>,
     initItemImage: View,
     initItemText: TextView,
 ) :
@@ -23,7 +23,7 @@ class GroupRecyclerViewAdapter(
 
     inner class ViewHolder(private val binding: ItemMyGroupBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: ResponseGroupData.Data) {
+        fun bind(item: ResponseGroupData.Data.GroupInfo) {
             binding.ivMyGroup.clipToOutline = true
             binding.tvGroupName.text = item.name
 
@@ -55,7 +55,7 @@ class GroupRecyclerViewAdapter(
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun submitList(item: MutableList<ResponseGroupData.Data>) {
+    fun submitList(item: MutableList<ResponseGroupData.Data.GroupInfo>) {
         this.list.clear()
         this.list.addAll(item)
         notifyDataSetChanged()
