@@ -1,10 +1,15 @@
 package com.dnd_8th_4_android.wery.presentation.ui.map
 
 import android.Manifest
+import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.location.Location
+import android.location.LocationManager
 import android.net.Uri
 import android.provider.Settings
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.viewModels
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.databinding.FragmentMapBinding
 import com.dnd_8th_4_android.wery.domain.model.DialogInfo
@@ -15,15 +20,20 @@ import net.daum.mf.map.api.MapView
 
 class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
 
+    private lateinit var mapView: MapView
+    // private lateinit var marker: MapPOIItem
+
+    private val mapViewModel: MapViewModel by viewModels()
+
     private val locationPermissionRequest = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { permissions ->
         when {
             permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false) -> {
-                initMapView()
+                getMyCurrentLocation()
             }
             permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {
-                initMapView()
+                getMyCurrentLocation()
             }
             else -> {
                 // 권한 거부
@@ -39,6 +49,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
                 Manifest.permission.ACCESS_COARSE_LOCATION
             )
         )
+
+        initMapView()
     }
 
     private fun permissionDialog() {
@@ -62,9 +74,29 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
         dialog.show(requireActivity().supportFragmentManager, dialog.tag)
     }
 
+    /** 최초 시작 점은 사용자 현재 위치를 기반으로 한다
+     * */
     private fun initMapView() {
-        val mapView = MapView(requireActivity())
+        mapView = MapView(requireActivity())
         binding.layoutMapView.addView(mapView)
+    }
+
+    // 현재 위치 반환 하기
+    @SuppressLint("MissingPermission")
+    private fun getMyCurrentLocation() {
+        // tracking mode on
+        mapView.currentLocationTrackingMode = MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving
+
+        // gps가 켜져있는지 확인
+        val lm: LocationManager = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val myCurrentLocation: Location? = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+        //위도 , 경도
+        mapViewModel.myCurrentLatitude.value = myCurrentLocation?.latitude!!
+        mapViewModel.myCurrentLongitude.value = myCurrentLocation.longitude
+
+        // val myCurrentPosition = MapPoint.mapPointWithGeoCoord(mapViewModel.myCurrentLatitude.value!!, mapViewModel.myCurrentLongitude.value!!)
+
+        mapView.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(mapViewModel.myCurrentLatitude.value!!,mapViewModel.myCurrentLongitude.value!!), 5, false) // 맵의 중심좌표 구하기
     }
 
     override fun initDataBinding() {
