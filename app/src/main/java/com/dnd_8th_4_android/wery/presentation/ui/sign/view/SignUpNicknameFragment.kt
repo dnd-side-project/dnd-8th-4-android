@@ -4,6 +4,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.data.remote.model.sign.RequestSignUpData
 import com.dnd_8th_4_android.wery.databinding.FragmentSignUpNicknameBinding
@@ -46,13 +47,7 @@ class SignUpNicknameFragment :
 
         signUpNicknameViewModel.signUpSuccess.observe(viewLifecycleOwner) {
             if (it) {
-//                val intent = Intent(requireContext(), MainActivity::class.java)
-//                startActivity(intent)
-//                requireActivity().finish()
-            } else {
-                binding.tvNicknameError.isVisible = true
-                binding.tvNicknameError.text =
-                    requireContext().resources.getString(R.string.sign_up_nickname_error)
+                findNavController().navigate(R.id.action_signUpNicknameFragment_to_signInFragment)
             }
         }
     }

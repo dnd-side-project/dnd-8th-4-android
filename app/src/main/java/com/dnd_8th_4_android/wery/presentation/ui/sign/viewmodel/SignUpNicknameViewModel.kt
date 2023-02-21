@@ -2,14 +2,11 @@ package com.dnd_8th_4_android.wery.presentation.ui.sign.viewmodel
 
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dnd_8th_4_android.wery.data.remote.model.sign.RequestSignUpData
-import com.dnd_8th_4_android.wery.data.remote.model.sign.ResponseSignInData
-import com.dnd_8th_4_android.wery.data.remote.model.sign.ResponseSignUpData
 import com.dnd_8th_4_android.wery.domain.repository.SignUpRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -53,7 +50,12 @@ class SignUpNicknameViewModel @Inject constructor(private val signUpRepository: 
             kotlin.runCatching {
                 signUpRepository.signUp(body)
             }.onSuccess {
-                _isExisted.value = it.data == null
+                if (it.data != null) {
+                    _isExisted.value = false
+                    _signUpSuccess.value = true
+                } else {
+                    _isExisted.value = true
+                }
             }.onFailure {
                 Timber.tag("error").d(it.message.toString())
             }

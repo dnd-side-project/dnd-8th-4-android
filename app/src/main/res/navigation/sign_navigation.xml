@@ -55,5 +55,10 @@
         android:name="com.dnd_8th_4_android.wery.presentation.ui.sign.view.SignUpNicknameFragment"
         android:label="SignUpNicknameFragment"
         tools:layout="@layout/fragment_sign_up_nickname">
+        <action
+            android:id="@+id/action_signUpNicknameFragment_to_signInFragment"
+            app:destination="@id/signInFragment"
+            app:popUpTo="@id/signInFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>
