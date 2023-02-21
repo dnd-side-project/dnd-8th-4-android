@@ -25,20 +25,21 @@ class SignUpEmailFragment :
     }
 
     override fun initDataBinding() {
-
+        signUpEmailViewModel.isExisted.observe(viewLifecycleOwner) {
+            if (it) {
+                signViewModel.signUpEmail.value = signUpEmailViewModel.signUpEmail.value
+                goToSignUpPassword()
+            } else {
+                showErrorDialog()
+            }
+        }
     }
 
     override fun initAfterBinding() {
         binding.btnNext.setOnClickListener {
             val email = binding.etEmail.text.toString()
             if (Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-//                TODO 가입된 이메일인지 확인 기능 구현
-//                if (true) {
-                signViewModel.signUpEmail.value = signUpEmailViewModel.signUpEmail.value
-                goToSignUpPassword()
-//                } else {
-//                    showErrorDialog()
-//                }
+                signUpEmailViewModel.emailCheck(email)
             } else {
                 binding.tvEmailError.isVisible = true
             }
