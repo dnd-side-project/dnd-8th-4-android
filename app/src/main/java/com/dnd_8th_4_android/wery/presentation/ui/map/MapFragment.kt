@@ -11,17 +11,18 @@ import android.provider.Settings
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import com.dnd_8th_4_android.wery.R
+import com.dnd_8th_4_android.wery.data.remote.model.map.ResponseMission
 import com.dnd_8th_4_android.wery.databinding.FragmentMapBinding
 import com.dnd_8th_4_android.wery.domain.model.DialogInfo
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseFragment
 import com.dnd_8th_4_android.wery.presentation.util.DialogFragmentUtil
+import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
 
 class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
 
     private lateinit var mapView: MapView
-    // private lateinit var marker: MapPOIItem
 
     private val mapViewModel: MapViewModel by viewModels()
 
@@ -81,22 +82,29 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
         binding.layoutMapView.addView(mapView)
     }
 
-    // 현재 위치 반환 하기
+    // 현재 위치 구하기
     @SuppressLint("MissingPermission")
     private fun getMyCurrentLocation() {
-        // tracking mode on
-        mapView.currentLocationTrackingMode = MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving
+        // 트랙킹 모드 ON
+        mapView.currentLocationTrackingMode =
+            MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving
 
         // gps가 켜져있는지 확인
-        val lm: LocationManager = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val lm: LocationManager =
+            requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
         val myCurrentLocation: Location? = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
         //위도 , 경도
         mapViewModel.myCurrentLatitude.value = myCurrentLocation?.latitude!!
         mapViewModel.myCurrentLongitude.value = myCurrentLocation.longitude
 
-        // val myCurrentPosition = MapPoint.mapPointWithGeoCoord(mapViewModel.myCurrentLatitude.value!!, mapViewModel.myCurrentLongitude.value!!)
-
-        mapView.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(mapViewModel.myCurrentLatitude.value!!,mapViewModel.myCurrentLongitude.value!!), 5, false) // 맵의 중심좌표 구하기
+        mapView.setMapCenterPointAndZoomLevel(
+            MapPoint.mapPointWithGeoCoord(
+                mapViewModel.myCurrentLatitude.value!!,
+                mapViewModel.myCurrentLongitude.value!!
+            ), 5, false
+        ) // 맵의 중심좌표 구하기
+        mapView.currentLocationTrackingMode =
+            MapView.CurrentLocationTrackingMode.TrackingModeOff // 트랙킹 모드 OFF
     }
 
     override fun initDataBinding() {
@@ -107,5 +115,36 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
         binding.layoutReloadCurrentLocation.setOnClickListener {
             getMyCurrentLocation()
         }
+
+        showMissionPinList()
+    }
+
+    // TODO 서버 통신 후 미션 들의 위치 좌표 값을 가져온다
+    // 미션 리스트 띄우기
+    private fun showMissionPinList() {
+        val missionList = mutableListOf<ResponseMission>()
+        missionList.apply {
+            add(ResponseMission(33.450705,126.570677))
+            add(ResponseMission(33.450936,126.569477))
+            add(ResponseMission(33.450879,126.569940))
+            add(ResponseMission(33.450705,126.570738))
+        }
+
+        val missionMarkerArr = arrayListOf<MapPOIItem>()
+        for (i in missionList.indices) {
+            val missionMarker = MapPOIItem()
+            missionMarker.apply {
+                mapPoint = MapPoint.mapPointWithGeoCoord(missionList[i].x, missionList[i].y)
+                markerType = MapPOIItem.MarkerType.CustomImage
+                customImageResourceId = R.drawable.img_pin_mission_pink_default
+                selectedMarkerType = MapPOIItem.MarkerType.CustomImage
+                customSelectedImageResourceId = R.drawable.img_pin_mission_pin_select
+                isCustomImageAutoscale = false
+            }
+            missionMarkerArr.add(missionMarker)
+        }
+
+        val convertToArrayItem = missionMarkerArr.toArray(arrayOfNulls<MapPOIItem>(missionMarkerArr.size))
+        mapView.addPOIItems(convertToArrayItem)
     }
 }

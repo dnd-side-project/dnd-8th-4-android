@@ -5,7 +5,7 @@ import com.dnd_8th_4_android.wery.data.remote.model.write.ResponseSearchPlace
 import com.dnd_8th_4_android.wery.domain.repository.PlaceRepository
 import javax.inject.Inject
 
-class PlaceRepositoryImpl @Inject constructor(private val placeRemoteDataSource: PlaceRemoteDataSource) :
+class PlaceRepositoryImpl (private val placeRemoteDataSource: PlaceRemoteDataSource) :
     PlaceRepository {
     override suspend fun searchPlace(
         query: String

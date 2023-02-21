@@ -1,23 +1,21 @@
 package com.dnd_8th_4_android.wery.data.remote
 
-import android.content.Context
-import com.dnd_8th_4_android.wery.WeRyApplication
-import com.dnd_8th_4_android.wery.data.local.AuthLocalDataSource
+import android.content.SharedPreferences
+import android.util.Log
 import com.dnd_8th_4_android.wery.data.local.AuthLocalDataSource.Companion.ACCESS_TOKEN
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
 import java.io.IOException
+import javax.inject.Inject
 
-class XAccessTokenInterceptor :
+class XAccessTokenInterceptor @Inject constructor(private val sharedPreferences: SharedPreferences) :
     Interceptor {
 
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
-        val sharedPreferences = WeRyApplication().getAppContext()
-            ?.getSharedPreferences(AuthLocalDataSource.WERY_APP, Context.MODE_PRIVATE)
         val builder: Request.Builder = chain.request().newBuilder()
-        val atk: String? = sharedPreferences?.getString(ACCESS_TOKEN, null)
+        val atk: String? = sharedPreferences.getString(ACCESS_TOKEN, null)
         if (atk != null) {
             builder.addHeader("Authorization", "Bearer $atk")
         }
