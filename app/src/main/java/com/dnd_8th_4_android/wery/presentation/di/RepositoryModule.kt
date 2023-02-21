@@ -27,17 +27,16 @@ object RepositoryModule {
         return PlaceRepositoryImpl(placeRemoteDataSource)
     }
 
-    @HttpClient
     @Provides
     @Singleton
-    fun provideSignInRepository(@HttpClient authRemoteDataSource: AuthRemoteDataSource): AuthRepository {
+    fun provideSignInRepository(authRemoteDataSource: AuthRemoteDataSource): AuthRepository {
         return AuthRepositoryImpl(authRemoteDataSource)
     }
 
-    @HttpClient
+
     @Provides
     @Singleton
-    fun provideSignUpRepository(@HttpClient signUpDataSource: SignUpDataSource): SignUpRepository {
+    fun provideSignUpRepository(signUpDataSource: SignUpDataSource): SignUpRepository {
         return SignUpRepositoryImpl(signUpDataSource)
     }
 }

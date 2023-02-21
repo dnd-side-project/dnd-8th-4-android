@@ -10,13 +10,14 @@ import okhttp3.Response
 import java.io.IOException
 import javax.inject.Inject
 
-class XAccessTokenInterceptor @Inject constructor(@HttpClient private val sharedPreferences: SharedPreferences) :
+class XAccessTokenInterceptor @Inject constructor(private val sharedPreferences: SharedPreferences) :
     Interceptor {
 
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
         val builder: Request.Builder = chain.request().newBuilder()
         val atk: String? = sharedPreferences.getString(ACCESS_TOKEN, null)
+        Log.d("kite",atk.toString())
         if (atk != null) {
             builder.addHeader("Authorization", "Bearer $atk")
         }

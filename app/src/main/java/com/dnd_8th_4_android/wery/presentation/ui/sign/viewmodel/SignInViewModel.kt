@@ -17,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SignInViewModel @Inject constructor(
     private val authLocalDataSource: AuthLocalDataSource,
-    @HttpClient private val authRepository: AuthRepository
+    private val authRepository: AuthRepository
 ) : ViewModel() {
     val id = MutableLiveData<String>()
     val pw = MutableLiveData<String>()

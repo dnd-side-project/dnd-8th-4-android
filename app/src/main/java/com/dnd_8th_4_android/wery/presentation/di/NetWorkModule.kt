@@ -21,13 +21,12 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object NetWorkModule {
 
-    @HttpClient
     @Provides
-    fun provideXAccessTokenInterceptor(@HttpClient sharedPreferences: SharedPreferences): Interceptor {
+    @Singleton
+    fun provideXAccessTokenInterceptor(sharedPreferences: SharedPreferences): Interceptor {
         return XAccessTokenInterceptor(sharedPreferences)
     }
 
-    @HttpClient
     @Provides
     @Singleton
     fun provideHttpClient(xAccessTokenInterceptor: XAccessTokenInterceptor): OkHttpClient {
@@ -40,11 +39,10 @@ object NetWorkModule {
             .build()
     }
 
-    @HttpClient
     @Singleton
     @Provides
     fun provideRetrofitInstance(
-        @HttpClient okHttpClient: OkHttpClient,
+        okHttpClient: OkHttpClient,
         gsonConverterFactory: GsonConverterFactory): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BuildConfig.BASE_URL)
@@ -71,7 +69,7 @@ object NetWorkModule {
         @OtherHttpClient okHttpClient: OkHttpClient,
         gsonConverterFactory: GsonConverterFactory): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(BuildConfig.BASE_URL)
+            .baseUrl("https://dapi.kakao.com/")
             .client(okHttpClient)
             .addConverterFactory(gsonConverterFactory).build()
     }

@@ -21,17 +21,16 @@ object ApiModule {
         return retrofit.create(PlaceService::class.java)
     }
 
-    @HttpClient
     @Provides
     @Singleton
-    fun provideAuthService(@HttpClient retrofit: Retrofit): AuthService {
+    fun provideAuthService(retrofit: Retrofit): AuthService {
         return retrofit.create(AuthService::class.java)
     }
 
-    @HttpClient
+
     @Provides
     @Singleton
-    fun provideSignUpService(@HttpClient retrofit: Retrofit): SignUpService {
+    fun provideSignUpService(retrofit: Retrofit): SignUpService {
         return retrofit.create(SignUpService::class.java)
     }
 }

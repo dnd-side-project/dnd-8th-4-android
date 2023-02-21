@@ -8,7 +8,7 @@ import com.dnd_8th_4_android.wery.domain.repository.SignUpRepository
 import com.dnd_8th_4_android.wery.presentation.di.HttpClient
 import javax.inject.Inject
 
-class SignUpRepositoryImpl@Inject constructor(@HttpClient private val signUpDataSource: SignUpDataSource) : SignUpRepository {
+class SignUpRepositoryImpl@Inject constructor(private val signUpDataSource: SignUpDataSource) : SignUpRepository {
 
     override suspend fun emailCheck(email: String): BaseResponse {
         return signUpDataSource.emailCheck(email)

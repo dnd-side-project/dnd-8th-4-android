@@ -21,17 +21,16 @@ object DataSourceModule {
         return PlaceRemoteDataSourceImpl(placeService)
     }
 
-    @HttpClient
+
     @Provides
     @Singleton
-    fun provideAuthDataSource(@HttpClient authService: AuthService): AuthRemoteDataSource {
+    fun provideAuthDataSource(authService: AuthService): AuthRemoteDataSource {
         return AuthRemoteDataSourceImpl(authService)
     }
 
-    @HttpClient
     @Provides
     @Singleton
-    fun provideSignUpDataSource(@HttpClient signUpService: SignUpService): SignUpDataSource {
+    fun provideSignUpDataSource(signUpService: SignUpService): SignUpDataSource {
         return SignUpDataSourceImpl(signUpService)
     }
 }

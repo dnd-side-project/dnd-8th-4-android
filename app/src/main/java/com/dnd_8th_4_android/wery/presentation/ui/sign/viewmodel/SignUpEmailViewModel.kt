@@ -14,7 +14,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class SignUpEmailViewModel @Inject constructor(@HttpClient private val signUpRepository: SignUpRepository) :
+class SignUpEmailViewModel @Inject constructor(private val signUpRepository: SignUpRepository) :
     ViewModel() {
     val signUpEmail = MutableLiveData<String>()
 
