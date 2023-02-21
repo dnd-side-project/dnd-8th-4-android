@@ -104,6 +104,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
     }
 
     override fun initAfterBinding() {
-
+        binding.layoutReloadCurrentLocation.setOnClickListener {
+            getMyCurrentLocation()
+        }
     }
 }
