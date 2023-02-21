@@ -1,12 +1,16 @@
 package com.dnd_8th_4_android.wery.data.remote.model.sign
 
-import com.google.gson.annotations.SerializedName
+import com.dnd_8th_4_android.wery.data.remote.model.BaseResponse
 
-data class ResponseCommentData(
-    @SerializedName("success") val success: Boolean,
-    @SerializedName("data") val data: Data
-) {
+data class ResponseSignUpData(
+    val data: Data?,
+) : BaseResponse() {
     data class Data(
-        @SerializedName("message") val message: String
+        val id: Int,
+        val email: String,
+        val name: String,
+        val nickName: String,
+        val phoneNumber: String,
+        val atk: String,
     )
 }
