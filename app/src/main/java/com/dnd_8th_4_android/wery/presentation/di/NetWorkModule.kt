@@ -19,6 +19,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object NetWorkModule {
 
+    @HttpClient
     @Provides
     @Singleton
     fun provideHttpClient(): OkHttpClient {
@@ -31,10 +32,36 @@ object NetWorkModule {
             .build()
     }
 
+    @HttpClient
     @Singleton
     @Provides
     fun provideRetrofitInstance(
-        okHttpClient: OkHttpClient,
+        @HttpClient okHttpClient: OkHttpClient,
+        gsonConverterFactory: GsonConverterFactory): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(BuildConfig.BASE_URL)
+            .client(okHttpClient)
+            .client(provideHttpClient())
+            .addConverterFactory(gsonConverterFactory).build()
+    }
+
+    @OtherHttpClient
+    @Provides
+    @Singleton
+    fun provideOtherHttpClient(): OkHttpClient {
+        return OkHttpClient.Builder()
+            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+            .readTimeout(15, TimeUnit.SECONDS)
+            .connectTimeout(15, TimeUnit.SECONDS)
+            .writeTimeout(15, TimeUnit.SECONDS)
+            .build()
+    }
+
+    @OtherHttpClient
+    @Singleton
+    @Provides
+    fun provideOtherRetrofitInstance(
+        @OtherHttpClient okHttpClient: OkHttpClient,
         gsonConverterFactory: GsonConverterFactory): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BuildConfig.BASE_URL)

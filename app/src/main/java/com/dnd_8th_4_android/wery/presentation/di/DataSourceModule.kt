@@ -14,21 +14,24 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object DataSourceModule {
 
+    @OtherHttpClient
     @Provides
     @Singleton
-    fun providePlaceDataSource(placeService: PlaceService): PlaceRemoteDataSource {
+    fun providePlaceDataSource(@OtherHttpClient placeService: PlaceService): PlaceRemoteDataSource {
         return PlaceRemoteDataSourceImpl(placeService)
     }
 
+    @HttpClient
     @Provides
     @Singleton
-    fun provideAuthDataSource(authService: AuthService): AuthRemoteDataSource {
+    fun provideAuthDataSource(@HttpClient authService: AuthService): AuthRemoteDataSource {
         return AuthRemoteDataSourceImpl(authService)
     }
 
+    @HttpClient
     @Provides
     @Singleton
-    fun provideSignUpDataSource(signUpService: SignUpService): SignUpDataSource {
+    fun provideSignUpDataSource(@HttpClient signUpService: SignUpService): SignUpDataSource {
         return SignUpDataSourceImpl(signUpService)
     }
 }

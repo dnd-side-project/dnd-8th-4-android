@@ -8,6 +8,8 @@ import com.dnd_8th_4_android.wery.data.local.AuthLocalDataSource
 import com.dnd_8th_4_android.wery.data.remote.datasource.AuthRemoteDataSource
 import com.dnd_8th_4_android.wery.data.remote.model.sign.RequestSignInData
 import com.dnd_8th_4_android.wery.data.remote.model.sign.ResponseSignInData
+import com.dnd_8th_4_android.wery.domain.repository.AuthRepository
+import com.dnd_8th_4_android.wery.presentation.di.HttpClient
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -15,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SignInViewModel @Inject constructor(
     private val authLocalDataSource: AuthLocalDataSource,
-    private val authRemoteDataSource: AuthRemoteDataSource
+    @HttpClient private val authRepository: AuthRepository
 ) : ViewModel() {
     val id = MutableLiveData<String>()
     val pw = MutableLiveData<String>()
@@ -25,7 +27,7 @@ class SignInViewModel @Inject constructor(
 
     fun getSignInData() {
         viewModelScope.launch {
-            authRemoteDataSource.loginUser(RequestSignInData(id.value!!, pw.value!!)).onSuccess {
+            authRepository.loginUser(RequestSignInData(id.value!!, pw.value!!)).onSuccess {
                 _signInData.value = it
                 it.data?.let { result ->
                     saveAccessToken(result.atk)

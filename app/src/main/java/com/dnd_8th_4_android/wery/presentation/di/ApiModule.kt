@@ -14,21 +14,24 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object ApiModule {
 
+    @OtherHttpClient
     @Provides
     @Singleton
-    fun providePlaceService(retrofit: Retrofit): PlaceService {
+    fun providePlaceService(@OtherHttpClient retrofit: Retrofit): PlaceService {
         return retrofit.create(PlaceService::class.java)
     }
 
+    @HttpClient
     @Provides
     @Singleton
-    fun provideAuthService(retrofit: Retrofit): AuthService {
+    fun provideAuthService(@HttpClient retrofit: Retrofit): AuthService {
         return retrofit.create(AuthService::class.java)
     }
 
+    @HttpClient
     @Provides
     @Singleton
-    fun provideSignUpService(retrofit: Retrofit): SignUpService {
+    fun provideSignUpService(@HttpClient retrofit: Retrofit): SignUpService {
         return retrofit.create(SignUpService::class.java)
     }
 }

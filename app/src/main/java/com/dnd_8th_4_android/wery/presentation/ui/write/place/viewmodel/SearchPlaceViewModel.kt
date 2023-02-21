@@ -6,12 +6,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dnd_8th_4_android.wery.data.remote.model.write.ResponseSearchPlace.Document
 import com.dnd_8th_4_android.wery.domain.repository.PlaceRepository
+import com.dnd_8th_4_android.wery.presentation.di.OtherHttpClient
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SearchPlaceViewModel @Inject constructor(private val placeRepository: PlaceRepository) :
+class SearchPlaceViewModel @Inject constructor(@OtherHttpClient private val placeRepository: PlaceRepository) :
     ViewModel() {
 
     private val _searchPlace = MutableLiveData<List<Document>>()

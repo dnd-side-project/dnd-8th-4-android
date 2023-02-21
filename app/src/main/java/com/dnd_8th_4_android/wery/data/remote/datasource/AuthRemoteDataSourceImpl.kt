@@ -3,9 +3,10 @@ package com.dnd_8th_4_android.wery.data.remote.datasource
 import com.dnd_8th_4_android.wery.data.api.AuthService
 import com.dnd_8th_4_android.wery.data.remote.model.sign.RequestSignInData
 import com.dnd_8th_4_android.wery.data.remote.model.sign.ResponseSignInData
+import com.dnd_8th_4_android.wery.presentation.di.HttpClient
 import javax.inject.Inject
 
-class AuthRemoteDataSourceImpl @Inject constructor(private val authService: AuthService) :
+class AuthRemoteDataSourceImpl @Inject constructor(@HttpClient private val authService: AuthService) :
     AuthRemoteDataSource {
 
     override suspend fun loginUser(body: RequestSignInData): Result<ResponseSignInData> {

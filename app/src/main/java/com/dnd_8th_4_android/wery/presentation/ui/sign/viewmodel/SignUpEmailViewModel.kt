@@ -7,13 +7,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dnd_8th_4_android.wery.domain.repository.SignUpRepository
+import com.dnd_8th_4_android.wery.presentation.di.HttpClient
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class SignUpEmailViewModel @Inject constructor(private val signUpRepository: SignUpRepository) :
+class SignUpEmailViewModel @Inject constructor(@HttpClient private val signUpRepository: SignUpRepository) :
     ViewModel() {
     val signUpEmail = MutableLiveData<String>()
 
