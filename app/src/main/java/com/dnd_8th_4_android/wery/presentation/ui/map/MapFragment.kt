@@ -8,7 +8,6 @@ import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
 import android.provider.Settings
-import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import com.dnd_8th_4_android.wery.R
@@ -24,6 +23,7 @@ import net.daum.mf.map.api.MapView
 class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
 
     private lateinit var mapView: MapView
+    private lateinit var eventListener: MarkerEventListener
 
     private val mapViewModel: MapViewModel by viewModels()
 
@@ -81,6 +81,9 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
     private fun initMapView() {
         mapView = MapView(requireActivity())
         binding.layoutMapView.addView(mapView)
+
+        eventListener = MarkerEventListener(requireContext())
+        mapView.setPOIItemEventListener(eventListener)
     }
 
     // 현재 위치 구하기
@@ -146,7 +149,9 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
             missionMarkerArr.add(missionMarker)
         }
 
-        val convertToArrayItem = missionMarkerArr.toArray(arrayOfNulls<MapPOIItem>(missionMarkerArr.size))
+        val convertToArrayItem =
+            missionMarkerArr.toArray(arrayOfNulls<MapPOIItem>(missionMarkerArr.size))
         mapView.addPOIItems(convertToArrayItem)
     }
 }
+
