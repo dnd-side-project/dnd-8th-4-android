@@ -1,5 +1,6 @@
 package com.dnd_8th_4_android.wery.presentation.di
 
+import com.dnd_8th_4_android.wery.data.remote.datasource.PlaceRemoteDataSource
 import com.dnd_8th_4_android.wery.data.remote.datasource.SignUpDataSource
 import com.dnd_8th_4_android.wery.data.repository.PlaceRepositoryImpl
 import com.dnd_8th_4_android.wery.data.repository.SignUpRepositoryImpl
@@ -14,11 +15,11 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object RepositoryModule {
+object RepositoryModule2 {
 
     @Provides
     @Singleton
-    fun provideSignUpRepository(signUpDataSource: SignUpDataSource): SignUpRepository {
-        return SignUpRepositoryImpl(signUpDataSource)
+    fun bindsPlaceRepository(placeRemoteDataSource: PlaceRemoteDataSource): PlaceRepository {
+        return PlaceRepositoryImpl(placeRemoteDataSource)
     }
 }

@@ -102,8 +102,10 @@
     <string name="create_group_introduce_limit">%d/30</string>
     <string name="create_group_select_gallery">앨범에서 선택</string>
     <string name="create_group_delete_group_img">그룹 사진 삭제</string>
-    
+
+    <!-- MapFragment -->
     <string name="map_collect">모아보기</string>
+    <string name="map_search_current_location">현 위치 재검색</string>
     <string name="map_search_hint">어떤 장소가 궁금하신가요?</string>
 
     <!-- bottomSheetFragment -->
