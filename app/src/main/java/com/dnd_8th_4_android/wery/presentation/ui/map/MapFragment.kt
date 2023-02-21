@@ -8,6 +8,7 @@ import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
 import android.provider.Settings
+import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import com.dnd_8th_4_android.wery.R
@@ -114,9 +115,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
     override fun initAfterBinding() {
         binding.layoutReloadCurrentLocation.setOnClickListener {
             getMyCurrentLocation()
+            showMissionPinList()
         }
-
-        showMissionPinList()
     }
 
     // TODO 서버 통신 후 미션 들의 위치 좌표 값을 가져온다
@@ -124,8 +124,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
     private fun showMissionPinList() {
         val missionList = mutableListOf<ResponseMission>()
         missionList.apply {
-            add(ResponseMission(126.570677,33.450705))
-            add(ResponseMission(126.569477,33.450936))
+            add(ResponseMission(33.4507057,126.570677))
+            add(ResponseMission(33.450936,126.569477))
             add(ResponseMission(33.450879,126.569940))
             add(ResponseMission(33.450705,126.570738))
         }
@@ -134,6 +134,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
         for (i in missionList.indices) {
             val missionMarker = MapPOIItem()
             missionMarker.apply {
+                itemName = ""
+                isShowCalloutBalloonOnTouch = false
                 mapPoint = MapPoint.mapPointWithGeoCoord(missionList[i].x, missionList[i].y)
                 markerType = MapPOIItem.MarkerType.CustomImage
                 customImageResourceId = R.drawable.img_pin_mission_pink_default
@@ -141,11 +143,10 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
                 customSelectedImageResourceId = R.drawable.img_pin_mission_pin_select
                 isCustomImageAutoscale = false
             }
-            mapView.addPOIItem(missionMarker)
-            //missionMarkerArr.add(missionMarker)
+            missionMarkerArr.add(missionMarker)
         }
 
-        //val convertToArrayItem = missionMarkerArr.toArray(arrayOfNulls<MapPOIItem>(missionMarkerArr.size))
-        //mapView.addPOIItems(convertToArrayItem)
+        val convertToArrayItem = missionMarkerArr.toArray(arrayOfNulls<MapPOIItem>(missionMarkerArr.size))
+        mapView.addPOIItems(convertToArrayItem)
     }
 }
