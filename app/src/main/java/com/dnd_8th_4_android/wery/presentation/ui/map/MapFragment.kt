@@ -124,8 +124,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
     private fun showMissionPinList() {
         val missionList = mutableListOf<ResponseMission>()
         missionList.apply {
-            add(ResponseMission(33.450705,126.570677))
-            add(ResponseMission(33.450936,126.569477))
+            add(ResponseMission(126.570677,33.450705))
+            add(ResponseMission(126.569477,33.450936))
             add(ResponseMission(33.450879,126.569940))
             add(ResponseMission(33.450705,126.570738))
         }
@@ -141,10 +141,11 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
                 customSelectedImageResourceId = R.drawable.img_pin_mission_pin_select
                 isCustomImageAutoscale = false
             }
-            missionMarkerArr.add(missionMarker)
+            mapView.addPOIItem(missionMarker)
+            //missionMarkerArr.add(missionMarker)
         }
 
-        val convertToArrayItem = missionMarkerArr.toArray(arrayOfNulls<MapPOIItem>(missionMarkerArr.size))
-        mapView.addPOIItems(convertToArrayItem)
+        //val convertToArrayItem = missionMarkerArr.toArray(arrayOfNulls<MapPOIItem>(missionMarkerArr.size))
+        //mapView.addPOIItems(convertToArrayItem)
     }
 }
