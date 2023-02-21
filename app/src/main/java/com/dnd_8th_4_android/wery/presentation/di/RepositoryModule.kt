@@ -1,11 +1,13 @@
 package com.dnd_8th_4_android.wery.presentation.di
 
-import com.dnd_8th_4_android.wery.data.remote.datasource.HomeDataSource
+import com.dnd_8th_4_android.wery.data.remote.datasource.AuthRemoteDataSource
+import com.dnd_8th_4_android.wery.data.remote.datasource.PlaceRemoteDataSource
 import com.dnd_8th_4_android.wery.data.remote.datasource.SignUpDataSource
-import com.dnd_8th_4_android.wery.data.repository.HomeRepositoryImpl
+import com.dnd_8th_4_android.wery.data.repository.AuthRepositoryImpl
 import com.dnd_8th_4_android.wery.data.repository.PlaceRepositoryImpl
 import com.dnd_8th_4_android.wery.data.repository.SignUpRepositoryImpl
-import com.dnd_8th_4_android.wery.domain.repository.HomeRepository
+import com.dnd_8th_4_android.wery.domain.repository.AuthRepository
+
 import com.dnd_8th_4_android.wery.domain.repository.PlaceRepository
 import com.dnd_8th_4_android.wery.domain.repository.SignUpRepository
 import dagger.Module
@@ -18,11 +20,19 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object RepositoryModule {
 
+    @OtherHttpClient
     @Provides
     @Singleton
-    fun bindsPlaceRepository(placeRepositoryImpl: PlaceRepositoryImpl): PlaceRepository {
-        return placeRepositoryImpl
+    fun bindsPlaceRepository(@OtherHttpClient placeRemoteDataSource: PlaceRemoteDataSource): PlaceRepository {
+        return PlaceRepositoryImpl(placeRemoteDataSource)
     }
+
+    @Provides
+    @Singleton
+    fun provideSignInRepository(authRemoteDataSource: AuthRemoteDataSource): AuthRepository {
+        return AuthRepositoryImpl(authRemoteDataSource)
+    }
+
 
     @Provides
     @Singleton

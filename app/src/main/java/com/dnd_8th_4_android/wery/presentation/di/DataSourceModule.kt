@@ -15,11 +15,13 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object DataSourceModule {
 
+    @OtherHttpClient
     @Provides
     @Singleton
-    fun providePlaceDataSource(placeService: PlaceService): PlaceRemoteDataSource {
+    fun providePlaceDataSource(@OtherHttpClient placeService: PlaceService): PlaceRemoteDataSource {
         return PlaceRemoteDataSourceImpl(placeService)
     }
+
 
     @Provides
     @Singleton

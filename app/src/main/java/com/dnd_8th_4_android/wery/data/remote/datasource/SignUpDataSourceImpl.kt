@@ -4,6 +4,7 @@ import com.dnd_8th_4_android.wery.data.api.SignUpService
 import com.dnd_8th_4_android.wery.data.remote.model.BaseResponse
 import com.dnd_8th_4_android.wery.data.remote.model.sign.RequestSignUpData
 import com.dnd_8th_4_android.wery.data.remote.model.sign.ResponseSignUpData
+import com.dnd_8th_4_android.wery.presentation.di.HttpClient
 import javax.inject.Inject
 
 class SignUpDataSourceImpl @Inject constructor(private val signUpService: SignUpService) :
