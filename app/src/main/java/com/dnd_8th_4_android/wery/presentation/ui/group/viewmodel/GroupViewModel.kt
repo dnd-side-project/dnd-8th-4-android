@@ -33,23 +33,23 @@ class GroupViewModel : ViewModel() {
 
         groupCopyList[position].isSelected = !groupCopyList[position].isSelected
 
-        if (groupCopyList[position].isSelected) {
-            groupBookmarkCopyList.add(
-                ResponseGroupData.Data(
-                    groupCopyList[position].id,
-                    groupCopyList[position].image,
-                    groupCopyList[position].name
-                )
-            )
-        } else {
-            groupBookmarkCopyList.remove(
-                ResponseGroupData.Data(
-                    groupCopyList[position].id,
-                    groupCopyList[position].image,
-                    groupCopyList[position].name
-                )
-            )
-        }
+//        if (groupCopyList[position].isSelected) {
+//            groupBookmarkCopyList.add(
+//                ResponseGroupData.Data(
+//                    groupCopyList[position].id,
+//                    groupCopyList[position].image,
+//                    groupCopyList[position].name
+//                )
+//            )
+//        } else {
+//            groupBookmarkCopyList.remove(
+//                ResponseGroupData.Data(
+//                    groupCopyList[position].id,
+//                    groupCopyList[position].image,
+//                    groupCopyList[position].name
+//                )
+//            )
+//        }
         _isUpdateGroup.value = groupBookmarkCopyList
         _isUpdateBookmark.value = groupCopyList
     }
