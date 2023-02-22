@@ -153,5 +153,10 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
             missionMarkerArr.toArray(arrayOfNulls<MapPOIItem>(missionMarkerArr.size))
         mapView.addPOIItems(convertToArrayItem)
     }
+
+    // TODO 서버 통신 후 피드 들의 위치 좌표 값을 가져온다
+    private fun showFeedPinList() {
+
+    }
 }
 
