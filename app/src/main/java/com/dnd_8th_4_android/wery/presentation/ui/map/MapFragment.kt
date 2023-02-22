@@ -4,6 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.BitmapDrawable
 import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
@@ -19,6 +20,7 @@ import com.dnd_8th_4_android.wery.presentation.util.DialogFragmentUtil
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
+
 
 class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
 
@@ -142,10 +144,12 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
                 mapPoint = MapPoint.mapPointWithGeoCoord(missionList[i].x, missionList[i].y)
                 markerType = MapPOIItem.MarkerType.CustomImage
                 customImageResourceId = R.drawable.img_pin_mission_pink_default
+                // customImageBitmap = (binding.ivReload.drawable as BitmapDrawable).bitmap
                 selectedMarkerType = MapPOIItem.MarkerType.CustomImage
                 customSelectedImageResourceId = R.drawable.img_pin_mission_pin_select
                 isCustomImageAutoscale = false
             }
+
             missionMarkerArr.add(missionMarker)
         }
 
