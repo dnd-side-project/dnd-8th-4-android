@@ -11,7 +11,7 @@ class HomeDataSourceImpl @Inject constructor(private val homeService: HomeServic
         return homeService.signGroup()
     }
 
-    override suspend fun allGroupPost(groupId: Int, page: Int): ResponsePostData {
+    override suspend fun allGroupPost(groupId: String, page: Int): ResponsePostData {
         return homeService.allGroupPost(groupId, page)
     }
 }

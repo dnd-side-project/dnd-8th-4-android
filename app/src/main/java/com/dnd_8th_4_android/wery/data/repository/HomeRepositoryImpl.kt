@@ -13,7 +13,7 @@ class HomeRepositoryImpl @Inject constructor(private val homeDataSource: HomeDat
         return homeDataSource.signGroup()
     }
 
-    override suspend fun allGroupPost(groupId: Int, page: Int): ResponsePostData {
+    override suspend fun allGroupPost(groupId: String, page: Int): ResponsePostData {
         return homeDataSource.allGroupPost(groupId, page)
     }
 }

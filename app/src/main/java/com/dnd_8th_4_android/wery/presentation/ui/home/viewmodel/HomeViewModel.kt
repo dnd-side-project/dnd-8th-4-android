@@ -69,7 +69,13 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
 
                 if (it.data.existGroup) {
                     _groupList.value = it.data.groupInfoList
-                    getAllGroupPost(it.data.groupInfoList[0].id, 1)
+
+                    val groupIdList = mutableListOf<Int>()
+                    for (i in it.data.groupInfoList.indices) {
+                        groupIdList.add(it.data.groupInfoList[i].id)
+                    }
+
+                    getAllGroupPost(groupIdList.joinToString(), 1)
                 }
             }.onFailure {
                 Timber.tag("error").d(it.message.toString())
@@ -81,7 +87,7 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
         _postList.value = value
     }
 
-    private fun getAllGroupPost(groupId: Int, page: Int) {
+    private fun getAllGroupPost(groupId: String, page: Int) {
         viewModelScope.launch {
             kotlin.runCatching {
                 homeRepository.allGroupPost(groupId, page)

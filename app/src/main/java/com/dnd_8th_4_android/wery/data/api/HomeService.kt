@@ -12,7 +12,7 @@ interface HomeService {
 
     @GET("/content/group/all")
     suspend fun allGroupPost(
-        @Query("groupId") groupId: Int,
+        @Query("groupId") groupId: String,
         @Query("page") page: Int,
     ): ResponsePostData
 }

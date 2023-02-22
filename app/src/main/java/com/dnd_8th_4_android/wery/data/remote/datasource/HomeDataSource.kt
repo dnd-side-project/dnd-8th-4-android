@@ -8,7 +8,7 @@ interface HomeDataSource {
     suspend fun signGroup(): ResponseGroupData
 
     suspend fun allGroupPost(
-        groupId: Int,
+        groupId: String,
         page: Int,
     ): ResponsePostData
 }
