@@ -1,13 +1,11 @@
 package com.dnd_8th_4_android.wery.presentation.ui.home.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseGroupData
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponsePostData
-import com.dnd_8th_4_android.wery.domain.model.PopupWindowType
 import com.dnd_8th_4_android.wery.domain.repository.HomeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -28,7 +26,11 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
     private val _isUpdateList = MutableLiveData<MutableList<ResponsePostData.Data.Content>>()
     val isUpdateList: LiveData<MutableList<ResponsePostData.Data.Content>> = _isUpdateList
 
-    fun setUpdateList(position: Int, emotionPosition: Int, postList: MutableList<ResponsePostData.Data.Content>) {
+    fun setUpdateList(
+        position: Int,
+        emotionPosition: Int,
+        postList: MutableList<ResponsePostData.Data.Content>,
+    ) {
 //        val postCopyList = postList.map {
 //            it.copy()
 //        } as MutableList<ResponsePostData.Data>

@@ -26,16 +26,24 @@ class PostRecyclerViewAdapter :
     private lateinit var popupBottomClickListener: PopupBottomClickListener
     private lateinit var popupWindowClickListener: PopupWindowClickListener
     private var viewPagerPosition = 0
+    private var emotionDrawable = 0
 
     inner class ViewHolder(private val binding: ItemPostBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ResponsePostData.Data.Content) {
             binding.ivFriendImage.clipToOutline = true
-//            Glide.with(binding.ivFriendImage.context).load(item.image)
-//                .into(binding.ivFriendImage)
+            Glide.with(binding.ivFriendImage.context).load(item.image)
+                .into(binding.ivFriendImage)
 
             binding.tvFriendName.text = item.name
-//            binding.tvLocation.text = item.location
+
+            if (item.location != null) {
+                binding.tvLocation.text = item.location
+            } else {
+                binding.tvLocation.text =
+                    binding.root.resources.getString(R.string.home_item_no_location)
+            }
+
             binding.tvFriendGroup.text = item.groupName
             binding.tvContent.text = item.content
 
@@ -75,7 +83,8 @@ class PostRecyclerViewAdapter :
                     binding.ivEmotionLeft.isVisible = true
                     binding.ivEmotionRight.isVisible = false
 
-                    Glide.with(binding.ivEmotionLeft.context).load(item.emotion[0])
+                    setEmotionDrawable(item.emotion[0].emotionStatus)
+                    Glide.with(binding.ivEmotionLeft.context).load(emotionDrawable)
                         .into(binding.ivEmotionLeft)
                 }
                 else -> {
@@ -83,10 +92,12 @@ class PostRecyclerViewAdapter :
                     binding.ivEmotionRight.isVisible = true
                     binding.tvEmotionCount.isVisible = true
 
-                    Glide.with(binding.ivEmotionLeft.context).load(item.emotion[0])
+                    setEmotionDrawable(item.emotion[0].emotionStatus)
+                    Glide.with(binding.ivEmotionLeft.context).load(emotionDrawable)
                         .into(binding.ivEmotionLeft)
 
-                    Glide.with(binding.ivEmotionRight.context).load(item.emotion[1])
+                    setEmotionDrawable(item.emotion[1].emotionStatus)
+                    Glide.with(binding.ivEmotionRight.context).load(emotionDrawable)
                         .into(binding.ivEmotionRight)
                 }
             }
@@ -159,6 +170,29 @@ class PostRecyclerViewAdapter :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(currentList[position])
+    }
+
+    fun setEmotionDrawable(position: Int) {
+        when (position) {
+            PopupWindowType.Type1.emotionPosition -> {
+                emotionDrawable = PopupWindowType.Type1.drawable
+            }
+            PopupWindowType.Type2.emotionPosition -> {
+                emotionDrawable = PopupWindowType.Type2.drawable
+            }
+            PopupWindowType.Type3.emotionPosition -> {
+                emotionDrawable = PopupWindowType.Type3.drawable
+            }
+            PopupWindowType.Type4.emotionPosition -> {
+                emotionDrawable = PopupWindowType.Type4.drawable
+            }
+            PopupWindowType.Type5.emotionPosition -> {
+                emotionDrawable = PopupWindowType.Type5.drawable
+            }
+            PopupWindowType.Type6.emotionPosition -> {
+                emotionDrawable = PopupWindowType.Type6.drawable
+            }
+        }
     }
 
     fun goToPostDetail(item: ResponsePostData.Data.Content, checkWrite: Boolean) {
