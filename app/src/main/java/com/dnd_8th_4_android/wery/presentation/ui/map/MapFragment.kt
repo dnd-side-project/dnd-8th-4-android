@@ -87,7 +87,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
         mapView = MapView(requireActivity())
         binding.layoutMapView.addView(mapView)
 
-        eventListener = MarkerEventListener(requireContext())
+        eventListener = MarkerEventListener(requireContext(), 1)
         mapView.setPOIItemEventListener(eventListener)
 
         getMyCurrentLocation()
@@ -103,7 +103,10 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
         // gps가 켜져있는지 확인
         val lm: LocationManager =
             requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        val myCurrentLocation: Location? = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+        val myCurrentLocation: Location? =
+            lm.getLastKnownLocation(LocationManager.GPS_PROVIDER) ?: lm.getLastKnownLocation(
+                LocationManager.NETWORK_PROVIDER
+            )
         //위도 , 경도
         mapViewModel.myCurrentLatitude.value = myCurrentLocation?.latitude
         mapViewModel.myCurrentLongitude.value = myCurrentLocation?.longitude
@@ -212,6 +215,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
         view.draw(canvas)
         return bitmap
     }
+
 
 }
 

@@ -10,7 +10,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/bg_post_preview">
+        android:background="@drawable/shape_white_radius_8"
+        android:elevation="10dp">
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline"
