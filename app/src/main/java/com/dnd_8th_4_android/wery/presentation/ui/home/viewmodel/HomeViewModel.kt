@@ -26,6 +26,9 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
     private val _isUpdateList = MutableLiveData<MutableList<ResponsePostData.Data.Content>>()
     val isUpdateList: LiveData<MutableList<ResponsePostData.Data.Content>> = _isUpdateList
 
+    private val _isNoAccess = MutableLiveData<Boolean>()
+    val isNoAccess: LiveData<Boolean> = _isNoAccess
+
     fun setUpdateList(
         position: Int,
         emotionPosition: Int,
@@ -74,11 +77,11 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
                     for (i in it.data.groupInfoList.indices) {
                         groupIdList.add(it.data.groupInfoList[i].id)
                     }
-
                     getAllGroupPost(groupIdList.joinToString(), 1)
                 }
             }.onFailure {
                 Timber.tag("error").d(it.message.toString())
+                _isNoAccess.value = false
             }
         }
     }

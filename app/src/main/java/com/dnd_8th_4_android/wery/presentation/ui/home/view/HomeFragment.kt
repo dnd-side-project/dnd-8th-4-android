@@ -18,6 +18,7 @@ import com.dnd_8th_4_android.wery.presentation.ui.base.BaseFragment
 import com.dnd_8th_4_android.wery.presentation.ui.home.adapter.GroupRecyclerViewAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.home.adapter.PostRecyclerViewAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.home.viewmodel.HomeViewModel
+import com.dnd_8th_4_android.wery.presentation.ui.sign.view.SignActivity
 import com.dnd_8th_4_android.wery.presentation.ui.write.upload.view.WritingActivity
 import com.dnd_8th_4_android.wery.presentation.util.MarginItemDecoration
 import com.dnd_8th_4_android.wery.presentation.util.PopupBottomDialogDialog
@@ -87,6 +88,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                         postRecyclerViewAdapter.submitList(homeViewModel.postList.value!!.toMutableList())
                     }, 1000)
             }
+        }
+
+        homeViewModel.isNoAccess.observe(viewLifecycleOwner) {
+            requireActivity().finish()
+            startActivity(Intent(requireActivity(), SignActivity::class.java))
         }
 
         homeViewModel.isUpdateList.observe(viewLifecycleOwner) {
