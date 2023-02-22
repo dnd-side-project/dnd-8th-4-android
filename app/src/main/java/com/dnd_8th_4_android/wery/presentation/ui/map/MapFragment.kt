@@ -2,13 +2,20 @@ package com.dnd_8th_4_android.wery.presentation.ui.map
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.graphics.drawable.BitmapDrawable
 import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
 import android.provider.Settings
+import android.util.DisplayMetrics
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import com.dnd_8th_4_android.wery.R
@@ -100,8 +107,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
             requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
         val myCurrentLocation: Location? = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
         //위도 , 경도
-        mapViewModel.myCurrentLatitude.value = myCurrentLocation?.latitude!!
-        mapViewModel.myCurrentLongitude.value = myCurrentLocation.longitude
+        mapViewModel.myCurrentLatitude.value = myCurrentLocation?.latitude?:0.0
+        mapViewModel.myCurrentLongitude.value = myCurrentLocation?.longitude
 
         mapView.setMapCenterPointAndZoomLevel(
             MapPoint.mapPointWithGeoCoord(
@@ -143,11 +150,14 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
                 isShowCalloutBalloonOnTouch = false
                 mapPoint = MapPoint.mapPointWithGeoCoord(missionList[i].x, missionList[i].y)
                 markerType = MapPOIItem.MarkerType.CustomImage
-                customImageResourceId = R.drawable.img_pin_mission_pink_default
+//                customImageResourceId = R.drawable.img_pin_mission_pink_default
                 // customImageBitmap = (binding.ivReload.drawable as BitmapDrawable).bitmap
                 selectedMarkerType = MapPOIItem.MarkerType.CustomImage
-                customSelectedImageResourceId = R.drawable.img_pin_mission_pin_select
+//                customSelectedImageResourceId = R.drawable.img_pin_mission_pin_select
                 isCustomImageAutoscale = false
+
+                val view = LayoutInflater.from(requireContext()).inflate(R.layout.item_marker, null)
+                customImageBitmap = createDrawableFromView(requireContext(), view)
             }
 
             missionMarkerArr.add(missionMarker)
@@ -161,6 +171,21 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
     // TODO 서버 통신 후 피드 들의 위치 좌표 값을 가져온다
     private fun showFeedPinList() {
 
+    }
+
+    private fun createDrawableFromView(context: Context, view: View): Bitmap {
+        val displayMetrics = DisplayMetrics()
+        (context as Activity).windowManager.defaultDisplay.getMetrics(displayMetrics)
+        view.layoutParams = ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT)
+        view.measure(displayMetrics.widthPixels, displayMetrics.heightPixels)
+        view.layout(0, 0, displayMetrics.widthPixels, displayMetrics.heightPixels)
+        view.buildDrawingCache()
+        val bitmap = Bitmap.createBitmap(view.measuredWidth, view.measuredHeight, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        view.draw(canvas)
+        return bitmap
     }
 }
 
