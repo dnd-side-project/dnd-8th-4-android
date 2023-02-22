@@ -20,7 +20,6 @@ import com.dnd_8th_4_android.wery.presentation.ui.home.adapter.PostRecyclerViewA
 import com.dnd_8th_4_android.wery.presentation.ui.home.viewmodel.HomeViewModel
 import com.dnd_8th_4_android.wery.presentation.ui.sign.view.SignActivity
 import com.dnd_8th_4_android.wery.presentation.ui.write.upload.view.WritingActivity
-import com.dnd_8th_4_android.wery.presentation.util.MarginItemDecoration
 import com.dnd_8th_4_android.wery.presentation.util.PopupBottomDialogDialog
 import com.dnd_8th_4_android.wery.presentation.util.hideKeyboard
 import com.dnd_8th_4_android.wery.presentation.util.showKeyboard
@@ -57,14 +56,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 homeViewModel.getAllGroupPost(groupId.toString(), 1)
             }
 
-            binding.activityGroup.rvMyGroup.apply {
-                adapter = groupRecyclerViewAdapter
-                addItemDecoration(
-                    MarginItemDecoration(
-                        resources.getDimension(R.dimen.groupList_item_margin).toInt()
-                    )
-                )
-            }
+            binding.activityGroup.rvMyGroup.adapter = groupRecyclerViewAdapter
         }
 
         homeViewModel.postList.observe(viewLifecycleOwner) {
@@ -88,6 +80,22 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 Handler(Looper.getMainLooper())
                     .postDelayed({
                         binding.activityGroup.layoutSwipeRefresh.isRefreshing = false
+
+                        if (groupRecyclerViewAdapter.selectedItemImage != binding.activityGroup.ivAllGroup) {
+                            with(groupRecyclerViewAdapter) {
+                                selectedItemImage.isSelected = false
+                                selectedItemText.setTextAppearance(R.style.TextView_Caption_12_R)
+                                selectedItemImage = binding.activityGroup.ivAllGroup
+                                selectedItemText = binding.activityGroup.tvAllGroup
+                            }
+
+                            binding.activityGroup.ivAllGroup.isSelected =
+                                !binding.activityGroup.ivAllGroup.isSelected
+                            binding.activityGroup.tvAllGroup.setTextAppearance(R.style.TextView_Title_12_Sb)
+                        }
+
+                        homeViewModel.getSignGroup()
+
                         groupRecyclerViewAdapter.submitList(homeViewModel.groupList.value!!.toMutableList())
                         postRecyclerViewAdapter.submitList(homeViewModel.postList.value!!.toMutableList())
                     }, 1000)
