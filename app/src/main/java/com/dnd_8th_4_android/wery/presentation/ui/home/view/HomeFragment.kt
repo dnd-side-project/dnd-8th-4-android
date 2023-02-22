@@ -53,6 +53,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                     binding.activityGroup.tvAllGroup
                 )
 
+            groupRecyclerViewAdapter.setGroupPostCallListener { groupId ->
+                homeViewModel.getAllGroupPost(groupId.toString(), 1)
+            }
+
             binding.activityGroup.rvMyGroup.apply {
                 adapter = groupRecyclerViewAdapter
                 addItemDecoration(
@@ -152,7 +156,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                     !binding.activityGroup.ivAllGroup.isSelected
                 binding.activityGroup.tvAllGroup.setTextAppearance(R.style.TextView_Title_12_Sb)
 
-                // TODO 전체보기 피드 호출
+                homeViewModel.getAllGroupPost(homeViewModel.groupIdList.joinToString(), 1)
             }
         }
 

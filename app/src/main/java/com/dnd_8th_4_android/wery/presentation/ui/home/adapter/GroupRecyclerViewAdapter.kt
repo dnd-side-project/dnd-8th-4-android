@@ -18,8 +18,11 @@ class GroupRecyclerViewAdapter(
 ) :
     RecyclerView.Adapter<GroupRecyclerViewAdapter.ViewHolder>() {
     private lateinit var binding: ItemMyGroupBinding
+
     var selectedItemImage = initItemImage
     var selectedItemText = initItemText
+
+    private lateinit var groupPostCallListener: GroupPostCallListener
 
     inner class ViewHolder(private val binding: ItemMyGroupBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -40,6 +43,8 @@ class GroupRecyclerViewAdapter(
 
                     selectedItemImage = binding.layoutMyGroupImage
                     selectedItemText = binding.tvGroupName
+
+                    groupPostCallListener.onClicked(item.id)
                 }
             }
         }
@@ -63,4 +68,17 @@ class GroupRecyclerViewAdapter(
         this.list.addAll(item)
         notifyDataSetChanged()
     }
+
+    fun setGroupPostCallListener(listener: (Int) -> Unit) {
+        groupPostCallListener = object : GroupPostCallListener {
+            override fun onClicked(groupId: Int) {
+                listener(groupId)
+            }
+        }
+    }
+
+    interface GroupPostCallListener {
+        fun onClicked(groupId: Int)
+    }
+
 }

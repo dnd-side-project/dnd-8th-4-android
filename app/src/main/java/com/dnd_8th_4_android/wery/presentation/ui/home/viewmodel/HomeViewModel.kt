@@ -1,5 +1,6 @@
 package com.dnd_8th_4_android.wery.presentation.ui.home.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -28,6 +29,8 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
 
     private val _isNoAccess = MutableLiveData<Boolean>()
     val isNoAccess: LiveData<Boolean> = _isNoAccess
+
+    lateinit var groupIdList: MutableList<Int>
 
     fun setUpdateList(
         position: Int,
@@ -73,7 +76,7 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
                 if (it.data.existGroup) {
                     _groupList.value = it.data.groupInfoList
 
-                    val groupIdList = mutableListOf<Int>()
+                    groupIdList = mutableListOf<Int>()
                     for (i in it.data.groupInfoList.indices) {
                         groupIdList.add(it.data.groupInfoList[i].id)
                     }
@@ -90,12 +93,13 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
         _postList.value = value
     }
 
-    private fun getAllGroupPost(groupId: String, page: Int) {
+    fun getAllGroupPost(groupId: String, page: Int) {
         viewModelScope.launch {
             kotlin.runCatching {
                 homeRepository.allGroupPost(groupId, page)
             }.onSuccess {
                 _postList.value = it.data.content
+                Log.e("태그", _postList.value.toString())
             }.onFailure {
                 Timber.tag("error").d(it.message.toString())
             }
