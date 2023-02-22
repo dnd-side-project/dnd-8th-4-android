@@ -41,10 +41,10 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
     ) { permissions ->
         when {
             permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false) -> {
-                getMyCurrentLocation()
+                initMapView()
             }
             permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {
-                getMyCurrentLocation()
+                initMapView()
             }
             else -> {
                 // 권한 거부
@@ -60,8 +60,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
                 Manifest.permission.ACCESS_COARSE_LOCATION
             )
         )
-
-        initMapView()
     }
 
     private fun permissionDialog() {
@@ -93,6 +91,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
 
         eventListener = MarkerEventListener(requireContext())
         mapView.setPOIItemEventListener(eventListener)
+
+        getMyCurrentLocation()
     }
 
     // 현재 위치 구하기
@@ -107,7 +107,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
             requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
         val myCurrentLocation: Location? = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
         //위도 , 경도
-        mapViewModel.myCurrentLatitude.value = myCurrentLocation?.latitude?:0.0
+        mapViewModel.myCurrentLatitude.value = myCurrentLocation?.latitude
         mapViewModel.myCurrentLongitude.value = myCurrentLocation?.longitude
 
         mapView.setMapCenterPointAndZoomLevel(
