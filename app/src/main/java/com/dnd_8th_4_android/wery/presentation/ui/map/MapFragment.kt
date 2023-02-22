@@ -4,6 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.BitmapDrawable
 import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
@@ -20,9 +21,11 @@ import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
 
+
 class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
 
     private lateinit var mapView: MapView
+    private lateinit var eventListener: MarkerEventListener
 
     private val mapViewModel: MapViewModel by viewModels()
 
@@ -80,6 +83,9 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
     private fun initMapView() {
         mapView = MapView(requireActivity())
         binding.layoutMapView.addView(mapView)
+
+        eventListener = MarkerEventListener(requireContext())
+        mapView.setPOIItemEventListener(eventListener)
     }
 
     // 현재 위치 구하기
@@ -114,9 +120,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
     override fun initAfterBinding() {
         binding.layoutReloadCurrentLocation.setOnClickListener {
             getMyCurrentLocation()
+            showMissionPinList()
         }
-
-        showMissionPinList()
     }
 
     // TODO 서버 통신 후 미션 들의 위치 좌표 값을 가져온다
@@ -124,7 +129,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
     private fun showMissionPinList() {
         val missionList = mutableListOf<ResponseMission>()
         missionList.apply {
-            add(ResponseMission(33.450705,126.570677))
+            add(ResponseMission(33.4507057,126.570677))
             add(ResponseMission(33.450936,126.569477))
             add(ResponseMission(33.450879,126.569940))
             add(ResponseMission(33.450705,126.570738))
@@ -134,17 +139,28 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
         for (i in missionList.indices) {
             val missionMarker = MapPOIItem()
             missionMarker.apply {
+                itemName = ""
+                isShowCalloutBalloonOnTouch = false
                 mapPoint = MapPoint.mapPointWithGeoCoord(missionList[i].x, missionList[i].y)
                 markerType = MapPOIItem.MarkerType.CustomImage
                 customImageResourceId = R.drawable.img_pin_mission_pink_default
+                // customImageBitmap = (binding.ivReload.drawable as BitmapDrawable).bitmap
                 selectedMarkerType = MapPOIItem.MarkerType.CustomImage
                 customSelectedImageResourceId = R.drawable.img_pin_mission_pin_select
                 isCustomImageAutoscale = false
             }
+
             missionMarkerArr.add(missionMarker)
         }
 
-        val convertToArrayItem = missionMarkerArr.toArray(arrayOfNulls<MapPOIItem>(missionMarkerArr.size))
+        val convertToArrayItem =
+            missionMarkerArr.toArray(arrayOfNulls<MapPOIItem>(missionMarkerArr.size))
         mapView.addPOIItems(convertToArrayItem)
     }
+
+    // TODO 서버 통신 후 피드 들의 위치 좌표 값을 가져온다
+    private fun showFeedPinList() {
+
+    }
 }
+
