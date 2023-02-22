@@ -1,6 +1,5 @@
 package com.dnd_8th_4_android.wery.presentation.ui.home.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,11 +10,12 @@ import com.dnd_8th_4_android.wery.domain.model.PopupWindowType
 import com.dnd_8th_4_android.wery.domain.repository.HomeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(private val homeRepository: HomeRepository) : ViewModel() {
-    private var groupList = listOf<ResponseGroupData.Data.GroupInfo>()
+    lateinit var groupList: MutableList<ResponseGroupData.Data.GroupInfo>
 
     private val _isExistGroup = MutableLiveData<Boolean>()
     val isExistGroup: LiveData<Boolean> = _isExistGroup
@@ -58,13 +58,10 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
             kotlin.runCatching {
                 homeRepository.signGroup()
             }.onSuccess {
-                _isExistGroup.value = it.data.existGroup
                 groupList = it.data.groupInfoList
-
-                Log.e("태그", _isExistGroup.value.toString())
-                Log.e("태그", groupList.toString())
+                _isExistGroup.value = it.data.existGroup
             }.onFailure {
-                Log.e("태그", it.message.toString())
+                Timber.tag("error").d(it.message.toString())
             }
         }
     }

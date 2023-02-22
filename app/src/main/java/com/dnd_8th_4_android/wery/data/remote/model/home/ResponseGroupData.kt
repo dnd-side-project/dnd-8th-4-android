@@ -8,7 +8,7 @@ data class ResponseGroupData(
 ) : BaseResponse() {
     data class Data(
         val existGroup: Boolean,
-        val groupInfoList: List<GroupInfo>
+        val groupInfoList: MutableList<GroupInfo>
     ) {
         data class GroupInfo (
             @SerializedName("groupId") val id: Int,

@@ -12,7 +12,6 @@ import androidx.core.view.isVisible
 import androidx.core.widget.doBeforeTextChanged
 import androidx.fragment.app.viewModels
 import com.dnd_8th_4_android.wery.R
-import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseGroupData
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponsePostData
 import com.dnd_8th_4_android.wery.databinding.ActivityPopupWindowBinding
 import com.dnd_8th_4_android.wery.databinding.FragmentHomeBinding
@@ -37,7 +36,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private lateinit var groupRecyclerViewAdapter: GroupRecyclerViewAdapter
     private lateinit var postRecyclerViewAdapter: PostRecyclerViewAdapter
 
-    private var groupList = mutableListOf<ResponseGroupData.Data.GroupInfo>()
     private lateinit var postList: MutableList<ResponsePostData.Data>
 
     override fun initStartView() {
@@ -57,7 +55,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
                 groupRecyclerViewAdapter =
                     GroupRecyclerViewAdapter(
-                        groupList,
+                        homeViewModel.groupList,
                         binding.activityGroup.ivAllGroup,
                         binding.activityGroup.tvAllGroup
                     )
@@ -90,7 +88,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                     Handler(Looper.getMainLooper())
                         .postDelayed({
                             binding.activityGroup.layoutSwipeRefresh.isRefreshing = false
-                            groupRecyclerViewAdapter.submitList(groupList.toMutableList())
+                            groupRecyclerViewAdapter.submitList(homeViewModel.groupList.toMutableList())
                             postRecyclerViewAdapter.submitList(postList.toMutableList())
                         }, 1000)
                 }
@@ -117,7 +115,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                     Handler(Looper.getMainLooper())
                         .postDelayed({
                             binding.activityGroup.layoutSwipeRefresh.isRefreshing = false
-                            groupRecyclerViewAdapter.submitList(groupList.toMutableList())
+                            groupRecyclerViewAdapter.submitList(homeViewModel.groupList.toMutableList())
                             postRecyclerViewAdapter.submitList(postList)
                         }, 1000)
                 }
