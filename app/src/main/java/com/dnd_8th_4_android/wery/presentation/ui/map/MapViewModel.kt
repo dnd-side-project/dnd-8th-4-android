@@ -15,6 +15,9 @@ class MapViewModel : ViewModel() {
     private val _missionList = MutableLiveData<MutableList<ResponseMission>>()
     val missionList: LiveData<MutableList<ResponseMission>> = _missionList
 
+    private val _filterType = MutableLiveData<Int>(0)
+    val filterType: LiveData<Int> = _filterType
+
     fun getMissionList():MutableList<ResponseMission> {
         // 임시값 1, 2, 3 넣어보기
         _missionList.value!!.apply {
@@ -35,5 +38,9 @@ class MapViewModel : ViewModel() {
             add(ResponseMission(33.450705,126.570738))
         }
         return _feedList.value!!
+    }
+
+    fun setFilterType(type:Int) {
+        _filterType.value = type
     }
 }

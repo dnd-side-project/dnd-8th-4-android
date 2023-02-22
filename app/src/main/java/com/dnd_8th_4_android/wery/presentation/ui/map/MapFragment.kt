@@ -87,7 +87,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
         mapView = MapView(requireActivity())
         binding.layoutMapView.addView(mapView)
 
-        eventListener = MarkerEventListener(requireContext(), 1)
+        eventListener = MarkerEventListener(requireContext(), 0)
         mapView.setPOIItemEventListener(eventListener)
 
         getMyCurrentLocation()
@@ -122,13 +122,29 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
     }
 
     override fun initDataBinding() {
-
+        mapViewModel.filterType.observe(viewLifecycleOwner) {
+            if (it == 0) {
+                binding.ivFilterFeed.isSelected = true
+                binding.ivFilterMission.isSelected = false
+            } else {
+                binding.ivFilterFeed.isSelected = false
+                binding.ivFilterMission.isSelected = true
+            }
+        }
     }
 
     override fun initAfterBinding() {
         binding.layoutReloadCurrentLocation.setOnClickListener {
             getMyCurrentLocation()
             showMissionPinList()
+        }
+
+        binding.ivFilterFeed.setOnClickListener {
+            mapViewModel.setFilterType(0)
+        }
+
+        binding.ivFilterMission.setOnClickListener {
+            mapViewModel.setFilterType(1)
         }
     }
 
