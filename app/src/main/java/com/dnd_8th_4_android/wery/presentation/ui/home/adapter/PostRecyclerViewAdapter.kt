@@ -18,7 +18,7 @@ import com.dnd_8th_4_android.wery.domain.model.PopupWindowType
 import com.dnd_8th_4_android.wery.presentation.ui.detail.view.PostDetailActivity
 
 class PostRecyclerViewAdapter :
-    ListAdapter<ResponsePostData.Data, PostRecyclerViewAdapter.ViewHolder>(
+    ListAdapter<ResponsePostData.Data.Content, PostRecyclerViewAdapter.ViewHolder>(
         diffUtil
     ) {
     private lateinit var binding: ItemPostBinding
@@ -29,13 +29,13 @@ class PostRecyclerViewAdapter :
 
     inner class ViewHolder(private val binding: ItemPostBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: ResponsePostData.Data) {
+        fun bind(item: ResponsePostData.Data.Content) {
             binding.ivFriendImage.clipToOutline = true
-            Glide.with(binding.ivFriendImage.context).load(item.image)
-                .into(binding.ivFriendImage)
+//            Glide.with(binding.ivFriendImage.context).load(item.image)
+//                .into(binding.ivFriendImage)
 
             binding.tvFriendName.text = item.name
-            binding.tvLocation.text = item.location
+//            binding.tvLocation.text = item.location
             binding.tvFriendGroup.text = item.groupName
             binding.tvContent.text = item.content
 
@@ -93,16 +93,16 @@ class PostRecyclerViewAdapter :
 
             binding.tvEmotionCount.text = item.emotion.size.toString()
 
-            if (item.comment.isNotEmpty()) {
+            if (item.comments != 0) {
                 binding.tvComment.isVisible = true
                 binding.tvCommentCount.isVisible = true
-                binding.tvCommentCount.text = item.comment.size.toString()
+                binding.tvCommentCount.text = item.comments.toString()
             } else {
                 binding.tvComment.isVisible = false
                 binding.tvCommentCount.isVisible = false
             }
 
-            binding.tvTime.text = item.time
+            binding.tvTime.text = item.time.substring(IntRange(11, 15))
             binding.tvHitCount.text = item.hit
 
             if (item.isSelectedEmotion != -1) {
@@ -161,15 +161,15 @@ class PostRecyclerViewAdapter :
         holder.bind(currentList[position])
     }
 
-    fun goToPostDetail(item: ResponsePostData.Data, checkWrite: Boolean) {
+    fun goToPostDetail(item: ResponsePostData.Data.Content, checkWrite: Boolean) {
         val intent = Intent(binding.root.context, PostDetailActivity::class.java)
         intent.putExtra(WRITE_CHECK, checkWrite)
         intent.putExtra(GROUP_NAME, item.groupName)
         intent.putExtra(NAME, item.name)
         intent.putExtra(TIME, item.time)
-        intent.putExtra(LOCATION, item.location)
+//        intent.putExtra(LOCATION, item.location)
         intent.putExtra(CONTENT, item.content)
-        intent.putIntegerArrayListExtra(IMAGE, item.contentImage)
+//        intent.putIntegerArrayListExtra(IMAGE, item.contentImage)
         binding.root.context.startActivity(intent)
     }
 
@@ -207,17 +207,17 @@ class PostRecyclerViewAdapter :
         const val CONTENT = "content"
         const val IMAGE = "image"
 
-        private val diffUtil = object : DiffUtil.ItemCallback<ResponsePostData.Data>() {
+        private val diffUtil = object : DiffUtil.ItemCallback<ResponsePostData.Data.Content>() {
             override fun areItemsTheSame(
-                oldItem: ResponsePostData.Data,
-                newItem: ResponsePostData.Data,
+                oldItem: ResponsePostData.Data.Content,
+                newItem: ResponsePostData.Data.Content,
             ): Boolean {
                 return oldItem == newItem
             }
 
             override fun areContentsTheSame(
-                oldItem: ResponsePostData.Data,
-                newItem: ResponsePostData.Data,
+                oldItem: ResponsePostData.Data.Content,
+                newItem: ResponsePostData.Data.Content,
             ): Boolean {
                 return oldItem == newItem
             }

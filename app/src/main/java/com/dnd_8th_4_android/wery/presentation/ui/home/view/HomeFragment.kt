@@ -7,12 +7,10 @@ import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.widget.PopupWindow
-import android.widget.ScrollView
 import androidx.core.view.isVisible
 import androidx.core.widget.doBeforeTextChanged
 import androidx.fragment.app.viewModels
 import com.dnd_8th_4_android.wery.R
-import com.dnd_8th_4_android.wery.data.remote.model.home.ResponsePostData
 import com.dnd_8th_4_android.wery.databinding.ActivityPopupWindowBinding
 import com.dnd_8th_4_android.wery.databinding.FragmentHomeBinding
 import com.dnd_8th_4_android.wery.domain.model.PopupWindowType
@@ -25,7 +23,6 @@ import com.dnd_8th_4_android.wery.presentation.util.MarginItemDecoration
 import com.dnd_8th_4_android.wery.presentation.util.PopupBottomDialogDialog
 import com.dnd_8th_4_android.wery.presentation.util.hideKeyboard
 import com.dnd_8th_4_android.wery.presentation.util.showKeyboard
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -36,8 +33,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private lateinit var groupRecyclerViewAdapter: GroupRecyclerViewAdapter
     private lateinit var postRecyclerViewAdapter: PostRecyclerViewAdapter
 
-    private lateinit var postList: MutableList<ResponsePostData.Data>
-
     override fun initStartView() {
         activityPopupWindowBinding = ActivityPopupWindowBinding.inflate(layoutInflater)
         binding.vm = homeViewModel
@@ -46,81 +41,78 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     }
 
     override fun initDataBinding() {
-        homeViewModel.isExistGroup.observe(viewLifecycleOwner) { isExistGroup ->
-            if (isExistGroup) {
-                makeList()
+        homeViewModel.groupList.observe(viewLifecycleOwner) {
+            binding.activityGroup.ivAllGroup.isSelected = true
+            binding.activityGroup.tvAllGroup.setTextAppearance(R.style.TextView_Title_12_Sb)
 
-                binding.activityGroup.ivAllGroup.isSelected = true
-                binding.activityGroup.tvAllGroup.setTextAppearance(R.style.TextView_Title_12_Sb)
+            groupRecyclerViewAdapter =
+                GroupRecyclerViewAdapter(
+                    homeViewModel.groupList.value!!,
+                    binding.activityGroup.ivAllGroup,
+                    binding.activityGroup.tvAllGroup
+                )
 
-                groupRecyclerViewAdapter =
-                    GroupRecyclerViewAdapter(
-                        homeViewModel.groupList,
-                        binding.activityGroup.ivAllGroup,
-                        binding.activityGroup.tvAllGroup
+            binding.activityGroup.rvMyGroup.apply {
+                adapter = groupRecyclerViewAdapter
+                addItemDecoration(
+                    MarginItemDecoration(
+                        resources.getDimension(R.dimen.groupList_item_margin).toInt()
                     )
-                binding.activityGroup.rvMyGroup.apply {
-                    adapter = groupRecyclerViewAdapter
-                    addItemDecoration(
-                        MarginItemDecoration(
-                            resources.getDimension(R.dimen.groupList_item_margin).toInt()
-                        )
-                    )
+                )
+            }
+        }
+
+        homeViewModel.postList.observe(viewLifecycleOwner) {
+            postRecyclerViewAdapter = PostRecyclerViewAdapter()
+            postRecyclerViewAdapter.submitList(homeViewModel.postList.value)
+            binding.activityGroup.rvMyGroupPost.adapter = postRecyclerViewAdapter
+            binding.activityGroup.rvMyGroupPost.itemAnimator = null
+
+            postRecyclerViewAdapter.apply {
+                setPopupBottomClickListener {
+                    val bottomSheet = PopupBottomDialogDialog()
+                    bottomSheet.show(childFragmentManager, bottomSheet.tag)
                 }
 
-                postRecyclerViewAdapter = PostRecyclerViewAdapter()
-                postRecyclerViewAdapter.submitList(postList)
-                binding.activityGroup.rvMyGroupPost.adapter = postRecyclerViewAdapter
-                binding.activityGroup.rvMyGroupPost.itemAnimator = null
-
-                postRecyclerViewAdapter.apply {
-                    setPopupBottomClickListener {
-                        val bottomSheet = PopupBottomDialogDialog()
-                        bottomSheet.show(childFragmentManager, bottomSheet.tag)
-                    }
-
-                    setPopupWindowClickListener { view, position ->
-                        getGradePopUp(view, position)
-                    }
+                setPopupWindowClickListener { view, position ->
+                    getGradePopUp(view, position)
                 }
+            }
 
-                binding.activityGroup.layoutSwipeRefresh.setOnRefreshListener {
-                    Handler(Looper.getMainLooper())
-                        .postDelayed({
-                            binding.activityGroup.layoutSwipeRefresh.isRefreshing = false
-                            groupRecyclerViewAdapter.submitList(homeViewModel.groupList.toMutableList())
-                            postRecyclerViewAdapter.submitList(postList.toMutableList())
-                        }, 1000)
-                }
-            } else {
-                // TODO 그룹이 없는 경우
+            binding.activityGroup.layoutSwipeRefresh.setOnRefreshListener {
+                Handler(Looper.getMainLooper())
+                    .postDelayed({
+                        binding.activityGroup.layoutSwipeRefresh.isRefreshing = false
+                        groupRecyclerViewAdapter.submitList(homeViewModel.groupList.value!!.toMutableList())
+                        postRecyclerViewAdapter.submitList(homeViewModel.postList.value!!.toMutableList())
+                    }, 1000)
             }
         }
 
         homeViewModel.isUpdateList.observe(viewLifecycleOwner) {
-            postList.clear()
-            postList = it
-            postRecyclerViewAdapter.submitList(postList.toMutableList())
+            homeViewModel.postList.value!!.clear()
+            homeViewModel.setPostList(it)
+            postRecyclerViewAdapter.submitList(homeViewModel.postList.value!!.toMutableList())
         }
     }
 
     override fun initAfterBinding() {
-        val bottomNavigationView =
-            requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigation)
-        bottomNavigationView.setOnItemReselectedListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.homeFragment -> {
-                    binding.activityGroup.layoutSwipeRefresh.isRefreshing = true
-                    binding.activityGroup.scrollView.fullScroll(ScrollView.FOCUS_UP)
-                    Handler(Looper.getMainLooper())
-                        .postDelayed({
-                            binding.activityGroup.layoutSwipeRefresh.isRefreshing = false
-                            groupRecyclerViewAdapter.submitList(homeViewModel.groupList.toMutableList())
-                            postRecyclerViewAdapter.submitList(postList)
-                        }, 1000)
-                }
-            }
-        }
+//        val bottomNavigationView =
+//            requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigation)
+//        bottomNavigationView.setOnItemReselectedListener { menuItem ->
+//            when (menuItem.itemId) {
+//                R.id.homeFragment -> {
+//                    binding.activityGroup.layoutSwipeRefresh.isRefreshing = true
+//                    binding.activityGroup.scrollView.fullScroll(ScrollView.FOCUS_UP)
+//                    Handler(Looper.getMainLooper())
+//                        .postDelayed({
+//                            binding.activityGroup.layoutSwipeRefresh.isRefreshing = false
+//                            groupRecyclerViewAdapter.submitList(homeViewModel.groupList.toMutableList())
+//                            postRecyclerViewAdapter.submitList(homeViewModel.postList)
+//                        }, 1000)
+//                }
+//            }
+//        }
 
         binding.etSearch.doBeforeTextChanged { _, _, _, after ->
             binding.ivSearchClose.isVisible = after > 0
@@ -166,71 +158,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     override fun onDestroyView() {
         super.onDestroyView()
         activityPopupWindowBinding = null
-    }
-
-    private fun makeList() {
-        postList = arrayListOf(
-            ResponsePostData.Data(
-                1,
-                R.drawable.img_no_group,
-                "User1",
-                "고잔동 맥도날드1",
-                "Group1",
-                "111111111피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다. ",
-                arrayListOf(R.drawable.img_no_group),
-                mutableListOf(),
-                listOf(),
-                "1H:MM",
-                "11",
-                -1
-            ),
-            ResponsePostData.Data(
-                2,
-                R.drawable.img_no_group,
-                "User2",
-                "고잔동 맥도날드2",
-                "Group2",
-                "222222222피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다. 피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다. ",
-                arrayListOf(R.drawable.img_no_group, R.drawable.img_crying_face),
-                mutableListOf(R.drawable.img_crying_face),
-                listOf("안녕하세요", "DND 여러분"),
-                "2H:MM",
-                "22",
-                -1
-            ),
-            ResponsePostData.Data(
-                3,
-                R.drawable.img_no_group,
-                "User3",
-                "고잔동 맥도날드3",
-                "Group3",
-                "33333333피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다. 피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다. 피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다.",
-                arrayListOf(R.drawable.img_no_group),
-                mutableListOf(R.drawable.img_crying_face, R.drawable.img_crying_face),
-                listOf("안녕하세요", "DND 여러분", "adsf", "dsa"),
-                "3H:MM",
-                "33",
-                -1
-            ),
-            ResponsePostData.Data(
-                4,
-                R.drawable.img_no_group,
-                "User4",
-                "고잔동 맥도날드4",
-                "Group4",
-                "4444444444피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다. 피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다. 피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다. 피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다.",
-                arrayListOf(R.drawable.img_no_group, R.drawable.img_crying_face),
-                mutableListOf(
-                    R.drawable.img_crying_face,
-                    R.drawable.img_crying_face,
-                    R.drawable.img_crying_face
-                ),
-                listOf("안녕하세요", "DND 여러분", "adsf", "dsa"),
-                "4H:MM",
-                "44",
-                -1
-            ),
-        )
     }
 
     private fun getGradePopUp(view: View, position: Int) {
@@ -279,6 +206,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     }
 
     private fun setEmotion(position: Int, emotionPosition: Int) {
-        homeViewModel.setUpdateList(position, emotionPosition, postList)
+        homeViewModel.setUpdateList(position, emotionPosition, homeViewModel.postList.value!!)
     }
 }

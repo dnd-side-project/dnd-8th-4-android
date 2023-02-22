@@ -1,12 +1,12 @@
 package com.dnd_8th_4_android.wery.presentation.ui.home.adapter
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseGroupData
 import com.dnd_8th_4_android.wery.databinding.ItemMyGroupBinding
@@ -25,6 +25,9 @@ class GroupRecyclerViewAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ResponseGroupData.Data.GroupInfo) {
             binding.ivMyGroup.clipToOutline = true
+            Glide.with(binding.ivMyGroup.context).load(item.image)
+                .into(binding.ivMyGroup)
+
             binding.tvGroupName.text = item.name
 
             binding.layoutMyGroup.setOnClickListener {
