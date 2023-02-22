@@ -19,7 +19,7 @@
             style="@style/TextView.Title.12.Sb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/shap_33black_radius_4"
+            android:background="@drawable/shape_33black_radius_4"
             android:paddingHorizontal="8dp"
             android:paddingVertical="4dp"
             android:textColor="@color/white"

@@ -25,4 +25,15 @@ class MapViewModel : ViewModel() {
         }
         return _missionList.value!!
     }
+
+    fun getFeedList():MutableList<ResponseMission> {
+        // 임시값 1, 2, 3 넣어보기
+        _feedList.value!!.apply {
+            add(ResponseMission(33.450705,126.570677))
+            add(ResponseMission(33.450936,126.569477))
+            add(ResponseMission(33.450879,126.569940))
+            add(ResponseMission(33.450705,126.570738))
+        }
+        return _feedList.value!!
+    }
 }
