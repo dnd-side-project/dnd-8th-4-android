@@ -7,6 +7,7 @@ import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.widget.PopupWindow
+import android.widget.ScrollView
 import androidx.core.view.isVisible
 import androidx.core.widget.doBeforeTextChanged
 import androidx.fragment.app.viewModels
@@ -23,6 +24,7 @@ import com.dnd_8th_4_android.wery.presentation.ui.write.upload.view.WritingActiv
 import com.dnd_8th_4_android.wery.presentation.util.PopupBottomDialogDialog
 import com.dnd_8th_4_android.wery.presentation.util.hideKeyboard
 import com.dnd_8th_4_android.wery.presentation.util.showKeyboard
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -80,24 +82,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 Handler(Looper.getMainLooper())
                     .postDelayed({
                         binding.activityGroup.layoutSwipeRefresh.isRefreshing = false
-
-                        if (groupRecyclerViewAdapter.selectedItemImage != binding.activityGroup.ivAllGroup) {
-                            with(groupRecyclerViewAdapter) {
-                                selectedItemImage.isSelected = false
-                                selectedItemText.setTextAppearance(R.style.TextView_Caption_12_R)
-                                selectedItemImage = binding.activityGroup.ivAllGroup
-                                selectedItemText = binding.activityGroup.tvAllGroup
-                            }
-
-                            binding.activityGroup.ivAllGroup.isSelected =
-                                !binding.activityGroup.ivAllGroup.isSelected
-                            binding.activityGroup.tvAllGroup.setTextAppearance(R.style.TextView_Title_12_Sb)
-                        }
-
                         homeViewModel.getSignGroup()
-
-                        groupRecyclerViewAdapter.submitList(homeViewModel.groupList.value!!.toMutableList())
-                        postRecyclerViewAdapter.submitList(homeViewModel.postList.value!!.toMutableList())
                     }, 1000)
             }
         }
@@ -115,22 +100,21 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     }
 
     override fun initAfterBinding() {
-//        val bottomNavigationView =
-//            requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigation)
-//        bottomNavigationView.setOnItemReselectedListener { menuItem ->
-//            when (menuItem.itemId) {
-//                R.id.homeFragment -> {
-//                    binding.activityGroup.layoutSwipeRefresh.isRefreshing = true
-//                    binding.activityGroup.scrollView.fullScroll(ScrollView.FOCUS_UP)
-//                    Handler(Looper.getMainLooper())
-//                        .postDelayed({
-//                            binding.activityGroup.layoutSwipeRefresh.isRefreshing = false
-//                            groupRecyclerViewAdapter.submitList(homeViewModel.groupList.toMutableList())
-//                            postRecyclerViewAdapter.submitList(homeViewModel.postList)
-//                        }, 1000)
-//                }
-//            }
-//        }
+        val bottomNavigationView =
+            requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigation)
+        bottomNavigationView.setOnItemReselectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.homeFragment -> {
+                    binding.activityGroup.layoutSwipeRefresh.isRefreshing = true
+                    binding.activityGroup.scrollView.fullScroll(ScrollView.FOCUS_UP)
+                    Handler(Looper.getMainLooper())
+                        .postDelayed({
+                            binding.activityGroup.layoutSwipeRefresh.isRefreshing = false
+                            homeViewModel.getSignGroup()
+                        }, 1000)
+                }
+            }
+        }
 
         binding.etSearch.doBeforeTextChanged { _, _, _, after ->
             binding.ivSearchClose.isVisible = after > 0
