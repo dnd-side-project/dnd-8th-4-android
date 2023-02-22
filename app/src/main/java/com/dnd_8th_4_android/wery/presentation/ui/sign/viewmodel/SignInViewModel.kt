@@ -23,7 +23,11 @@ class SignInViewModel @Inject constructor(
     private val _signInData = MutableLiveData<ResponseSignInData>()
     var signInData: LiveData<ResponseSignInData> = _signInData
 
+    private val _isLoading: MutableLiveData<Boolean> = MutableLiveData()
+    val isLoading: LiveData<Boolean> = _isLoading
+
     fun getSignInData() {
+        _isLoading.value = true
         viewModelScope.launch {
             authRepository.loginUser(RequestSignInData(id.value!!, pw.value!!)).onSuccess {
                 _signInData.value = it
@@ -31,6 +35,7 @@ class SignInViewModel @Inject constructor(
                     saveAccessToken(result.atk)
                     saveUserId(result.id)
                 }
+                _isLoading.value = false
             }
         }
     }

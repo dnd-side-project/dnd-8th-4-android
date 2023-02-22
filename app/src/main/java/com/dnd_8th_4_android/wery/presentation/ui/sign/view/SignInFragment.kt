@@ -22,7 +22,10 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sig
     }
 
     override fun initDataBinding() {
-
+        signInViewModel.isLoading.observe(viewLifecycleOwner) {
+            if (it) showLoadingDialog(requireContext())
+            else dismissLoadingDialog()
+        }
     }
 
     override fun initAfterBinding() {
