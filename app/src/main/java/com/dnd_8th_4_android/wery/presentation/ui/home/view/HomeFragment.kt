@@ -43,9 +43,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         binding.vm = homeViewModel
 
         homeViewModel.getSignGroup()
+        postRecyclerViewAdapter = PostRecyclerViewAdapter()
     }
 
     override fun initDataBinding() {
+        homeViewModel.isLoading.observe(viewLifecycleOwner) {
+            if (it) showLoadingDialog(requireContext())
+            else dismissLoadingDialog()
+        }
+
         homeViewModel.groupList.observe(viewLifecycleOwner) {
             binding.activityGroup.ivAllGroup.isSelected = true
             binding.activityGroup.tvAllGroup.setTextAppearance(R.style.TextView_Title_12_Sb)
@@ -59,14 +65,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
             groupRecyclerViewAdapter.setGroupPostCallListener { groupId ->
                 isSelectGroupId = groupId
-                homeViewModel.getAllGroupPost(groupId.toString(), 1)
+                homeViewModel.getGroupPost(groupId.toString(), 1)
             }
 
             binding.activityGroup.rvMyGroup.adapter = groupRecyclerViewAdapter
         }
 
         homeViewModel.postList.observe(viewLifecycleOwner) {
-            postRecyclerViewAdapter = PostRecyclerViewAdapter()
             postRecyclerViewAdapter.submitList(homeViewModel.postList.value)
             binding.activityGroup.rvMyGroupPost.adapter = postRecyclerViewAdapter
             binding.activityGroup.rvMyGroupPost.itemAnimator = null
@@ -94,12 +99,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         homeViewModel.isNoAccess.observe(viewLifecycleOwner) {
             requireActivity().finish()
             startActivity(Intent(requireActivity(), SignActivity::class.java))
-        }
-
-        homeViewModel.isUpdateList.observe(viewLifecycleOwner) {
-            homeViewModel.postList.value!!.clear()
-            homeViewModel.setPostList(it)
-            postRecyclerViewAdapter.submitList(it.toMutableList())
         }
     }
 
@@ -154,7 +153,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
                 isSelectGroupId = 0
 
-                homeViewModel.getAllGroupPost(homeViewModel.groupAllIdList.joinToString(), 1)
+                homeViewModel.getGroupPost(homeViewModel.groupAllIdList.joinToString(), 1)
             }
         }
 
@@ -214,6 +213,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     }
 
     private fun setEmotion(contentId: Int, emotionStatus: RequestEmotionStatus) {
+        homeViewModel.setLoading()
         homeViewModel.setUpdateEmotion(isSelectGroupId, contentId, emotionStatus)
     }
 }

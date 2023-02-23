@@ -1,6 +1,5 @@
 package com.dnd_8th_4_android.wery.presentation.ui.home.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -25,15 +24,17 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
     private val _isExistGroup = MutableLiveData<Boolean>()
     val isExistGroup: LiveData<Boolean> = _isExistGroup
 
-    private val _isUpdateList = MutableLiveData<MutableList<ResponsePostData.Data.Content>>()
-    val isUpdateList: LiveData<MutableList<ResponsePostData.Data.Content>> = _isUpdateList
-
     private val _isNoAccess = MutableLiveData<Boolean>()
     val isNoAccess: LiveData<Boolean> = _isNoAccess
 
     lateinit var groupAllIdList: MutableList<Int>
 
+    private val _isLoading: MutableLiveData<Boolean> = MutableLiveData()
+    val isLoading: LiveData<Boolean> = _isLoading
+
+    // 등록된 그룹 조회
     fun getSignGroup() {
+        _isLoading.value = true
         viewModelScope.launch {
             kotlin.runCatching {
                 homeRepository.signGroup()
@@ -47,7 +48,7 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
                     for (i in it.data.groupInfoList.indices) {
                         groupAllIdList.add(it.data.groupInfoList[i].id)
                     }
-                    getAllGroupPost(groupAllIdList.joinToString(), 1)
+                    getGroupPost(groupAllIdList.joinToString(), 1)
                 }
             }.onFailure {
                 Timber.tag("error").d(it.message.toString())
@@ -56,23 +57,21 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
         }
     }
 
-    fun setPostList(value: MutableList<ResponsePostData.Data.Content>) {
-        _postList.value = value
-    }
-
-    fun getAllGroupPost(groupId: String, page: Int) {
+    // 그룹 게시글 조회
+    fun getGroupPost(groupId: String, page: Int) {
         viewModelScope.launch {
             kotlin.runCatching {
                 homeRepository.allGroupPost(groupId, page)
             }.onSuccess {
                 _postList.value = it.data.content
-                Log.e("태그", _postList.value.toString())
+                _isLoading.value = false
             }.onFailure {
                 Timber.tag("error").d(it.message.toString())
             }
         }
     }
 
+    // 감정 이모지 설정
     fun setUpdateEmotion(
         isSelectGroupId: Int,
         contentId: Int,
@@ -85,9 +84,9 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
                 // TODO 현재 page 처리
                 if (it.data != null) {
                     if (isSelectGroupId != 0) {
-                        getAllGroupPost(isSelectGroupId.toString(), 1)
+                        getGroupPost(isSelectGroupId.toString(), 1)
                     } else {
-                        getAllGroupPost(groupAllIdList.joinToString(), 1)
+                        getGroupPost(groupAllIdList.joinToString(), 1)
                     }
                 } else {
                     setUpdateEmotion(isSelectGroupId, contentId, emotionStatus)
@@ -96,5 +95,9 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
                 Timber.tag("error").d(it.message.toString())
             }
         }
+    }
+
+    fun setLoading() {
+        _isLoading.value = true
     }
 }
