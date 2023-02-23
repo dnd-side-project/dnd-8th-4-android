@@ -12,8 +12,7 @@ import androidx.core.view.isVisible
 import androidx.core.widget.doBeforeTextChanged
 import androidx.fragment.app.viewModels
 import com.dnd_8th_4_android.wery.R
-import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseGroupData
-import com.dnd_8th_4_android.wery.data.remote.model.home.ResponsePostData
+import com.dnd_8th_4_android.wery.data.remote.model.home.RequestEmotionStatus
 import com.dnd_8th_4_android.wery.databinding.ActivityPopupWindowBinding
 import com.dnd_8th_4_android.wery.databinding.FragmentHomeBinding
 import com.dnd_8th_4_android.wery.domain.model.PopupWindowType
@@ -21,8 +20,8 @@ import com.dnd_8th_4_android.wery.presentation.ui.base.BaseFragment
 import com.dnd_8th_4_android.wery.presentation.ui.home.adapter.GroupRecyclerViewAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.home.adapter.PostRecyclerViewAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.home.viewmodel.HomeViewModel
+import com.dnd_8th_4_android.wery.presentation.ui.sign.view.SignActivity
 import com.dnd_8th_4_android.wery.presentation.ui.write.upload.view.WritingActivity
-import com.dnd_8th_4_android.wery.presentation.util.MarginItemDecoration
 import com.dnd_8th_4_android.wery.presentation.util.PopupBottomDialogDialog
 import com.dnd_8th_4_android.wery.presentation.util.hideKeyboard
 import com.dnd_8th_4_android.wery.presentation.util.showKeyboard
@@ -37,8 +36,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private lateinit var groupRecyclerViewAdapter: GroupRecyclerViewAdapter
     private lateinit var postRecyclerViewAdapter: PostRecyclerViewAdapter
 
-    private var groupList = mutableListOf<ResponseGroupData.Data.GroupInfo>()
-    private lateinit var postList: MutableList<ResponsePostData.Data>
+    private var isSelectGroupId = 0
 
     override fun initStartView() {
         activityPopupWindowBinding = ActivityPopupWindowBinding.inflate(layoutInflater)
@@ -48,61 +46,60 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     }
 
     override fun initDataBinding() {
-        homeViewModel.isExistGroup.observe(viewLifecycleOwner) { isExistGroup ->
-            if (isExistGroup) {
-                makeList()
+        homeViewModel.groupList.observe(viewLifecycleOwner) {
+            binding.activityGroup.ivAllGroup.isSelected = true
+            binding.activityGroup.tvAllGroup.setTextAppearance(R.style.TextView_Title_12_Sb)
 
-                binding.activityGroup.ivAllGroup.isSelected = true
-                binding.activityGroup.tvAllGroup.setTextAppearance(R.style.TextView_Title_12_Sb)
+            groupRecyclerViewAdapter =
+                GroupRecyclerViewAdapter(
+                    homeViewModel.groupList.value!!,
+                    binding.activityGroup.ivAllGroup,
+                    binding.activityGroup.tvAllGroup
+                )
 
-                groupRecyclerViewAdapter =
-                    GroupRecyclerViewAdapter(
-                        groupList,
-                        binding.activityGroup.ivAllGroup,
-                        binding.activityGroup.tvAllGroup
-                    )
-                binding.activityGroup.rvMyGroup.apply {
-                    adapter = groupRecyclerViewAdapter
-                    addItemDecoration(
-                        MarginItemDecoration(
-                            resources.getDimension(R.dimen.groupList_item_margin).toInt()
-                        )
-                    )
+            groupRecyclerViewAdapter.setGroupPostCallListener { groupId ->
+                isSelectGroupId = groupId
+                homeViewModel.getAllGroupPost(groupId.toString(), 1)
+            }
+
+            binding.activityGroup.rvMyGroup.adapter = groupRecyclerViewAdapter
+        }
+
+        homeViewModel.postList.observe(viewLifecycleOwner) {
+            postRecyclerViewAdapter = PostRecyclerViewAdapter()
+            postRecyclerViewAdapter.submitList(homeViewModel.postList.value)
+            binding.activityGroup.rvMyGroupPost.adapter = postRecyclerViewAdapter
+            binding.activityGroup.rvMyGroupPost.itemAnimator = null
+
+            postRecyclerViewAdapter.apply {
+                setPopupBottomClickListener {
+                    val bottomSheet = PopupBottomDialogDialog()
+                    bottomSheet.show(childFragmentManager, bottomSheet.tag)
                 }
 
-                postRecyclerViewAdapter = PostRecyclerViewAdapter()
-                postRecyclerViewAdapter.submitList(postList)
-                binding.activityGroup.rvMyGroupPost.adapter = postRecyclerViewAdapter
-                binding.activityGroup.rvMyGroupPost.itemAnimator = null
-
-                postRecyclerViewAdapter.apply {
-                    setPopupBottomClickListener {
-                        val bottomSheet = PopupBottomDialogDialog()
-                        bottomSheet.show(childFragmentManager, bottomSheet.tag)
-                    }
-
-                    setPopupWindowClickListener { view, position ->
-                        getGradePopUp(view, position)
-                    }
+                setPopupWindowClickListener { view, contentId ->
+                    getGradePopUp(view, contentId)
                 }
+            }
 
-                binding.activityGroup.layoutSwipeRefresh.setOnRefreshListener {
-                    Handler(Looper.getMainLooper())
-                        .postDelayed({
-                            binding.activityGroup.layoutSwipeRefresh.isRefreshing = false
-                            groupRecyclerViewAdapter.submitList(groupList.toMutableList())
-                            postRecyclerViewAdapter.submitList(postList.toMutableList())
-                        }, 1000)
-                }
-            } else {
-                // TODO 그룹이 없는 경우
+            binding.activityGroup.layoutSwipeRefresh.setOnRefreshListener {
+                Handler(Looper.getMainLooper())
+                    .postDelayed({
+                        binding.activityGroup.layoutSwipeRefresh.isRefreshing = false
+                        homeViewModel.getSignGroup()
+                    }, 1000)
             }
         }
 
+        homeViewModel.isNoAccess.observe(viewLifecycleOwner) {
+            requireActivity().finish()
+            startActivity(Intent(requireActivity(), SignActivity::class.java))
+        }
+
         homeViewModel.isUpdateList.observe(viewLifecycleOwner) {
-            postList.clear()
-            postList = it
-            postRecyclerViewAdapter.submitList(postList.toMutableList())
+            homeViewModel.postList.value!!.clear()
+            homeViewModel.setPostList(it)
+            postRecyclerViewAdapter.submitList(it.toMutableList())
         }
     }
 
@@ -117,8 +114,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                     Handler(Looper.getMainLooper())
                         .postDelayed({
                             binding.activityGroup.layoutSwipeRefresh.isRefreshing = false
-                            groupRecyclerViewAdapter.submitList(groupList.toMutableList())
-                            postRecyclerViewAdapter.submitList(postList)
+                            homeViewModel.getSignGroup()
                         }, 1000)
                 }
             }
@@ -156,7 +152,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                     !binding.activityGroup.ivAllGroup.isSelected
                 binding.activityGroup.tvAllGroup.setTextAppearance(R.style.TextView_Title_12_Sb)
 
-                // TODO 전체보기 피드 호출
+                isSelectGroupId = 0
+
+                homeViewModel.getAllGroupPost(homeViewModel.groupAllIdList.joinToString(), 1)
             }
         }
 
@@ -170,72 +168,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         activityPopupWindowBinding = null
     }
 
-    private fun makeList() {
-        postList = arrayListOf(
-            ResponsePostData.Data(
-                1,
-                R.drawable.img_no_group,
-                "User1",
-                "고잔동 맥도날드1",
-                "Group1",
-                "111111111피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다. ",
-                arrayListOf(R.drawable.img_no_group),
-                mutableListOf(),
-                listOf(),
-                "1H:MM",
-                "11",
-                -1
-            ),
-            ResponsePostData.Data(
-                2,
-                R.drawable.img_no_group,
-                "User2",
-                "고잔동 맥도날드2",
-                "Group2",
-                "222222222피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다. 피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다. ",
-                arrayListOf(R.drawable.img_no_group, R.drawable.img_crying_face),
-                mutableListOf(R.drawable.img_crying_face),
-                listOf("안녕하세요", "DND 여러분"),
-                "2H:MM",
-                "22",
-                -1
-            ),
-            ResponsePostData.Data(
-                3,
-                R.drawable.img_no_group,
-                "User3",
-                "고잔동 맥도날드3",
-                "Group3",
-                "33333333피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다. 피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다. 피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다.",
-                arrayListOf(R.drawable.img_no_group),
-                mutableListOf(R.drawable.img_crying_face, R.drawable.img_crying_face),
-                listOf("안녕하세요", "DND 여러분", "adsf", "dsa"),
-                "3H:MM",
-                "33",
-                -1
-            ),
-            ResponsePostData.Data(
-                4,
-                R.drawable.img_no_group,
-                "User4",
-                "고잔동 맥도날드4",
-                "Group4",
-                "4444444444피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다. 피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다. 피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다. 피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다.",
-                arrayListOf(R.drawable.img_no_group, R.drawable.img_crying_face),
-                mutableListOf(
-                    R.drawable.img_crying_face,
-                    R.drawable.img_crying_face,
-                    R.drawable.img_crying_face
-                ),
-                listOf("안녕하세요", "DND 여러분", "adsf", "dsa"),
-                "4H:MM",
-                "44",
-                -1
-            ),
-        )
-    }
-
-    private fun getGradePopUp(view: View, position: Int) {
+    private fun getGradePopUp(view: View, contentId: Int) {
         // 팝업 생성
         val popupWindow = PopupWindow(
             activityPopupWindowBinding!!.root,
@@ -250,37 +183,37 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         popupWindow.showAsDropDown(view, 50, -250)
 
         activityPopupWindowBinding!!.ivEmotionOne.setOnClickListener {
-            setEmotion(position, PopupWindowType.Type1.emotionPosition)
+            setEmotion(contentId, RequestEmotionStatus(PopupWindowType.Type1.emotionPosition))
             popupWindow.dismiss()
         }
 
         activityPopupWindowBinding!!.ivEmotionTwo.setOnClickListener {
-            setEmotion(position, PopupWindowType.Type2.emotionPosition)
+            setEmotion(contentId, RequestEmotionStatus(PopupWindowType.Type2.emotionPosition))
             popupWindow.dismiss()
         }
 
         activityPopupWindowBinding!!.ivEmotionThree.setOnClickListener {
-            setEmotion(position, PopupWindowType.Type3.emotionPosition)
+            setEmotion(contentId, RequestEmotionStatus(PopupWindowType.Type3.emotionPosition))
             popupWindow.dismiss()
         }
 
         activityPopupWindowBinding!!.ivEmotionFour.setOnClickListener {
-            setEmotion(position, PopupWindowType.Type4.emotionPosition)
+            setEmotion(contentId, RequestEmotionStatus(PopupWindowType.Type4.emotionPosition))
             popupWindow.dismiss()
         }
 
         activityPopupWindowBinding!!.ivEmotionFive.setOnClickListener {
-            setEmotion(position, PopupWindowType.Type5.emotionPosition)
+            setEmotion(contentId, RequestEmotionStatus(PopupWindowType.Type5.emotionPosition))
             popupWindow.dismiss()
         }
 
         activityPopupWindowBinding!!.ivEmotionSix.setOnClickListener {
-            setEmotion(position, PopupWindowType.Type6.emotionPosition)
+            setEmotion(contentId, RequestEmotionStatus(PopupWindowType.Type6.emotionPosition))
             popupWindow.dismiss()
         }
     }
 
-    private fun setEmotion(position: Int, emotionPosition: Int) {
-        homeViewModel.setUpdateList(position, emotionPosition, postList)
+    private fun setEmotion(contentId: Int, emotionStatus: RequestEmotionStatus) {
+        homeViewModel.setUpdateEmotion(isSelectGroupId, contentId, emotionStatus)
     }
 }

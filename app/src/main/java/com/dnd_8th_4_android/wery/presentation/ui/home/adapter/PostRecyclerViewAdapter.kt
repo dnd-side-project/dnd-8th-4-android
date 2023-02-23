@@ -18,7 +18,7 @@ import com.dnd_8th_4_android.wery.domain.model.PopupWindowType
 import com.dnd_8th_4_android.wery.presentation.ui.detail.view.PostDetailActivity
 
 class PostRecyclerViewAdapter :
-    ListAdapter<ResponsePostData.Data, PostRecyclerViewAdapter.ViewHolder>(
+    ListAdapter<ResponsePostData.Data.Content, PostRecyclerViewAdapter.ViewHolder>(
         diffUtil
     ) {
     private lateinit var binding: ItemPostBinding
@@ -26,16 +26,24 @@ class PostRecyclerViewAdapter :
     private lateinit var popupBottomClickListener: PopupBottomClickListener
     private lateinit var popupWindowClickListener: PopupWindowClickListener
     private var viewPagerPosition = 0
+    private var emotionDrawable = 0
 
     inner class ViewHolder(private val binding: ItemPostBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: ResponsePostData.Data) {
+        fun bind(item: ResponsePostData.Data.Content) {
             binding.ivFriendImage.clipToOutline = true
             Glide.with(binding.ivFriendImage.context).load(item.image)
                 .into(binding.ivFriendImage)
 
             binding.tvFriendName.text = item.name
-            binding.tvLocation.text = item.location
+
+            if (item.location != null) {
+                binding.tvLocation.text = item.location
+            } else {
+                binding.tvLocation.text =
+                    binding.root.resources.getString(R.string.home_item_no_location)
+            }
+
             binding.tvFriendGroup.text = item.groupName
             binding.tvContent.text = item.content
 
@@ -75,7 +83,8 @@ class PostRecyclerViewAdapter :
                     binding.ivEmotionLeft.isVisible = true
                     binding.ivEmotionRight.isVisible = false
 
-                    Glide.with(binding.ivEmotionLeft.context).load(item.emotion[0])
+                    setEmotionDrawable(item.emotion[0].emotionStatus)
+                    Glide.with(binding.ivEmotionLeft.context).load(emotionDrawable)
                         .into(binding.ivEmotionLeft)
                 }
                 else -> {
@@ -83,30 +92,32 @@ class PostRecyclerViewAdapter :
                     binding.ivEmotionRight.isVisible = true
                     binding.tvEmotionCount.isVisible = true
 
-                    Glide.with(binding.ivEmotionLeft.context).load(item.emotion[0])
+                    setEmotionDrawable(item.emotion[0].emotionStatus)
+                    Glide.with(binding.ivEmotionLeft.context).load(emotionDrawable)
                         .into(binding.ivEmotionLeft)
 
-                    Glide.with(binding.ivEmotionRight.context).load(item.emotion[1])
+                    setEmotionDrawable(item.emotion[1].emotionStatus)
+                    Glide.with(binding.ivEmotionRight.context).load(emotionDrawable)
                         .into(binding.ivEmotionRight)
                 }
             }
 
             binding.tvEmotionCount.text = item.emotion.size.toString()
 
-            if (item.comment.isNotEmpty()) {
+            if (item.comments != 0) {
                 binding.tvComment.isVisible = true
                 binding.tvCommentCount.isVisible = true
-                binding.tvCommentCount.text = item.comment.size.toString()
+                binding.tvCommentCount.text = item.comments.toString()
             } else {
                 binding.tvComment.isVisible = false
                 binding.tvCommentCount.isVisible = false
             }
 
-            binding.tvTime.text = item.time
+            binding.tvTime.text = item.time.substring(IntRange(11, 15))
             binding.tvHitCount.text = item.hit
 
-            if (item.isSelectedEmotion != -1) {
-                when (item.isSelectedEmotion) {
+            if (item.emotionStatus != -1) {
+                when (item.emotionStatus) {
                     PopupWindowType.Type1.emotionPosition -> {
                         binding.ivEmotionButton.setImageResource(PopupWindowType.Type1.drawable)
                         binding.tvEmotionButton.text = PopupWindowType.Type1.emotionName
@@ -141,7 +152,7 @@ class PostRecyclerViewAdapter :
             }
 
             binding.layoutEmotionButton.setOnClickListener {
-                popupWindowClickListener.onClicked(binding.layoutEmotionButton, adapterPosition)
+                popupWindowClickListener.onClicked(binding.layoutEmotionButton, item.id)
             }
 
             binding.tvContent.setOnClickListener { goToPostDetail(item, false) }
@@ -161,15 +172,38 @@ class PostRecyclerViewAdapter :
         holder.bind(currentList[position])
     }
 
-    fun goToPostDetail(item: ResponsePostData.Data, checkWrite: Boolean) {
+    fun setEmotionDrawable(position: Int) {
+        when (position) {
+            PopupWindowType.Type1.emotionPosition -> {
+                emotionDrawable = PopupWindowType.Type1.drawable
+            }
+            PopupWindowType.Type2.emotionPosition -> {
+                emotionDrawable = PopupWindowType.Type2.drawable
+            }
+            PopupWindowType.Type3.emotionPosition -> {
+                emotionDrawable = PopupWindowType.Type3.drawable
+            }
+            PopupWindowType.Type4.emotionPosition -> {
+                emotionDrawable = PopupWindowType.Type4.drawable
+            }
+            PopupWindowType.Type5.emotionPosition -> {
+                emotionDrawable = PopupWindowType.Type5.drawable
+            }
+            PopupWindowType.Type6.emotionPosition -> {
+                emotionDrawable = PopupWindowType.Type6.drawable
+            }
+        }
+    }
+
+    fun goToPostDetail(item: ResponsePostData.Data.Content, checkWrite: Boolean) {
         val intent = Intent(binding.root.context, PostDetailActivity::class.java)
         intent.putExtra(WRITE_CHECK, checkWrite)
         intent.putExtra(GROUP_NAME, item.groupName)
         intent.putExtra(NAME, item.name)
         intent.putExtra(TIME, item.time)
-        intent.putExtra(LOCATION, item.location)
+//        intent.putExtra(LOCATION, item.location)
         intent.putExtra(CONTENT, item.content)
-        intent.putIntegerArrayListExtra(IMAGE, item.contentImage)
+//        intent.putIntegerArrayListExtra(IMAGE, item.contentImage)
         binding.root.context.startActivity(intent)
     }
 
@@ -183,8 +217,8 @@ class PostRecyclerViewAdapter :
 
     fun setPopupWindowClickListener(listener: (View, Int) -> Unit) {
         popupWindowClickListener = object : PopupWindowClickListener {
-            override fun onClicked(view: View, position: Int) {
-                listener(view, position)
+            override fun onClicked(view: View, contentId: Int) {
+                listener(view, contentId)
             }
         }
     }
@@ -194,7 +228,7 @@ class PostRecyclerViewAdapter :
     }
 
     interface PopupWindowClickListener {
-        fun onClicked(view: View, position: Int)
+        fun onClicked(view: View, contentId: Int)
     }
 
     companion object {
@@ -207,17 +241,17 @@ class PostRecyclerViewAdapter :
         const val CONTENT = "content"
         const val IMAGE = "image"
 
-        private val diffUtil = object : DiffUtil.ItemCallback<ResponsePostData.Data>() {
+        private val diffUtil = object : DiffUtil.ItemCallback<ResponsePostData.Data.Content>() {
             override fun areItemsTheSame(
-                oldItem: ResponsePostData.Data,
-                newItem: ResponsePostData.Data,
+                oldItem: ResponsePostData.Data.Content,
+                newItem: ResponsePostData.Data.Content,
             ): Boolean {
                 return oldItem == newItem
             }
 
             override fun areContentsTheSame(
-                oldItem: ResponsePostData.Data,
-                newItem: ResponsePostData.Data,
+                oldItem: ResponsePostData.Data.Content,
+                newItem: ResponsePostData.Data.Content,
             ): Boolean {
                 return oldItem == newItem
             }

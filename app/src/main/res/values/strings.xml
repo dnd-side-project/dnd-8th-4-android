@@ -86,6 +86,7 @@
     <string name="home_item_post_emotion_button">공감하기</string>
     <string name="home_item_post_comment_write_button">댓글쓰기</string>
     <string name="home_item_post_image_count_slash">/</string>
+    <string name="home_item_no_location">어디를 방문하셨나요?</string>
 
     <!-- CreateGroupActivity -->
     <string name="create_group">그룹 만들기</string>

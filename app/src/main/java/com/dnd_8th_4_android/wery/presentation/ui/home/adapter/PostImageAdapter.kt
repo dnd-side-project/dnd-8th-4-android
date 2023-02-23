@@ -5,23 +5,24 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.dnd_8th_4_android.wery.data.remote.model.home.ResponsePostData
 import com.dnd_8th_4_android.wery.databinding.ItemPostImageBinding
 
-class PostImageAdapter(private val itemList: List<Int>) :
+class PostImageAdapter(private val itemList: List<ResponsePostData.Data.Content.Images>) :
     RecyclerView.Adapter<PostImageAdapter.ViewHolder>() {
     private lateinit var binding: ItemPostImageBinding
     private lateinit var postDetailImageListener: PostDetailImageListener
 
     inner class ViewHolder(private val binding: ItemPostImageBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Int) {
+        fun bind(item: ResponsePostData.Data.Content.Images) {
             binding.ivFriendPostImage.clipToOutline = true
-            Glide.with(binding.ivFriendPostImage.context).load(item)
+            Glide.with(binding.ivFriendPostImage.context).load(item.imageUrl)
                 .into(binding.ivFriendPostImage)
             binding.tvPostImageCount.text = "${adapterPosition.inc()}"
             binding.tvPostImageAllCount.text = itemList.size.toString()
 
-            if(itemList.size == 1) {
+            if (itemList.size == 1) {
                 binding.layoutPostImageCount.isVisible = false
             }
 
