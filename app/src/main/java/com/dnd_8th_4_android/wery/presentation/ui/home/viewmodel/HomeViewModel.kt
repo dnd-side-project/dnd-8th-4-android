@@ -35,6 +35,8 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
 
     var pageNumber = 0
     var isNoData = false
+    var isSearchOn = false
+    var searchWord = ""
 
     // 등록된 그룹 조회
     fun getSignGroup() {
@@ -102,6 +104,28 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
                 } else {
                     setUpdateEmotion(isSelectGroupId, contentId, emotionStatus)
                 }
+            }.onFailure {
+                Timber.tag("error").d(it.message.toString())
+            }
+        }
+    }
+
+    fun groupPostSearch(isSelectGroupId: Int, word: String, pageNumber: Int) {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                if (isSelectGroupId != 0) {
+                    homeRepository.groupPostSearch(isSelectGroupId.toString(), word, pageNumber)
+                } else {
+                    homeRepository.groupPostSearch(groupAllIdList.joinToString(), word, pageNumber)
+                }
+            }.onSuccess {
+                if (it.data != null) {
+                    _postList.value = it.data.content
+                } else {
+                    isNoData = true
+                }
+                Log.e("태그", _postList.value.toString())
+                _isLoading.value = false
             }.onFailure {
                 Timber.tag("error").d(it.message.toString())
             }

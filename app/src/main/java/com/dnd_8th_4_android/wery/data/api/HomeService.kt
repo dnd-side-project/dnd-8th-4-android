@@ -22,4 +22,11 @@ interface HomeService {
         @Path("contentId") contentId: Int,
         @Body body: RequestEmotionStatus,
     ): ResponseEmotionData
+
+    @GET("/content/group/search")
+    suspend fun groupPostSearch(
+        @Query("groupId") groupId: String,
+        @Query("word") word: String,
+        @Query("page") page: Int,
+    ): ResponsePostData
 }

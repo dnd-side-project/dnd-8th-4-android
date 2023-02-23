@@ -130,7 +130,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             if (actionId == EditorInfo.IME_ACTION_SEARCH && searchKeyword.isNotEmpty()) {
                 binding.etSearch.hideKeyboard()
                 binding.etSearch.clearFocus()
-                // TODO 검색 동작
+
+                // 검색 동작
+                homeViewModel.setLoading()
+                homeViewModel.pageNumber = 1
+                homeViewModel.searchWord = searchKeyword
+                homeViewModel.groupPostSearch(isSelectGroupId, homeViewModel.searchWord, homeViewModel.pageNumber)
             }
             false
         }
@@ -150,7 +155,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         binding.activityGroup.scrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, _, _, _, _ ->
             if (homeViewModel.isLoading.value == false && !homeViewModel.isNoData && !v.canScrollVertically(1)) {
                 homeViewModel.pageNumber += 1
-                homeViewModel.getGroupPost(isSelectGroupId.toString(), homeViewModel.pageNumber)
+                if (homeViewModel.isSearchOn) {
+                    homeViewModel.groupPostSearch(isSelectGroupId, homeViewModel.searchWord, homeViewModel.pageNumber)
+                } else {
+                    homeViewModel.getGroupPost(isSelectGroupId.toString(), homeViewModel.pageNumber)
+                }
             }
         })
 

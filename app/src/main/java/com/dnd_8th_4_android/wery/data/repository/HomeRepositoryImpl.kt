@@ -22,4 +22,12 @@ class HomeRepositoryImpl @Inject constructor(private val homeDataSource: HomeDat
     override suspend fun sendEmotionData(contentId: Int, body: RequestEmotionStatus): ResponseEmotionData {
         return homeDataSource.sendEmotionData(contentId, body)
     }
+
+    override suspend fun groupPostSearch(
+        groupId: String,
+        word: String,
+        page: Int,
+    ): ResponsePostData {
+        return homeDataSource.groupPostSearch(groupId, word, page)
+    }
 }
