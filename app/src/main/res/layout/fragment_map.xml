@@ -177,6 +177,14 @@
                 android:src="@drawable/selector_filter_mission" />
         </LinearLayout>
 
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/vp_feed_dialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
         <!-- 바텀 시트 연습장 뷰 -->
         <FrameLayout
             android:id="@+id/standard_bottom_sheet_mission"

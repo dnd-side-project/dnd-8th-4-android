@@ -5,6 +5,10 @@
 
     <data>
 
+        <variable
+            name="data"
+            type="com.dnd_8th_4_android.wery.data.remote.model.map.ResponseMapFeed" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -38,6 +42,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
+                android:text="@{data.title}"
                 app:layout_constraintBottom_toTopOf="@id/tv_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -51,6 +56,7 @@
                 android:layout_marginTop="12dp"
                 android:ellipsize="end"
                 android:maxLines="3"
+                android:text="@{data.content}"
                 android:textColor="@color/black"
                 app:layout_constraintBottom_toTopOf="@id/iv_group_img"
                 app:layout_constraintStart_toStartOf="@id/tv_title"
@@ -62,6 +68,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginTop="12dp"
+                imageBindFitXY="@{data.groupImgUrl}"
                 android:background="@drawable/shape_gray100_radius_8"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="1:1"
@@ -84,6 +91,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="6dp"
                     android:textColor="@color/gray700"
+                    android:text="@{data.groupName}"
                     tools:text="안산 뉴진스" />
 
                 <ImageView
@@ -100,6 +108,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
+                    android:text="@{data.createDate}"
                     android:textColor="@color/gray500"
                     tools:text="2023.02.19" />
             </LinearLayout>
@@ -112,6 +121,7 @@
             android:layout_height="70dp"
             android:layout_marginVertical="40dp"
             android:scaleType="fitXY"
+            imageBindFitXY="@{data.groupPhotoImgUrl}"
             android:background="@drawable/shape_gray100_radius_8"
             tools:src="@drawable/img_no_group"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -126,6 +136,7 @@
             style="@style/TextView.Caption.10.M"
             android:gravity="center"
             android:padding="6dp"
+            android:text="@{data.groupPhotoCnt}"
             android:background="@drawable/shape_oval_b3000000"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="@id/iv_group_photo"

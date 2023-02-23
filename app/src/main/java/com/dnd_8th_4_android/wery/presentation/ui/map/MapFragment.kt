@@ -11,15 +11,16 @@ import android.location.LocationManager
 import android.net.Uri
 import android.provider.Settings
 import android.util.DisplayMetrics
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
+import com.bumptech.glide.Glide
 import com.dnd_8th_4_android.wery.R
-import com.dnd_8th_4_android.wery.data.remote.model.map.ResponseMission
+import com.dnd_8th_4_android.wery.data.remote.model.map.ResponseMapMission
 import com.dnd_8th_4_android.wery.databinding.FragmentMapBinding
+import com.dnd_8th_4_android.wery.databinding.ItemMarkerFeedBinding
 import com.dnd_8th_4_android.wery.domain.model.DialogInfo
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseFragment
 import com.dnd_8th_4_android.wery.presentation.util.DialogFragmentUtil
@@ -92,6 +93,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
         mapView.setPOIItemEventListener(eventListener)
 
         getMyCurrentLocation()
+        showFeedMarkerList()
     }
 
     // 현재 위치 구하기
@@ -165,27 +167,74 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
     override fun initAfterBinding() {
         binding.layoutReloadCurrentLocation.setOnClickListener {
             getMyCurrentLocation()
-            showMissionPinList()
         }
 
         binding.ivFilterFeed.setOnClickListener {
             mapViewModel.setFilterType(0)
+            mapView.removeAllPOIItems()
+            showFeedMarkerList()
         }
 
         binding.ivFilterMission.setOnClickListener {
             mapViewModel.setFilterType(1)
+            mapView.removeAllPOIItems()
+            showMissionMarkerList()
         }
+    }
+
+    private fun showFeedMarkerList() {
+
+        val imgList = mutableListOf(
+            "https://cdn.pixabay.com/photo/2020/06/02/06/52/cat-5249722__480.jpg",
+            "https://media.istockphoto.com/id/1067347086/ko/%EC%82%AC%EC%A7%84/%EC%B9%B4%EB%A9%94%EB%9D%BC%EC%97%90-%EB%B3%B4%EC%9D%B4%EB%8A%94-%ED%8C%8C%EB%9E%80-%EB%88%88-%EA%B3%A0%EC%96%91%EC%9D%B4.jpg?s=612x612&w=0&k=20&c=Hss5wwW8kwkTL63xCtCySq8ZwXRO-8FNkuouTB60itw="
+        )
+
+        val feedList = mutableListOf<ResponseMapMission>()
+        feedList.apply {
+            add(ResponseMapMission(33.450879, 126.569940))
+            add(ResponseMapMission(33.450705, 126.570738))
+        }
+
+        val view = ItemMarkerFeedBinding.inflate(layoutInflater)
+        // val view = LayoutInflater.from(requireContext()).inflate(R.layout.item_marker_feed, null)
+
+        val feedMarkerArr = arrayListOf<MapPOIItem>()
+
+        for (i in feedList.indices) {
+            Glide.with(requireContext()).load(imgList[i]).fitCenter().into(view.ivMapGroupImg)
+
+            val myCustomImageBitmap = createBitMapFromView(view.root)
+
+
+            val feedMarker = MapPOIItem()
+            feedMarker.apply {
+                itemName = ""
+                isShowCalloutBalloonOnTouch = false
+                mapPoint = MapPoint.mapPointWithGeoCoord(feedList[i].x, feedList[i].y)
+                markerType = MapPOIItem.MarkerType.CustomImage
+                customImageBitmap = myCustomImageBitmap
+                selectedMarkerType = MapPOIItem.MarkerType.CustomImage
+                customSelectedImageBitmap = myCustomImageBitmap
+                isCustomImageAutoscale = false
+            }
+
+            feedMarkerArr.add(feedMarker)
+        }
+
+        val convertToArrayItem =
+            feedMarkerArr.toArray(arrayOfNulls<MapPOIItem>(feedMarkerArr.size))
+        mapView.addPOIItems(convertToArrayItem)
     }
 
     // TODO 서버 통신 후 미션 들의 위치 좌표 값을 가져온다
     // 미션 리스트 띄우기
-    private fun showMissionPinList() {
-        val missionList = mutableListOf<ResponseMission>()
+    private fun showMissionMarkerList() {
+        val missionList = mutableListOf<ResponseMapMission>()
         missionList.apply {
-            add(ResponseMission(33.4507057, 126.570677))
-            add(ResponseMission(33.450936, 126.569477))
-            add(ResponseMission(33.450879, 126.569940))
-            add(ResponseMission(33.450705, 126.570738))
+            add(ResponseMapMission(33.4507057, 126.570677))
+            add(ResponseMapMission(33.450936, 126.569477))
+            add(ResponseMapMission(33.450879, 126.569940))
+            add(ResponseMapMission(33.450705, 126.570738))
         }
 
         val missionMarkerArr = arrayListOf<MapPOIItem>()
@@ -208,42 +257,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
         val convertToArrayItem =
             missionMarkerArr.toArray(arrayOfNulls<MapPOIItem>(missionMarkerArr.size))
         mapView.addPOIItems(convertToArrayItem)
-    }
-
-    // TODO 서버 통신 후 피드 들의 위치 좌표 값을 가져온다
-    private fun showFeedPinList() {
-        val view = LayoutInflater.from(requireContext()).inflate(R.layout.item_marker_feed, null)
-        var myCustomImageBitmap = createBitMapFromView(view)
-
-        val feedList = mutableListOf<ResponseMission>()
-        feedList.apply {
-            add(ResponseMission(33.4507057, 126.570677))
-            add(ResponseMission(33.450936, 126.569477))
-            add(ResponseMission(33.450879, 126.569940))
-            add(ResponseMission(33.450705, 126.570738))
-        }
-
-        val feedMarkerArr = arrayListOf<MapPOIItem>()
-        for (i in feedList.indices) {
-            val feedMarker = MapPOIItem()
-            feedMarker.apply {
-                itemName = ""
-                isShowCalloutBalloonOnTouch = false
-                mapPoint = MapPoint.mapPointWithGeoCoord(feedList[i].x, feedList[i].y)
-                markerType = MapPOIItem.MarkerType.CustomImage
-                customImageBitmap = myCustomImageBitmap
-                selectedMarkerType = MapPOIItem.MarkerType.CustomImage
-                customSelectedImageResourceId = R.drawable.img_pin_mission_pin_select
-                isCustomImageAutoscale = false
-            }
-
-            feedMarkerArr.add(feedMarker)
-        }
-
-        val convertToArrayItem =
-            feedMarkerArr.toArray(arrayOfNulls<MapPOIItem>(feedMarkerArr.size))
-        mapView.addPOIItems(convertToArrayItem)
-
     }
 
     private fun createBitMapFromView(view: View): Bitmap {
