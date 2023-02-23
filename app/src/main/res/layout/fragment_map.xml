@@ -98,7 +98,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_search_close"
-                    android:visibility="@{viewModel.searchResult.component4() == 0.0 ? View.GONE : View.VISIBLE}"
+                    android:visibility="@{viewModel.searchPlaceTxt == @string/map_search_hint ? View.GONE : View.VISIBLE}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

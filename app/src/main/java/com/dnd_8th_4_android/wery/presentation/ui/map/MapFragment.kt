@@ -76,8 +76,37 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
                         selectedY!!
                     )
                 )
+
+                /** 검색한 장소가 존재할 때
+                 * 검색결과의 x,y 위치를 지도 마커로 찍어준다  */
+                setSearchMarker()
             }
         }
+
+    private fun setSearchMarker() {
+        val marker = MapPOIItem()
+        marker.apply {
+            itemName = mapViewModel.searchResult.value!!.place_name   // 마커 이름
+            mapPoint = MapPoint.mapPointWithGeoCoord(
+                mapViewModel.searchResult.value!!.y,
+                mapViewModel.searchResult.value!!.x
+            )
+            markerType = MapPOIItem.MarkerType.CustomImage
+            customImageResourceId = R.drawable.img_current_location_pin
+            selectedMarkerType = MapPOIItem.MarkerType.CustomImage
+            customSelectedImageResourceId = R.drawable.img_current_location_pin
+            isCustomImageAutoscale = false
+        }
+
+        mapView.removeAllPOIItems()
+
+        mapView.setMapCenterPointAndZoomLevel(
+            MapPoint.mapPointWithGeoCoord(
+                mapViewModel.searchResult.value!!.y, mapViewModel.searchResult.value!!.x
+            ), 5, false
+        )
+        mapView.addPOIItem(marker)
+    }
 
     override fun initStartView() {
         binding.viewModel = mapViewModel
