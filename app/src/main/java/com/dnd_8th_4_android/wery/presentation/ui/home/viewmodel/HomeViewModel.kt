@@ -1,5 +1,6 @@
 package com.dnd_8th_4_android.wery.presentation.ui.home.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -32,6 +33,9 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
     private val _isLoading: MutableLiveData<Boolean> = MutableLiveData()
     val isLoading: LiveData<Boolean> = _isLoading
 
+    var pageNumber = 0
+    var isNoData = false
+
     // 등록된 그룹 조회
     fun getSignGroup() {
         _isLoading.value = true
@@ -48,7 +52,8 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
                     for (i in it.data.groupInfoList.indices) {
                         groupAllIdList.add(it.data.groupInfoList[i].id)
                     }
-                    getGroupPost(groupAllIdList.joinToString(), 1)
+                    pageNumber = 1
+                    getGroupPost(groupAllIdList.joinToString(), pageNumber)
                 }
             }.onFailure {
                 Timber.tag("error").d(it.message.toString())
@@ -58,12 +63,18 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
     }
 
     // 그룹 게시글 조회
-    fun getGroupPost(groupId: String, page: Int) {
+    fun getGroupPost(groupId: String, pageNumber: Int) {
         viewModelScope.launch {
             kotlin.runCatching {
-                homeRepository.allGroupPost(groupId, page)
+                homeRepository.allGroupPost(groupId, pageNumber)
             }.onSuccess {
-                _postList.value = it.data.content
+                if (it.data != null) {
+                    _postList.value = it.data.content
+                } else {
+                    isNoData = true
+                }
+                Log.e("태그", pageNumber.toString())
+                Log.e("태그", _postList.value.toString())
                 _isLoading.value = false
             }.onFailure {
                 Timber.tag("error").d(it.message.toString())
@@ -84,9 +95,9 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
                 // TODO 현재 page 처리
                 if (it.data != null) {
                     if (isSelectGroupId != 0) {
-                        getGroupPost(isSelectGroupId.toString(), 1)
+                        getGroupPost(isSelectGroupId.toString(), pageNumber)
                     } else {
-                        getGroupPost(groupAllIdList.joinToString(), 1)
+                        getGroupPost(groupAllIdList.joinToString(), pageNumber)
                     }
                 } else {
                     setUpdateEmotion(isSelectGroupId, contentId, emotionStatus)

@@ -9,6 +9,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.PopupWindow
 import android.widget.ScrollView
 import androidx.core.view.isVisible
+import androidx.core.widget.NestedScrollView
 import androidx.core.widget.doBeforeTextChanged
 import androidx.fragment.app.viewModels
 import com.dnd_8th_4_android.wery.R
@@ -145,6 +146,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 homeViewModel.getGroupPost(homeViewModel.groupAllIdList.joinToString(), 1)
             }
         }
+
+        binding.activityGroup.scrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, _, _, _, _ ->
+            if (homeViewModel.isLoading.value == false && !homeViewModel.isNoData && !v.canScrollVertically(1)) {
+                homeViewModel.pageNumber += 1
+                homeViewModel.getGroupPost(isSelectGroupId.toString(), homeViewModel.pageNumber)
+            }
+        })
 
         binding.btnFloatingAction.setOnClickListener {
             startActivity(Intent(requireContext(), WritingActivity::class.java))
