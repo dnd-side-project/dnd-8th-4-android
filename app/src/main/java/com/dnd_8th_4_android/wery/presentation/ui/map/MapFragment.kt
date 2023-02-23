@@ -11,17 +11,20 @@ import android.location.LocationManager
 import android.net.Uri
 import android.provider.Settings
 import android.util.DisplayMetrics
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
+import com.bumptech.glide.Glide
 import com.dnd_8th_4_android.wery.R
-import com.dnd_8th_4_android.wery.data.remote.model.map.ResponseMission
+import com.dnd_8th_4_android.wery.data.remote.model.map.ResponseMapFeed
+import com.dnd_8th_4_android.wery.data.remote.model.map.ResponseMapMission
 import com.dnd_8th_4_android.wery.databinding.FragmentMapBinding
+import com.dnd_8th_4_android.wery.databinding.ItemMarkerFeedBinding
 import com.dnd_8th_4_android.wery.domain.model.DialogInfo
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseFragment
+import com.dnd_8th_4_android.wery.presentation.ui.map.adapter.MapFeedAdapter
 import com.dnd_8th_4_android.wery.presentation.util.DialogFragmentUtil
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
@@ -34,6 +37,9 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
     private lateinit var eventListener: MarkerEventListener
 
     private val mapViewModel: MapViewModel by viewModels()
+
+    var currentLat = 0.0
+    var currentLog = 0.0
 
     private val locationPermissionRequest = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
@@ -92,6 +98,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
         mapView.setPOIItemEventListener(eventListener)
 
         getMyCurrentLocation()
+        showFeedMarkerList()
     }
 
     // 현재 위치 구하기
@@ -111,6 +118,9 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
         //위도 , 경도
         mapViewModel.myCurrentLatitude.value = myCurrentLocation?.latitude
         mapViewModel.myCurrentLongitude.value = myCurrentLocation?.longitude
+
+        currentLat = myCurrentLocation?.latitude!!
+        currentLog = myCurrentLocation.longitude!!
 
         mapView.setMapCenterPointAndZoomLevel(
             MapPoint.mapPointWithGeoCoord(
@@ -144,11 +154,13 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
                         if (mapViewModel.filterType.value == 0) { // 피드
                             // 피드 visible
                             Toast.makeText(requireContext(), "피드 마커 해제", Toast.LENGTH_SHORT).show()
+                            binding.vpFeedDialog.visibility = View.GONE
                         } else { // 미션
                             binding.standardBottomSheetMission.visibility = View.GONE
-                            mapViewModel.setBottomDialogShowingState(false)
                             Toast.makeText(requireContext(), "미션 마커 해제", Toast.LENGTH_SHORT).show()
                         }
+                        mapViewModel.setBottomDialogShowingState(false)
+                        binding.btnFloatingAction.visibility = View.VISIBLE
                     }
 
                     override fun onMapViewDoubleTapped(p0: MapView?, p1: MapPoint?) {}
@@ -162,29 +174,77 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
     }
 
     override fun initAfterBinding() {
+        initViewPager()
+
         binding.layoutReloadCurrentLocation.setOnClickListener {
             getMyCurrentLocation()
-            showMissionPinList()
         }
 
         binding.ivFilterFeed.setOnClickListener {
             mapViewModel.setFilterType(0)
+            mapView.removeAllPOIItems()
+            showFeedMarkerList()
         }
 
         binding.ivFilterMission.setOnClickListener {
             mapViewModel.setFilterType(1)
+            mapView.removeAllPOIItems()
+            showMissionMarkerList()
         }
+    }
+
+    private fun showFeedMarkerList() {
+
+        val imgList = mutableListOf(
+            "https://cdn.pixabay.com/photo/2020/06/02/06/52/cat-5249722__480.jpg",
+            "https://media.istockphoto.com/id/1067347086/ko/%EC%82%AC%EC%A7%84/%EC%B9%B4%EB%A9%94%EB%9D%BC%EC%97%90-%EB%B3%B4%EC%9D%B4%EB%8A%94-%ED%8C%8C%EB%9E%80-%EB%88%88-%EA%B3%A0%EC%96%91%EC%9D%B4.jpg?s=612x612&w=0&k=20&c=Hss5wwW8kwkTL63xCtCySq8ZwXRO-8FNkuouTB60itw="
+        )
+
+        val feedList = mutableListOf<ResponseMapMission>()
+        feedList.apply {
+            add(ResponseMapMission(currentLat, currentLog))
+            add(ResponseMapMission(currentLat + 0.0003, currentLog))
+        }
+
+        val view = ItemMarkerFeedBinding.inflate(layoutInflater)
+        // val view = LayoutInflater.from(requireContext()).inflate(R.layout.item_marker_feed, null)
+
+        val feedMarkerArr = arrayListOf<MapPOIItem>()
+
+        for (i in feedList.indices) {
+            Glide.with(requireContext()).load(imgList[i]).fitCenter().into(view.ivMapGroupImg)
+
+            val myCustomImageBitmap = createBitMapFromView(view.root)
+
+            val feedMarker = MapPOIItem()
+            feedMarker.apply {
+                itemName = ""
+                isShowCalloutBalloonOnTouch = false
+                mapPoint = MapPoint.mapPointWithGeoCoord(feedList[i].x, feedList[i].y)
+                markerType = MapPOIItem.MarkerType.CustomImage
+                customImageBitmap = myCustomImageBitmap
+                selectedMarkerType = MapPOIItem.MarkerType.CustomImage
+                customSelectedImageBitmap = myCustomImageBitmap
+                isCustomImageAutoscale = false
+            }
+
+            feedMarkerArr.add(feedMarker)
+        }
+
+        val convertToArrayItem =
+            feedMarkerArr.toArray(arrayOfNulls<MapPOIItem>(feedMarkerArr.size))
+        mapView.addPOIItems(convertToArrayItem)
     }
 
     // TODO 서버 통신 후 미션 들의 위치 좌표 값을 가져온다
     // 미션 리스트 띄우기
-    private fun showMissionPinList() {
-        val missionList = mutableListOf<ResponseMission>()
+    private fun showMissionMarkerList() {
+        val missionList = mutableListOf<ResponseMapMission>()
         missionList.apply {
-            add(ResponseMission(33.4507057, 126.570677))
-            add(ResponseMission(33.450936, 126.569477))
-            add(ResponseMission(33.450879, 126.569940))
-            add(ResponseMission(33.450705, 126.570738))
+            add(ResponseMapMission(currentLat, currentLog))
+            add(ResponseMapMission(33.450936, 126.569477))
+            add(ResponseMapMission(33.450879, 126.569940))
+            add(ResponseMapMission(33.450705, 126.570738))
         }
 
         val missionMarkerArr = arrayListOf<MapPOIItem>()
@@ -209,42 +269,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
         mapView.addPOIItems(convertToArrayItem)
     }
 
-    // TODO 서버 통신 후 피드 들의 위치 좌표 값을 가져온다
-    private fun showFeedPinList() {
-        val view = LayoutInflater.from(requireContext()).inflate(R.layout.item_marker_feed, null)
-        var myCustomImageBitmap = createBitMapFromView(view)
-
-        val feedList = mutableListOf<ResponseMission>()
-        feedList.apply {
-            add(ResponseMission(33.4507057, 126.570677))
-            add(ResponseMission(33.450936, 126.569477))
-            add(ResponseMission(33.450879, 126.569940))
-            add(ResponseMission(33.450705, 126.570738))
-        }
-
-        val feedMarkerArr = arrayListOf<MapPOIItem>()
-        for (i in feedList.indices) {
-            val feedMarker = MapPOIItem()
-            feedMarker.apply {
-                itemName = ""
-                isShowCalloutBalloonOnTouch = false
-                mapPoint = MapPoint.mapPointWithGeoCoord(feedList[i].x, feedList[i].y)
-                markerType = MapPOIItem.MarkerType.CustomImage
-                customImageBitmap = myCustomImageBitmap
-                selectedMarkerType = MapPOIItem.MarkerType.CustomImage
-                customSelectedImageResourceId = R.drawable.img_pin_mission_pin_select
-                isCustomImageAutoscale = false
-            }
-
-            feedMarkerArr.add(feedMarker)
-        }
-
-        val convertToArrayItem =
-            feedMarkerArr.toArray(arrayOfNulls<MapPOIItem>(feedMarkerArr.size))
-        mapView.addPOIItems(convertToArrayItem)
-
-    }
-
     private fun createBitMapFromView(view: View): Bitmap {
         val displayMetrics = DisplayMetrics()
         view.layoutParams = ViewGroup.LayoutParams(
@@ -260,6 +284,39 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
         return bitmap
     }
 
+    private fun initViewPager() {
+        val pagerPadding =
+            binding.root.resources.getDimensionPixelOffset(R.dimen.view_pager_padding_width) // 아이템의 padding
+        val offsetPx =
+            binding.root.resources.getDimensionPixelOffset(R.dimen.view_pager_offset_10)// 아이템 간의 간격
+
+        binding.vpFeedDialog.setPadding(pagerPadding, 0, pagerPadding, pagerPadding)
+        binding.vpFeedDialog.setPageTransformer { page, position ->
+            page.translationX = position * offsetPx
+        }
+
+        binding.vpFeedDialog.offscreenPageLimit = 2 // 몇 개의 페이지를 미리 로드 해둘것인지
+    }
+
+    private fun getFeedVpData() {
+        val mapFeedAdapter = MapFeedAdapter()
+        mapFeedAdapter.itemList.add(
+            ResponseMapFeed(
+                "안산 포터블 커피",
+                "오늘 지예랑 새로 생긴 카페 갔지롱 인절미 라떼가 진짜 맛있더라 \uD83E\uDD7A 세상엔 왜 이렇게 맛있는 게 많은 걸까 다음엔 너희랑도 가고 싶어",
+                "안산 뉴진스", "", "", 4, "2023.02.19"
+            )
+        )
+        mapFeedAdapter.itemList.add(
+            ResponseMapFeed(
+                "안산 포터블 커피",
+                "오늘 지예랑 새로 생긴 카페 갔지롱 인절미 라떼가 진짜 맛있더라 \uD83E\uDD7A 세상엔 왜 이렇게 맛있는 게 많은 걸까 다음엔 너희랑도 가고 싶어",
+                "안산 뉴진스", "", "", 4, "2023.02.19"
+            )
+        )
+        binding.vpFeedDialog.adapter = mapFeedAdapter
+    }
+
 
     inner class MarkerEventListener() :
         MapView.POIItemEventListener {
@@ -267,14 +324,24 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
         override fun onPOIItemSelected(mapView: MapView?, poiItem: MapPOIItem?) {
             // 마커 클릭 시
             if (mapViewModel.filterType.value == 0) { // 피드 마커 일 때
-                Toast.makeText(requireContext(), "${poiItem?.mapPoint}: 피드 마커 클릭", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    "${poiItem?.mapPoint}: 피드 마커 클릭",
+                    Toast.LENGTH_SHORT
+                ).show()
+                getFeedVpData()
+                binding.vpFeedDialog.visibility = View.VISIBLE
             } else { // 미션 마커 일 때
-                Toast.makeText(requireContext(), "${poiItem?.mapPoint}: 미션 마커 클릭", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    "${poiItem?.mapPoint}: 미션 마커 클릭",
+                    Toast.LENGTH_SHORT
+                ).show()
                 binding.standardBottomSheetMission.visibility = View.VISIBLE
-                mapViewModel.setBottomDialogShowingState(true)
             }
 
-
+            mapViewModel.setBottomDialogShowingState(true)
+            binding.btnFloatingAction.visibility = View.GONE
         }
 
         override fun onCalloutBalloonOfPOIItemTouched(mapView: MapView?, poiItem: MapPOIItem?) {}
@@ -291,14 +358,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
             poiItem: MapPOIItem?,
             mapPoint: MapPoint?
         ) {
-        }
-
-        fun missionSelectEvent() {
-
-        }
-
-        fun missionDeSelectEvent() {
-
         }
     }
 

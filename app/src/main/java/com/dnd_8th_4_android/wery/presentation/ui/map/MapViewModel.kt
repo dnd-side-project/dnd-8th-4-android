@@ -3,17 +3,17 @@ package com.dnd_8th_4_android.wery.presentation.ui.map
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.dnd_8th_4_android.wery.data.remote.model.map.ResponseMission
+import com.dnd_8th_4_android.wery.data.remote.model.map.ResponseMapMission
 
 class MapViewModel : ViewModel() {
     var myCurrentLatitude = MutableLiveData<Double>()
     var myCurrentLongitude = MutableLiveData<Double>()
 
-    private val _feedList = MutableLiveData<MutableList<ResponseMission>>()
-    val feedList: LiveData<MutableList<ResponseMission>> = _feedList
+    private val _feedList = MutableLiveData<MutableList<ResponseMapMission>>()
+    val feedList: LiveData<MutableList<ResponseMapMission>> = _feedList
 
-    private val _missionList = MutableLiveData<MutableList<ResponseMission>>()
-    val missionList: LiveData<MutableList<ResponseMission>> = _missionList
+    private val _missionList = MutableLiveData<MutableList<ResponseMapMission>>()
+    val missionList: LiveData<MutableList<ResponseMapMission>> = _missionList
 
     private val _filterType = MutableLiveData<Int>(0)
     val filterType: LiveData<Int> = _filterType
@@ -21,24 +21,24 @@ class MapViewModel : ViewModel() {
     private val _isBottomDialogShowing = MutableLiveData<Boolean>()
     val isBottomDialogShowing: LiveData<Boolean> = _isBottomDialogShowing
 
-    fun getMissionList(): MutableList<ResponseMission> {
+    fun getMissionList(): MutableList<ResponseMapMission> {
         // 임시값 1, 2, 3 넣어보기
         _missionList.value!!.apply {
-            add(ResponseMission(33.450705, 126.570677))
-            add(ResponseMission(33.450936, 126.569477))
-            add(ResponseMission(33.450879, 126.569940))
-            add(ResponseMission(33.450705, 126.570738))
+            add(ResponseMapMission(33.450705, 126.570677))
+            add(ResponseMapMission(33.450936, 126.569477))
+            add(ResponseMapMission(33.450879, 126.569940))
+            add(ResponseMapMission(33.450705, 126.570738))
         }
         return _missionList.value!!
     }
 
-    fun getFeedList():MutableList<ResponseMission> {
+    fun getFeedList():MutableList<ResponseMapMission> {
         // 임시값 1, 2, 3 넣어보기
         _feedList.value!!.apply {
-            add(ResponseMission(33.450705,126.570677))
-            add(ResponseMission(33.450936, 126.569477))
-            add(ResponseMission(33.450879, 126.569940))
-            add(ResponseMission(33.450705, 126.570738))
+            add(ResponseMapMission(33.450705,126.570677))
+            add(ResponseMapMission(33.450936, 126.569477))
+            add(ResponseMapMission(33.450879, 126.569940))
+            add(ResponseMapMission(33.450705, 126.570738))
         }
         return _feedList.value!!
     }
