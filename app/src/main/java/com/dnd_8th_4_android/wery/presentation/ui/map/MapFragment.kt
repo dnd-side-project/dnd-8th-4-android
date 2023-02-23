@@ -18,6 +18,8 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.data.remote.model.map.ResponseMapFeed
 import com.dnd_8th_4_android.wery.data.remote.model.map.ResponseMapMission
@@ -150,6 +152,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
 
         getMyCurrentLocation()
         showFeedMarkerList()
+        showFeedMarkerList()
+        showFeedMarkerList()
     }
 
     // 현재 위치 구하기
@@ -167,8 +171,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
                 LocationManager.NETWORK_PROVIDER
             )
         //위도 , 경도
-        mapViewModel.myCurrentLatitude.value = myCurrentLocation?.latitude
-        mapViewModel.myCurrentLongitude.value = myCurrentLocation?.longitude
+        mapViewModel.myCurrentLatitude.value = myCurrentLocation?.latitude ?: 0.0
+        mapViewModel.myCurrentLongitude.value = myCurrentLocation?.longitude ?: 0.0
 
         mapView.setMapCenterPointAndZoomLevel(
             MapPoint.mapPointWithGeoCoord(
@@ -191,9 +195,11 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
             if (it == 0) {
                 binding.ivFilterFeed.isSelected = true
                 binding.ivFilterMission.isSelected = false
+                binding.standardBottomSheetMission.visibility = View.GONE
             } else {
                 binding.ivFilterFeed.isSelected = false
                 binding.ivFilterMission.isSelected = true
+                binding.vpFeedDialog.visibility = View.GONE
             }
         }
 
@@ -205,16 +211,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
                     override fun onMapViewZoomLevelChanged(p0: MapView?, p1: Int) {}
 
                     override fun onMapViewSingleTapped(p0: MapView?, p1: MapPoint?) {
-                        if (mapViewModel.filterType.value == 0) { // 피드
-                            // 피드 visible
-                            Toast.makeText(requireContext(), "피드 마커 해제", Toast.LENGTH_SHORT).show()
-                            binding.vpFeedDialog.visibility = View.GONE
-                        } else { // 미션
-                            binding.standardBottomSheetMission.visibility = View.GONE
-                            Toast.makeText(requireContext(), "미션 마커 해제", Toast.LENGTH_SHORT).show()
-                        }
-                        mapViewModel.setBottomDialogShowingState(false)
-                        binding.btnFloatingAction.visibility = View.VISIBLE
+                        setDialogEventPop()
                     }
 
                     override fun onMapViewDoubleTapped(p0: MapView?, p1: MapPoint?) {}
@@ -225,6 +222,19 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
                 })
             }
         }
+    }
+
+    private fun setDialogEventPop() {
+        if (mapViewModel.filterType.value == 0) { // 피드
+            // 피드 visible
+            Toast.makeText(requireContext(), "피드 마커 해제", Toast.LENGTH_SHORT).show()
+            binding.vpFeedDialog.visibility = View.GONE
+        } else { // 미션
+            binding.standardBottomSheetMission.visibility = View.GONE
+            Toast.makeText(requireContext(), "미션 마커 해제", Toast.LENGTH_SHORT).show()
+        }
+        mapViewModel.setBottomDialogShowingState(false)
+        binding.btnFloatingAction.visibility = View.VISIBLE
     }
 
     override fun initAfterBinding() {
@@ -266,8 +276,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
     private fun showFeedMarkerList() {
 
         val imgList = mutableListOf(
-            "https://cdn.pixabay.com/photo/2020/06/02/06/52/cat-5249722__480.jpg",
-            "https://media.istockphoto.com/id/1067347086/ko/%EC%82%AC%EC%A7%84/%EC%B9%B4%EB%A9%94%EB%9D%BC%EC%97%90-%EB%B3%B4%EC%9D%B4%EB%8A%94-%ED%8C%8C%EB%9E%80-%EB%88%88-%EA%B3%A0%EC%96%91%EC%9D%B4.jpg?s=612x612&w=0&k=20&c=Hss5wwW8kwkTL63xCtCySq8ZwXRO-8FNkuouTB60itw="
+            "https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg",
+            "https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg",
         )
 
         val feedList = mutableListOf<ResponseMapMission>()
@@ -276,15 +286,20 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
             add(ResponseMapMission(33.450879, 126.569940))
         }
 
-        val view = ItemMarkerFeedBinding.inflate(layoutInflater)
-        // val view = LayoutInflater.from(requireContext()).inflate(R.layout.item_marker_feed, null)
-
         val feedMarkerArr = arrayListOf<MapPOIItem>()
 
         for (i in feedList.indices) {
-            Glide.with(requireContext()).load(imgList[i]).fitCenter().into(view.ivMapGroupImg)
+            val view = ItemMarkerFeedBinding.inflate(layoutInflater)
+            view.ivMapGroupImg.clipToOutline = true
+            Glide.with(requireContext()).load(imgList[i])
+                .transform(CenterCrop(), RoundedCorners(12)).override(60, 60)
+                .into(view.ivMapGroupImg).waitForLayout()
 
             val myCustomImageBitmap = createBitMapFromView(view.root)
+
+            view.layoutGroupPhoto.foreground = resources.getDrawable(R.drawable.shape_radius_12_f47aff_2, null)
+
+            val mySelectedCustomImageBitmap = createBitMapFromView(view.root)
 
             val feedMarker = MapPOIItem()
             feedMarker.apply {
@@ -294,11 +309,13 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
                 markerType = MapPOIItem.MarkerType.CustomImage
                 customImageBitmap = myCustomImageBitmap
                 selectedMarkerType = MapPOIItem.MarkerType.CustomImage
-                customSelectedImageBitmap = myCustomImageBitmap
+                customSelectedImageBitmap = mySelectedCustomImageBitmap
                 isCustomImageAutoscale = false
             }
 
+
             feedMarkerArr.add(feedMarker)
+
         }
 
         val convertToArrayItem =
