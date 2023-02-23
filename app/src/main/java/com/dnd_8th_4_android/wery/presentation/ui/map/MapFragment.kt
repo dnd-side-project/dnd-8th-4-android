@@ -338,9 +338,9 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
                     Toast.LENGTH_SHORT
                 ).show()
                 binding.standardBottomSheetMission.visibility = View.VISIBLE
-                mapViewModel.setBottomDialogShowingState(true)
             }
 
+            mapViewModel.setBottomDialogShowingState(true)
             binding.btnFloatingAction.visibility = View.GONE
         }
 
