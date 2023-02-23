@@ -79,11 +79,11 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
 
                 /** 검색한 장소가 존재할 때
                  * 검색결과의 x,y 위치를 지도 마커로 찍어준다  */
-                setSearchMarker()
+                pinSearchMarker()
             }
         }
 
-    private fun setSearchMarker() {
+    private fun pinSearchMarker() {
         val marker = MapPOIItem()
         marker.apply {
             itemName = mapViewModel.searchResult.value!!.place_name   // 마커 이름
@@ -98,7 +98,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
             isCustomImageAutoscale = false
         }
 
-        mapView.removeAllPOIItems()
+        // mapView.removeAllPOIItems()
 
         mapView.setMapCenterPointAndZoomLevel(
             MapPoint.mapPointWithGeoCoord(
@@ -387,25 +387,27 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
 
         override fun onPOIItemSelected(mapView: MapView?, poiItem: MapPOIItem?) {
             // 마커 클릭 시
-            if (mapViewModel.filterType.value == 0) { // 피드 마커 일 때
-                Toast.makeText(
-                    requireContext(),
-                    "${poiItem?.mapPoint}: 피드 마커 클릭",
-                    Toast.LENGTH_SHORT
-                ).show()
-                getFeedVpData()
-                binding.vpFeedDialog.visibility = View.VISIBLE
-            } else { // 미션 마커 일 때
-                Toast.makeText(
-                    requireContext(),
-                    "${poiItem?.mapPoint}: 미션 마커 클릭",
-                    Toast.LENGTH_SHORT
-                ).show()
-                binding.standardBottomSheetMission.visibility = View.VISIBLE
-            }
+            if (!poiItem!!.isShowCalloutBalloonOnTouch) {
+                if (mapViewModel.filterType.value == 0) { // 피드 마커 일 때
+                    Toast.makeText(
+                        requireContext(),
+                        "${poiItem?.mapPoint}: 피드 마커 클릭",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    getFeedVpData()
+                    binding.vpFeedDialog.visibility = View.VISIBLE
+                } else { // 미션 마커 일 때
+                    Toast.makeText(
+                        requireContext(),
+                        "${poiItem?.mapPoint}: 미션 마커 클릭",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    binding.standardBottomSheetMission.visibility = View.VISIBLE
+                }
 
-            mapViewModel.setBottomDialogShowingState(true)
-            binding.btnFloatingAction.visibility = View.GONE
+                mapViewModel.setBottomDialogShowingState(true)
+                binding.btnFloatingAction.visibility = View.GONE
+            }
         }
 
         override fun onCalloutBalloonOfPOIItemTouched(mapView: MapView?, poiItem: MapPOIItem?) {}
