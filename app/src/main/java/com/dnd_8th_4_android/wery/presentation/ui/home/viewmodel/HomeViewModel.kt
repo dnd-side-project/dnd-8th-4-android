@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.dnd_8th_4_android.wery.data.remote.model.home.RequestEmotionStatus
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseGroupData
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponsePostData
 import com.dnd_8th_4_android.wery.domain.repository.HomeRepository
@@ -30,41 +31,7 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
     private val _isNoAccess = MutableLiveData<Boolean>()
     val isNoAccess: LiveData<Boolean> = _isNoAccess
 
-    lateinit var groupIdList: MutableList<Int>
-
-    fun setUpdateList(
-        position: Int,
-        emotionPosition: Int,
-        postList: MutableList<ResponsePostData.Data.Content>,
-    ) {
-//        val postCopyList = postList.map {
-//            it.copy()
-//        } as MutableList<ResponsePostData.Data>
-//
-//        postCopyList[position].isSelectedEmotion = emotionPosition
-//
-//        when (emotionPosition) {
-//            PopupWindowType.Type1.emotionPosition -> {
-//                postCopyList[position].emotion.add(PopupWindowType.Type1.drawable)
-//            }
-//            PopupWindowType.Type2.emotionPosition -> {
-//                postCopyList[position].emotion.add(PopupWindowType.Type2.drawable)
-//            }
-//            PopupWindowType.Type3.emotionPosition -> {
-//                postCopyList[position].emotion.add(PopupWindowType.Type3.drawable)
-//            }
-//            PopupWindowType.Type4.emotionPosition -> {
-//                postCopyList[position].emotion.add(PopupWindowType.Type4.drawable)
-//            }
-//            PopupWindowType.Type5.emotionPosition -> {
-//                postCopyList[position].emotion.add(PopupWindowType.Type5.drawable)
-//            }
-//            PopupWindowType.Type6.emotionPosition -> {
-//                postCopyList[position].emotion.add(PopupWindowType.Type6.drawable)
-//            }
-//        }
-//        _isUpdateList.value = postCopyList
-    }
+    lateinit var groupAllIdList: MutableList<Int>
 
     fun getSignGroup() {
         viewModelScope.launch {
@@ -76,11 +43,11 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
                 if (it.data.existGroup) {
                     _groupList.value = it.data.groupInfoList
 
-                    groupIdList = mutableListOf<Int>()
+                    groupAllIdList = mutableListOf()
                     for (i in it.data.groupInfoList.indices) {
-                        groupIdList.add(it.data.groupInfoList[i].id)
+                        groupAllIdList.add(it.data.groupInfoList[i].id)
                     }
-                    getAllGroupPost(groupIdList.joinToString(), 1)
+                    getAllGroupPost(groupAllIdList.joinToString(), 1)
                 }
             }.onFailure {
                 Timber.tag("error").d(it.message.toString())
@@ -100,6 +67,31 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
             }.onSuccess {
                 _postList.value = it.data.content
                 Log.e("태그", _postList.value.toString())
+            }.onFailure {
+                Timber.tag("error").d(it.message.toString())
+            }
+        }
+    }
+
+    fun setUpdateEmotion(
+        isSelectGroupId: Int,
+        contentId: Int,
+        emotionStatus: RequestEmotionStatus,
+    ) {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                homeRepository.sendEmotionData(contentId, emotionStatus)
+            }.onSuccess {
+                // TODO 현재 page 처리
+                if (it.data != null) {
+                    if (isSelectGroupId != 0) {
+                        getAllGroupPost(isSelectGroupId.toString(), 1)
+                    } else {
+                        getAllGroupPost(groupAllIdList.joinToString(), 1)
+                    }
+                } else {
+                    setUpdateEmotion(isSelectGroupId, contentId, emotionStatus)
+                }
             }.onFailure {
                 Timber.tag("error").d(it.message.toString())
             }

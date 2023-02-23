@@ -116,8 +116,8 @@ class PostRecyclerViewAdapter :
             binding.tvTime.text = item.time.substring(IntRange(11, 15))
             binding.tvHitCount.text = item.hit
 
-            if (item.isSelectedEmotion != -1) {
-                when (item.isSelectedEmotion) {
+            if (item.emotionStatus != -1) {
+                when (item.emotionStatus) {
                     PopupWindowType.Type1.emotionPosition -> {
                         binding.ivEmotionButton.setImageResource(PopupWindowType.Type1.drawable)
                         binding.tvEmotionButton.text = PopupWindowType.Type1.emotionName
@@ -152,7 +152,7 @@ class PostRecyclerViewAdapter :
             }
 
             binding.layoutEmotionButton.setOnClickListener {
-                popupWindowClickListener.onClicked(binding.layoutEmotionButton, adapterPosition)
+                popupWindowClickListener.onClicked(binding.layoutEmotionButton, item.id)
             }
 
             binding.tvContent.setOnClickListener { goToPostDetail(item, false) }
@@ -217,8 +217,8 @@ class PostRecyclerViewAdapter :
 
     fun setPopupWindowClickListener(listener: (View, Int) -> Unit) {
         popupWindowClickListener = object : PopupWindowClickListener {
-            override fun onClicked(view: View, position: Int) {
-                listener(view, position)
+            override fun onClicked(view: View, contentId: Int) {
+                listener(view, contentId)
             }
         }
     }
@@ -228,7 +228,7 @@ class PostRecyclerViewAdapter :
     }
 
     interface PopupWindowClickListener {
-        fun onClicked(view: View, position: Int)
+        fun onClicked(view: View, contentId: Int)
     }
 
     companion object {

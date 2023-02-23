@@ -1,6 +1,8 @@
 package com.dnd_8th_4_android.wery.data.repository
 
 import com.dnd_8th_4_android.wery.data.remote.datasource.HomeDataSource
+import com.dnd_8th_4_android.wery.data.remote.model.home.RequestEmotionStatus
+import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseEmotionData
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseGroupData
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponsePostData
 import com.dnd_8th_4_android.wery.domain.repository.HomeRepository
@@ -15,5 +17,9 @@ class HomeRepositoryImpl @Inject constructor(private val homeDataSource: HomeDat
 
     override suspend fun allGroupPost(groupId: String, page: Int): ResponsePostData {
         return homeDataSource.allGroupPost(groupId, page)
+    }
+
+    override suspend fun sendEmotionData(contentId: Int, body: RequestEmotionStatus): ResponseEmotionData {
+        return homeDataSource.sendEmotionData(contentId, body)
     }
 }
