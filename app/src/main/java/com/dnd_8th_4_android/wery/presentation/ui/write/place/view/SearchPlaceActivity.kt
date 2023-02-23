@@ -6,7 +6,6 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.activity.viewModels
 import androidx.core.widget.addTextChangedListener
-import com.dnd_8th_4_android.wery.BuildConfig
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.data.remote.model.write.ResponseSearchPlace.Document
 import com.dnd_8th_4_android.wery.databinding.ActivitySearchPlaceBinding
@@ -77,6 +76,8 @@ class SearchPlaceActivity :
     private fun getSearchResult(data: Document) {
         val intent = Intent()
         intent.putExtra("selectedPlace", data.place_name)
+        intent.putExtra("selectedX",data.x)
+        intent.putExtra("selectedY",data.y)
         setResult(RESULT_OK, intent)
         finish()
     }

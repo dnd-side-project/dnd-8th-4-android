@@ -4,10 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.dnd_8th_4_android.wery.data.remote.model.map.ResponseMapMission
+import com.dnd_8th_4_android.wery.data.remote.model.write.ResponseSearchPlace
 
 class MapViewModel : ViewModel() {
     var myCurrentLatitude = MutableLiveData<Double>()
     var myCurrentLongitude = MutableLiveData<Double>()
+
+    var searchPlaceTxt = MutableLiveData<String>()
 
     private val _feedList = MutableLiveData<MutableList<ResponseMapMission>>()
     val feedList: LiveData<MutableList<ResponseMapMission>> = _feedList
@@ -20,6 +23,9 @@ class MapViewModel : ViewModel() {
 
     private val _isBottomDialogShowing = MutableLiveData<Boolean>()
     val isBottomDialogShowing: LiveData<Boolean> = _isBottomDialogShowing
+
+    private val _searchResult = MutableLiveData<ResponseSearchPlace.Document>()
+    val searchResult: LiveData<ResponseSearchPlace.Document> = _searchResult
 
     fun getMissionList(): MutableList<ResponseMapMission> {
         // 임시값 1, 2, 3 넣어보기
@@ -49,5 +55,9 @@ class MapViewModel : ViewModel() {
 
     fun setBottomDialogShowingState(state: Boolean) {
         _isBottomDialogShowing.value = state
+    }
+
+    fun setSearchResult(data: ResponseSearchPlace.Document) {
+        _searchResult.value = data
     }
 }

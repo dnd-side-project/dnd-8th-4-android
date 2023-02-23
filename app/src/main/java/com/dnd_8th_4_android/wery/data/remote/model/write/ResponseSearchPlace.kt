@@ -1,5 +1,7 @@
 package com.dnd_8th_4_android.wery.data.remote.model.write
 
+import java.io.Serializable
+
 data class ResponseSearchPlace(
     val documents: List<Document>,
     val meta: Meta
@@ -12,8 +14,8 @@ data class ResponseSearchPlace(
 
     data class Document(
         val place_name: String,
-        val road_address_name: String,
-        val x: String,
-        val y: String
-    )
+        val road_address_name: String?,
+        val x: Double,
+        val y: Double
+    ): Serializable
 }

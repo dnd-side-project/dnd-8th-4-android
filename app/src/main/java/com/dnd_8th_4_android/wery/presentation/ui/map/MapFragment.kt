@@ -2,6 +2,7 @@ package com.dnd_8th_4_android.wery.presentation.ui.map
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -20,11 +21,13 @@ import com.bumptech.glide.Glide
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.data.remote.model.map.ResponseMapFeed
 import com.dnd_8th_4_android.wery.data.remote.model.map.ResponseMapMission
+import com.dnd_8th_4_android.wery.data.remote.model.write.ResponseSearchPlace
 import com.dnd_8th_4_android.wery.databinding.FragmentMapBinding
 import com.dnd_8th_4_android.wery.databinding.ItemMarkerFeedBinding
 import com.dnd_8th_4_android.wery.domain.model.DialogInfo
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseFragment
 import com.dnd_8th_4_android.wery.presentation.ui.map.adapter.MapFeedAdapter
+import com.dnd_8th_4_android.wery.presentation.ui.write.place.view.SearchPlaceActivity
 import com.dnd_8th_4_android.wery.presentation.util.DialogFragmentUtil
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
@@ -37,9 +40,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
     private lateinit var eventListener: MarkerEventListener
 
     private val mapViewModel: MapViewModel by viewModels()
-
-    var currentLat = 0.0
-    var currentLog = 0.0
 
     private val locationPermissionRequest = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
@@ -58,7 +58,30 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
         }
     }
 
+    private val requestSearchActivity =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { it ->
+            if (it.resultCode == Activity.RESULT_OK) {
+                val selectedPlace =
+                    it.data?.getStringExtra("selectedPlace") ?: getString(R.string.map_search_hint)
+                val selectedX = it.data?.getDoubleExtra("selectedX", 0.0)
+                val selectedY = it.data?.getDoubleExtra("selectedY", 0.0)
+
+                mapViewModel.searchPlaceTxt.value = selectedPlace
+
+                mapViewModel.setSearchResult(
+                    ResponseSearchPlace.Document(
+                        selectedPlace,
+                        null,
+                        selectedX!!,
+                        selectedY!!
+                    )
+                )
+            }
+        }
+
     override fun initStartView() {
+        binding.viewModel = mapViewModel
+
         locationPermissionRequest.launch(
             arrayOf(
                 Manifest.permission.ACCESS_FINE_LOCATION,
@@ -119,9 +142,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
         mapViewModel.myCurrentLatitude.value = myCurrentLocation?.latitude
         mapViewModel.myCurrentLongitude.value = myCurrentLocation?.longitude
 
-        currentLat = myCurrentLocation?.latitude!!
-        currentLog = myCurrentLocation.longitude!!
-
         mapView.setMapCenterPointAndZoomLevel(
             MapPoint.mapPointWithGeoCoord(
                 mapViewModel.myCurrentLatitude.value!!,
@@ -133,6 +153,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
     }
 
     override fun initDataBinding() {
+        mapViewModel.searchPlaceTxt.value = resources.getString(R.string.map_search_hint)
+
         mapViewModel.filterType.observe(viewLifecycleOwner) {
             if (it == 0) {
                 binding.ivFilterFeed.isSelected = true
@@ -191,6 +213,14 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
             mapView.removeAllPOIItems()
             showMissionMarkerList()
         }
+
+        binding.tvSearchHint.setOnClickListener {
+            requestSearchActivity.launch(Intent(requireContext(), SearchPlaceActivity::class.java))
+        }
+
+        binding.ivSearchClose.setOnClickListener {
+
+        }
     }
 
     private fun showFeedMarkerList() {
@@ -202,8 +232,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
 
         val feedList = mutableListOf<ResponseMapMission>()
         feedList.apply {
-            add(ResponseMapMission(currentLat, currentLog))
-            add(ResponseMapMission(currentLat + 0.0003, currentLog))
+            add(ResponseMapMission(33.450936, 126.569477))
+            add(ResponseMapMission(33.450879, 126.569940))
         }
 
         val view = ItemMarkerFeedBinding.inflate(layoutInflater)
@@ -241,7 +271,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
     private fun showMissionMarkerList() {
         val missionList = mutableListOf<ResponseMapMission>()
         missionList.apply {
-            add(ResponseMapMission(currentLat, currentLog))
             add(ResponseMapMission(33.450936, 126.569477))
             add(ResponseMapMission(33.450879, 126.569940))
             add(ResponseMapMission(33.450705, 126.570738))
@@ -296,8 +325,10 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
         }
 
         binding.vpFeedDialog.offscreenPageLimit = 2 // 몇 개의 페이지를 미리 로드 해둘것인지
+
     }
 
+    // TODO 추후 서버통신을 통해 데이터를 받아올 예정
     private fun getFeedVpData() {
         val mapFeedAdapter = MapFeedAdapter()
         mapFeedAdapter.itemList.add(
