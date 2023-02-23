@@ -28,6 +28,7 @@ import com.dnd_8th_4_android.wery.domain.model.DialogInfo
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseFragment
 import com.dnd_8th_4_android.wery.presentation.ui.map.adapter.MapFeedAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.write.place.view.SearchPlaceActivity
+import com.dnd_8th_4_android.wery.presentation.ui.write.upload.view.WritingActivity
 import com.dnd_8th_4_android.wery.presentation.util.DialogFragmentUtil
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
@@ -76,8 +77,35 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
                         selectedY!!
                     )
                 )
+
+                /** 검색한 장소가 존재할 때
+                 * 검색결과의 x,y 위치를 지도 마커로 찍어준다  */
+                pinSearchMarker()
             }
         }
+
+    private fun pinSearchMarker() {
+        val marker = MapPOIItem()
+        marker.apply {
+            itemName = mapViewModel.searchResult.value!!.place_name   // 마커 이름
+            mapPoint = MapPoint.mapPointWithGeoCoord(
+                mapViewModel.searchResult.value!!.y,
+                mapViewModel.searchResult.value!!.x
+            )
+            markerType = MapPOIItem.MarkerType.CustomImage
+            customImageResourceId = R.drawable.img_current_location_pin
+            selectedMarkerType = MapPOIItem.MarkerType.CustomImage
+            customSelectedImageResourceId = R.drawable.img_current_location_pin
+            isCustomImageAutoscale = false
+        }
+
+        mapView.setMapCenterPointAndZoomLevel(
+            MapPoint.mapPointWithGeoCoord(
+                mapViewModel.searchResult.value!!.y, mapViewModel.searchResult.value!!.x
+            ), 5, false
+        )
+        mapView.addPOIItem(marker)
+    }
 
     override fun initStartView() {
         binding.viewModel = mapViewModel
@@ -155,6 +183,10 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
     override fun initDataBinding() {
         mapViewModel.searchPlaceTxt.value = resources.getString(R.string.map_search_hint)
 
+        mapViewModel.searchPlaceTxt.observe(viewLifecycleOwner) {
+            binding.tvSearchHint.text = it
+        }
+
         mapViewModel.filterType.observe(viewLifecycleOwner) {
             if (it == 0) {
                 binding.ivFilterFeed.isSelected = true
@@ -219,7 +251,15 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
         }
 
         binding.ivSearchClose.setOnClickListener {
+            mapViewModel.searchPlaceTxt.value = resources.getString(R.string.map_search_hint)
+        }
 
+        binding.btnFloatingAction.setOnClickListener {
+            val intent = Intent(requireContext(), WritingActivity::class.java)
+            if (mapViewModel.searchPlaceTxt.value != resources.getString(R.string.map_search_hint)) intent.putExtra(
+                "placeName", mapViewModel.searchPlaceTxt.value
+            )
+            startActivity(intent)
         }
     }
 
@@ -354,25 +394,27 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
 
         override fun onPOIItemSelected(mapView: MapView?, poiItem: MapPOIItem?) {
             // 마커 클릭 시
-            if (mapViewModel.filterType.value == 0) { // 피드 마커 일 때
-                Toast.makeText(
-                    requireContext(),
-                    "${poiItem?.mapPoint}: 피드 마커 클릭",
-                    Toast.LENGTH_SHORT
-                ).show()
-                getFeedVpData()
-                binding.vpFeedDialog.visibility = View.VISIBLE
-            } else { // 미션 마커 일 때
-                Toast.makeText(
-                    requireContext(),
-                    "${poiItem?.mapPoint}: 미션 마커 클릭",
-                    Toast.LENGTH_SHORT
-                ).show()
-                binding.standardBottomSheetMission.visibility = View.VISIBLE
-            }
+            if (!poiItem!!.isShowCalloutBalloonOnTouch) {
+                if (mapViewModel.filterType.value == 0) { // 피드 마커 일 때
+                    Toast.makeText(
+                        requireContext(),
+                        "${poiItem?.mapPoint}: 피드 마커 클릭",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    getFeedVpData()
+                    binding.vpFeedDialog.visibility = View.VISIBLE
+                } else { // 미션 마커 일 때
+                    Toast.makeText(
+                        requireContext(),
+                        "${poiItem?.mapPoint}: 미션 마커 클릭",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    binding.standardBottomSheetMission.visibility = View.VISIBLE
+                }
 
-            mapViewModel.setBottomDialogShowingState(true)
-            binding.btnFloatingAction.visibility = View.GONE
+                mapViewModel.setBottomDialogShowingState(true)
+                binding.btnFloatingAction.visibility = View.GONE
+            }
         }
 
         override fun onCalloutBalloonOfPOIItemTouched(mapView: MapView?, poiItem: MapPOIItem?) {}
@@ -393,6 +435,3 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
     }
 
 }
-
-
-
