@@ -149,6 +149,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
                             mapViewModel.setBottomDialogShowingState(false)
                             Toast.makeText(requireContext(), "미션 마커 해제", Toast.LENGTH_SHORT).show()
                         }
+                        binding.btnFloatingAction.visibility = View.VISIBLE
                     }
 
                     override fun onMapViewDoubleTapped(p0: MapView?, p1: MapPoint?) {}
@@ -267,14 +268,22 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
         override fun onPOIItemSelected(mapView: MapView?, poiItem: MapPOIItem?) {
             // 마커 클릭 시
             if (mapViewModel.filterType.value == 0) { // 피드 마커 일 때
-                Toast.makeText(requireContext(), "${poiItem?.mapPoint}: 피드 마커 클릭", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    "${poiItem?.mapPoint}: 피드 마커 클릭",
+                    Toast.LENGTH_SHORT
+                ).show()
             } else { // 미션 마커 일 때
-                Toast.makeText(requireContext(), "${poiItem?.mapPoint}: 미션 마커 클릭", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    "${poiItem?.mapPoint}: 미션 마커 클릭",
+                    Toast.LENGTH_SHORT
+                ).show()
                 binding.standardBottomSheetMission.visibility = View.VISIBLE
                 mapViewModel.setBottomDialogShowingState(true)
             }
 
-
+            binding.btnFloatingAction.visibility = View.GONE
         }
 
         override fun onCalloutBalloonOfPOIItemTouched(mapView: MapView?, poiItem: MapPOIItem?) {}
