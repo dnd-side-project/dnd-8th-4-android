@@ -195,9 +195,11 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
             if (it == 0) {
                 binding.ivFilterFeed.isSelected = true
                 binding.ivFilterMission.isSelected = false
+                binding.standardBottomSheetMission.visibility = View.GONE
             } else {
                 binding.ivFilterFeed.isSelected = false
                 binding.ivFilterMission.isSelected = true
+                binding.vpFeedDialog.visibility = View.GONE
             }
         }
 
@@ -209,16 +211,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
                     override fun onMapViewZoomLevelChanged(p0: MapView?, p1: Int) {}
 
                     override fun onMapViewSingleTapped(p0: MapView?, p1: MapPoint?) {
-                        if (mapViewModel.filterType.value == 0) { // 피드
-                            // 피드 visible
-                            Toast.makeText(requireContext(), "피드 마커 해제", Toast.LENGTH_SHORT).show()
-                            binding.vpFeedDialog.visibility = View.GONE
-                        } else { // 미션
-                            binding.standardBottomSheetMission.visibility = View.GONE
-                            Toast.makeText(requireContext(), "미션 마커 해제", Toast.LENGTH_SHORT).show()
-                        }
-                        mapViewModel.setBottomDialogShowingState(false)
-                        binding.btnFloatingAction.visibility = View.VISIBLE
+                        setDialogEventPop()
                     }
 
                     override fun onMapViewDoubleTapped(p0: MapView?, p1: MapPoint?) {}
@@ -229,6 +222,19 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
                 })
             }
         }
+    }
+
+    private fun setDialogEventPop() {
+        if (mapViewModel.filterType.value == 0) { // 피드
+            // 피드 visible
+            Toast.makeText(requireContext(), "피드 마커 해제", Toast.LENGTH_SHORT).show()
+            binding.vpFeedDialog.visibility = View.GONE
+        } else { // 미션
+            binding.standardBottomSheetMission.visibility = View.GONE
+            Toast.makeText(requireContext(), "미션 마커 해제", Toast.LENGTH_SHORT).show()
+        }
+        mapViewModel.setBottomDialogShowingState(false)
+        binding.btnFloatingAction.visibility = View.VISIBLE
     }
 
     override fun initAfterBinding() {
