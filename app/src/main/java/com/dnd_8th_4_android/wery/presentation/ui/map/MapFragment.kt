@@ -14,6 +14,7 @@ import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import com.dnd_8th_4_android.wery.R
@@ -87,7 +88,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
         mapView = MapView(requireActivity())
         binding.layoutMapView.addView(mapView)
 
-        eventListener = MarkerEventListener(requireContext(), 0)
+        eventListener = MarkerEventListener()
         mapView.setPOIItemEventListener(eventListener)
 
         getMyCurrentLocation()
@@ -129,6 +130,33 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
             } else {
                 binding.ivFilterFeed.isSelected = false
                 binding.ivFilterMission.isSelected = true
+            }
+        }
+
+        mapViewModel.isBottomDialogShowing.observe(viewLifecycleOwner) {
+            if (it) {
+                mapView.setMapViewEventListener(object : MapView.MapViewEventListener {
+                    override fun onMapViewInitialized(p0: MapView?) {}
+                    override fun onMapViewCenterPointMoved(p0: MapView?, p1: MapPoint?) {}
+                    override fun onMapViewZoomLevelChanged(p0: MapView?, p1: Int) {}
+
+                    override fun onMapViewSingleTapped(p0: MapView?, p1: MapPoint?) {
+                        if (mapViewModel.filterType.value == 0) { // 피드
+                            // 피드 visible
+                            Toast.makeText(requireContext(), "피드 마커 해제", Toast.LENGTH_SHORT).show()
+                        } else { // 미션
+                            binding.standardBottomSheetMission.visibility = View.GONE
+                            mapViewModel.setBottomDialogShowingState(false)
+                            Toast.makeText(requireContext(), "미션 마커 해제", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+
+                    override fun onMapViewDoubleTapped(p0: MapView?, p1: MapPoint?) {}
+                    override fun onMapViewLongPressed(p0: MapView?, p1: MapPoint?) {}
+                    override fun onMapViewDragStarted(p0: MapView?, p1: MapPoint?) {}
+                    override fun onMapViewDragEnded(p0: MapView?, p1: MapPoint?) {}
+                    override fun onMapViewMoveFinished(p0: MapView?, p1: MapPoint?) {}
+                })
             }
         }
     }
@@ -233,5 +261,48 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
     }
 
 
+    inner class MarkerEventListener() :
+        MapView.POIItemEventListener {
+
+        override fun onPOIItemSelected(mapView: MapView?, poiItem: MapPOIItem?) {
+            // 마커 클릭 시
+            if (mapViewModel.filterType.value == 0) { // 피드 마커 일 때
+                Toast.makeText(requireContext(), "${poiItem?.mapPoint}: 피드 마커 클릭", Toast.LENGTH_SHORT).show()
+            } else { // 미션 마커 일 때
+                Toast.makeText(requireContext(), "${poiItem?.mapPoint}: 미션 마커 클릭", Toast.LENGTH_SHORT).show()
+                binding.standardBottomSheetMission.visibility = View.VISIBLE
+                mapViewModel.setBottomDialogShowingState(true)
+            }
+
+
+        }
+
+        override fun onCalloutBalloonOfPOIItemTouched(mapView: MapView?, poiItem: MapPOIItem?) {}
+
+        override fun onCalloutBalloonOfPOIItemTouched(
+            mapView: MapView?,
+            poiItem: MapPOIItem?,
+            buttonType: MapPOIItem.CalloutBalloonButtonType?
+        ) {
+        }
+
+        override fun onDraggablePOIItemMoved(
+            mapView: MapView?,
+            poiItem: MapPOIItem?,
+            mapPoint: MapPoint?
+        ) {
+        }
+
+        fun missionSelectEvent() {
+
+        }
+
+        fun missionDeSelectEvent() {
+
+        }
+    }
+
 }
+
+
 

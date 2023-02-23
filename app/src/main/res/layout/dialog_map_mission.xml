@@ -18,7 +18,6 @@
             android:layout_height="wrap_content"
             android:background="@drawable/shape_pink_radius_8"
             android:elevation="2dp"
-            android:layout_marginBottom="?actionBarSize"
             android:paddingHorizontal="16dp"
             android:paddingVertical="16dp">
 

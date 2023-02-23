@@ -11,6 +11,7 @@ class MapMissionBottomDialog :
 
     override fun onStart() {
         super.onStart()
+        dialog?.setCanceledOnTouchOutside(false)
         dialog?.window?.attributes?.windowAnimations = androidx.appcompat.R.anim.abc_fade_in
         dialog?.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
     }

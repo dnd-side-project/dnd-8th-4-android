@@ -18,13 +18,16 @@ class MapViewModel : ViewModel() {
     private val _filterType = MutableLiveData<Int>(0)
     val filterType: LiveData<Int> = _filterType
 
-    fun getMissionList():MutableList<ResponseMission> {
+    private val _isBottomDialogShowing = MutableLiveData<Boolean>()
+    val isBottomDialogShowing: LiveData<Boolean> = _isBottomDialogShowing
+
+    fun getMissionList(): MutableList<ResponseMission> {
         // 임시값 1, 2, 3 넣어보기
         _missionList.value!!.apply {
-            add(ResponseMission(33.450705,126.570677))
-            add(ResponseMission(33.450936,126.569477))
-            add(ResponseMission(33.450879,126.569940))
-            add(ResponseMission(33.450705,126.570738))
+            add(ResponseMission(33.450705, 126.570677))
+            add(ResponseMission(33.450936, 126.569477))
+            add(ResponseMission(33.450879, 126.569940))
+            add(ResponseMission(33.450705, 126.570738))
         }
         return _missionList.value!!
     }
@@ -33,14 +36,18 @@ class MapViewModel : ViewModel() {
         // 임시값 1, 2, 3 넣어보기
         _feedList.value!!.apply {
             add(ResponseMission(33.450705,126.570677))
-            add(ResponseMission(33.450936,126.569477))
-            add(ResponseMission(33.450879,126.569940))
-            add(ResponseMission(33.450705,126.570738))
+            add(ResponseMission(33.450936, 126.569477))
+            add(ResponseMission(33.450879, 126.569940))
+            add(ResponseMission(33.450705, 126.570738))
         }
         return _feedList.value!!
     }
 
-    fun setFilterType(type:Int) {
+    fun setFilterType(type: Int) {
         _filterType.value = type
+    }
+
+    fun setBottomDialogShowingState(state: Boolean) {
+        _isBottomDialogShowing.value = state
     }
 }
