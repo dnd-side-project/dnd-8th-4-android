@@ -86,7 +86,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:text="@={viewModel.searchPlaceTxt}"
+                    android:text="@{viewModel.searchPlaceTxt}"
                     android:textColor="@{viewModel.searchPlaceTxt == @string/map_search_hint ? @color/gray500 : @color/black}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/iv_search_close"

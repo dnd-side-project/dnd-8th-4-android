@@ -184,6 +184,10 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
     override fun initDataBinding() {
         mapViewModel.searchPlaceTxt.value = resources.getString(R.string.map_search_hint)
 
+        mapViewModel.searchPlaceTxt.observe(viewLifecycleOwner) {
+            binding.tvSearchHint.text = it
+        }
+
         mapViewModel.filterType.observe(viewLifecycleOwner) {
             if (it == 0) {
                 binding.ivFilterFeed.isSelected = true
@@ -248,7 +252,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
         }
 
         binding.ivSearchClose.setOnClickListener {
-
+            mapViewModel.searchPlaceTxt.value = resources.getString(R.string.map_search_hint)
         }
     }
 
