@@ -136,7 +136,7 @@
             style="@style/TextView.Caption.10.M"
             android:gravity="center"
             android:padding="6dp"
-            android:text="@{data.groupPhotoCnt}"
+            android:text="@{Integer.toString(data.groupPhotoCnt)}"
             android:background="@drawable/shape_oval_b3000000"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="@id/iv_group_photo"

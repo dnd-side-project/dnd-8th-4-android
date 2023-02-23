@@ -8,7 +8,7 @@ import com.dnd_8th_4_android.wery.databinding.ItemMapFeedBinding
 
 class MapFeedAdapter :
     RecyclerView.Adapter<MapFeedAdapter.MapFeedViewHolder>() {
-    private val itemList = mutableListOf<ResponseMapFeed>()
+    val itemList = mutableListOf<ResponseMapFeed>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MapFeedViewHolder {
         val binding =
@@ -25,6 +25,7 @@ class MapFeedAdapter :
     class MapFeedViewHolder(var binding: ItemMapFeedBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: ResponseMapFeed) {
+            binding.data = data
         }
     }
 }
