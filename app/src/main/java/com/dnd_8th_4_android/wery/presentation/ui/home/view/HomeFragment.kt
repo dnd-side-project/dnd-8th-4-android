@@ -43,7 +43,41 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         binding.vm = homeViewModel
 
         homeViewModel.getSignGroup()
+
+        // 그룹 리스트
+        groupRecyclerViewAdapter = GroupRecyclerViewAdapter(
+            binding.activityGroup.ivAllGroup,
+            binding.activityGroup.tvAllGroup
+        )
+        groupRecyclerViewAdapter.setGroupPostCallListener { groupId ->
+            isSelectGroupId = groupId
+            homeViewModel.getGroupPost(groupId.toString(), 1)
+        }
+        binding.activityGroup.rvMyGroup.adapter = groupRecyclerViewAdapter
+
+        // 그룹 게시글
         postRecyclerViewAdapter = PostRecyclerViewAdapter()
+        binding.activityGroup.rvMyGroupPost.adapter = postRecyclerViewAdapter
+        binding.activityGroup.rvMyGroupPost.itemAnimator = null
+
+        postRecyclerViewAdapter.apply {
+            setPopupBottomClickListener {
+                val bottomSheet = PopupBottomDialogDialog()
+                bottomSheet.show(childFragmentManager, bottomSheet.tag)
+            }
+
+            setPopupWindowClickListener { view, contentId ->
+                getGradePopUp(view, contentId)
+            }
+        }
+
+        binding.activityGroup.layoutSwipeRefresh.setOnRefreshListener {
+            Handler(Looper.getMainLooper())
+                .postDelayed({
+                    binding.activityGroup.layoutSwipeRefresh.isRefreshing = false
+                    homeViewModel.getSignGroup()
+                }, 1000)
+        }
     }
 
     override fun initDataBinding() {
@@ -52,48 +86,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             else dismissLoadingDialog()
         }
 
+        // 그룹 리스트가 바뀌는 경우) 1. 스와이프 2. 홈 탭
         homeViewModel.groupList.observe(viewLifecycleOwner) {
-            binding.activityGroup.ivAllGroup.isSelected = true
-            binding.activityGroup.tvAllGroup.setTextAppearance(R.style.TextView_Title_12_Sb)
-
-            groupRecyclerViewAdapter =
-                GroupRecyclerViewAdapter(
-                    homeViewModel.groupList.value!!,
-                    binding.activityGroup.ivAllGroup,
-                    binding.activityGroup.tvAllGroup
-                )
-
-            groupRecyclerViewAdapter.setGroupPostCallListener { groupId ->
-                isSelectGroupId = groupId
-                homeViewModel.getGroupPost(groupId.toString(), 1)
-            }
-
-            binding.activityGroup.rvMyGroup.adapter = groupRecyclerViewAdapter
+            initSelectedGroup()
+            groupRecyclerViewAdapter.submitList(homeViewModel.groupList.value)
         }
 
         homeViewModel.postList.observe(viewLifecycleOwner) {
             postRecyclerViewAdapter.submitList(homeViewModel.postList.value)
-            binding.activityGroup.rvMyGroupPost.adapter = postRecyclerViewAdapter
-            binding.activityGroup.rvMyGroupPost.itemAnimator = null
-
-            postRecyclerViewAdapter.apply {
-                setPopupBottomClickListener {
-                    val bottomSheet = PopupBottomDialogDialog()
-                    bottomSheet.show(childFragmentManager, bottomSheet.tag)
-                }
-
-                setPopupWindowClickListener { view, contentId ->
-                    getGradePopUp(view, contentId)
-                }
-            }
-
-            binding.activityGroup.layoutSwipeRefresh.setOnRefreshListener {
-                Handler(Looper.getMainLooper())
-                    .postDelayed({
-                        binding.activityGroup.layoutSwipeRefresh.isRefreshing = false
-                        homeViewModel.getSignGroup()
-                    }, 1000)
-            }
         }
 
         homeViewModel.isNoAccess.observe(viewLifecycleOwner) {
@@ -107,6 +107,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigation)
         bottomNavigationView.setOnItemReselectedListener { menuItem ->
             when (menuItem.itemId) {
+                // TODO 보류
                 R.id.homeFragment -> {
                     binding.activityGroup.layoutSwipeRefresh.isRefreshing = true
                     binding.activityGroup.scrollView.fullScroll(ScrollView.FOCUS_UP)
@@ -140,19 +141,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
         binding.activityGroup.ivAllGroup.setOnClickListener {
             if (groupRecyclerViewAdapter.selectedItemImage != binding.activityGroup.ivAllGroup) {
-                with(groupRecyclerViewAdapter) {
-                    selectedItemImage.isSelected = false
-                    selectedItemText.setTextAppearance(R.style.TextView_Caption_12_R)
-                    selectedItemImage = binding.activityGroup.ivAllGroup
-                    selectedItemText = binding.activityGroup.tvAllGroup
-                }
-
-                binding.activityGroup.ivAllGroup.isSelected =
-                    !binding.activityGroup.ivAllGroup.isSelected
-                binding.activityGroup.tvAllGroup.setTextAppearance(R.style.TextView_Title_12_Sb)
-
-                isSelectGroupId = 0
-
+                initSelectedGroup()
                 homeViewModel.getGroupPost(homeViewModel.groupAllIdList.joinToString(), 1)
             }
         }
@@ -165,6 +154,21 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     override fun onDestroyView() {
         super.onDestroyView()
         activityPopupWindowBinding = null
+    }
+
+    private fun initSelectedGroup() {
+        with(groupRecyclerViewAdapter) {
+            selectedItemImage.isSelected = false
+            selectedItemText.setTextAppearance(R.style.TextView_Caption_12_R)
+            selectedItemImage = binding.activityGroup.ivAllGroup
+            selectedItemText = binding.activityGroup.tvAllGroup
+        }
+
+        binding.activityGroup.ivAllGroup.isSelected =
+            !binding.activityGroup.ivAllGroup.isSelected
+        binding.activityGroup.tvAllGroup.setTextAppearance(R.style.TextView_Title_12_Sb)
+
+        isSelectGroupId = 0
     }
 
     private fun getGradePopUp(view: View, contentId: Int) {

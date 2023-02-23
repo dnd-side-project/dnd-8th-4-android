@@ -1,10 +1,11 @@
 package com.dnd_8th_4_android.wery.presentation.ui.home.adapter
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.dnd_8th_4_android.wery.R
@@ -12,11 +13,10 @@ import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseGroupData
 import com.dnd_8th_4_android.wery.databinding.ItemMyGroupBinding
 
 class GroupRecyclerViewAdapter(
-    private val list: MutableList<ResponseGroupData.Data.GroupInfo>,
     initItemImage: View,
     initItemText: TextView,
 ) :
-    RecyclerView.Adapter<GroupRecyclerViewAdapter.ViewHolder>() {
+    ListAdapter<ResponseGroupData.Data.GroupInfo, GroupRecyclerViewAdapter.ViewHolder>(diffUtil) {
     private lateinit var binding: ItemMyGroupBinding
 
     var selectedItemImage = initItemImage
@@ -56,17 +56,8 @@ class GroupRecyclerViewAdapter(
         return ViewHolder(binding)
     }
 
-    override fun getItemCount() = list.size
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(list[position])
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
-    fun submitList(item: MutableList<ResponseGroupData.Data.GroupInfo>) {
-        this.list.clear()
-        this.list.addAll(item)
-        notifyDataSetChanged()
+        holder.bind(currentList[position])
     }
 
     fun setGroupPostCallListener(listener: (Int) -> Unit) {
@@ -81,4 +72,21 @@ class GroupRecyclerViewAdapter(
         fun onClicked(groupId: Int)
     }
 
+    companion object {
+        private val diffUtil = object : DiffUtil.ItemCallback<ResponseGroupData.Data.GroupInfo>() {
+            override fun areItemsTheSame(
+                oldItem: ResponseGroupData.Data.GroupInfo,
+                newItem: ResponseGroupData.Data.GroupInfo,
+            ): Boolean {
+                return oldItem == newItem
+            }
+
+            override fun areContentsTheSame(
+                oldItem: ResponseGroupData.Data.GroupInfo,
+                newItem: ResponseGroupData.Data.GroupInfo,
+            ): Boolean {
+                return oldItem == newItem
+            }
+        }
+    }
 }
