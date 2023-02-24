@@ -2,141 +2,135 @@ package com.dnd_8th_4_android.wery.presentation.ui.detail.viewmodel
 
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.dnd_8th_4_android.wery.R
+import androidx.lifecycle.viewModelScope
+import com.dnd_8th_4_android.wery.data.remote.model.detail.RequestPostDetailCommentNote
 import com.dnd_8th_4_android.wery.data.remote.model.detail.ResponsePostDetailCommentData
 import com.dnd_8th_4_android.wery.data.remote.model.detail.ResponsePostDetailEmotionData
-import com.dnd_8th_4_android.wery.domain.model.PopupWindowType
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
+import com.dnd_8th_4_android.wery.data.remote.model.home.RequestEmotionStatus
+import com.dnd_8th_4_android.wery.domain.repository.DetailRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import timber.log.Timber
+import javax.inject.Inject
 
-class PostDetailViewModel : ViewModel() {
-    private var oldEmotionData = ResponsePostDetailEmotionData.Data(-1,-1)
-    private val popupWindowImage = listOf(
-        PopupWindowType.Type1.drawable,
-        PopupWindowType.Type2.drawable,
-        PopupWindowType.Type3.drawable,
-        PopupWindowType.Type4.drawable,
-        PopupWindowType.Type5.drawable,
-        PopupWindowType.Type6.drawable
-    )
+@HiltViewModel
+class PostDetailViewModel @Inject constructor(
+    private val detailRepository: DetailRepository,
+) : ViewModel() {
 
-    private val _isUpdateEmotion =
-        MutableLiveData<MutableList<ResponsePostDetailEmotionData.Data>>()
-    val isUpdateEmotion: LiveData<MutableList<ResponsePostDetailEmotionData.Data>> =
-        _isUpdateEmotion
+    private val _emotionList = MutableLiveData<MutableList<ResponsePostDetailEmotionData.Data>>()
+    val emotionList: LiveData<MutableList<ResponsePostDetailEmotionData.Data>> = _emotionList
 
     private val _emotionCount = MutableLiveData<Int>()
     val emotionCount: LiveData<Int> = _emotionCount
 
-    private val _isSelected = MutableLiveData(false)
-    val isSelected: LiveData<Boolean> = _isSelected
-
-    private val _isUpdateComment =
-        MutableLiveData<MutableList<ResponsePostDetailCommentData.Data>>()
-    val isUpdateComment: LiveData<MutableList<ResponsePostDetailCommentData.Data>> =
-        _isUpdateComment
-
-    private val formatter = DateTimeFormatter.ofPattern("HH:MM")
-
-    private val _isEnabled = MutableLiveData<Boolean>()
-    val isEnabled: LiveData<Boolean> = _isEnabled
+    private val _commentList = MutableLiveData<MutableList<ResponsePostDetailCommentData.Data.Content>>()
+    val commentList: LiveData<MutableList<ResponsePostDetailCommentData.Data.Content>> = _commentList
 
     private val _commentCount = MutableLiveData<Int>()
     val commentCount: LiveData<Int> = _commentCount
 
-    fun setUpdateEmotion(
-        emotionPosition: Int,
-        emotionList: List<ResponsePostDetailEmotionData.Data>,
-        userImage: Int,
-    ) {
-        val emotionCopyList = emotionList.map {
-            it.copy()
-        } as MutableList<ResponsePostDetailEmotionData.Data>
+    private val _isSelected = MutableLiveData(false)
+    val isSelected: LiveData<Boolean> = _isSelected
 
-        if (emotionCopyList.contains(oldEmotionData)) {
-            val index = emotionCopyList.indexOf(oldEmotionData)
+    private val _isEnabled = MutableLiveData<Boolean>()
+    val isEnabled: LiveData<Boolean> = _isEnabled
 
-            if (emotionCopyList[index].emotion == popupWindowImage[emotionPosition]) {
-                setOldEmotionData(-1, -1)
-                emotionCopyList.removeAt(index)
-            } else {
-                setOldEmotionData(emotionPosition, userImage)
-                emotionCopyList[index].emotion = popupWindowImage[emotionPosition]
+    private val _isLoading: MutableLiveData<Boolean> = MutableLiveData()
+    val isLoading: LiveData<Boolean> = _isLoading
+
+    private val _pageNumber = MutableLiveData(0)
+
+    private val _isNoData = MutableLiveData(false)
+    val isNoData: LiveData<Boolean> = _isNoData
+
+    // 피드 공감 조회
+    fun getEmotion(contentId: Int) {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                detailRepository.getEmotion(contentId)
+            }.onSuccess {
+                _emotionCount.value = it.data.size
+                _emotionList.value = it.data
+            }.onFailure {
+                Timber.tag("error").d(it.message.toString())
             }
-
-        } else {
-            when (emotionPosition) {
-                PopupWindowType.Type1.emotionPosition -> {
-                    emotionCopyList.add(
-                        ResponsePostDetailEmotionData.Data(
-                            userImage,
-                            PopupWindowType.Type1.drawable
-                        )
-                    )
-                }
-                PopupWindowType.Type2.emotionPosition -> {
-                    emotionCopyList.add(
-                        ResponsePostDetailEmotionData.Data(
-                            userImage,
-                            PopupWindowType.Type2.drawable
-                        )
-                    )
-                }
-                PopupWindowType.Type3.emotionPosition -> {
-                    emotionCopyList.add(
-                        ResponsePostDetailEmotionData.Data(
-                            userImage,
-                            PopupWindowType.Type3.drawable
-                        )
-                    )
-                }
-                PopupWindowType.Type4.emotionPosition -> {
-                    emotionCopyList.add(
-                        ResponsePostDetailEmotionData.Data(
-                            userImage,
-                            PopupWindowType.Type4.drawable
-                        )
-                    )
-                }
-                PopupWindowType.Type5.emotionPosition -> {
-                    emotionCopyList.add(
-                        ResponsePostDetailEmotionData.Data(
-                            userImage,
-                            PopupWindowType.Type5.drawable
-                        )
-                    )
-                }
-                PopupWindowType.Type6.emotionPosition -> {
-                    emotionCopyList.add(
-                        ResponsePostDetailEmotionData.Data(
-                            userImage,
-                            PopupWindowType.Type6.drawable
-                        )
-                    )
-                }
-            }
-            setOldEmotionData(emotionPosition, userImage)
         }
-
-        _isUpdateEmotion.value = emotionCopyList
     }
 
-    fun setEmotionCount(count: Int) {
-        _emotionCount.value = count
+    // 피드 댓글 조회
+    fun getComment(contentId: Int) {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                detailRepository.getComment(contentId, _pageNumber.value!!)
+            }.onSuccess {
+                if (_pageNumber.value == 1) {
+                    _commentList.value = it.data.content
+                } else {
+                    val commentList = _commentList.value!!.map { currentList ->
+                        currentList.copy()
+                    } as MutableList<ResponsePostDetailCommentData.Data.Content>
+
+                    commentList.addAll(it.data.content)
+
+                    _commentList.value = commentList
+                }
+                _isNoData.value = it.data.content.size != _pageNumber.value!! * 10
+
+                // TODO 댓글 총 개수 response 필요
+                _commentCount.value = it.data.content.size
+            }.onFailure {
+                Timber.tag("error").d(it.message.toString())
+            }
+        }
     }
 
-    fun setCommentCount(count: Int) {
-        _commentCount.value = count
+    // 감정 이모지 설정
+    fun setUpdateEmotion(
+        contentId: Int,
+        emotionStatus: RequestEmotionStatus,
+    ) {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                detailRepository.sendEmotionData(contentId, emotionStatus)
+            }.onSuccess {
+                if (it.data != null) {
+                    getEmotion(contentId)
+                } else {
+                    setUpdateEmotion(contentId, emotionStatus)
+                }
+            }.onFailure {
+                Timber.tag("error").d(it.message.toString())
+            }
+        }
     }
 
-    private fun setOldEmotionData(emotionPosition: Int, userImage: Int) {
-        oldEmotionData = ResponsePostDetailEmotionData.Data(
-            userImage,
-            popupWindowImage[emotionPosition]
-        )
+    // 댓글 작성
+    fun setUpdateComment(
+        contentId: Int,
+        commentNote: RequestPostDetailCommentNote,
+    ) {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                detailRepository.sendContent(contentId, commentNote)
+            }.onSuccess {
+                getComment(contentId)
+            }.onFailure {
+                Timber.tag("error").d(it.message.toString())
+            }
+        }
+    }
+
+    fun setPageNumber(pageNumber: Int) {
+        _pageNumber.value = pageNumber
+    }
+
+    fun setUpPageNumber() {
+        _pageNumber.value = _pageNumber.value!! + 1
     }
 
     fun setSelected() {
@@ -145,40 +139,6 @@ class PostDetailViewModel : ViewModel() {
 
     fun setUnSelected() {
         _isSelected.value = false
-    }
-
-    fun setUpdateComment(
-        commentList: List<ResponsePostDetailCommentData.Data>,
-        comment: String,
-        sticker: Int,
-    ) {
-        val commentCopyList = commentList.map {
-            it.copy()
-        } as MutableList<ResponsePostDetailCommentData.Data>
-
-        // TODO 사용자 정보 등록 필요
-        if (sticker != 0) {
-            commentCopyList.add(
-                ResponsePostDetailCommentData.Data(
-                    R.drawable.img_no_group,
-                    "User1",
-                    sticker,
-                    "",
-                    (LocalDateTime.now()).format(formatter)
-                )
-            )
-        } else {
-            commentCopyList.add(
-                ResponsePostDetailCommentData.Data(
-                    R.drawable.img_no_group,
-                    "User1",
-                    0,
-                    comment,
-                    (LocalDateTime.now()).format(formatter)
-                )
-            )
-        }
-        _isUpdateComment.value = commentCopyList
     }
 
     val textWatcher = object : TextWatcher {
@@ -193,5 +153,13 @@ class PostDetailViewModel : ViewModel() {
         override fun afterTextChanged(p0: Editable?) {
 
         }
+    }
+
+    fun setLoading() {
+        _isLoading.value = true
+    }
+
+    fun setUnLoading() {
+        _isLoading.value = false
     }
 }

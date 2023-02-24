@@ -1,18 +1,9 @@
 package com.dnd_8th_4_android.wery.presentation.di
 
-import com.dnd_8th_4_android.wery.data.remote.datasource.AuthRemoteDataSource
-import com.dnd_8th_4_android.wery.data.remote.datasource.HomeDataSource
-import com.dnd_8th_4_android.wery.data.remote.datasource.PlaceRemoteDataSource
-import com.dnd_8th_4_android.wery.data.remote.datasource.SignUpDataSource
-import com.dnd_8th_4_android.wery.data.repository.AuthRepositoryImpl
-import com.dnd_8th_4_android.wery.data.repository.HomeRepositoryImpl
-import com.dnd_8th_4_android.wery.data.repository.PlaceRepositoryImpl
-import com.dnd_8th_4_android.wery.data.repository.SignUpRepositoryImpl
-import com.dnd_8th_4_android.wery.domain.repository.AuthRepository
-import com.dnd_8th_4_android.wery.domain.repository.HomeRepository
+import com.dnd_8th_4_android.wery.data.remote.datasource.*
+import com.dnd_8th_4_android.wery.data.repository.*
+import com.dnd_8th_4_android.wery.domain.repository.*
 
-import com.dnd_8th_4_android.wery.domain.repository.PlaceRepository
-import com.dnd_8th_4_android.wery.domain.repository.SignUpRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -46,5 +37,11 @@ object RepositoryModule {
     @Singleton
     fun provideHomeRepository(homeDataSource: HomeDataSource): HomeRepository {
         return HomeRepositoryImpl(homeDataSource)
+    }
+
+    @Provides
+    @Singleton
+    fun provideDetailRepository(detailDataSource: DetailDataSource): DetailRepository {
+        return DetailRepositoryImpl(detailDataSource)
     }
 }
