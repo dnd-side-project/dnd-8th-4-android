@@ -16,6 +16,7 @@ import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.data.remote.model.detail.ResponsePostDetailCommentData
 import com.dnd_8th_4_android.wery.data.remote.model.detail.ResponsePostDetailEmotionData
 import com.dnd_8th_4_android.wery.data.remote.model.detail.ResponsePostDetailStickerData
+import com.dnd_8th_4_android.wery.data.remote.model.home.RequestEmotionStatus
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponsePostData
 import com.dnd_8th_4_android.wery.databinding.ActivityPopupWindowBinding
 import com.dnd_8th_4_android.wery.databinding.ActivityPostDetailBinding
@@ -59,7 +60,7 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
     }
 
     private fun initStartView() {
-        makeList()
+        initData()
         // 게시글 이미지
         postDetailImageRecyclerViewAdapter = PostDetailImageRecyclerViewAdapter(imageList)
         binding.rvPostImage.adapter = postDetailImageRecyclerViewAdapter
@@ -73,7 +74,7 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
         }
         viewModel.getEmotion(contentId)
 
-        // TODO 공감 이모지 통신 설정
+        // 공감 이모지 등록
         binding.layoutEmotionPlus.setOnClickListener { getGradePopUp() }
 
 
@@ -207,7 +208,7 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
         activityPopupWindowBinding = null
     }
 
-    private fun makeList() {
+    private fun initData() {
         with(binding) {
             writeButton = intent.getBooleanExtra(PostRecyclerViewAdapter.WRITE_CHECK, false)
             contentId = intent.getIntExtra(PostRecyclerViewAdapter.CONTENT_ID, 0)
@@ -233,22 +234,8 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
             intent.getSerializableExtra(PostRecyclerViewAdapter.IMAGE) as MutableList<ResponsePostData.Data.Content.Images>
         }
 
-//        commentList = listOf(
-//            ResponsePostDetailCommentData.Data(
-//                R.drawable.img_no_group,
-//                "User1",
-//                R.drawable.img_no_group,
-//                "",
-//                "11:11"
-//            ),
-//            ResponsePostDetailCommentData.Data(
-//                R.drawable.img_no_group,
-//                "User1",
-//                0,
-//                "댓글은 최대 200자로 제한 합니다.댓글은 최대 200자로 제한 합니다.댓글은 최대 200자로 제한 합니다.댓글은 최대 200자로 제한 합니다.댓글은 최대 200자로 제한 합니다.댓글은 최대 200자로 제한 합니다.댓글은 최대 200자로 제한 합니다.댓글은 최대 200자로 제한 합니다.댓글은 최대 200자로 제한 합니다.댓글은 최대 200자로 제한 합니다.댓글은 최대 200자로 제한 합니다.",
-//                "22:22"
-//            ),
-//        )
+
+
 
         stickerList = ResponsePostDetailStickerData.Data(
             listOf(
@@ -262,51 +249,49 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
     }
 
     private fun getGradePopUp() {
-        // 팝업 생성
         val popupWindow = PopupWindow(
             activityPopupWindowBinding!!.root,
             WindowManager.LayoutParams.WRAP_CONTENT,
             WindowManager.LayoutParams.WRAP_CONTENT,
             true
         )
-        // 현재 유지시킬 뷰 설정(이 줄을 없애면 키보드가 올라옴)
+
         popupWindow.contentView = activityPopupWindowBinding!!.root
 
-        // 어떤 레이아웃 밑에 팝업을 달건지 설정
         popupWindow.showAsDropDown(binding.layoutEmotionPlus, -10, -260)
 
         activityPopupWindowBinding!!.ivEmotionOne.setOnClickListener {
-            setEmotion(PopupWindowType.Type1.emotionPosition)
+            setEmotion(RequestEmotionStatus(PopupWindowType.Type1.emotionPosition))
             popupWindow.dismiss()
         }
 
         activityPopupWindowBinding!!.ivEmotionTwo.setOnClickListener {
-            setEmotion(PopupWindowType.Type2.emotionPosition)
+            setEmotion(RequestEmotionStatus(PopupWindowType.Type2.emotionPosition))
             popupWindow.dismiss()
         }
 
         activityPopupWindowBinding!!.ivEmotionThree.setOnClickListener {
-            setEmotion(PopupWindowType.Type3.emotionPosition)
+            setEmotion(RequestEmotionStatus(PopupWindowType.Type3.emotionPosition))
             popupWindow.dismiss()
         }
 
         activityPopupWindowBinding!!.ivEmotionFour.setOnClickListener {
-            setEmotion(PopupWindowType.Type4.emotionPosition)
+            setEmotion(RequestEmotionStatus(PopupWindowType.Type4.emotionPosition))
             popupWindow.dismiss()
         }
 
         activityPopupWindowBinding!!.ivEmotionFive.setOnClickListener {
-            setEmotion(PopupWindowType.Type5.emotionPosition)
+            setEmotion(RequestEmotionStatus(PopupWindowType.Type5.emotionPosition))
             popupWindow.dismiss()
         }
 
         activityPopupWindowBinding!!.ivEmotionSix.setOnClickListener {
-            setEmotion(PopupWindowType.Type6.emotionPosition)
+            setEmotion(RequestEmotionStatus(PopupWindowType.Type6.emotionPosition))
             popupWindow.dismiss()
         }
     }
 
-    private fun setEmotion(emotionPosition: Int) {
-//        viewModel.setUpdateEmotion(emotionPosition, emotionList, R.drawable.img_no_group)
+    private fun setEmotion(emotionStatus: RequestEmotionStatus) {
+        viewModel.setUpdateEmotion(contentId, emotionStatus)
     }
 }

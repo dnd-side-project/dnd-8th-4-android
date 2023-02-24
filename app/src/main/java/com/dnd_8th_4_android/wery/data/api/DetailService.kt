@@ -2,9 +2,9 @@ package com.dnd_8th_4_android.wery.data.api
 
 import com.dnd_8th_4_android.wery.data.remote.model.detail.ResponsePostDetailCommentData
 import com.dnd_8th_4_android.wery.data.remote.model.detail.ResponsePostDetailEmotionData
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
+import com.dnd_8th_4_android.wery.data.remote.model.home.RequestEmotionStatus
+import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseEmotionData
+import retrofit2.http.*
 
 interface DetailService {
 
@@ -18,4 +18,10 @@ interface DetailService {
         @Path("contentId") contentId: Int,
         @Query("page") page: Int,
     ): ResponsePostDetailCommentData
+
+    @POST("/content/{contentId}/emotion")
+    suspend fun sendEmotion(
+        @Path("contentId") contentId: Int,
+        @Body body: RequestEmotionStatus,
+    ): ResponseEmotionData
 }
