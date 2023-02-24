@@ -102,4 +102,7 @@ dependencies {
 
     // Loading Dialog
     implementation 'com.github.ybq:Android-SpinKit:1.4.0'
+
+    // TabLayout
+    implementation 'com.android.support:design:28.0.0'
 }
