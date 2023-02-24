@@ -43,6 +43,11 @@ class PostDetailViewModel @Inject constructor(
     private val _isLoading: MutableLiveData<Boolean> = MutableLiveData()
     val isLoading: LiveData<Boolean> = _isLoading
 
+    private val _pageNumber = MutableLiveData(0)
+
+    private val _isNoData = MutableLiveData(false)
+    val isNoData: LiveData<Boolean> = _isNoData
+
     // 피드 공감 조회
     fun getEmotion(contentId: Int) {
         viewModelScope.launch {
@@ -58,13 +63,26 @@ class PostDetailViewModel @Inject constructor(
     }
 
     // 피드 댓글 조회
-    fun getComment(contentId: Int, page: Int) {
+    fun getComment(contentId: Int) {
         viewModelScope.launch {
             kotlin.runCatching {
-                detailRepository.getComment(contentId, page)
+                detailRepository.getComment(contentId, _pageNumber.value!!)
             }.onSuccess {
+                if (_pageNumber.value == 1) {
+                    _commentList.value = it.data.content
+                } else {
+                    val commentList = _commentList.value!!.map { currentList ->
+                        currentList.copy()
+                    } as MutableList<ResponsePostDetailCommentData.Data.Content>
+
+                    commentList.addAll(it.data.content)
+
+                    _commentList.value = commentList
+                }
+                _isNoData.value = it.data.content.size != _pageNumber.value!! * 10
+
+                // TODO 댓글 총 개수 response 필요
                 _commentCount.value = it.data.content.size
-                _commentList.value = it.data.content
             }.onFailure {
                 Timber.tag("error").d(it.message.toString())
             }
@@ -100,17 +118,20 @@ class PostDetailViewModel @Inject constructor(
             kotlin.runCatching {
                 detailRepository.sendContent(contentId, commentNote)
             }.onSuccess {
-                getComment(contentId, 1)
+                getComment(contentId)
             }.onFailure {
                 Timber.tag("error").d(it.message.toString())
             }
         }
     }
 
+    fun setPageNumber(pageNumber: Int) {
+        _pageNumber.value = pageNumber
+    }
 
-
-
-
+    fun setUpPageNumber() {
+        _pageNumber.value = _pageNumber.value!! + 1
+    }
 
     fun setSelected() {
         _isSelected.value = _isSelected.value != true

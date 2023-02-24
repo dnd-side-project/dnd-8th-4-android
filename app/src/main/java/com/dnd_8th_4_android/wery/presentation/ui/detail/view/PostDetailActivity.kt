@@ -10,8 +10,8 @@ import android.view.WindowManager
 import android.widget.PopupWindow
 import android.widget.ScrollView
 import androidx.activity.viewModels
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.view.isVisible
+import androidx.core.widget.NestedScrollView
 import com.bumptech.glide.Glide
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.data.remote.model.detail.RequestPostDetailCommentNote
@@ -62,6 +62,7 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
     private fun initStartView() {
         viewModel.setLoading()
         initData()
+
         // 게시글 이미지
         postDetailImageRecyclerViewAdapter = PostDetailImageRecyclerViewAdapter(imageList)
         binding.rvPostImage.adapter = postDetailImageRecyclerViewAdapter
@@ -85,7 +86,7 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
             itemAnimator = null
             isNestedScrollingEnabled = false
         }
-        viewModel.getComment(contentId, 1)
+        viewModel.getComment(contentId)
 
         // 스티커
 //        postDetailStickerRecyclerViewAdapter = PostDetailStickerRecyclerViewAdapter(stickerList)
@@ -111,12 +112,12 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
         }
 
         viewModel.emotionList.observe(this) {
-            postDetailEmotionRecyclerViewAdapter.submitList(it)
+            postDetailEmotionRecyclerViewAdapter.submitList(it.toMutableList())
             viewModel.setUnLoading()
         }
 
         viewModel.commentList.observe(this) {
-            postDetailCommentRecyclerViewAdapter.submitList(it)
+            postDetailCommentRecyclerViewAdapter.submitList(it.toMutableList())
             viewModel.setUnLoading()
         }
 
@@ -210,6 +211,13 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
                 binding.etComment.hideKeyboard()
             }
         }
+
+        binding.scrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, _, _, _, _ ->
+            if (viewModel.isLoading.value == false && viewModel.isNoData.value != true && !v.canScrollVertically(1)) {
+                viewModel.setUpPageNumber()
+                viewModel.getComment(contentId)
+            }
+        })
     }
 
     override fun onDestroy() {
@@ -242,6 +250,8 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
         } else {
             intent.getSerializableExtra(PostRecyclerViewAdapter.IMAGE) as MutableList<ResponsePostData.Data.Content.Images>
         }
+
+        viewModel.setPageNumber(1)
 
 
 
