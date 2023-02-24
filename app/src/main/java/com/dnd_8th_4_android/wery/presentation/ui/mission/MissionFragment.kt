@@ -19,9 +19,6 @@ class MissionFragment : BaseFragment<FragmentMissionBinding>(R.layout.fragment_m
     }
 
     override fun initAfterBinding() {
-        binding.btnLocation.setOnClickListener {
-
-        }
     }
 
 }
