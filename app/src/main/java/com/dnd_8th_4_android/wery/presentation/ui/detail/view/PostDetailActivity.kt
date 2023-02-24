@@ -44,9 +44,9 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
     private lateinit var postDetailStickerRecyclerViewAdapter: PostDetailStickerRecyclerViewAdapter
 
     private lateinit var imageList: MutableList<ResponsePostData.Data.Content.Images>
-    private lateinit var emotionList: List<ResponsePostDetailEmotionData.Data>
-    private lateinit var commentList: List<ResponsePostDetailCommentData.Data>
     private lateinit var stickerList: ResponsePostDetailStickerData.Data
+
+    private var contentId = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,7 +71,7 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
             adapter = postDetailEmotionRecyclerViewAdapter
             itemAnimator = null
         }
-        viewModel.getEmotion(intent.getIntExtra(PostRecyclerViewAdapter.CONTENT_ID, 0))
+        viewModel.getEmotion(contentId)
 
         // TODO 공감 이모지 통신 설정
         binding.layoutEmotionPlus.setOnClickListener { getGradePopUp() }
@@ -79,20 +79,20 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
 
         // 댓글
         postDetailCommentRecyclerViewAdapter = PostDetailCommentRecyclerViewAdapter()
-        postDetailCommentRecyclerViewAdapter.submitList(commentList)
         binding.rvComment.apply {
             adapter = postDetailCommentRecyclerViewAdapter
             itemAnimator = null
             isNestedScrollingEnabled = false
         }
+        viewModel.getComment(contentId, 1)
 
         // 스티커
-        postDetailStickerRecyclerViewAdapter = PostDetailStickerRecyclerViewAdapter(stickerList)
-        postDetailStickerRecyclerViewAdapter.setStickerClickListener { sticker ->
-            viewModel.setUpdateComment(commentList, "", sticker)
-            viewModel.setSelected()
-        }
-        binding.rvSticker.adapter = postDetailStickerRecyclerViewAdapter
+//        postDetailStickerRecyclerViewAdapter = PostDetailStickerRecyclerViewAdapter(stickerList)
+//        postDetailStickerRecyclerViewAdapter.setStickerClickListener { sticker ->
+//            viewModel.setUpdateComment(commentList, "", sticker)
+//            viewModel.setSelected()
+//        }
+//        binding.rvSticker.adapter = postDetailStickerRecyclerViewAdapter
     }
 
     private fun initDataBinding() {
@@ -106,25 +106,28 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
 
         viewModel.emotionList.observe(this) {
             postDetailEmotionRecyclerViewAdapter.submitList(it)
-            viewModel.setCommentCount(commentList.size)
+        }
+
+        viewModel.commentList.observe(this) {
+            postDetailCommentRecyclerViewAdapter.submitList(it)
         }
 
 
 
 
-        viewModel.isUpdateComment.observe(this) {
-            postDetailCommentRecyclerViewAdapter.submitList(it.toMutableList())
-            commentList = it
-            viewModel.setCommentCount(it.size)
-
-            Handler(Looper.getMainLooper())
-                .postDelayed({
-                    binding.scrollView.fullScroll(ScrollView.FOCUS_DOWN)
-                }, 100)
-            binding.etComment.hint = resources.getString(R.string.post_detail_hint)
-            binding.ivSticker.isSelected = false
-            binding.ivSend.isSelected = false
-        }
+//        viewModel.isUpdateComment.observe(this) {
+//            postDetailCommentRecyclerViewAdapter.submitList(it.toMutableList())
+//            commentList = it
+//            viewModel.setCommentCount(it.size)
+//
+//            Handler(Looper.getMainLooper())
+//                .postDelayed({
+//                    binding.scrollView.fullScroll(ScrollView.FOCUS_DOWN)
+//                }, 100)
+//            binding.etComment.hint = resources.getString(R.string.post_detail_hint)
+//            binding.ivSticker.isSelected = false
+//            binding.ivSend.isSelected = false
+//        }
 
         viewModel.commentCount.observe(this) {
             binding.layoutCommentCount.visibility = if (it != 0) {
@@ -192,7 +195,7 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
 
         binding.ivSend.setOnClickListener {
             if (binding.etComment.text.toString() != "") {
-                viewModel.setUpdateComment(commentList, binding.etComment.text.toString(), 0)
+//                viewModel.setUpdateComment(commentList, binding.etComment.text.toString(), 0)
                 binding.etComment.setText("")
                 binding.etComment.hideKeyboard()
             }
@@ -207,6 +210,8 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
     private fun makeList() {
         with(binding) {
             writeButton = intent.getBooleanExtra(PostRecyclerViewAdapter.WRITE_CHECK, false)
+            contentId = intent.getIntExtra(PostRecyclerViewAdapter.CONTENT_ID, 0)
+
             tvGroupName.text = intent.getStringExtra(PostRecyclerViewAdapter.GROUP_NAME).toString()
 
             Glide.with(applicationContext)
@@ -228,22 +233,22 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
             intent.getSerializableExtra(PostRecyclerViewAdapter.IMAGE) as MutableList<ResponsePostData.Data.Content.Images>
         }
 
-        commentList = listOf(
-            ResponsePostDetailCommentData.Data(
-                R.drawable.img_no_group,
-                "User1",
-                R.drawable.img_no_group,
-                "",
-                "11:11"
-            ),
-            ResponsePostDetailCommentData.Data(
-                R.drawable.img_no_group,
-                "User1",
-                0,
-                "댓글은 최대 200자로 제한 합니다.댓글은 최대 200자로 제한 합니다.댓글은 최대 200자로 제한 합니다.댓글은 최대 200자로 제한 합니다.댓글은 최대 200자로 제한 합니다.댓글은 최대 200자로 제한 합니다.댓글은 최대 200자로 제한 합니다.댓글은 최대 200자로 제한 합니다.댓글은 최대 200자로 제한 합니다.댓글은 최대 200자로 제한 합니다.댓글은 최대 200자로 제한 합니다.",
-                "22:22"
-            ),
-        )
+//        commentList = listOf(
+//            ResponsePostDetailCommentData.Data(
+//                R.drawable.img_no_group,
+//                "User1",
+//                R.drawable.img_no_group,
+//                "",
+//                "11:11"
+//            ),
+//            ResponsePostDetailCommentData.Data(
+//                R.drawable.img_no_group,
+//                "User1",
+//                0,
+//                "댓글은 최대 200자로 제한 합니다.댓글은 최대 200자로 제한 합니다.댓글은 최대 200자로 제한 합니다.댓글은 최대 200자로 제한 합니다.댓글은 최대 200자로 제한 합니다.댓글은 최대 200자로 제한 합니다.댓글은 최대 200자로 제한 합니다.댓글은 최대 200자로 제한 합니다.댓글은 최대 200자로 제한 합니다.댓글은 최대 200자로 제한 합니다.댓글은 최대 200자로 제한 합니다.",
+//                "22:22"
+//            ),
+//        )
 
         stickerList = ResponsePostDetailStickerData.Data(
             listOf(

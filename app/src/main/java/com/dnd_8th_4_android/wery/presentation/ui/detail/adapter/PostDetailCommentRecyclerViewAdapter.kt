@@ -13,7 +13,7 @@ import com.dnd_8th_4_android.wery.databinding.ItemPostDetailCommentBinding
 import com.dnd_8th_4_android.wery.databinding.ItemPostDetailCommentImageBinding
 
 class PostDetailCommentRecyclerViewAdapter :
-    ListAdapter<ResponsePostDetailCommentData.Data, ViewHolder>(diffUtil) {
+    ListAdapter<ResponsePostDetailCommentData.Data.Content, ViewHolder>(diffUtil) {
 
     class CommentImageViewHolder(private val binding: ItemPostDetailCommentImageBinding) :
         ViewHolder(binding.root) {
@@ -27,7 +27,7 @@ class PostDetailCommentRecyclerViewAdapter :
             Glide.with(binding.ivSticker.context).load(item.sticker)
                 .into(binding.ivSticker)
 
-            binding.tvTime.text = item.time
+            binding.tvTime.text = item.time.substring(IntRange(11, 15))
         }
     }
 
@@ -40,7 +40,7 @@ class PostDetailCommentRecyclerViewAdapter :
 
             binding.tvFriendName.text = item.name
             binding.tvFriendComment.text = item.comment
-            binding.tvTime.text = item.time
+            binding.tvTime.text = item.time.substring(IntRange(11, 15))
         }
     }
 
@@ -93,7 +93,7 @@ class PostDetailCommentRecyclerViewAdapter :
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (currentList[position].sticker != 0) {
+        return if (currentList[position].sticker != null) {
             ITEM_COMMENT_IMAGE
         } else {
             ITEM_COMMENT
@@ -105,17 +105,17 @@ class PostDetailCommentRecyclerViewAdapter :
         private const val ITEM_COMMENT = 1
 
         private val diffUtil =
-            object : DiffUtil.ItemCallback<ResponsePostDetailCommentData.Data>() {
+            object : DiffUtil.ItemCallback<ResponsePostDetailCommentData.Data.Content>() {
                 override fun areItemsTheSame(
-                    oldItem: ResponsePostDetailCommentData.Data,
-                    newItem: ResponsePostDetailCommentData.Data,
+                    oldItem: ResponsePostDetailCommentData.Data.Content,
+                    newItem: ResponsePostDetailCommentData.Data.Content,
                 ): Boolean {
                     return oldItem == newItem
                 }
 
                 override fun areContentsTheSame(
-                    oldItem: ResponsePostDetailCommentData.Data,
-                    newItem: ResponsePostDetailCommentData.Data,
+                    oldItem: ResponsePostDetailCommentData.Data.Content,
+                    newItem: ResponsePostDetailCommentData.Data.Content,
                 ): Boolean {
                     return oldItem == newItem
                 }

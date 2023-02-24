@@ -39,24 +39,29 @@ class PostDetailViewModel @Inject constructor(
     private val _emotionCount = MutableLiveData<Int>()
     val emotionCount: LiveData<Int> = _emotionCount
 
+    private val _commentList = MutableLiveData<MutableList<ResponsePostDetailCommentData.Data.Content>>()
+    val commentList: LiveData<MutableList<ResponsePostDetailCommentData.Data.Content>> = _commentList
+
+    private val _commentCount = MutableLiveData<Int>()
+    val commentCount: LiveData<Int> = _commentCount
+
+
+
+
     private val _isSelected = MutableLiveData(false)
     val isSelected: LiveData<Boolean> = _isSelected
 
     private val _isUpdateComment = MutableLiveData<MutableList<ResponsePostDetailCommentData.Data>>()
     val isUpdateComment: LiveData<MutableList<ResponsePostDetailCommentData.Data>> = _isUpdateComment
 
-    private val formatter = DateTimeFormatter.ofPattern("HH:MM")
-
     private val _isEnabled = MutableLiveData<Boolean>()
     val isEnabled: LiveData<Boolean> = _isEnabled
 
-    private val _commentCount = MutableLiveData<Int>()
-    val commentCount: LiveData<Int> = _commentCount
-
+    // 피드 공감 조회
     fun getEmotion(contentId: Int) {
         viewModelScope.launch {
             kotlin.runCatching {
-                detailRepository.getComment(contentId)
+                detailRepository.getEmotion(contentId)
             }.onSuccess {
                 _emotionCount.value = it.data.size
                 _emotionList.value = it.data
@@ -66,16 +71,31 @@ class PostDetailViewModel @Inject constructor(
         }
     }
 
+    // 피드 댓글 조회
+    fun getComment(contentId: Int, page: Int) {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                detailRepository.getComment(contentId, page)
+            }.onSuccess {
+                _commentCount.value = it.data.content.size
+                _commentList.value = it.data.content
+                Log.e("태그", _commentList.value.toString())
+            }.onFailure {
+                Timber.tag("error").d(it.message.toString())
+            }
+        }
+    }
+
+
+
+
+
     fun setUpdateEmotion(
         emotionPosition: Int,
         emotionList: List<ResponsePostDetailEmotionData.Data>,
         userImage: Int,
     ) {
 
-    }
-
-    fun setCommentCount(count: Int) {
-        _commentCount.value = count
     }
 
     fun setSelected() {
@@ -86,39 +106,38 @@ class PostDetailViewModel @Inject constructor(
         _isSelected.value = false
     }
 
-    fun setUpdateComment(
-        commentList: List<ResponsePostDetailCommentData.Data>,
-        comment: String,
-        sticker: Int,
-    ) {
-        val commentCopyList = commentList.map {
-            it.copy()
-        } as MutableList<ResponsePostDetailCommentData.Data>
-
-        // TODO 사용자 정보 등록 필요
-        if (sticker != 0) {
-            commentCopyList.add(
-                ResponsePostDetailCommentData.Data(
-                    R.drawable.img_no_group,
-                    "User1",
-                    sticker,
-                    "",
-                    (LocalDateTime.now()).format(formatter)
-                )
-            )
-        } else {
-            commentCopyList.add(
-                ResponsePostDetailCommentData.Data(
-                    R.drawable.img_no_group,
-                    "User1",
-                    0,
-                    comment,
-                    (LocalDateTime.now()).format(formatter)
-                )
-            )
-        }
-        _isUpdateComment.value = commentCopyList
-    }
+//    fun setUpdateComment(
+//        commentList: List<ResponsePostDetailCommentData.Data>,
+//        comment: String,
+//        sticker: Int,
+//    ) {
+//        val commentCopyList = commentList.map {
+//            it.copy()
+//        } as MutableList<ResponsePostDetailCommentData.Data>
+//
+//        if (sticker != 0) {
+//            commentCopyList.add(
+//                ResponsePostDetailCommentData.Data(
+//                    R.drawable.img_no_group,
+//                    "User1",
+//                    sticker,
+//                    "",
+//                    (LocalDateTime.now()).format(formatter)
+//                )
+//            )
+//        } else {
+//            commentCopyList.add(
+//                ResponsePostDetailCommentData.Data(
+//                    R.drawable.img_no_group,
+//                    "User1",
+//                    0,
+//                    comment,
+//                    (LocalDateTime.now()).format(formatter)
+//                )
+//            )
+//        }
+//        _isUpdateComment.value = commentCopyList
+//    }
 
     val textWatcher = object : TextWatcher {
         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {

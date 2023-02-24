@@ -6,9 +6,9 @@ data class ResponsePostDetailCommentImageData(
     val data : Data
 ): BaseResponse() {
     data class Data(
-        val friendImage: Int,
+        val friendImage: String?,
         val name: String,
-        val sticker: Int,
+        val sticker: Int?,
         val time: String
     )
 }
