@@ -1,5 +1,7 @@
 package com.dnd_8th_4_android.wery.data.api
 
+import com.dnd_8th_4_android.wery.data.remote.model.BaseResponse
+import com.dnd_8th_4_android.wery.data.remote.model.detail.RequestPostDetailCommentNote
 import com.dnd_8th_4_android.wery.data.remote.model.detail.ResponsePostDetailCommentData
 import com.dnd_8th_4_android.wery.data.remote.model.detail.ResponsePostDetailEmotionData
 import com.dnd_8th_4_android.wery.data.remote.model.home.RequestEmotionStatus
@@ -24,4 +26,10 @@ interface DetailService {
         @Path("contentId") contentId: Int,
         @Body body: RequestEmotionStatus,
     ): ResponseEmotionData
+
+    @POST("/content/{contentId}/comment")
+    suspend fun sendContent(
+        @Path("contentId") contentId: Int,
+        @Body body: RequestPostDetailCommentNote
+    ): BaseResponse
 }

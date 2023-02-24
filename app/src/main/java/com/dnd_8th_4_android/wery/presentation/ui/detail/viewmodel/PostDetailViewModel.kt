@@ -7,18 +7,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dnd_8th_4_android.wery.R
+import com.dnd_8th_4_android.wery.data.remote.model.detail.RequestPostDetailCommentNote
 import com.dnd_8th_4_android.wery.data.remote.model.detail.ResponsePostDetailCommentData
 import com.dnd_8th_4_android.wery.data.remote.model.detail.ResponsePostDetailEmotionData
 import com.dnd_8th_4_android.wery.data.remote.model.home.RequestEmotionStatus
-import com.dnd_8th_4_android.wery.domain.model.PopupWindowType
 import com.dnd_8th_4_android.wery.domain.repository.DetailRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import retrofit2.Response
 import timber.log.Timber
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @HiltViewModel
@@ -38,12 +34,8 @@ class PostDetailViewModel @Inject constructor(
     private val _commentCount = MutableLiveData<Int>()
     val commentCount: LiveData<Int> = _commentCount
 
-
     private val _isSelected = MutableLiveData(false)
     val isSelected: LiveData<Boolean> = _isSelected
-
-    private val _isUpdateComment = MutableLiveData<MutableList<ResponsePostDetailCommentData.Data>>()
-    val isUpdateComment: LiveData<MutableList<ResponsePostDetailCommentData.Data>> = _isUpdateComment
 
     private val _isEnabled = MutableLiveData<Boolean>()
     val isEnabled: LiveData<Boolean> = _isEnabled
@@ -91,6 +83,22 @@ class PostDetailViewModel @Inject constructor(
                 } else {
                     setUpdateEmotion(contentId, emotionStatus)
                 }
+            }.onFailure {
+                Timber.tag("error").d(it.message.toString())
+            }
+        }
+    }
+
+    // 댓글 작성
+    fun setUpdateComment(
+        contentId: Int,
+        commentNote: RequestPostDetailCommentNote,
+    ) {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                detailRepository.sendContent(contentId, commentNote)
+            }.onSuccess {
+                getComment(contentId, 1)
             }.onFailure {
                 Timber.tag("error").d(it.message.toString())
             }

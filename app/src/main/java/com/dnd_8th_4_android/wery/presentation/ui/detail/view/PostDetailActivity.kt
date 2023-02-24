@@ -13,8 +13,7 @@ import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.dnd_8th_4_android.wery.R
-import com.dnd_8th_4_android.wery.data.remote.model.detail.ResponsePostDetailCommentData
-import com.dnd_8th_4_android.wery.data.remote.model.detail.ResponsePostDetailEmotionData
+import com.dnd_8th_4_android.wery.data.remote.model.detail.RequestPostDetailCommentNote
 import com.dnd_8th_4_android.wery.data.remote.model.detail.ResponsePostDetailStickerData
 import com.dnd_8th_4_android.wery.data.remote.model.home.RequestEmotionStatus
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponsePostData
@@ -114,8 +113,6 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
         }
 
 
-
-
 //        viewModel.isUpdateComment.observe(this) {
 //            postDetailCommentRecyclerViewAdapter.submitList(it.toMutableList())
 //            commentList = it
@@ -196,7 +193,10 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
 
         binding.ivSend.setOnClickListener {
             if (binding.etComment.text.toString() != "") {
-//                viewModel.setUpdateComment(commentList, binding.etComment.text.toString(), 0)
+                viewModel.setUpdateComment(
+                    contentId,
+                    RequestPostDetailCommentNote(binding.etComment.text.toString())
+                )
                 binding.etComment.setText("")
                 binding.etComment.hideKeyboard()
             }
