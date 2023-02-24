@@ -52,7 +52,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         )
         groupRecyclerViewAdapter.setGroupPostCallListener { groupId ->
             homeViewModel.isSelectGroupId.value = groupId
-            homeViewModel.getGroupPost(groupId.toString())
+            homeViewModel.getGroupPost()
         }
         binding.activityGroup.rvMyGroup.adapter = groupRecyclerViewAdapter
 
@@ -156,7 +156,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 initSelectedGroup()
                 homeViewModel.setLoading()
                 homeViewModel.setPageNumber(1)
-                homeViewModel.getGroupPost(homeViewModel.groupAllIdList.joinToString())
+                homeViewModel.isSelectGroupId.value = -1
+                homeViewModel.getGroupPost()
             }
         }
 
@@ -168,9 +169,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                     homeViewModel.groupPostSearch(homeViewModel.isSelectGroupId.value!!, homeViewModel.searchWord)
                 } else {
                     if (homeViewModel.isSelectGroupId.value!! != 0) {
-                        homeViewModel.getGroupPost(homeViewModel.isSelectGroupId.value!!.toString())
+                        homeViewModel.getGroupPost()
                     } else {
-                        homeViewModel.getGroupPost(homeViewModel.groupAllIdList.joinToString())
+                        homeViewModel.getGroupPost()
                     }
                 }
             }
@@ -197,8 +198,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         binding.activityGroup.ivAllGroup.isSelected =
             !binding.activityGroup.ivAllGroup.isSelected
         binding.activityGroup.tvAllGroup.setTextAppearance(R.style.TextView_Title_12_Sb)
-
-        homeViewModel.isSelectGroupId.value = -1
     }
 
     private fun getGradePopUp(view: View, contentId: Int) {

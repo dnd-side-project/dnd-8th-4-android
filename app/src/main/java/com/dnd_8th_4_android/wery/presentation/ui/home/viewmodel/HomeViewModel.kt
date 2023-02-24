@@ -1,5 +1,6 @@
 package com.dnd_8th_4_android.wery.presentation.ui.home.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -57,10 +58,8 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
                         for (i in it.data.groupInfoList.indices) {
                             groupAllIdList.add(it.data.groupInfoList[i].id)
                         }
-                        getGroupPost(groupAllIdList.joinToString())
-                    } else {
-                        getGroupPost(isSelectGroupId.value.toString())
                     }
+                    getGroupPost()
                 }
             }.onFailure {
                 Timber.tag("error").d(it.message.toString())
@@ -70,10 +69,14 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
     }
 
     // 그룹 게시글 조회
-    fun getGroupPost(groupId: String) {
+    fun getGroupPost() {
         viewModelScope.launch {
             kotlin.runCatching {
-                homeRepository.allGroupPost(groupId, _pageNumber.value!!)
+                if (isSelectGroupId.value == -1) {
+                    homeRepository.allGroupPost(groupAllIdList.joinToString(), _pageNumber.value!!)
+                } else {
+                    homeRepository.allGroupPost(isSelectGroupId.value.toString(), _pageNumber.value!!)
+                }
             }.onSuccess {
                 if (_pageNumber.value == 1) {
                     _postList.value = it.data.content
@@ -106,13 +109,14 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
             }.onSuccess {
                 if (it.data != null) {
                     if (isSelectGroupId != 0) {
-                        getGroupPost(isSelectGroupId.toString())
+                        getGroupPost()
                     } else {
-                        getGroupPost(groupAllIdList.joinToString())
+                        getGroupPost()
                     }
                 } else {
                     setUpdateEmotion(isSelectGroupId, contentId, emotionStatus)
                 }
+                Log.e("태그", it.data.toString())
             }.onFailure {
                 Timber.tag("error").d(it.message.toString())
             }
