@@ -1,9 +1,6 @@
 package com.dnd_8th_4_android.wery.presentation.di
 
-import com.dnd_8th_4_android.wery.data.api.AuthService
-import com.dnd_8th_4_android.wery.data.api.HomeService
-import com.dnd_8th_4_android.wery.data.api.PlaceService
-import com.dnd_8th_4_android.wery.data.api.SignUpService
+import com.dnd_8th_4_android.wery.data.api.*
 import com.dnd_8th_4_android.wery.data.remote.datasource.*
 import dagger.Module
 import dagger.Provides
@@ -39,5 +36,11 @@ object DataSourceModule {
     @Singleton
     fun provideHomeDataSource(homeService: HomeService): HomeDataSource {
         return HomeDataSourceImpl(homeService)
+    }
+
+    @Provides
+    @Singleton
+    fun provideDetailDataSource(detailService: DetailService): DetailDataSource {
+        return DetailDataSourceImpl(detailService)
     }
 }

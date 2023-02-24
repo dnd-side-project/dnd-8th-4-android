@@ -196,15 +196,18 @@ class PostRecyclerViewAdapter :
     }
 
     fun goToPostDetail(item: ResponsePostData.Data.Content, checkWrite: Boolean) {
-        val intent = Intent(binding.root.context, PostDetailActivity::class.java)
-        intent.putExtra(WRITE_CHECK, checkWrite)
-        intent.putExtra(GROUP_NAME, item.groupName)
-        intent.putExtra(NAME, item.name)
-        intent.putExtra(TIME, item.time)
-//        intent.putExtra(LOCATION, item.location)
-        intent.putExtra(CONTENT, item.content)
-//        intent.putIntegerArrayListExtra(IMAGE, item.contentImage)
-        binding.root.context.startActivity(intent)
+        Intent(binding.root.context, PostDetailActivity::class.java).apply {
+            putExtra(WRITE_CHECK, checkWrite)
+            putExtra(CONTENT_ID, item.id)
+            putExtra(GROUP_NAME, item.groupName)
+            putExtra(USER_IMAGE, item.image)
+            putExtra(NAME, item.name)
+            putExtra(TIME, item.time)
+            putExtra(LOCATION, item.location)
+            putExtra(CONTENT, item.content)
+            putExtra(IMAGE, item.contentImage)
+            binding.root.context.startActivity(this)
+        }
     }
 
     fun setPopupBottomClickListener(listener: () -> Unit) {
@@ -232,9 +235,10 @@ class PostRecyclerViewAdapter :
     }
 
     companion object {
-        // TODO 보류 : Activity에서 API 호출 필요
         const val WRITE_CHECK = "write_check"
+        const val CONTENT_ID= "content_id"
         const val GROUP_NAME = "group_name"
+        const val USER_IMAGE = "user_image"
         const val NAME = "name"
         const val TIME = "time"
         const val LOCATION = "location"

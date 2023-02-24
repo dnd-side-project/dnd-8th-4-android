@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.dnd_8th_4_android.wery.data.remote.model.detail.ResponsePostDetailEmotionData
 import com.dnd_8th_4_android.wery.databinding.ItemPostDetailEmotionBinding
+import com.dnd_8th_4_android.wery.domain.model.PopupWindowType
 
 class PostDetailEmotionRecyclerViewAdapter :
     ListAdapter<ResponsePostDetailEmotionData.Data, PostDetailEmotionRecyclerViewAdapter.ViewHolder>(
@@ -20,11 +21,37 @@ class PostDetailEmotionRecyclerViewAdapter :
         fun bind(item: ResponsePostDetailEmotionData.Data) {
             binding.ivFriendImage.clipToOutline = true
             binding.ivEmotion.clipToOutline = true
-            Glide.with(binding.ivFriendImage.context).load(item.image)
-                .into(binding.ivFriendImage)
 
-            Glide.with(binding.ivEmotion.context).load(item.emotion)
-                .into(binding.ivEmotion)
+            if(item.userImage != null) {
+                Glide.with(binding.ivFriendImage.context).load(item.userImage)
+                    .into(binding.ivFriendImage)
+            }
+
+            if (item.emotionStatus != -1) {
+                val emotionDrawable = when (item.emotionStatus) {
+                    PopupWindowType.Type1.emotionPosition -> {
+                        PopupWindowType.Type1.drawable
+                    }
+                    PopupWindowType.Type2.emotionPosition -> {
+                        PopupWindowType.Type2.drawable
+                    }
+                    PopupWindowType.Type3.emotionPosition -> {
+                        PopupWindowType.Type3.drawable
+                    }
+                    PopupWindowType.Type4.emotionPosition -> {
+                        PopupWindowType.Type4.drawable
+                    }
+                    PopupWindowType.Type5.emotionPosition -> {
+                        PopupWindowType.Type5.drawable
+                    }
+                    else -> {
+                        PopupWindowType.Type6.drawable
+                    }
+                }
+
+                Glide.with(binding.ivEmotion.context).load(emotionDrawable)
+                    .into(binding.ivEmotion)
+            }
         }
     }
 

@@ -1,5 +1,6 @@
 package com.dnd_8th_4_android.wery.presentation.ui.detail.view
 
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -10,11 +11,12 @@ import android.widget.PopupWindow
 import android.widget.ScrollView
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
+import com.bumptech.glide.Glide
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.data.remote.model.detail.ResponsePostDetailCommentData
 import com.dnd_8th_4_android.wery.data.remote.model.detail.ResponsePostDetailEmotionData
-import com.dnd_8th_4_android.wery.data.remote.model.detail.ResponsePostDetailImageData
 import com.dnd_8th_4_android.wery.data.remote.model.detail.ResponsePostDetailStickerData
+import com.dnd_8th_4_android.wery.data.remote.model.home.ResponsePostData
 import com.dnd_8th_4_android.wery.databinding.ActivityPopupWindowBinding
 import com.dnd_8th_4_android.wery.databinding.ActivityPostDetailBinding
 import com.dnd_8th_4_android.wery.domain.model.PopupWindowType
@@ -25,11 +27,12 @@ import com.dnd_8th_4_android.wery.presentation.ui.detail.adapter.PostDetailImage
 import com.dnd_8th_4_android.wery.presentation.ui.detail.adapter.PostDetailStickerRecyclerViewAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.detail.viewmodel.PostDetailViewModel
 import com.dnd_8th_4_android.wery.presentation.ui.home.adapter.PostRecyclerViewAdapter
-import com.dnd_8th_4_android.wery.presentation.util.MarginItemDecoration
 import com.dnd_8th_4_android.wery.presentation.util.PopupBottomDialogDialog
 import com.dnd_8th_4_android.wery.presentation.util.hideKeyboard
 import com.dnd_8th_4_android.wery.presentation.util.showKeyboard
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.activity_post_detail) {
     private val viewModel: PostDetailViewModel by viewModels()
     private var activityPopupWindowBinding: ActivityPopupWindowBinding? = null
@@ -40,7 +43,7 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
     private lateinit var postDetailCommentRecyclerViewAdapter: PostDetailCommentRecyclerViewAdapter
     private lateinit var postDetailStickerRecyclerViewAdapter: PostDetailStickerRecyclerViewAdapter
 
-    private lateinit var imageList: ResponsePostDetailImageData.Data
+    private lateinit var imageList: MutableList<ResponsePostData.Data.Content.Images>
     private lateinit var emotionList: List<ResponsePostDetailEmotionData.Data>
     private lateinit var commentList: List<ResponsePostDetailCommentData.Data>
     private lateinit var stickerList: ResponsePostDetailStickerData.Data
@@ -57,9 +60,6 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
 
     private fun initStartView() {
         makeList()
-        viewModel.setEmotionCount(emotionList.size)
-        viewModel.setCommentCount(commentList.size)
-
         // 게시글 이미지
         postDetailImageRecyclerViewAdapter = PostDetailImageRecyclerViewAdapter(imageList)
         binding.rvPostImage.adapter = postDetailImageRecyclerViewAdapter
@@ -67,17 +67,15 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
 
         // 감정 이모지
         postDetailEmotionRecyclerViewAdapter = PostDetailEmotionRecyclerViewAdapter()
-        postDetailEmotionRecyclerViewAdapter.submitList(emotionList)
         binding.rvEmotion.apply {
             adapter = postDetailEmotionRecyclerViewAdapter
-            addItemDecoration(
-                MarginItemDecoration(
-                    resources.getDimension(R.dimen.post_detail_emotion_item_margin).toInt()
-                )
-            )
             itemAnimator = null
         }
+        viewModel.getEmotion(intent.getIntExtra(PostRecyclerViewAdapter.CONTENT_ID, 0))
+
+        // TODO 공감 이모지 통신 설정
         binding.layoutEmotionPlus.setOnClickListener { getGradePopUp() }
+
 
         // 댓글
         postDetailCommentRecyclerViewAdapter = PostDetailCommentRecyclerViewAdapter()
@@ -98,12 +96,6 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
     }
 
     private fun initDataBinding() {
-        viewModel.isUpdateEmotion.observe(this) {
-            postDetailEmotionRecyclerViewAdapter.submitList(it.toMutableList())
-            emotionList = it
-            viewModel.setEmotionCount(it.size)
-        }
-
         viewModel.emotionCount.observe(this) {
             binding.layoutEmotionCount.visibility = if (it != 0) {
                 View.VISIBLE
@@ -111,6 +103,14 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
                 View.GONE
             }
         }
+
+        viewModel.emotionList.observe(this) {
+            postDetailEmotionRecyclerViewAdapter.submitList(it)
+            viewModel.setCommentCount(commentList.size)
+        }
+
+
+
 
         viewModel.isUpdateComment.observe(this) {
             postDetailCommentRecyclerViewAdapter.submitList(it.toMutableList())
@@ -208,18 +208,25 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
         with(binding) {
             writeButton = intent.getBooleanExtra(PostRecyclerViewAdapter.WRITE_CHECK, false)
             tvGroupName.text = intent.getStringExtra(PostRecyclerViewAdapter.GROUP_NAME).toString()
+
+            Glide.with(applicationContext)
+                .load(intent.getStringExtra(PostRecyclerViewAdapter.USER_IMAGE))
+                .into(binding.ivFriendImage)
+
             tvFriendName.text = intent.getStringExtra(PostRecyclerViewAdapter.NAME).toString()
             tvTime.text = intent.getStringExtra(PostRecyclerViewAdapter.TIME).toString()
             tvLocation.text = intent.getStringExtra(PostRecyclerViewAdapter.LOCATION).toString()
             tvContent.text = intent.getStringExtra(PostRecyclerViewAdapter.CONTENT).toString()
         }
 
-        imageList =
-            ResponsePostDetailImageData.Data(
-                intent.getIntegerArrayListExtra(PostRecyclerViewAdapter.IMAGE) ?: arrayListOf()
-            )
-
-        emotionList = listOf()
+        imageList = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            intent.getSerializableExtra(
+                PostRecyclerViewAdapter.IMAGE,
+                ResponsePostData.Data.Content.Images::class.java
+            ) as MutableList<ResponsePostData.Data.Content.Images>
+        } else {
+            intent.getSerializableExtra(PostRecyclerViewAdapter.IMAGE) as MutableList<ResponsePostData.Data.Content.Images>
+        }
 
         commentList = listOf(
             ResponsePostDetailCommentData.Data(
@@ -295,7 +302,6 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
     }
 
     private fun setEmotion(emotionPosition: Int) {
-        // TODO 감정 이모지를 등록하는 사용자 이미지 필요
-        viewModel.setUpdateEmotion(emotionPosition, emotionList, R.drawable.img_no_group)
+//        viewModel.setUpdateEmotion(emotionPosition, emotionList, R.drawable.img_no_group)
     }
 }

@@ -2,18 +2,28 @@ package com.dnd_8th_4_android.wery.presentation.ui.detail.viewmodel
 
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.data.remote.model.detail.ResponsePostDetailCommentData
 import com.dnd_8th_4_android.wery.data.remote.model.detail.ResponsePostDetailEmotionData
 import com.dnd_8th_4_android.wery.domain.model.PopupWindowType
+import com.dnd_8th_4_android.wery.domain.repository.DetailRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import retrofit2.Response
+import timber.log.Timber
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import javax.inject.Inject
 
-class PostDetailViewModel : ViewModel() {
-    private var oldEmotionData = ResponsePostDetailEmotionData.Data(-1,-1)
+@HiltViewModel
+class PostDetailViewModel @Inject constructor(
+    private val detailRepository: DetailRepository,
+) : ViewModel() {
     private val popupWindowImage = listOf(
         PopupWindowType.Type1.drawable,
         PopupWindowType.Type2.drawable,
@@ -23,10 +33,8 @@ class PostDetailViewModel : ViewModel() {
         PopupWindowType.Type6.drawable
     )
 
-    private val _isUpdateEmotion =
-        MutableLiveData<MutableList<ResponsePostDetailEmotionData.Data>>()
-    val isUpdateEmotion: LiveData<MutableList<ResponsePostDetailEmotionData.Data>> =
-        _isUpdateEmotion
+    private val _emotionList = MutableLiveData<MutableList<ResponsePostDetailEmotionData.Data>>()
+    val emotionList: LiveData<MutableList<ResponsePostDetailEmotionData.Data>> = _emotionList
 
     private val _emotionCount = MutableLiveData<Int>()
     val emotionCount: LiveData<Int> = _emotionCount
@@ -34,10 +42,8 @@ class PostDetailViewModel : ViewModel() {
     private val _isSelected = MutableLiveData(false)
     val isSelected: LiveData<Boolean> = _isSelected
 
-    private val _isUpdateComment =
-        MutableLiveData<MutableList<ResponsePostDetailCommentData.Data>>()
-    val isUpdateComment: LiveData<MutableList<ResponsePostDetailCommentData.Data>> =
-        _isUpdateComment
+    private val _isUpdateComment = MutableLiveData<MutableList<ResponsePostDetailCommentData.Data>>()
+    val isUpdateComment: LiveData<MutableList<ResponsePostDetailCommentData.Data>> = _isUpdateComment
 
     private val formatter = DateTimeFormatter.ofPattern("HH:MM")
 
@@ -47,96 +53,29 @@ class PostDetailViewModel : ViewModel() {
     private val _commentCount = MutableLiveData<Int>()
     val commentCount: LiveData<Int> = _commentCount
 
+    fun getEmotion(contentId: Int) {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                detailRepository.getComment(contentId)
+            }.onSuccess {
+                _emotionCount.value = it.data.size
+                _emotionList.value = it.data
+            }.onFailure {
+                Timber.tag("error").d(it.message.toString())
+            }
+        }
+    }
+
     fun setUpdateEmotion(
         emotionPosition: Int,
         emotionList: List<ResponsePostDetailEmotionData.Data>,
         userImage: Int,
     ) {
-        val emotionCopyList = emotionList.map {
-            it.copy()
-        } as MutableList<ResponsePostDetailEmotionData.Data>
 
-        if (emotionCopyList.contains(oldEmotionData)) {
-            val index = emotionCopyList.indexOf(oldEmotionData)
-
-            if (emotionCopyList[index].emotion == popupWindowImage[emotionPosition]) {
-                setOldEmotionData(-1, -1)
-                emotionCopyList.removeAt(index)
-            } else {
-                setOldEmotionData(emotionPosition, userImage)
-                emotionCopyList[index].emotion = popupWindowImage[emotionPosition]
-            }
-
-        } else {
-            when (emotionPosition) {
-                PopupWindowType.Type1.emotionPosition -> {
-                    emotionCopyList.add(
-                        ResponsePostDetailEmotionData.Data(
-                            userImage,
-                            PopupWindowType.Type1.drawable
-                        )
-                    )
-                }
-                PopupWindowType.Type2.emotionPosition -> {
-                    emotionCopyList.add(
-                        ResponsePostDetailEmotionData.Data(
-                            userImage,
-                            PopupWindowType.Type2.drawable
-                        )
-                    )
-                }
-                PopupWindowType.Type3.emotionPosition -> {
-                    emotionCopyList.add(
-                        ResponsePostDetailEmotionData.Data(
-                            userImage,
-                            PopupWindowType.Type3.drawable
-                        )
-                    )
-                }
-                PopupWindowType.Type4.emotionPosition -> {
-                    emotionCopyList.add(
-                        ResponsePostDetailEmotionData.Data(
-                            userImage,
-                            PopupWindowType.Type4.drawable
-                        )
-                    )
-                }
-                PopupWindowType.Type5.emotionPosition -> {
-                    emotionCopyList.add(
-                        ResponsePostDetailEmotionData.Data(
-                            userImage,
-                            PopupWindowType.Type5.drawable
-                        )
-                    )
-                }
-                PopupWindowType.Type6.emotionPosition -> {
-                    emotionCopyList.add(
-                        ResponsePostDetailEmotionData.Data(
-                            userImage,
-                            PopupWindowType.Type6.drawable
-                        )
-                    )
-                }
-            }
-            setOldEmotionData(emotionPosition, userImage)
-        }
-
-        _isUpdateEmotion.value = emotionCopyList
-    }
-
-    fun setEmotionCount(count: Int) {
-        _emotionCount.value = count
     }
 
     fun setCommentCount(count: Int) {
         _commentCount.value = count
-    }
-
-    private fun setOldEmotionData(emotionPosition: Int, userImage: Int) {
-        oldEmotionData = ResponsePostDetailEmotionData.Data(
-            userImage,
-            popupWindowImage[emotionPosition]
-        )
     }
 
     fun setSelected() {

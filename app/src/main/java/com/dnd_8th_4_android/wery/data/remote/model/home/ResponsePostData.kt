@@ -28,7 +28,7 @@ data class ResponsePostData(
         ) {
             data class Images(
                 val imageUrl: String,
-            )
+            ): java.io.Serializable
 
             data class EmotionDtos(
                 val emotionStatus: Int,
