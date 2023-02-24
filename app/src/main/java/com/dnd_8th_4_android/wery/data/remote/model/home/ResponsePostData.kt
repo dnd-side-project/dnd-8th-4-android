@@ -21,7 +21,7 @@ data class ResponsePostData(
             @SerializedName("views") val hit: String,
             val comments: Int,
             val emotions: Int,
-            @SerializedName("emotionStatus") var emotionStatus: Int,
+            var emotionStatus: Int,
             @SerializedName("emotionResponseDtos") var emotion: MutableList<EmotionDtos>,
             @SerializedName("images") val contentImage: ArrayList<Images>,
 //            val contentLink: String,

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.text.InputFilter
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.PopupWindow
@@ -214,7 +215,7 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
     private fun initData() {
         with(binding) {
             writeButton = intent.getBooleanExtra(PostRecyclerViewAdapter.WRITE_CHECK, false)
-            contentId = intent.getIntExtra(PostRecyclerViewAdapter.CONTENT_ID, 0)
+            contentId = intent.getIntExtra(PostRecyclerViewAdapter.CONTENT_ID,0)
 
             tvGroupName.text = intent.getStringExtra(PostRecyclerViewAdapter.GROUP_NAME).toString()
 
@@ -236,6 +237,9 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
         } else {
             intent.getSerializableExtra(PostRecyclerViewAdapter.IMAGE) as MutableList<ResponsePostData.Data.Content.Images>
         }
+
+        viewModel.isSelectEmotionStatus.value = intent.getIntExtra(PostRecyclerViewAdapter.EMOTION_STATUS, -1)
+        Log.e("태그", viewModel.isSelectEmotionStatus.value.toString())
 
         viewModel.setPageNumber(1)
 

@@ -90,6 +90,7 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
                     _postList.value = postList
                     postList.clear()
                 }
+                Log.e("태그", postList.value.toString())
                 _isNoData.value = it.data.content.size != _pageNumber.value!! * 10
             }.onFailure {
                 Timber.tag("error").d(it.message.toString())
@@ -99,8 +100,8 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
 
     // 감정 이모지 설정
     fun setUpdateEmotion(
-        isSelectGroupId: Int,
         contentId: Int,
+        position: Int,
         emotionStatus: RequestEmotionStatus,
     ) {
         viewModelScope.launch {
@@ -108,15 +109,14 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
                 homeRepository.sendEmotionData(contentId, emotionStatus)
             }.onSuccess {
                 if (it.data != null) {
-                    if (isSelectGroupId != 0) {
-                        getGroupPost()
+                    getGroupPost()
+                } else {
+                    if (_postList.value!![position].emotionStatus != emotionStatus.emotionStatus) {
+                        setUpdateEmotion(contentId, position, emotionStatus)
                     } else {
                         getGroupPost()
                     }
-                } else {
-                    setUpdateEmotion(isSelectGroupId, contentId, emotionStatus)
                 }
-                Log.e("태그", it.data.toString())
             }.onFailure {
                 Timber.tag("error").d(it.message.toString())
             }

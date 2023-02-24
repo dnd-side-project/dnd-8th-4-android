@@ -44,6 +44,7 @@ class PostDetailViewModel @Inject constructor(
     val isLoading: LiveData<Boolean> = _isLoading
 
     private val _pageNumber = MutableLiveData(0)
+    val isSelectEmotionStatus = MutableLiveData(-1)
 
     private val _isNoData = MutableLiveData(false)
     val isNoData: LiveData<Boolean> = _isNoData
@@ -92,17 +93,22 @@ class PostDetailViewModel @Inject constructor(
     // 감정 이모지 설정
     fun setUpdateEmotion(
         contentId: Int,
-        emotionStatus: RequestEmotionStatus,
+        emotion: RequestEmotionStatus,
     ) {
         viewModelScope.launch {
             kotlin.runCatching {
-                detailRepository.sendEmotionData(contentId, emotionStatus)
+                detailRepository.sendEmotionData(contentId, emotion)
             }.onSuccess {
                 if (it.data != null) {
                     getEmotion(contentId)
                 } else {
-                    setUpdateEmotion(contentId, emotionStatus)
+                    if (isSelectEmotionStatus.value != emotion.emotionStatus) {
+                        setUpdateEmotion(contentId, emotion)
+                    } else {
+                        getEmotion(contentId)
+                    }
                 }
+                isSelectEmotionStatus.value = emotion.emotionStatus
             }.onFailure {
                 Timber.tag("error").d(it.message.toString())
             }

@@ -155,6 +155,16 @@ class PostRecyclerViewAdapter :
                 } else {
                     binding.vpPostImage.setCurrentItem(viewPagerPosition, false)
                 }
+            } else {
+                binding.ivEmotionButton.setImageResource(R.drawable.ic_emotion)
+                binding.tvEmotionButton.text = binding.root.resources.getString(R.string.home_item_post_emotion_button)
+                binding.tvEmotionButton.setTypeface(null, Typeface.NORMAL)
+
+                if (adapterPosition != itemPosition) {
+                    binding.vpPostImage.setCurrentItem(0, false)
+                } else {
+                    binding.vpPostImage.setCurrentItem(viewPagerPosition, false)
+                }
             }
 
             binding.ivPopup.setOnClickListener {
@@ -162,7 +172,7 @@ class PostRecyclerViewAdapter :
             }
 
             binding.layoutEmotionButton.setOnClickListener {
-                popupWindowClickListener.onClicked(binding.layoutEmotionButton, item.id)
+                popupWindowClickListener.onClicked(binding.layoutEmotionButton, adapterPosition, item.id)
             }
 
             binding.tvContent.setOnClickListener { goToPostDetail(item, false) }
@@ -215,6 +225,7 @@ class PostRecyclerViewAdapter :
             putExtra(TIME, item.time)
             putExtra(LOCATION, item.location)
             putExtra(CONTENT, item.content)
+            putExtra(EMOTION_STATUS, item.emotionStatus)
             putExtra(IMAGE, item.contentImage)
             binding.root.context.startActivity(this)
         }
@@ -228,10 +239,10 @@ class PostRecyclerViewAdapter :
         }
     }
 
-    fun setPopupWindowClickListener(listener: (View, Int) -> Unit) {
+    fun setPopupWindowClickListener(listener: (View, Int, Int) -> Unit) {
         popupWindowClickListener = object : PopupWindowClickListener {
-            override fun onClicked(view: View, contentId: Int) {
-                listener(view, contentId)
+            override fun onClicked(view: View, position: Int, contentId: Int) {
+                listener(view, position, contentId)
             }
         }
     }
@@ -241,7 +252,7 @@ class PostRecyclerViewAdapter :
     }
 
     interface PopupWindowClickListener {
-        fun onClicked(view: View, contentId: Int)
+        fun onClicked(view: View, position: Int, contentId: Int)
     }
 
     companion object {
@@ -253,6 +264,7 @@ class PostRecyclerViewAdapter :
         const val TIME = "time"
         const val LOCATION = "location"
         const val CONTENT = "content"
+        const val EMOTION_STATUS = "emotion_status"
         const val IMAGE = "image"
 
         private val diffUtil = object : DiffUtil.ItemCallback<ResponsePostData.Data.Content>() {
