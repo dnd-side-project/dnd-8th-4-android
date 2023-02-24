@@ -69,7 +69,6 @@
         android:text="@string/mission_remain_day"
         app:layout_constraintBottom_toBottomOf="@id/iv_remain_icon"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="iv"
         app:layout_constraintTop_toTopOf="@id/iv_remain_icon" />
 
     <ImageView
