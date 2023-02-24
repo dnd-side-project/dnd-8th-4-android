@@ -114,6 +114,7 @@
     <string name="mission_my_mission">내 미션</string>
     <string name="mission_sticker">스티커</string>
     <string name="mission_progress">진행 중인 미션</string>
+    <string name="mission_more">더보기</string>
     <string name="mission_empty_title">인증할 미션이 없어요</string>
     <string name="mission_empty_content">친구와 함께 가고 싶은 장소를 작성해 보세요!</string>
     <string name="mission_how_about_this">이런 미션은 어때요? 👀</string>

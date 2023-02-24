@@ -42,6 +42,32 @@
                 app:layout_constraintStart_toEndOf="@id/tv_progress_mission"
                 app:layout_constraintTop_toTopOf="@id/tv_progress_mission"
                 tools:text="0" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_progress_mission">
+
+                <include
+                    android:id="@+id/include_mission_no_exist"
+                    layout="@layout/item_mission_no_exist"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="visible" />
+
+                <include
+                    android:id="@+id/include_mission_exist"
+                    layout="@layout/item_mission_exist"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone" />
+            </LinearLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <View
