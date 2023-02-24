@@ -109,6 +109,17 @@
     <string name="map_search_current_location">현 위치 재검색</string>
     <string name="map_search_hint">어떤 장소가 궁금하신가요?</string>
 
+    <!-- MissionFragment -->
+    <string name="mission">미션</string>
+    <string name="mission_my_mission">내 미션</string>
+    <string name="mission_sticker">스티커</string>
+    <string name="mission_progress">진행 중인 미션</string>
+    <string name="mission_empty_title">인증할 미션이 없어요</string>
+    <string name="mission_empty_content">친구와 함께 가고 싶은 장소를 작성해 보세요!</string>
+    <string name="mission_how_about_this">이런 미션은 어때요? 👀</string>
+    <string name="mission_add_mission">미션 추가하기</string>
+
+
     <!-- bottomSheetFragment -->
     <string name="bottom_sheet_bookmark">북마크 하기</string>
     <string name="bottom_sheet_clip">링크 복사하기</string>
