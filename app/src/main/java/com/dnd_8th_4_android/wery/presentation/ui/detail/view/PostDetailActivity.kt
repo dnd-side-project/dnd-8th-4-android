@@ -89,12 +89,12 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
         viewModel.getComment(contentId)
 
         // 스티커
-//        postDetailStickerRecyclerViewAdapter = PostDetailStickerRecyclerViewAdapter(stickerList)
-//        postDetailStickerRecyclerViewAdapter.setStickerClickListener { sticker ->
-//            viewModel.setUpdateComment(commentList, "", sticker)
-//            viewModel.setSelected()
-//        }
-//        binding.rvSticker.adapter = postDetailStickerRecyclerViewAdapter
+        postDetailStickerRecyclerViewAdapter = PostDetailStickerRecyclerViewAdapter(stickerList)
+        postDetailStickerRecyclerViewAdapter.setStickerClickListener { sticker ->
+            // TODO 스티커 등록
+            viewModel.setSelected()
+        }
+        binding.rvSticker.adapter = postDetailStickerRecyclerViewAdapter
     }
 
     private fun initDataBinding() {
@@ -120,21 +120,6 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
             postDetailCommentRecyclerViewAdapter.submitList(it.toMutableList())
             viewModel.setUnLoading()
         }
-
-
-//        viewModel.isUpdateComment.observe(this) {
-//            postDetailCommentRecyclerViewAdapter.submitList(it.toMutableList())
-//            commentList = it
-//            viewModel.setCommentCount(it.size)
-//
-//            Handler(Looper.getMainLooper())
-//                .postDelayed({
-//                    binding.scrollView.fullScroll(ScrollView.FOCUS_DOWN)
-//                }, 100)
-//            binding.etComment.hint = resources.getString(R.string.post_detail_hint)
-//            binding.ivSticker.isSelected = false
-//            binding.ivSend.isSelected = false
-//        }
 
         viewModel.commentCount.observe(this) {
             binding.layoutCommentCount.visibility = if (it != 0) {
@@ -252,9 +237,6 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
         }
 
         viewModel.setPageNumber(1)
-
-
-
 
         stickerList = ResponsePostDetailStickerData.Data(
             listOf(
