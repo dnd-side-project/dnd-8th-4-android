@@ -40,6 +40,9 @@ class PostDetailViewModel @Inject constructor(
     private val _isEnabled = MutableLiveData<Boolean>()
     val isEnabled: LiveData<Boolean> = _isEnabled
 
+    private val _isLoading: MutableLiveData<Boolean> = MutableLiveData()
+    val isLoading: LiveData<Boolean> = _isLoading
+
     // 피드 공감 조회
     fun getEmotion(contentId: Int) {
         viewModelScope.launch {
@@ -62,7 +65,6 @@ class PostDetailViewModel @Inject constructor(
             }.onSuccess {
                 _commentCount.value = it.data.content.size
                 _commentList.value = it.data.content
-                Log.e("태그", _commentList.value.toString())
             }.onFailure {
                 Timber.tag("error").d(it.message.toString())
             }
@@ -130,5 +132,13 @@ class PostDetailViewModel @Inject constructor(
         override fun afterTextChanged(p0: Editable?) {
 
         }
+    }
+
+    fun setLoading() {
+        _isLoading.value = true
+    }
+
+    fun setUnLoading() {
+        _isLoading.value = false
     }
 }

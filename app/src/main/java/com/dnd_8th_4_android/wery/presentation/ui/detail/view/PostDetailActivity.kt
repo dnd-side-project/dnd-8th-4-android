@@ -10,6 +10,7 @@ import android.view.WindowManager
 import android.widget.PopupWindow
 import android.widget.ScrollView
 import androidx.activity.viewModels
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.dnd_8th_4_android.wery.R
@@ -59,6 +60,7 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
     }
 
     private fun initStartView() {
+        viewModel.setLoading()
         initData()
         // 게시글 이미지
         postDetailImageRecyclerViewAdapter = PostDetailImageRecyclerViewAdapter(imageList)
@@ -75,7 +77,6 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
 
         // 공감 이모지 등록
         binding.layoutEmotionPlus.setOnClickListener { getGradePopUp() }
-
 
         // 댓글
         postDetailCommentRecyclerViewAdapter = PostDetailCommentRecyclerViewAdapter()
@@ -96,6 +97,11 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
     }
 
     private fun initDataBinding() {
+        viewModel.isLoading.observe(this) {
+            if (it) showLoadingDialog(this)
+            else dismissLoadingDialog()
+        }
+
         viewModel.emotionCount.observe(this) {
             binding.layoutEmotionCount.visibility = if (it != 0) {
                 View.VISIBLE
@@ -106,10 +112,12 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
 
         viewModel.emotionList.observe(this) {
             postDetailEmotionRecyclerViewAdapter.submitList(it)
+            viewModel.setUnLoading()
         }
 
         viewModel.commentList.observe(this) {
             postDetailCommentRecyclerViewAdapter.submitList(it)
+            viewModel.setUnLoading()
         }
 
 
@@ -193,6 +201,7 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
 
         binding.ivSend.setOnClickListener {
             if (binding.etComment.text.toString() != "") {
+                viewModel.setLoading()
                 viewModel.setUpdateComment(
                     contentId,
                     RequestPostDetailCommentNote(binding.etComment.text.toString())
