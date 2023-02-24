@@ -1,6 +1,5 @@
 package com.dnd_8th_4_android.wery.presentation.ui.home.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -40,7 +39,6 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
 
     // 등록된 그룹 조회
     fun getSignGroup() {
-        _isLoading.value = true
         viewModelScope.launch {
             kotlin.runCatching {
                 homeRepository.signGroup()
@@ -75,9 +73,6 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
                 } else {
                     isNoData = true
                 }
-                Log.e("태그", pageNumber.toString())
-                Log.e("태그", _postList.value.toString())
-                _isLoading.value = false
             }.onFailure {
                 Timber.tag("error").d(it.message.toString())
             }
@@ -124,8 +119,6 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
                 } else {
                     isNoData = true
                 }
-                Log.e("태그", _postList.value.toString())
-                _isLoading.value = false
             }.onFailure {
                 Timber.tag("error").d(it.message.toString())
             }
@@ -134,5 +127,9 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
 
     fun setLoading() {
         _isLoading.value = true
+    }
+
+    fun setUnLoading() {
+        _isLoading.value = false
     }
 }

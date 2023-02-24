@@ -43,6 +43,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         activityPopupWindowBinding = ActivityPopupWindowBinding.inflate(layoutInflater)
         binding.vm = homeViewModel
 
+        homeViewModel.setLoading()
         homeViewModel.getSignGroup()
 
         // 그룹 리스트
@@ -91,10 +92,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         homeViewModel.groupList.observe(viewLifecycleOwner) {
             initSelectedGroup()
             groupRecyclerViewAdapter.submitList(homeViewModel.groupList.value)
+            homeViewModel.setUnLoading()
         }
 
         homeViewModel.postList.observe(viewLifecycleOwner) {
             postRecyclerViewAdapter.submitList(homeViewModel.postList.value)
+            homeViewModel.setUnLoading()
         }
 
         homeViewModel.isNoAccess.observe(viewLifecycleOwner) {
@@ -115,6 +118,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                     Handler(Looper.getMainLooper())
                         .postDelayed({
                             binding.activityGroup.layoutSwipeRefresh.isRefreshing = false
+                            homeViewModel.setLoading()
                             homeViewModel.getSignGroup()
                         }, 1000)
                 }
@@ -148,12 +152,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         binding.activityGroup.ivAllGroup.setOnClickListener {
             if (groupRecyclerViewAdapter.selectedItemImage != binding.activityGroup.ivAllGroup) {
                 initSelectedGroup()
+                homeViewModel.setLoading()
                 homeViewModel.getGroupPost(homeViewModel.groupAllIdList.joinToString(), 1)
             }
         }
 
         binding.activityGroup.scrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, _, _, _, _ ->
             if (homeViewModel.isLoading.value == false && !homeViewModel.isNoData && !v.canScrollVertically(1)) {
+                homeViewModel.setLoading()
                 homeViewModel.pageNumber += 1
                 if (homeViewModel.isSearchOn) {
                     homeViewModel.groupPostSearch(isSelectGroupId, homeViewModel.searchWord, homeViewModel.pageNumber)

@@ -26,6 +26,8 @@ class PostRecyclerViewAdapter :
     private lateinit var popupBottomClickListener: PopupBottomClickListener
     private lateinit var popupWindowClickListener: PopupWindowClickListener
     private var viewPagerPosition = 0
+    private var itemPosition = 0
+
     private var emotionDrawable = 0
 
     inner class ViewHolder(private val binding: ItemPostBinding) :
@@ -69,6 +71,7 @@ class PostRecyclerViewAdapter :
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
                     viewPagerPosition = position
+                    itemPosition = adapterPosition
                 }
             })
 
@@ -144,7 +147,12 @@ class PostRecyclerViewAdapter :
                     }
                 }
                 binding.tvEmotionButton.setTypeface(null, Typeface.BOLD)
-                binding.vpPostImage.setCurrentItem(viewPagerPosition, false)
+
+                if (adapterPosition != itemPosition) {
+                    binding.vpPostImage.setCurrentItem(0, false)
+                } else {
+                    binding.vpPostImage.setCurrentItem(viewPagerPosition, false)
+                }
             }
 
             binding.ivPopup.setOnClickListener {
