@@ -37,8 +37,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private lateinit var groupRecyclerViewAdapter: GroupRecyclerViewAdapter
     private lateinit var postRecyclerViewAdapter: PostRecyclerViewAdapter
 
-    private var isSelectGroupId = 0
-
     override fun initStartView() {
         activityPopupWindowBinding = ActivityPopupWindowBinding.inflate(layoutInflater)
         binding.vm = homeViewModel
@@ -53,7 +51,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             binding.activityGroup.tvAllGroup
         )
         groupRecyclerViewAdapter.setGroupPostCallListener { groupId ->
-            isSelectGroupId = groupId
+            homeViewModel.isSelectGroupId.value = groupId
             homeViewModel.getGroupPost(groupId.toString())
         }
         binding.activityGroup.rvMyGroup.adapter = groupRecyclerViewAdapter
@@ -74,12 +72,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             }
         }
 
+        // TODO
         binding.activityGroup.layoutSwipeRefresh.setOnRefreshListener {
             Handler(Looper.getMainLooper())
                 .postDelayed({
                     binding.activityGroup.layoutSwipeRefresh.isRefreshing = false
-                    homeViewModel.getSignGroup()
                     homeViewModel.setPageNumber(1)
+                    homeViewModel.getSignGroup()
                 }, 1000)
         }
     }
@@ -121,8 +120,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                         .postDelayed({
                             binding.activityGroup.layoutSwipeRefresh.isRefreshing = false
                             homeViewModel.setLoading()
-                            homeViewModel.getSignGroup()
                             homeViewModel.setPageNumber(1)
+                            homeViewModel.getSignGroup()
                         }, 1000)
                 }
             }
@@ -142,7 +141,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 homeViewModel.setLoading()
                 homeViewModel.setPageNumber(1)
                 homeViewModel.searchWord = searchKeyword
-                homeViewModel.groupPostSearch(isSelectGroupId, homeViewModel.searchWord)
+                homeViewModel.groupPostSearch(homeViewModel.isSelectGroupId.value!!, homeViewModel.searchWord)
             }
             false
         }
@@ -166,10 +165,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 homeViewModel.setLoading()
                 homeViewModel.setUpPageNumber()
                 if (homeViewModel.isSearchOn) {
-                    homeViewModel.groupPostSearch(isSelectGroupId, homeViewModel.searchWord)
+                    homeViewModel.groupPostSearch(homeViewModel.isSelectGroupId.value!!, homeViewModel.searchWord)
                 } else {
-                    if (isSelectGroupId != 0) {
-                        homeViewModel.getGroupPost(isSelectGroupId.toString())
+                    if (homeViewModel.isSelectGroupId.value!! != 0) {
+                        homeViewModel.getGroupPost(homeViewModel.isSelectGroupId.value!!.toString())
                     } else {
                         homeViewModel.getGroupPost(homeViewModel.groupAllIdList.joinToString())
                     }
@@ -199,7 +198,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             !binding.activityGroup.ivAllGroup.isSelected
         binding.activityGroup.tvAllGroup.setTextAppearance(R.style.TextView_Title_12_Sb)
 
-        isSelectGroupId = 0
+        homeViewModel.isSelectGroupId.value = -1
     }
 
     private fun getGradePopUp(view: View, contentId: Int) {
@@ -249,6 +248,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     private fun setEmotion(contentId: Int, emotionStatus: RequestEmotionStatus) {
         homeViewModel.setLoading()
-        homeViewModel.setUpdateEmotion(isSelectGroupId, contentId, emotionStatus)
+        homeViewModel.setUpdateEmotion(homeViewModel.isSelectGroupId.value!!, contentId, emotionStatus)
     }
 }

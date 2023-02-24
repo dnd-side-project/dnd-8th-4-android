@@ -32,6 +32,7 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
     private val _isLoading: MutableLiveData<Boolean> = MutableLiveData()
     val isLoading: LiveData<Boolean> = _isLoading
 
+    val isSelectGroupId = MutableLiveData(-1)
     private val _pageNumber = MutableLiveData(0)
 
     private val _isNoData = MutableLiveData(false)
@@ -49,13 +50,17 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
                 _isExistGroup.value = it.data.existGroup
 
                 if (it.data.existGroup) {
-                    _groupList.value = it.data.groupInfoList
+                    if (isSelectGroupId.value == -1) {
+                        _groupList.value = it.data.groupInfoList
 
-                    groupAllIdList = mutableListOf()
-                    for (i in it.data.groupInfoList.indices) {
-                        groupAllIdList.add(it.data.groupInfoList[i].id)
+                        groupAllIdList = mutableListOf()
+                        for (i in it.data.groupInfoList.indices) {
+                            groupAllIdList.add(it.data.groupInfoList[i].id)
+                        }
+                        getGroupPost(groupAllIdList.joinToString())
+                    } else {
+                        getGroupPost(isSelectGroupId.value.toString())
                     }
-                    getGroupPost(groupAllIdList.joinToString())
                 }
             }.onFailure {
                 Timber.tag("error").d(it.message.toString())
