@@ -18,14 +18,7 @@ class MissionFragment : BaseFragment<FragmentMissionBinding>(R.layout.fragment_m
 
     }
 
-    @SuppressLint("MissingPermission")
     override fun initAfterBinding() {
-        binding.btnLocation.setOnClickListener {
-            val locatioNManager = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager?
-            val locatioNProvider = LocationManager.GPS_PROVIDER
-            val currentLatLng = locatioNManager?.getLastKnownLocation(locatioNProvider)
-            Toast.makeText(requireContext(), currentLatLng.toString(), Toast.LENGTH_SHORT).show()
-        }
     }
 
 }
