@@ -32,8 +32,11 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
     private val _isLoading: MutableLiveData<Boolean> = MutableLiveData()
     val isLoading: LiveData<Boolean> = _isLoading
 
-    var pageNumber = 0
-    var isNoData = false
+    private val _pageNumber = MutableLiveData(0)
+
+    private val _isNoData = MutableLiveData(false)
+    val isNoData: LiveData<Boolean> = _isNoData
+
     var isSearchOn = false
     var searchWord = ""
 
@@ -52,8 +55,7 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
                     for (i in it.data.groupInfoList.indices) {
                         groupAllIdList.add(it.data.groupInfoList[i].id)
                     }
-                    pageNumber = 1
-                    getGroupPost(groupAllIdList.joinToString(), pageNumber)
+                    getGroupPost(groupAllIdList.joinToString())
                 }
             }.onFailure {
                 Timber.tag("error").d(it.message.toString())
@@ -63,16 +65,24 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
     }
 
     // 그룹 게시글 조회
-    fun getGroupPost(groupId: String, pageNumber: Int) {
+    fun getGroupPost(groupId: String) {
         viewModelScope.launch {
             kotlin.runCatching {
-                homeRepository.allGroupPost(groupId, pageNumber)
+                homeRepository.allGroupPost(groupId, _pageNumber.value!!)
             }.onSuccess {
-                if (it.data != null) {
+                if (_pageNumber.value == 1) {
                     _postList.value = it.data.content
                 } else {
-                    isNoData = true
+                    val postList = _postList.value!!.map { currentList ->
+                        currentList.copy()
+                    } as MutableList<ResponsePostData.Data.Content>
+
+                    postList.addAll(it.data.content)
+
+                    _postList.value = postList
+                    postList.clear()
                 }
+                _isNoData.value = it.data.content.size != _pageNumber.value!! * 10
             }.onFailure {
                 Timber.tag("error").d(it.message.toString())
             }
@@ -89,12 +99,11 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
             kotlin.runCatching {
                 homeRepository.sendEmotionData(contentId, emotionStatus)
             }.onSuccess {
-                // TODO 현재 page 처리
                 if (it.data != null) {
                     if (isSelectGroupId != 0) {
-                        getGroupPost(isSelectGroupId.toString(), pageNumber)
+                        getGroupPost(isSelectGroupId.toString())
                     } else {
-                        getGroupPost(groupAllIdList.joinToString(), pageNumber)
+                        getGroupPost(groupAllIdList.joinToString())
                     }
                 } else {
                     setUpdateEmotion(isSelectGroupId, contentId, emotionStatus)
@@ -105,24 +114,33 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
         }
     }
 
-    fun groupPostSearch(isSelectGroupId: Int, word: String, pageNumber: Int) {
+    // 피드 검색
+    fun groupPostSearch(isSelectGroupId: Int, word: String) {
         viewModelScope.launch {
             kotlin.runCatching {
                 if (isSelectGroupId != 0) {
-                    homeRepository.groupPostSearch(isSelectGroupId.toString(), word, pageNumber)
+                    homeRepository.groupPostSearch(isSelectGroupId.toString(), word, _pageNumber.value!!)
                 } else {
-                    homeRepository.groupPostSearch(groupAllIdList.joinToString(), word, pageNumber)
+                    homeRepository.groupPostSearch(groupAllIdList.joinToString(), word, _pageNumber.value!!)
                 }
             }.onSuccess {
                 if (it.data != null) {
                     _postList.value = it.data.content
                 } else {
-                    isNoData = true
+                    _isNoData.value = it.data.content.size != _pageNumber.value!! * 10
                 }
             }.onFailure {
                 Timber.tag("error").d(it.message.toString())
             }
         }
+    }
+
+    fun setPageNumber(pageNumber: Int) {
+        _pageNumber.value = pageNumber
+    }
+
+    fun setUpPageNumber() {
+        _pageNumber.value = _pageNumber.value!! + 1
     }
 
     fun setLoading() {

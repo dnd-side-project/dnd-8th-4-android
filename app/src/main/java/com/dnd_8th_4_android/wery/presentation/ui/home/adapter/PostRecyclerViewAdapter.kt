@@ -22,7 +22,7 @@ class PostRecyclerViewAdapter :
         diffUtil
     ) {
     private lateinit var binding: ItemPostBinding
-    private lateinit var postImageAdapter: PostImageAdapter
+    private var postImageAdapter = PostImageAdapter()
     private lateinit var popupBottomClickListener: PopupBottomClickListener
     private lateinit var popupWindowClickListener: PopupWindowClickListener
     private var viewPagerPosition = 0
@@ -61,10 +61,12 @@ class PostRecyclerViewAdapter :
 
             binding.vpPostImage.offscreenPageLimit = 1 // 몇 개의 페이지를 미리 로드 해둘것인지
 
-            postImageAdapter = PostImageAdapter(item.contentImage)
+
+            postImageAdapter.submitList(item.contentImage)
             postImageAdapter.setPostDetailImageListener {
                 goToPostDetail(item, false)
             }
+
             binding.vpPostImage.adapter = postImageAdapter
             binding.vpPostImage.registerOnPageChangeCallback(object :
                 ViewPager2.OnPageChangeCallback() {

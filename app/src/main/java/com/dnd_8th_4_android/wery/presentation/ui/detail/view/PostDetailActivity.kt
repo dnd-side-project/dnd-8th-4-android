@@ -199,6 +199,7 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
 
         binding.scrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, _, _, _, _ ->
             if (viewModel.isLoading.value == false && viewModel.isNoData.value != true && !v.canScrollVertically(1)) {
+                viewModel.setLoading()
                 viewModel.setUpPageNumber()
                 viewModel.getComment(contentId)
             }

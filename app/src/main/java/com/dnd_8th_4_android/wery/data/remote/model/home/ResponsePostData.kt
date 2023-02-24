@@ -4,7 +4,7 @@ import com.dnd_8th_4_android.wery.data.remote.model.BaseResponse
 import com.google.gson.annotations.SerializedName
 
 data class ResponsePostData(
-    val data: Data?,
+    val data: Data,
 ) : BaseResponse() {
     data class Data(
         val content: MutableList<Content>,

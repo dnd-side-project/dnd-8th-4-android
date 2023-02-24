@@ -3,13 +3,14 @@ package com.dnd_8th_4_android.wery.presentation.ui.home.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponsePostData
 import com.dnd_8th_4_android.wery.databinding.ItemPostImageBinding
 
-class PostImageAdapter(private val itemList: List<ResponsePostData.Data.Content.Images>) :
-    RecyclerView.Adapter<PostImageAdapter.ViewHolder>() {
+class PostImageAdapter : ListAdapter<ResponsePostData.Data.Content.Images, PostImageAdapter.ViewHolder>(diffUtil) {
     private lateinit var binding: ItemPostImageBinding
     private lateinit var postDetailImageListener: PostDetailImageListener
 
@@ -20,9 +21,9 @@ class PostImageAdapter(private val itemList: List<ResponsePostData.Data.Content.
             Glide.with(binding.ivFriendPostImage.context).load(item.imageUrl)
                 .into(binding.ivFriendPostImage)
             binding.tvPostImageCount.text = "${adapterPosition.inc()}"
-            binding.tvPostImageAllCount.text = itemList.size.toString()
+            binding.tvPostImageAllCount.text = currentList.size.toString()
 
-            if (itemList.size == 1) {
+            if (currentList.size == 1) {
                 binding.layoutPostImageCount.isVisible = false
             }
 
@@ -37,10 +38,8 @@ class PostImageAdapter(private val itemList: List<ResponsePostData.Data.Content.
         return ViewHolder(binding)
     }
 
-    override fun getItemCount() = itemList.size
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(itemList[position])
+        holder.bind(currentList[position])
     }
 
     fun setPostDetailImageListener(listener: () -> Unit) {
@@ -53,5 +52,23 @@ class PostImageAdapter(private val itemList: List<ResponsePostData.Data.Content.
 
     interface PostDetailImageListener {
         fun onClicked()
+    }
+
+    companion object {
+        private val diffUtil = object : DiffUtil.ItemCallback<ResponsePostData.Data.Content.Images>() {
+            override fun areItemsTheSame(
+                oldItem: ResponsePostData.Data.Content.Images,
+                newItem: ResponsePostData.Data.Content.Images,
+            ): Boolean {
+                return oldItem == newItem
+            }
+
+            override fun areContentsTheSame(
+                oldItem: ResponsePostData.Data.Content.Images,
+                newItem: ResponsePostData.Data.Content.Images,
+            ): Boolean {
+                return oldItem == newItem
+            }
+        }
     }
 }

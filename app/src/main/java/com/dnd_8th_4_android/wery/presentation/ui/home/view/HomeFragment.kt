@@ -45,6 +45,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
         homeViewModel.setLoading()
         homeViewModel.getSignGroup()
+        homeViewModel.setPageNumber(1)
 
         // 그룹 리스트
         groupRecyclerViewAdapter = GroupRecyclerViewAdapter(
@@ -53,7 +54,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         )
         groupRecyclerViewAdapter.setGroupPostCallListener { groupId ->
             isSelectGroupId = groupId
-            homeViewModel.getGroupPost(groupId.toString(), 1)
+            homeViewModel.getGroupPost(groupId.toString())
         }
         binding.activityGroup.rvMyGroup.adapter = groupRecyclerViewAdapter
 
@@ -78,6 +79,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 .postDelayed({
                     binding.activityGroup.layoutSwipeRefresh.isRefreshing = false
                     homeViewModel.getSignGroup()
+                    homeViewModel.setPageNumber(1)
                 }, 1000)
         }
     }
@@ -91,12 +93,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         // 그룹 리스트가 바뀌는 경우) 1. 스와이프 2. 홈 탭
         homeViewModel.groupList.observe(viewLifecycleOwner) {
             initSelectedGroup()
-            groupRecyclerViewAdapter.submitList(homeViewModel.groupList.value)
+            groupRecyclerViewAdapter.submitList(it.toMutableList())
             homeViewModel.setUnLoading()
         }
 
         homeViewModel.postList.observe(viewLifecycleOwner) {
-            postRecyclerViewAdapter.submitList(homeViewModel.postList.value)
+            postRecyclerViewAdapter.submitList(it.toMutableList())
             homeViewModel.setUnLoading()
         }
 
@@ -120,6 +122,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                             binding.activityGroup.layoutSwipeRefresh.isRefreshing = false
                             homeViewModel.setLoading()
                             homeViewModel.getSignGroup()
+                            homeViewModel.setPageNumber(1)
                         }, 1000)
                 }
             }
@@ -137,9 +140,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
                 // 검색 동작
                 homeViewModel.setLoading()
-                homeViewModel.pageNumber = 1
+                homeViewModel.setPageNumber(1)
                 homeViewModel.searchWord = searchKeyword
-                homeViewModel.groupPostSearch(isSelectGroupId, homeViewModel.searchWord, homeViewModel.pageNumber)
+                homeViewModel.groupPostSearch(isSelectGroupId, homeViewModel.searchWord)
             }
             false
         }
@@ -153,18 +156,23 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             if (groupRecyclerViewAdapter.selectedItemImage != binding.activityGroup.ivAllGroup) {
                 initSelectedGroup()
                 homeViewModel.setLoading()
-                homeViewModel.getGroupPost(homeViewModel.groupAllIdList.joinToString(), 1)
+                homeViewModel.setPageNumber(1)
+                homeViewModel.getGroupPost(homeViewModel.groupAllIdList.joinToString())
             }
         }
 
         binding.activityGroup.scrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, _, _, _, _ ->
-            if (homeViewModel.isLoading.value == false && !homeViewModel.isNoData && !v.canScrollVertically(1)) {
+            if (homeViewModel.isLoading.value == false && homeViewModel.isNoData.value != true && !v.canScrollVertically(1)) {
                 homeViewModel.setLoading()
-                homeViewModel.pageNumber += 1
+                homeViewModel.setUpPageNumber()
                 if (homeViewModel.isSearchOn) {
-                    homeViewModel.groupPostSearch(isSelectGroupId, homeViewModel.searchWord, homeViewModel.pageNumber)
+                    homeViewModel.groupPostSearch(isSelectGroupId, homeViewModel.searchWord)
                 } else {
-                    homeViewModel.getGroupPost(isSelectGroupId.toString(), homeViewModel.pageNumber)
+                    if (isSelectGroupId != 0) {
+                        homeViewModel.getGroupPost(isSelectGroupId.toString())
+                    } else {
+                        homeViewModel.getGroupPost(homeViewModel.groupAllIdList.joinToString())
+                    }
                 }
             }
         })
