@@ -46,14 +46,26 @@ class CreateMissionActivity :
             addTab(this.newTab().setText(resources.getString(R.string.create_mission_due_no_exist)))
         }
         viewModel.setSelectedPlace(resources.getString(R.string.create_mission_place_hint))
+        viewModel.setTodayDate()
     }
 
     private fun initDataBinding() {
         viewModel.selectedPlaceTxt.observe(this) {
             binding.tvVisitPlace.text = it
         }
-        setTxtError(binding.etvMissionName,binding.tvMissionNameLimit,20,binding.ivMissionNameClose)
-        setTxtCancelListener(binding.etvMissionName,binding.ivMissionNameClose)
+        setTxtError(
+            binding.etvMissionName,
+            binding.tvMissionNameLimit,
+            20,
+            binding.ivMissionNameClose
+        )
+        setTxtCancelListener(binding.etvMissionName, binding.ivMissionNameClose)
+        viewModel.starDateTxt.observe(this) {
+            binding.tvStartDate.text = it
+        }
+        viewModel.endDateTxt.observe(this) {
+            binding.tvEndDate.text = it
+        }
     }
 
     private fun initAfterBinding() {

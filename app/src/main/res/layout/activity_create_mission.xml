@@ -284,6 +284,7 @@
                             android:textColor="@color/black" />
 
                         <TextView
+                            android:id="@+id/tv_start_date"
                             style="@style/TextView.Body.14.R"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -291,6 +292,7 @@
                             android:layout_centerVertical="true"
                             android:paddingVertical="20dp"
                             android:textColor="@color/gray700"
+                            android:text="@{vm.starDateTxt}"
                             tools:text="2023.02.01" />
 
                         <View
@@ -315,6 +317,7 @@
                             android:textColor="@color/black" />
 
                         <TextView
+                            android:id="@+id/tv_end_date"
                             style="@style/TextView.Body.14.R"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -322,6 +325,7 @@
                             android:layout_centerVertical="true"
                             android:paddingVertical="20dp"
                             android:textColor="@color/gray700"
+                            android:text="@{vm.endDateTxt}"
                             tools:text="2023.02.01" />
 
                         <View
