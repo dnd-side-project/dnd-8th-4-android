@@ -54,6 +54,8 @@
         <activity
             android:name=".presentation.ui.detail.view.PostDetailActivity"
             android:exported="true" />
+
+        <activity android:name=".presentation.ui.mission.mymission.view.MissionProgressActivity" />
     </application>
 
 </manifest>

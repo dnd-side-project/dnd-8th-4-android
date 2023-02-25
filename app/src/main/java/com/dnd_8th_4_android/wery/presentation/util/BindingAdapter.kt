@@ -3,9 +3,11 @@ package com.dnd_8th_4_android.wery.presentation.util
 import android.graphics.Color
 import android.widget.ImageView
 import androidx.annotation.ColorInt
+import androidx.cardview.widget.CardView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.dnd_8th_4_android.wery.R
 
 object BindingAdapter {
 
@@ -35,5 +37,15 @@ object BindingAdapter {
         )
 
         addItemDecoration(decoration)
+    }
+
+    @JvmStatic
+    @BindingAdapter("missionColor")
+    fun setMissionColor(cardView: CardView, colorValue: Int?) {
+        when (colorValue) {
+            0 -> cardView.setCardBackgroundColor(cardView.context.getColor(R.color.color_3f75ff))
+            1 -> cardView.setCardBackgroundColor(cardView.context.getColor(R.color.color_f47aff))
+            2 -> cardView.setCardBackgroundColor(cardView.context.getColor(R.color.color_34c18e))
+        }
     }
 }
