@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="vm"
             type="com.dnd_8th_4_android.wery.presentation.ui.search.viewmodel.SearchPostViewModel" />
@@ -130,8 +131,13 @@
                 app:layout_constraintTop_toTopOf="@id/iv_filter" />
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_search"
+                dividerColor="@{@color/gray100}"
+                dividerHeight="@{@dimen/home_post_list_item_divider_height}"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintTop_toBottomOf="@id/tv_post" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

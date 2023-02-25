@@ -55,6 +55,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             homeViewModel.getGroupPost()
         }
         binding.activityGroup.rvMyGroup.adapter = groupRecyclerViewAdapter
+        binding.activityGroup.rvMyGroup.itemAnimator = null
 
         // 그룹 게시글
         postRecyclerViewAdapter = PostRecyclerViewAdapter()
