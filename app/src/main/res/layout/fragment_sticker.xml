@@ -162,10 +162,50 @@
                         app:layout_constraintTop_toBottomOf="@id/iv_end"
                         tools:text="Lv. 2" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
-
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
+
+        <View
+            android:id="@+id/view_sticker"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:background="@color/gray100"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sticker_card_view" />
+
+        <TextView
+            android:id="@+id/tv_earn_sticker"
+            style="@style/TextView.Title.16.Sb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/sticker_earn_sticker"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view_sticker" />
+
+        <TextView
+            android:id="@+id/tv_sticker_cnt"
+            style="@style/TextView.Title.16.Sb"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="4dp"
+            android:textColor="@color/color_f47aff"
+            app:layout_constraintBottom_toBottomOf="@id/tv_earn_sticker"
+            app:layout_constraintStart_toEndOf="@id/tv_earn_sticker"
+            app:layout_constraintTop_toTopOf="@id/tv_earn_sticker"
+            tools:text="0" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_sticker"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_earn_sticker" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
