@@ -11,19 +11,21 @@ import com.dnd_8th_4_android.wery.databinding.ItemPostSearchBinding
 import java.time.LocalDate
 
 class PostSearchAdapter :
-    ListAdapter<ResponsePostSearchData.Data, PostSearchAdapter.ViewHolder>(diffUtil) {
+    ListAdapter<ResponsePostSearchData.Data.Content, PostSearchAdapter.ViewHolder>(diffUtil) {
     private lateinit var binding: ItemPostSearchBinding
 
     class ViewHolder(private val binding: ItemPostSearchBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: ResponsePostSearchData.Data) {
+        fun bind(item: ResponsePostSearchData.Data.Content) {
             binding.ivPostImage.clipToOutline = true
             binding.ivFriendImage.clipToOutline = true
 
             binding.tvPostContent.text = item.content
 
-            Glide.with(binding.ivPostImage.context).load(item.contentImageList[0])
-                .into(binding.ivPostImage)
+            if (item.contentImageList.isNotEmpty()) {
+                Glide.with(binding.ivPostImage.context).load(item.contentImageList[0].imageUrl)
+                    .into(binding.ivPostImage)
+            }
 
             binding.tvImageCount.text = item.contentImageListSize.toString()
 
@@ -51,20 +53,21 @@ class PostSearchAdapter :
 
 
     companion object {
-        private val diffUtil = object : DiffUtil.ItemCallback<ResponsePostSearchData.Data>() {
-            override fun areItemsTheSame(
-                oldItem: ResponsePostSearchData.Data,
-                newItem: ResponsePostSearchData.Data,
-            ): Boolean {
-                return oldItem == newItem
-            }
+        private val diffUtil =
+            object : DiffUtil.ItemCallback<ResponsePostSearchData.Data.Content>() {
+                override fun areItemsTheSame(
+                    oldItem: ResponsePostSearchData.Data.Content,
+                    newItem: ResponsePostSearchData.Data.Content,
+                ): Boolean {
+                    return oldItem == newItem
+                }
 
-            override fun areContentsTheSame(
-                oldItem: ResponsePostSearchData.Data,
-                newItem: ResponsePostSearchData.Data,
-            ): Boolean {
-                return oldItem == newItem
+                override fun areContentsTheSame(
+                    oldItem: ResponsePostSearchData.Data.Content,
+                    newItem: ResponsePostSearchData.Data.Content,
+                ): Boolean {
+                    return oldItem == newItem
+                }
             }
-        }
     }
 }

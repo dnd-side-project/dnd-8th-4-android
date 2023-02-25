@@ -33,6 +33,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private lateinit var groupRecyclerViewAdapter: GroupRecyclerViewAdapter
     private lateinit var postRecyclerViewAdapter: PostRecyclerViewAdapter
 
+    companion object {
+        const val GROUP_ALL_LIST = "group_all_list"
+    }
+
     override fun onResume() {
         super.onResume()
         binding.vm = homeViewModel
@@ -136,7 +140,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         }
 
         binding.etSearch.setOnClickListener {
-            startActivity(Intent(requireContext(), SearchPostActivity::class.java))
+            Intent(requireContext(), SearchPostActivity::class.java).apply {
+                putExtra(GROUP_ALL_LIST, homeViewModel.groupAllIdList.joinToString())
+                startActivity(this)
+            }
         }
 
         binding.activityGroup.ivAllGroup.setOnClickListener {

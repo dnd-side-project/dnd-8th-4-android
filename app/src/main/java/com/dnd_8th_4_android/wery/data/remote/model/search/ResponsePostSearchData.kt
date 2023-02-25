@@ -6,17 +6,21 @@ data class ResponsePostSearchData(
     val data: Data,
 ) : BaseResponse() {
     data class Data(
-        val contentId: Int,
-        val groupId: Int,
-        val content: String,
-        val groupImage: String,
-        val groupName: String,
-        val createAt: String,
-        val contentImageListSize: Int,
-        val contentImageList: List<Image>,
+        val content: MutableList<Content>,
     ) {
-        data class Image(
-            val imageUrl: String,
-        )
+        data class Content(
+            val contentId: Int,
+            val groupId: Int,
+            val content: String,
+            val groupImage: String,
+            val groupName: String,
+            val createAt: String,
+            val contentImageListSize: Int,
+            val contentImageList: List<Image>,
+        ) {
+            data class Image(
+                val imageUrl: String,
+            )
+        }
     }
 }

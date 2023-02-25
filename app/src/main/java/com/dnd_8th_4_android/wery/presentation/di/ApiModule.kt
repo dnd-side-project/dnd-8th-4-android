@@ -50,4 +50,10 @@ object ApiModule {
     fun providePopupBottomService(retrofit: Retrofit): PopupBottomService {
         return retrofit.create(PopupBottomService::class.java)
     }
+
+    @Provides
+    @Singleton
+    fun provideSearchService(retrofit: Retrofit): SearchService {
+        return retrofit.create(SearchService::class.java)
+    }
 }

@@ -49,4 +49,10 @@ object DataSourceModule {
     fun providePopupBottomDataSource(popupBottomService: PopupBottomService): PopupBottomDataSource {
         return PopupBottomDataSourceImpl(popupBottomService)
     }
+
+    @Provides
+    @Singleton
+    fun provideSearchDataSource(searchService: SearchService): SearchDataSource {
+        return SearchDataSourceImpl(searchService)
+    }
 }

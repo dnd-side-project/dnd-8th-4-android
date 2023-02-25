@@ -18,10 +18,4 @@ interface HomeRepository {
         contentId: Int,
         body: RequestEmotionStatus,
     ): ResponseEmotionData
-
-    suspend fun groupPostSearch(
-        groupId: String,
-        word: String,
-        page: Int,
-    ): ResponsePostData
 }
