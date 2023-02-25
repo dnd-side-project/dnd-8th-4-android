@@ -136,6 +136,15 @@
     <string name="create_mission_end_date">종료일</string>
     <string name="create_mission_select_group">그룹 선택</string>
     <string name="create_mission_card_color">카드 색상</string>
+    
+    <!-- StickerFragment -->
+    <string name="sticker_my_mission_progress">내 미션 현황</string>
+    <string name="sticker_info_default">세 개의 미션을 달성하면 스티커를 받을 수 있어요 🎁</string>
+    <string name="sticker_info_level_state">lv. %d 달성까지 %d번 남았어요 👋</string>
+    <string name="sticker_info_level_done">lv. %d 달성 완료 🥳 다음 미션을 하러 떠나볼까요?</string>
+    <string name="sticker_speech_bubble">다 채우면 스티커</string>
+    <string name="sticker_earn_sticker">획득한 스티커</string>
+    <string name="sticker_infinite">무제한</string>
 
 
     <!-- bottomSheetFragment -->
