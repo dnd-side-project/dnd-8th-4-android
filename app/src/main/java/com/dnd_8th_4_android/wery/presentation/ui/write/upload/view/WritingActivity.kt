@@ -187,7 +187,7 @@ class WritingActivity : BaseActivity<ActivityWritingBinding>(R.layout.activity_w
         writingViewModel.selectedGroup.value = getString(R.string.writing_select_group)
         binding.layoutSelectGroup.setOnClickListener {
             writingViewModel.selectedGroupState.value = true
-            SelectGroupBottomDialog(writingViewModel).show(supportFragmentManager, null)
+            SelectGroupBottomDialog(writingViewModel,"w").show(supportFragmentManager, null)
         }
     }
 

@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="vm"
+            type="com.dnd_8th_4_android.wery.presentation.ui.mission.create.CreateMissionViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -31,7 +33,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <LinearLayout
-                android:id="@+id/layout_select_mission"
+                android:id="@+id/layout_select_group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -45,7 +47,7 @@
                     style="@style/TextView.Title.16.Sb"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="그룹 선택"
+                    android:text="@{vm.selectedGroup}"
                     android:textColor="@color/black"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -57,6 +59,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginStart="4dp"
+                    android:src="@{vm.selectedGroupState ? @drawable/ic_expandless : @drawable/ic_expand_more}"
                     tools:src="@drawable/ic_expand_more" />
 
             </LinearLayout>
@@ -66,7 +69,7 @@
                 style="@style/TextView.Title.14.Sb"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:enabled="false"
+                android:enabled="@{vm.missionNameState &amp; vm.missionGroupState &amp; vm.missionPlaceState ? true: false}"
                 android:gravity="center"
                 android:paddingHorizontal="16dp"
                 android:text="@string/writing_register"
@@ -123,6 +126,7 @@
                         android:maxLines="1"
                         android:padding="16dp"
                         android:textColor="@color/black"
+                        android:text="@={vm.missionNameTxt}"
                         android:textColorHint="@color/gray500"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -152,9 +156,10 @@
                         style="@style/TextView.Caption.12.R"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        tools:text="@string/create_mission_info"
+                        android:text="@{vm.missionNameTxt.length() > 20 ? @string/create_mission_cnt_error : @string/create_mission_info}"
                         android:layout_alignParentStart="true"
-                        android:text="@string/create_mission_info"
-                        android:textColor="@color/gray600" />
+                        android:textColor="@{vm.missionNameTxt.length() > 20 ? @color/color_eb0555 : @color/gray600}" />
 
                     <TextView
                         android:id="@+id/tv_mission_name_limit"
@@ -163,8 +168,8 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_toStartOf="@id/tv_mission_name_cnt"
-                        android:text="0"
-                        android:textColor="@color/gray600" />
+                        android:text="@{String.valueOf(vm.missionNameTxt.length())}"
+                        tools:text="0" />
 
                     <TextView
                         android:id="@+id/tv_mission_name_cnt"
@@ -186,7 +191,7 @@
                     android:textColor="@color/black" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/etv_mission_place"
+                    android:id="@+id/layout_mission_place"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -215,8 +220,9 @@
                         android:gravity="center_vertical"
                         android:maxLines="1"
                         android:padding="10dp"
-                        android:text="@string/create_mission_place_hint"
-                        android:textColor="@color/gray500"
+                        android:text="@{vm.selectedPlaceTxt.equals(@string/create_mission_place_hint) ? @string/create_mission_place_hint : vm.selectedPlaceTxt}"
+                        tools:text="@string/create_mission_place_hint"
+                        android:textColor="@{vm.selectedPlaceTxt.equals(@string/create_mission_place_hint) ? @color/gray600 : @color/black}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/iv_search"
@@ -279,6 +285,7 @@
                             android:textColor="@color/black" />
 
                         <TextView
+                            android:id="@+id/tv_start_date"
                             style="@style/TextView.Body.14.R"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -286,6 +293,7 @@
                             android:layout_centerVertical="true"
                             android:paddingVertical="20dp"
                             android:textColor="@color/gray700"
+                            android:text="@{vm.starDateTxt}"
                             tools:text="2023.02.01" />
 
                         <View
@@ -310,6 +318,7 @@
                             android:textColor="@color/black" />
 
                         <TextView
+                            android:id="@+id/tv_end_date"
                             style="@style/TextView.Body.14.R"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -317,6 +326,7 @@
                             android:layout_centerVertical="true"
                             android:paddingVertical="20dp"
                             android:textColor="@color/gray700"
+                            android:text="@{vm.endDateTxt}"
                             tools:text="2023.02.01" />
 
                         <View
