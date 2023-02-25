@@ -137,7 +137,6 @@
     <string name="create_mission_card_color">카드 색상</string>
 
 
-
     <!-- bottomSheetFragment -->
     <string name="bottom_sheet_bookmark">북마크 하기</string>
     <string name="bottom_sheet_clip">링크 복사하기</string>
@@ -183,4 +182,8 @@
     <string name="yes_mission_day_flow">~</string>
     <string name="yes_mission_certify">인증하기</string>
     <string name="yes_mission_certify_write">인증글 쓰기</string>
+
+    <!-- SearchActivity -->
+    <string name="search_post">게시글</string>
+    <string name="search_filter">최신순</string>
 </resources>
