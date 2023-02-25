@@ -23,8 +23,7 @@ class MissionCardAdapter() :
     override fun onBindViewHolder(holder: MissionCardViewAdapter, position: Int) {
         holder.onBind(getItem(position))
         val layoutParams = (holder.binding.root.layoutParams as ViewGroup.MarginLayoutParams)
-        layoutParams.marginEnd =
-            if (position == (itemCount - 1)) 0 else 12.dpToPx(holder.binding.root.context)
+        layoutParams.marginEnd = if (position == (itemCount - 1)) 0 else 12.dpToPx(holder.binding.root.context)
         holder.binding.root.layoutParams = layoutParams
     }
 
