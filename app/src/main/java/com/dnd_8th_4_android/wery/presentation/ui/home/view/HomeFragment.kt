@@ -23,7 +23,7 @@ import com.dnd_8th_4_android.wery.presentation.ui.home.adapter.PostRecyclerViewA
 import com.dnd_8th_4_android.wery.presentation.ui.home.viewmodel.HomeViewModel
 import com.dnd_8th_4_android.wery.presentation.ui.sign.view.SignActivity
 import com.dnd_8th_4_android.wery.presentation.ui.write.upload.view.WritingActivity
-import com.dnd_8th_4_android.wery.presentation.util.PopupBottomDialogDialog
+import com.dnd_8th_4_android.wery.presentation.util.PopupBottomDialog
 import com.dnd_8th_4_android.wery.presentation.util.hideKeyboard
 import com.dnd_8th_4_android.wery.presentation.util.showKeyboard
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -67,7 +67,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
         postRecyclerViewAdapter.apply {
             setPopupBottomClickListener { contentId, isSelected ->
-                val bottomSheet = PopupBottomDialogDialog(true, contentId, isSelected)
+                val bottomSheet = PopupBottomDialog(true, contentId, isSelected)
                 bottomSheet.setOnBookmarkListener {
                     homeViewModel.getGroupPost()
                 }

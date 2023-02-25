@@ -1,5 +1,6 @@
 package com.dnd_8th_4_android.wery.presentation.util
 
+import android.util.Log
 import androidx.fragment.app.viewModels
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.databinding.BottomDialogPopupBinding
@@ -7,13 +8,14 @@ import com.dnd_8th_4_android.wery.presentation.ui.base.BaseBottomDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class PopupBottomDialogDialog(private val homeSelect: Boolean, private val contentId: Int, private val selected: Boolean) :
+class PopupBottomDialog(private val homeSelect: Boolean, private val contentId: Int, private val selected: Boolean) :
     BaseBottomDialogFragment<BottomDialogPopupBinding>(R.layout.bottom_dialog_popup) {
     private val viewModel: PopupBottomViewModel by viewModels()
     private lateinit var onBookmarkListener: OnBookMarkListener
 
     override fun initAfterBinding() {
         viewModel.setOnBookmark(selected)
+        viewModel.setIsHomeSelect(homeSelect)
 
         viewModel.isSelectedBookmark.observe(viewLifecycleOwner) {
             if (it) {
@@ -30,12 +32,17 @@ class PopupBottomDialogDialog(private val homeSelect: Boolean, private val conte
 
         binding.layerRemove.setOnClickListener {
             val postRemoveDialog = PostRemoveDialog()
+            postRemoveDialog.setOnPostDeleteListener {
+                viewModel.isHomeSelect.value = true
+                viewModel.setPostDelete(contentId)
+                dialog!!.dismiss()
+            }
             postRemoveDialog.show(childFragmentManager, null)
         }
     }
 
     override fun onDestroyView() {
-        if (homeSelect) onBookmarkListener.onClicked()
+        if (viewModel.isHomeSelect.value == true) onBookmarkListener.onClicked()
         super.onDestroyView()
     }
 

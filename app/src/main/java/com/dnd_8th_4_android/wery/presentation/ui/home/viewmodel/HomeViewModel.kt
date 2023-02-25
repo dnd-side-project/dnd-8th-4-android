@@ -91,6 +91,8 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
                     postList.clear()
                 }
                 _isNoData.value = it.data.content.size != _pageNumber.value!! * 10
+
+                Log.e("태그", _postList.value.toString())
             }.onFailure {
                 Timber.tag("error").d(it.message.toString())
             }
