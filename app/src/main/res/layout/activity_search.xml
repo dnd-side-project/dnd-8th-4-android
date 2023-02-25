@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="vm"
+            type="com.dnd_8th_4_android.wery.presentation.ui.search.viewmodel.SearchPostViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -12,7 +14,7 @@
         android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_home_top"
+            android:id="@+id/layout_search_top"
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
             android:paddingHorizontal="16dp"
@@ -76,9 +78,11 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/layout_home_top">
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/layout_search_top">
 
             <TextView
                 android:id="@+id/tv_post"

@@ -5,12 +5,9 @@ import android.os.Handler
 import android.os.Looper
 import android.view.View
 import android.view.WindowManager
-import android.view.inputmethod.EditorInfo
 import android.widget.PopupWindow
 import android.widget.ScrollView
-import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
-import androidx.core.widget.doBeforeTextChanged
 import androidx.fragment.app.viewModels
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.data.remote.model.home.RequestEmotionStatus
@@ -21,11 +18,10 @@ import com.dnd_8th_4_android.wery.presentation.ui.base.BaseFragment
 import com.dnd_8th_4_android.wery.presentation.ui.home.adapter.GroupRecyclerViewAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.home.adapter.PostRecyclerViewAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.home.viewmodel.HomeViewModel
+import com.dnd_8th_4_android.wery.presentation.ui.search.view.SearchPostActivity
 import com.dnd_8th_4_android.wery.presentation.ui.sign.view.SignActivity
 import com.dnd_8th_4_android.wery.presentation.ui.write.upload.view.WritingActivity
 import com.dnd_8th_4_android.wery.presentation.util.PopupBottomDialog
-import com.dnd_8th_4_android.wery.presentation.util.hideKeyboard
-import com.dnd_8th_4_android.wery.presentation.util.showKeyboard
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -138,28 +134,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             }
         }
 
-        binding.etSearch.doBeforeTextChanged { _, _, _, after ->
-            binding.ivSearchClose.isVisible = after > 0
-        }
-
-        binding.etSearch.setOnEditorActionListener { textView, actionId, _ ->
-            val searchKeyword = textView.text.toString()
-            if (actionId == EditorInfo.IME_ACTION_SEARCH && searchKeyword.isNotEmpty()) {
-                binding.etSearch.hideKeyboard()
-                binding.etSearch.clearFocus()
-
-                // 검색 동작
-                homeViewModel.setLoading()
-                homeViewModel.setPageNumber(1)
-                homeViewModel.searchWord = searchKeyword
-                homeViewModel.groupPostSearch(homeViewModel.isSelectGroupId.value!!, homeViewModel.searchWord)
-            }
-            false
-        }
-
-        binding.ivSearchClose.setOnClickListener {
-            binding.etSearch.text.clear()
-            binding.etSearch.showKeyboard()
+        binding.etSearch.setOnClickListener {
+            startActivity(Intent(requireContext(), SearchPostActivity::class.java))
         }
 
         binding.activityGroup.ivAllGroup.setOnClickListener {
@@ -176,14 +152,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             if (homeViewModel.isLoading.value == false && homeViewModel.isNoData.value != true && !v.canScrollVertically(1)) {
                 homeViewModel.setLoading()
                 homeViewModel.setUpPageNumber()
-                if (homeViewModel.isSearchOn) {
-                    homeViewModel.groupPostSearch(homeViewModel.isSelectGroupId.value!!, homeViewModel.searchWord)
+
+                if (homeViewModel.isSelectGroupId.value!! != 0) {
+                    homeViewModel.getGroupPost()
                 } else {
-                    if (homeViewModel.isSelectGroupId.value!! != 0) {
-                        homeViewModel.getGroupPost()
-                    } else {
-                        homeViewModel.getGroupPost()
-                    }
+                    homeViewModel.getGroupPost()
                 }
             }
         })
