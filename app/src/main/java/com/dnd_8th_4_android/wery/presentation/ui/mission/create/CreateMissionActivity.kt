@@ -15,6 +15,7 @@ import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.databinding.ActivityCreateMissionBinding
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseActivity
 import com.dnd_8th_4_android.wery.presentation.ui.write.place.view.SearchPlaceActivity
+import com.dnd_8th_4_android.wery.presentation.ui.write.upload.view.SelectGroupBottomDialog
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import java.util.*
@@ -36,7 +37,6 @@ class CreateMissionActivity :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         initStartView()
         initDataBinding()
         initAfterBinding()
@@ -55,6 +55,9 @@ class CreateMissionActivity :
     private fun initDataBinding() {
         viewModel.selectedPlaceTxt.observe(this) {
             binding.tvVisitPlace.text = it
+            val statePlace =
+                !viewModel.selectedPlaceTxt.value.equals(resources.getString(R.string.create_mission_place_hint))
+            viewModel.missionPlaceState.value = statePlace
         }
         setTxtError(
             binding.etvMissionName,
@@ -68,6 +71,15 @@ class CreateMissionActivity :
         }
         viewModel.endDateTxt.observe(this) {
             binding.tvEndDate.text = it
+        }
+        viewModel.missionNameTxt.observe(this) {
+            val stateMissionName = viewModel.missionNameTxt.value!!.length in 1..20
+            viewModel.missionNameState.value = stateMissionName
+        }
+        viewModel.selectedGroup.observe(this) {
+            val stateGroup =
+                !viewModel.selectedGroup.value.equals(resources.getString(R.string.create_mission_select_group))
+            viewModel.missionGroupState.value = stateGroup
         }
     }
 
@@ -91,6 +103,7 @@ class CreateMissionActivity :
             }
             DatePickerDialog(this, data, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH)).show()
         }
+        selectGroupListener()
     }
 
     private fun setTxtError(etv: EditText, tv: TextView, lenCnt: Int, ivClose: ImageView) {
@@ -121,6 +134,14 @@ class CreateMissionActivity :
         }
         ivClose.setOnClickListener {
             etv.text.clear()
+        }
+    }
+
+    private fun selectGroupListener() {
+        viewModel.selectedGroup.value = getString(R.string.create_mission_select_group)
+        binding.layoutSelectGroup.setOnClickListener {
+            viewModel.selectedGroupState.value = true
+            SelectGroupBottomDialog(viewModel, "m").show(supportFragmentManager, null)
         }
     }
 

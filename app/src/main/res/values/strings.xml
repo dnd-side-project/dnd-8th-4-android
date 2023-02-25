@@ -134,8 +134,8 @@
     <string name="create_mission_due_no_exist">기간 없음</string>
     <string name="create_mission_start_date">시작일</string>
     <string name="create_mission_end_date">종료일</string>
+    <string name="create_mission_select_group">그룹 선택</string>
     <string name="create_mission_card_color">카드 색상</string>
-
 
 
     <!-- bottomSheetFragment -->

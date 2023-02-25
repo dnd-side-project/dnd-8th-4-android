@@ -9,6 +9,13 @@ import java.time.format.DateTimeFormatter
 
 class CreateMissionViewModel : ViewModel() {
     var missionNameTxt = MutableLiveData<String>()
+    var selectedGroup = MutableLiveData<String>()
+
+    var selectedGroupState = MutableLiveData<Boolean>(false)
+
+    var missionGroupState = MutableLiveData<Boolean>(false)
+    var missionNameState = MutableLiveData<Boolean>(false)
+    var missionPlaceState = MutableLiveData<Boolean>(false)
 
     private var _selectedPlaceTxt = MutableLiveData<String>()
     val selectedPlaceTxt: LiveData<String> = _selectedPlaceTxt
@@ -22,7 +29,6 @@ class CreateMissionViewModel : ViewModel() {
     fun setSelectedPlace(stringValue: String) {
         _selectedPlaceTxt.value = stringValue
     }
-
     fun setTodayDate() {
         val current = LocalDateTime.now()
         val formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")

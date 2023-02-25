@@ -33,7 +33,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <LinearLayout
-                android:id="@+id/layout_select_mission"
+                android:id="@+id/layout_select_group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -47,7 +47,7 @@
                     style="@style/TextView.Title.16.Sb"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="그룹 선택"
+                    android:text="@{vm.selectedGroup}"
                     android:textColor="@color/black"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -59,6 +59,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginStart="4dp"
+                    android:src="@{vm.selectedGroupState ? @drawable/ic_expandless : @drawable/ic_expand_more}"
                     tools:src="@drawable/ic_expand_more" />
 
             </LinearLayout>
@@ -68,7 +69,7 @@
                 style="@style/TextView.Title.14.Sb"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:enabled="false"
+                android:enabled="@{vm.missionNameState &amp; vm.missionGroupState &amp; vm.missionPlaceState ? true: false}"
                 android:gravity="center"
                 android:paddingHorizontal="16dp"
                 android:text="@string/writing_register"
