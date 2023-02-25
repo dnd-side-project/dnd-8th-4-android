@@ -2,6 +2,11 @@ package com.dnd_8th_4_android.wery.presentation.ui.mission.create
 
 import android.os.Bundle
 import android.view.View
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.activity.viewModels
+import androidx.core.widget.addTextChangedListener
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.databinding.ActivityCreateMissionBinding
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseActivity
@@ -11,18 +16,27 @@ import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 class CreateMissionActivity :
     BaseActivity<ActivityCreateMissionBinding>(R.layout.activity_create_mission) {
 
+    private val viewModel: CreateMissionViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         initStartView()
+        initDataBinding()
         initAfterBinding()
     }
 
     private fun initStartView() {
+        binding.vm = viewModel
+
         binding.missionTabLayout.apply {
             addTab(this.newTab().setText(resources.getString(R.string.create_mission_due_exist)))
             addTab(this.newTab().setText(resources.getString(R.string.create_mission_due_no_exist)))
         }
+    }
+
+    private fun initDataBinding() {
+        setTxtError(binding.etvMissionName,binding.tvMissionNameLimit,20,binding.ivMissionNameClose)
+        setTxtCancelListener(binding.etvMissionName,binding.ivMissionNameClose)
     }
 
     private fun initAfterBinding() {
@@ -36,4 +50,36 @@ class CreateMissionActivity :
             override fun onTabReselected(tab: TabLayout.Tab?) {}
         })
     }
+
+    private fun setTxtError(etv: EditText, tv: TextView, lenCnt: Int, ivClose: ImageView) {
+        etv.addTextChangedListener {
+            if (it?.length!! > lenCnt) {
+                etv.setBackgroundResource(R.drawable.shape_white_radius_8_eb0555)
+                tv.setTextColor(resources.getColor(R.color.color_eb0555, null))
+            } else {
+                etv.setBackgroundResource(R.drawable.shape_white_radius_8_black)
+                tv.setTextColor(resources.getColor(R.color.black, null))
+            }
+        }
+
+        etv.setOnFocusChangeListener { v, hasFocus ->
+            if (!v.hasFocus() && etv.text.length <= lenCnt) {
+                etv.setBackgroundResource(R.drawable.shape_white_radius_8_gray300)
+                tv.setTextColor(resources.getColor(R.color.gray600, null))
+            }
+
+            if (!v.hasFocus()) ivClose.visibility = View.GONE else ivClose.visibility = View.VISIBLE
+        }
+    }
+
+    private fun setTxtCancelListener(etv: EditText, ivClose: ImageView) {
+        etv.addTextChangedListener {
+            if (it!!.isNotEmpty()) ivClose.visibility = View.VISIBLE
+            else ivClose.visibility = View.GONE
+        }
+        ivClose.setOnClickListener {
+            etv.text.clear()
+        }
+    }
+
 }
