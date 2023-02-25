@@ -58,14 +58,14 @@
                     layout="@layout/item_mission_no_exist"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:visibility="visible" />
+                    android:visibility="gone" />
 
                 <include
                     android:id="@+id/include_mission_exist"
                     layout="@layout/item_mission_exist"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:visibility="gone" />
+                    android:visibility="visible" />
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

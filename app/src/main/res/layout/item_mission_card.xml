@@ -1,124 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:cardBackgroundColor="@color/color_f47aff"
-    app:cardCornerRadius="14dp">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="16dp">
+    <data>
 
-        <TextView
-            android:id="@+id/tv_dday"
-            style="@style/TextView.Title.14.Sb"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/shape_33black_radius_4"
-            android:paddingHorizontal="8dp"
-            android:paddingVertical="4dp"
-            android:textColor="@color/white"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="D-3" />
+        <variable
+            name="data"
+            type="com.dnd_8th_4_android.wery.data.remote.model.mission.ResponseMissionCard" />
 
-        <TextView
-            android:id="@+id/tv_mission_title"
-            style="@style/TextView.Title.14.Sb"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_dday"
-            tools:text="건대 매운향솥가서 마라샹궈 먹기" />
+    </data>
 
-        <TextView
-            android:id="@+id/tv_mission_content"
-            style="@style/TextView.Caption.12.R"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_mission_title"
-            tools:text="23.02.12 ~ 23.02.29" />
-
-        <LinearLayout
-            android:id="@+id/layout_group_info"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_mission_content">
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:background="@drawable/shape_gray100_radius_12_gray200"
-                android:foreground="@drawable/shape_oval_gray100"
-                android:src="@drawable/img_no_group" />
-
-            <TextView
-                android:id="@+id/tv_group_name"
-                style="@style/TextView.Caption.12.M"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginStart="6dp"
-                android:gravity="center"
-                android:textColor="@color/white"
-                tools:text="진우와 아이들" />
-        </LinearLayout>
+    <com.google.android.material.card.MaterialCardView
+        missionColor="@{data.missionColor}"
+        android:layout_width="224dp"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="14dp"
+        tools:cardBackgroundColor="@color/color_3f75ff">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_mission_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/shape_black_radius_8"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layout_group_info">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp">
 
             <TextView
-                android:id="@+id/tv_btn_state"
-                style="@style/TextView.Title.12.Sb"
+                android:id="@+id/tv_dday"
+                style="@style/TextView.Title.14.Sb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:paddingVertical="11dp"
+                android:background="@drawable/shape_33black_radius_4"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="4dp"
+                android:text="@{data.missionDday == -1 ? `D-ing`: `D-`+data.missionDday}"
                 android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/iv_btn_state"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0"
-                tools:text="인증글 쓰기" />
-
-            <ImageView
-                android:id="@+id/iv_btn_state"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_mission_certify"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/tv_btn_state"
-                app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.461" />
+                tools:text="D-3" />
 
+            <TextView
+                android:id="@+id/tv_mission_title"
+                style="@style/TextView.Title.14.Sb"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@{data.missionTitle}"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_dday"
+                tools:text="건대 매운향솥가서 마라샹궈 먹기" />
+
+            <TextView
+                android:id="@+id/tv_mission_content"
+                style="@style/TextView.Caption.12.R"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@{data.missionStartDate + `~` + data.missionEndDate}"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_mission_title"
+                tools:text="23.02.12 ~ 23.02.29" />
+
+            <LinearLayout
+                android:id="@+id/layout_group_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_mission_content">
+
+                <ImageView
+                    imageBindFitXY="@{data.groupImageUrl}"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:background="@drawable/shape_gray100_radius_12_gray200"
+                    android:foreground="@drawable/shape_oval_gray100"
+                    android:src="@drawable/img_no_group" />
+
+                <TextView
+                    android:id="@+id/tv_group_name"
+                    style="@style/TextView.Caption.12.M"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="6dp"
+                    android:gravity="center"
+                    android:text="@{data.groupName}"
+                    android:textColor="@color/white"
+                    tools:text="진우와 아이들" />
+            </LinearLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_mission_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/shape_black_radius_8"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layout_group_info">
+
+                <TextView
+                    android:id="@+id/tv_btn_state"
+                    style="@style/TextView.Title.12.Sb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:paddingVertical="11dp"
+                    android:text="@{data.missionStatus.length() == 5 ? `인증글 쓰기`:`인증하기`}"
+                    android:textColor="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/iv_btn_state"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0"
+                    tools:text="인증글 쓰기" />
+
+                <ImageView
+                    android:id="@+id/iv_btn_state"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@{data.missionStatus.length() == 5 ? @drawable/ic_mission_write: @drawable/ic_mission_certify}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/tv_btn_state"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.461"
+                    tools:src="@drawable/ic_mission_certify" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</com.google.android.material.card.MaterialCardView>
+    </com.google.android.material.card.MaterialCardView>
+</layout>
