@@ -154,7 +154,14 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
         }
 
         binding.ivPopup.setOnClickListener {
-            val bottomSheet = PopupBottomDialogDialog()
+            val bottomSheet = PopupBottomDialogDialog(
+                false,
+                contentId,
+                intent.getBooleanExtra(
+                    PostRecyclerViewAdapter.BOOKMARK,
+                    false
+                )
+            )
             bottomSheet.show(supportFragmentManager, bottomSheet.tag)
         }
 
@@ -199,7 +206,10 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
         }
 
         binding.scrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, _, _, _, _ ->
-            if (viewModel.isLoading.value == false && viewModel.isNoData.value != true && !v.canScrollVertically(1)) {
+            if (viewModel.isLoading.value == false && viewModel.isNoData.value != true && !v.canScrollVertically(
+                    1
+                )
+            ) {
                 viewModel.setLoading()
                 viewModel.setUpPageNumber()
                 viewModel.getComment(contentId)
@@ -215,7 +225,7 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
     private fun initData() {
         with(binding) {
             writeButton = intent.getBooleanExtra(PostRecyclerViewAdapter.WRITE_CHECK, false)
-            contentId = intent.getIntExtra(PostRecyclerViewAdapter.CONTENT_ID,0)
+            contentId = intent.getIntExtra(PostRecyclerViewAdapter.CONTENT_ID, 0)
 
             tvGroupName.text = intent.getStringExtra(PostRecyclerViewAdapter.GROUP_NAME).toString()
 
@@ -238,8 +248,8 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
             intent.getSerializableExtra(PostRecyclerViewAdapter.IMAGE) as MutableList<ResponsePostData.Data.Content.Images>
         }
 
-        viewModel.isSelectEmotionStatus.value = intent.getIntExtra(PostRecyclerViewAdapter.EMOTION_STATUS, -1)
-        Log.e("태그", viewModel.isSelectEmotionStatus.value.toString())
+        viewModel.isSelectEmotionStatus.value =
+            intent.getIntExtra(PostRecyclerViewAdapter.EMOTION_STATUS, -1)
 
         viewModel.setPageNumber(1)
 

@@ -44,4 +44,10 @@ object RepositoryModule {
     fun provideDetailRepository(detailDataSource: DetailDataSource): DetailRepository {
         return DetailRepositoryImpl(detailDataSource)
     }
+
+    @Provides
+    @Singleton
+    fun providePopupBottomRepository(popupBottomDataSource: PopupBottomDataSource): PopupBottomRepository {
+        return PopupBottomRepositoryImpl(popupBottomDataSource)
+    }
 }

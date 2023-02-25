@@ -37,13 +37,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private lateinit var groupRecyclerViewAdapter: GroupRecyclerViewAdapter
     private lateinit var postRecyclerViewAdapter: PostRecyclerViewAdapter
 
-    override fun initStartView() {
-        activityPopupWindowBinding = ActivityPopupWindowBinding.inflate(layoutInflater)
+    override fun onResume() {
+        super.onResume()
         binding.vm = homeViewModel
 
         homeViewModel.setLoading()
         homeViewModel.getSignGroup()
         homeViewModel.setPageNumber(1)
+    }
+
+    override fun initStartView() {
+        activityPopupWindowBinding = ActivityPopupWindowBinding.inflate(layoutInflater)
 
         // 그룹 리스트
         groupRecyclerViewAdapter = GroupRecyclerViewAdapter(
@@ -62,8 +66,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         binding.activityGroup.rvMyGroupPost.itemAnimator = null
 
         postRecyclerViewAdapter.apply {
-            setPopupBottomClickListener {
-                val bottomSheet = PopupBottomDialogDialog()
+            setPopupBottomClickListener { contentId, isSelected ->
+                val bottomSheet = PopupBottomDialogDialog(true, contentId, isSelected)
+                bottomSheet.setOnBookmarkListener {
+                    homeViewModel.getGroupPost()
+                }
                 bottomSheet.show(childFragmentManager, bottomSheet.tag)
             }
 

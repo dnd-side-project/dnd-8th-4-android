@@ -44,4 +44,10 @@ object ApiModule {
     fun provideDetailService(retrofit: Retrofit): DetailService {
         return retrofit.create(DetailService::class.java)
     }
+
+    @Provides
+    @Singleton
+    fun providePopupBottomService(retrofit: Retrofit): PopupBottomService {
+        return retrofit.create(PopupBottomService::class.java)
+    }
 }

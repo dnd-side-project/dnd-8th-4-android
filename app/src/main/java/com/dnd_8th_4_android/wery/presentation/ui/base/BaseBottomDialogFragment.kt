@@ -25,6 +25,7 @@ abstract class BaseBottomDialogFragment<T : ViewDataBinding>(@LayoutRes val layo
         savedInstanceState: Bundle?,
     ): View? {
         _binding = DataBindingUtil.inflate(inflater, layout, container, false)
+        binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }
 

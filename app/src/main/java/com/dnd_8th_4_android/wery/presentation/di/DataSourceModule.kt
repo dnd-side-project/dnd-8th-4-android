@@ -43,4 +43,10 @@ object DataSourceModule {
     fun provideDetailDataSource(detailService: DetailService): DetailDataSource {
         return DetailDataSourceImpl(detailService)
     }
+
+    @Provides
+    @Singleton
+    fun providePopupBottomDataSource(popupBottomService: PopupBottomService): PopupBottomDataSource {
+        return PopupBottomDataSourceImpl(popupBottomService)
+    }
 }

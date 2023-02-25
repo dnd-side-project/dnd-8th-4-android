@@ -2,6 +2,7 @@ package com.dnd_8th_4_android.wery.presentation.ui.home.adapter
 
 import android.content.Intent
 import android.graphics.Typeface
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,7 +23,7 @@ class PostRecyclerViewAdapter :
         diffUtil
     ) {
     private lateinit var binding: ItemPostBinding
-    private var postImageAdapter = PostImageAdapter()
+    private lateinit var postImageAdapter: PostImageAdapter
     private lateinit var popupBottomClickListener: PopupBottomClickListener
     private lateinit var popupWindowClickListener: PopupWindowClickListener
     private var viewPagerPosition = 0
@@ -61,7 +62,7 @@ class PostRecyclerViewAdapter :
 
             binding.vpPostImage.offscreenPageLimit = 1 // 몇 개의 페이지를 미리 로드 해둘것인지
 
-
+            postImageAdapter = PostImageAdapter()
             postImageAdapter.submitList(item.contentImage)
             postImageAdapter.setPostDetailImageListener {
                 goToPostDetail(item, false)
@@ -168,7 +169,7 @@ class PostRecyclerViewAdapter :
             }
 
             binding.ivPopup.setOnClickListener {
-                popupBottomClickListener.onClicked()
+                popupBottomClickListener.onClicked(item.id, item.bookmarkAddStatus)
             }
 
             binding.layoutEmotionButton.setOnClickListener {
@@ -227,14 +228,15 @@ class PostRecyclerViewAdapter :
             putExtra(CONTENT, item.content)
             putExtra(EMOTION_STATUS, item.emotionStatus)
             putExtra(IMAGE, item.contentImage)
+            putExtra(BOOKMARK, item.bookmarkAddStatus)
             binding.root.context.startActivity(this)
         }
     }
 
-    fun setPopupBottomClickListener(listener: () -> Unit) {
+    fun setPopupBottomClickListener(listener: (Int, Boolean) -> Unit) {
         popupBottomClickListener = object : PopupBottomClickListener {
-            override fun onClicked() {
-                listener()
+            override fun onClicked(contentId: Int, isSelected: Boolean) {
+                listener(contentId, isSelected)
             }
         }
     }
@@ -248,7 +250,7 @@ class PostRecyclerViewAdapter :
     }
 
     interface PopupBottomClickListener {
-        fun onClicked()
+        fun onClicked(contentId: Int, isSelected: Boolean)
     }
 
     interface PopupWindowClickListener {
@@ -266,6 +268,7 @@ class PostRecyclerViewAdapter :
         const val CONTENT = "content"
         const val EMOTION_STATUS = "emotion_status"
         const val IMAGE = "image"
+        const val BOOKMARK = "bookmark_selected"
 
         private val diffUtil = object : DiffUtil.ItemCallback<ResponsePostData.Data.Content>() {
             override fun areItemsTheSame(
