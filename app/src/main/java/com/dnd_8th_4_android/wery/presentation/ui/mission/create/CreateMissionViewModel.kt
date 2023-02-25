@@ -3,6 +3,7 @@ package com.dnd_8th_4_android.wery.presentation.ui.mission.create
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -26,13 +27,15 @@ class CreateMissionViewModel : ViewModel() {
         val current = LocalDateTime.now()
         val formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
         val startFormatted = current.format(formatter)
-        val endFormatted = current.plusDays(7).format(formatter)
+        val endFormatted = current.plusWeeks(1).format(formatter)
 
         _starDateTxt.value = startFormatted
         _endDateTxt.value = endFormatted
     }
 
-    fun setSelectedDate() {
-
+    fun setSelectedDate(year: Int, month: Int, day: Int) {
+        val formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
+        _starDateTxt.value = LocalDate.of(year,month,day).format(formatter)
+        _endDateTxt.value = LocalDate.of(year,month,day).plusWeeks(1).format(formatter)
     }
 }

@@ -1,6 +1,7 @@
 package com.dnd_8th_4_android.wery.presentation.ui.mission.create
 
 import android.app.Activity
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -16,6 +17,8 @@ import com.dnd_8th_4_android.wery.presentation.ui.base.BaseActivity
 import com.dnd_8th_4_android.wery.presentation.ui.write.place.view.SearchPlaceActivity
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
+import java.util.*
+
 
 class CreateMissionActivity :
     BaseActivity<ActivityCreateMissionBinding>(R.layout.activity_create_mission) {
@@ -80,6 +83,13 @@ class CreateMissionActivity :
         })
         binding.layoutMissionPlace.setOnClickListener {
             requestSearchActivity.launch(Intent(this, SearchPlaceActivity::class.java))
+        }
+        binding.layoutDate.setOnClickListener {
+            val cal = Calendar.getInstance()
+            val data = DatePickerDialog.OnDateSetListener { view, year, month, day ->
+                viewModel.setSelectedDate(year,month + 1,day)
+            }
+            DatePickerDialog(this, data, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH)).show()
         }
     }
 
