@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_sticker"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginVertical="20dp"
+            android:background="@drawable/shape_white_radius_8"
+            android:scaleType="fitCenter"
+            android:src="@drawable/img_no_group"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="5:4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <FrameLayout
+            android:id="@+id/frame_layout_lock"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/shape_black50_radius_8"
+            app:layout_constraintBottom_toBottomOf="@id/iv_sticker"
+            app:layout_constraintEnd_toEndOf="@id/iv_sticker"
+            app:layout_constraintStart_toStartOf="@id/iv_sticker"
+            app:layout_constraintTop_toTopOf="@id/iv_sticker">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_sticker_lock" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_sticker_info"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="32dp"
+            android:layout_marginStart="16dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iv_sticker"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tv_sticker_name"
+                style="@style/TextView.Title.14.Sb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                tools:text="위어리 알유 위어리?" />
+
+            <TextView
+                android:id="@+id/tv_sticker_level"
+                style="@style/TextView.Caption.12.M"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:textColor="@color/color_f47aff"
+                tools:text="Lv.2" />
+
+            <TextView
+                android:id="@+id/tv_sticker_due"
+                style="@style/TextView.Caption.12.R"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/sticker_infinite"
+                android:textColor="@color/gray700" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

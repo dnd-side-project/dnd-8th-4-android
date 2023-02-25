@@ -43,6 +43,7 @@
             app:cardBackgroundColor="@color/gray50"
             app:cardCornerRadius="8dp"
             app:cardElevation="0dp"
+            app:layout_constraintBottom_toTopOf="@id/view_sticker"
             app:layout_constraintEnd_toEndOf="@id/tv_sticker_info"
             app:layout_constraintStart_toStartOf="@id/tv_sticker_info"
             app:layout_constraintTop_toBottomOf="@id/tv_sticker_info"
@@ -169,6 +170,7 @@
             android:id="@+id/view_sticker"
             android:layout_width="match_parent"
             android:layout_height="8dp"
+            android:layout_marginTop="28dp"
             android:background="@color/gray100"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -202,11 +204,11 @@
             android:id="@+id/rv_sticker"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            tools:listitem="@layout/item_sticker"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_earn_sticker" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
