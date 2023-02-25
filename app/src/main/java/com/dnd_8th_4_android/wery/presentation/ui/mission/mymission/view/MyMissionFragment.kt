@@ -1,5 +1,6 @@
 package com.dnd_8th_4_android.wery.presentation.ui.mission.mymission.view
 
+import android.content.Intent
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.data.remote.model.mission.ResponseMissionCard
 import com.dnd_8th_4_android.wery.databinding.FragmentMyMissionBinding
@@ -11,7 +12,7 @@ import com.dnd_8th_4_android.wery.presentation.ui.mission.mymission.adapter.Reco
 class MyMissionFragment : BaseFragment<FragmentMyMissionBinding>(R.layout.fragment_my_mission) {
 
     private lateinit var missionCardAdapter: MissionCardAdapter
-    private lateinit var recommendMissionAdapter:RecommendMissionAdapter
+    private lateinit var recommendMissionAdapter: RecommendMissionAdapter
     override fun initStartView() {
         initMissionCardAdapter()
         initRecommendMissionAdapter()
@@ -21,6 +22,9 @@ class MyMissionFragment : BaseFragment<FragmentMyMissionBinding>(R.layout.fragme
     }
 
     override fun initAfterBinding() {
+        binding.includeMissionExist.layoutProgressMission.setOnClickListener {
+            startActivity(Intent(requireContext(), MissionProgressActivity::class.java))
+        }
     }
 
     private fun initMissionCardAdapter() {

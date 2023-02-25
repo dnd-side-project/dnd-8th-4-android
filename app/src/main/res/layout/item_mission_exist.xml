@@ -40,6 +40,7 @@
             app:strokeWidth="1dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_progress_mission"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingStart="28dp"
