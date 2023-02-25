@@ -190,7 +190,7 @@
                     android:textColor="@color/black" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/etv_mission_place"
+                    android:id="@+id/layout_mission_place"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -219,8 +219,9 @@
                         android:gravity="center_vertical"
                         android:maxLines="1"
                         android:padding="10dp"
-                        android:text="@string/create_mission_place_hint"
-                        android:textColor="@color/gray500"
+                        android:text="@{vm.selectedPlaceTxt.equals(@string/create_mission_place_hint) ? @string/create_mission_place_hint : vm.selectedPlaceTxt}"
+                        tools:text="@string/create_mission_place_hint"
+                        android:textColor="@{vm.selectedPlaceTxt.equals(@string/create_mission_place_hint) ? @color/gray600 : @color/black}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/iv_search"
