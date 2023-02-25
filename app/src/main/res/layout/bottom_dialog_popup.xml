@@ -7,148 +7,139 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bottom_sheet_dialog_24"
-        android:paddingBottom="25dp">
+        android:orientation="vertical"
+        android:paddingBottom="12dp">
 
         <View
             android:id="@+id/view_line"
             android:layout_width="44dp"
             android:layout_height="4dp"
+            android:layout_gravity="center"
             android:layout_marginVertical="16dp"
-            android:background="@drawable/shape_e0e2e5_radius_4"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:background="@drawable/shape_e0e2e5_radius_4" />
 
-        <ImageView
-            android:id="@+id/iv_bookmark"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="29dp"
-            android:paddingStart="16dp"
-            android:src="@drawable/selector_bookmark"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/view_line" />
-
-        <TextView
-            android:id="@+id/tv_bookmark"
-            style="@style/TextView.Body.16.R"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:paddingStart="8dp"
-            android:text="@string/bottom_sheet_bookmark"
-            android:textColor="@color/black"
-            app:layout_constraintBottom_toBottomOf="@id/iv_bookmark"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/iv_bookmark"
-            app:layout_constraintTop_toTopOf="@id/iv_bookmark" />
-
-        <ImageView
-            android:id="@+id/iv_clip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="26dp"
-            android:paddingStart="16dp"
-            android:src="@drawable/ic_clip"
-            app:layout_constraintStart_toStartOf="@id/iv_bookmark"
-            app:layout_constraintTop_toBottomOf="@id/iv_bookmark" />
-
-        <TextView
-            android:id="@+id/tv_clip"
-            style="@style/TextView.Body.16.R"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:paddingStart="8dp"
-            android:text="@string/bottom_sheet_clip"
-            android:textColor="@color/black"
-            app:layout_constraintBottom_toBottomOf="@id/iv_clip"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/iv_clip"
-            app:layout_constraintTop_toTopOf="@id/iv_clip" />
-
-        <View
-            android:id="@+id/view_line2"
+        <LinearLayout
+            android:id="@+id/layout_bookmark"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="25dp"
-            android:background="@color/gray100"
-            app:layout_constraintTop_toBottomOf="@id/iv_clip" />
-
-        <ImageView
-            android:id="@+id/iv_modify"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:paddingStart="16dp"
-            android:src="@drawable/ic_modify"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/view_line2" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingVertical="14dp"
+            android:paddingStart="16dp">
 
-        <TextView
-            android:id="@+id/tv_modify"
-            style="@style/TextView.Body.16.R"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:paddingStart="8dp"
-            android:text="@string/bottom_sheet_modify"
-            android:textColor="@color/black"
-            app:layout_constraintBottom_toBottomOf="@id/iv_modify"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/iv_modify"
-            app:layout_constraintTop_toTopOf="@id/iv_modify" />
+            <ImageView
+                android:id="@+id/iv_bookmark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/selector_bookmark" />
 
-        <ImageView
-            android:id="@+id/iv_remove"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="26dp"
-            android:paddingStart="16dp"
-            android:src="@drawable/ic_remove"
-            app:layout_constraintStart_toStartOf="@id/iv_modify"
-            app:layout_constraintTop_toBottomOf="@id/iv_modify" />
+            <TextView
+                android:id="@+id/tv_bookmark"
+                style="@style/TextView.Body.16.R"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:text="@string/bottom_sheet_bookmark"
+                android:textColor="@color/black" />
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/tv_remove"
-            style="@style/TextView.Body.16.R"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:id="@+id/layout_clip"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="8dp"
-            android:text="@string/bottom_sheet_remove"
-            android:textColor="@color/color_eb0555"
-            app:layout_constraintBottom_toBottomOf="@id/iv_remove"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/iv_remove"
-            app:layout_constraintTop_toTopOf="@id/iv_remove" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingVertical="14dp"
+            android:paddingStart="16dp">
 
-        <androidx.constraintlayout.helper.widget.Layer
-            android:id="@+id/layer_remove"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:constraint_referenced_ids="iv_remove,tv_remove"
-            tools:ignore="MissingConstraints" />
+            <ImageView
+                android:id="@+id/iv_clip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_clip" />
 
-        <androidx.constraintlayout.helper.widget.Layer
-            android:id="@+id/layer_bookmark"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:constraint_referenced_ids="iv_bookmark,tv_bookmark"
-            tools:ignore="MissingConstraints" />
+            <TextView
+                android:id="@+id/tv_clip"
+                style="@style/TextView.Body.16.R"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:text="@string/bottom_sheet_clip"
+                android:textColor="@color/black" />
+        </LinearLayout>
 
-        <androidx.constraintlayout.helper.widget.Layer
-            android:id="@+id/layer_clip"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/layout_mine"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:constraint_referenced_ids="iv_clip,tv_clip"
-            tools:ignore="MissingConstraints" />
+            android:orientation="vertical">
 
-        <androidx.constraintlayout.helper.widget.Layer
-            android:id="@+id/layer_modify"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:constraint_referenced_ids="tv_modify,iv_modify"
-            tools:ignore="MissingConstraints" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <View
+                android:id="@+id/view_line2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginVertical="12dp"
+                android:background="@color/gray100" />
+
+            <LinearLayout
+                android:id="@+id/layout_modify"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingVertical="14dp"
+                android:paddingStart="16dp">
+
+                <ImageView
+                    android:id="@+id/iv_modify"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_modify"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/view_line2" />
+
+                <TextView
+                    android:id="@+id/tv_modify"
+                    style="@style/TextView.Body.16.R"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:text="@string/bottom_sheet_modify"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_delete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingVertical="14dp"
+                android:paddingStart="16dp">
+
+                <ImageView
+                    android:id="@+id/iv_remove"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_remove" />
+
+                <TextView
+                    android:id="@+id/tv_remove"
+                    style="@style/TextView.Body.16.R"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:text="@string/bottom_sheet_remove"
+                    android:textColor="@color/color_eb0555" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
 </layout>

@@ -1,14 +1,20 @@
 package com.dnd_8th_4_android.wery.presentation.util
 
-import android.util.Log
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.dnd_8th_4_android.wery.R
+import com.dnd_8th_4_android.wery.data.local.AuthLocalDataSource
 import com.dnd_8th_4_android.wery.databinding.BottomDialogPopupBinding
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseBottomDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class PopupBottomDialog(private val homeSelect: Boolean, private val contentId: Int, private val selected: Boolean) :
+class PopupBottomDialog(
+    private val homeSelect: Boolean,
+    private val contentId: Int,
+    private val postMine: Int,
+    private val selected: Boolean,
+) :
     BaseBottomDialogFragment<BottomDialogPopupBinding>(R.layout.bottom_dialog_popup) {
     private val viewModel: PopupBottomViewModel by viewModels()
     private lateinit var onBookmarkListener: OnBookMarkListener
@@ -16,6 +22,16 @@ class PopupBottomDialog(private val homeSelect: Boolean, private val contentId: 
     override fun initAfterBinding() {
         viewModel.setOnBookmark(selected)
         viewModel.setIsHomeSelect(homeSelect)
+
+        if (postMine != AuthLocalDataSource(requireContext()).userId) {
+            binding.viewLine2.isVisible = false
+            binding.layoutModify.isVisible = false
+            binding.layoutDelete.isVisible = false
+        } else {
+            binding.viewLine2.isVisible = true
+            binding.layoutModify.isVisible = true
+            binding.layoutDelete.isVisible = true
+        }
 
         viewModel.isSelectedBookmark.observe(viewLifecycleOwner) {
             if (it) {
@@ -26,11 +42,11 @@ class PopupBottomDialog(private val homeSelect: Boolean, private val contentId: 
             binding.ivBookmark.isSelected = it
         }
 
-        binding.layerBookmark.setOnClickListener {
+        binding.layoutBookmark.setOnClickListener {
             viewModel.setBookmark(contentId)
         }
 
-        binding.layerRemove.setOnClickListener {
+        binding.layoutDelete.setOnClickListener {
             val postRemoveDialog = PostRemoveDialog()
             postRemoveDialog.setOnPostDeleteListener {
                 viewModel.isHomeSelect.value = true
@@ -47,7 +63,7 @@ class PopupBottomDialog(private val homeSelect: Boolean, private val contentId: 
     }
 
     fun setOnBookmarkListener(listener: () -> Unit) {
-        onBookmarkListener = object : OnBookMarkListener{
+        onBookmarkListener = object : OnBookMarkListener {
             override fun onClicked() {
                 listener()
             }

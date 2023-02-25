@@ -83,7 +83,7 @@ class PostDetailViewModel @Inject constructor(
                 _isNoData.value = it.data.content.size != _pageNumber.value!! * 10
 
                 // TODO 댓글 총 개수 response 필요
-                _commentCount.value = it.data.content.size
+                _commentCount.value = _commentList.value!!.size
             }.onFailure {
                 Timber.tag("error").d(it.message.toString())
             }

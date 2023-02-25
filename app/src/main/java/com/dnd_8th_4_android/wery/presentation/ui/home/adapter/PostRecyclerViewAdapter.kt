@@ -169,7 +169,7 @@ class PostRecyclerViewAdapter :
             }
 
             binding.ivPopup.setOnClickListener {
-                popupBottomClickListener.onClicked(item.id, item.bookmarkAddStatus)
+                popupBottomClickListener.onClicked(item.id, item.userId, item.bookmarkAddStatus)
             }
 
             binding.layoutEmotionButton.setOnClickListener {
@@ -220,6 +220,7 @@ class PostRecyclerViewAdapter :
         Intent(binding.root.context, PostDetailActivity::class.java).apply {
             putExtra(WRITE_CHECK, checkWrite)
             putExtra(CONTENT_ID, item.id)
+            putExtra(USER_ID, item.userId)
             putExtra(GROUP_NAME, item.groupName)
             putExtra(USER_IMAGE, item.image)
             putExtra(NAME, item.name)
@@ -233,10 +234,10 @@ class PostRecyclerViewAdapter :
         }
     }
 
-    fun setPopupBottomClickListener(listener: (Int, Boolean) -> Unit) {
+    fun setPopupBottomClickListener(listener: (Int, Int, Boolean) -> Unit) {
         popupBottomClickListener = object : PopupBottomClickListener {
-            override fun onClicked(contentId: Int, isSelected: Boolean) {
-                listener(contentId, isSelected)
+            override fun onClicked(contentId: Int, postMine: Int,  isSelected: Boolean) {
+                listener(contentId, postMine, isSelected)
             }
         }
     }
@@ -250,7 +251,7 @@ class PostRecyclerViewAdapter :
     }
 
     interface PopupBottomClickListener {
-        fun onClicked(contentId: Int, isSelected: Boolean)
+        fun onClicked(contentId: Int, postMine: Int, isSelected: Boolean)
     }
 
     interface PopupWindowClickListener {
@@ -259,7 +260,8 @@ class PostRecyclerViewAdapter :
 
     companion object {
         const val WRITE_CHECK = "write_check"
-        const val CONTENT_ID= "content_id"
+        const val CONTENT_ID = "content_id"
+        const val USER_ID = "user_id"
         const val GROUP_NAME = "group_name"
         const val USER_IMAGE = "user_image"
         const val NAME = "name"

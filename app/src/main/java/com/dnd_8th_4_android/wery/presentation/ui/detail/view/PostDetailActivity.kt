@@ -156,6 +156,7 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
             val bottomSheet = PopupBottomDialog(
                 false,
                 contentId,
+                intent.getIntExtra(PostRecyclerViewAdapter.USER_ID, -1),
                 intent.getBooleanExtra(
                     PostRecyclerViewAdapter.BOOKMARK,
                     false

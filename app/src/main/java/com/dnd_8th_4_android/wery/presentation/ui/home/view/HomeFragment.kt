@@ -66,8 +66,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         binding.activityGroup.rvMyGroupPost.itemAnimator = null
 
         postRecyclerViewAdapter.apply {
-            setPopupBottomClickListener { contentId, isSelected ->
-                val bottomSheet = PopupBottomDialog(true, contentId, isSelected)
+            setPopupBottomClickListener { contentId, postMine, isSelected ->
+                val bottomSheet = PopupBottomDialog(true, contentId, postMine, isSelected)
                 bottomSheet.setOnBookmarkListener {
                     homeViewModel.getGroupPost()
                 }
@@ -94,6 +94,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         homeViewModel.isLoading.observe(viewLifecycleOwner) {
             if (it) showLoadingDialog(requireContext())
             else dismissLoadingDialog()
+        }
+
+        homeViewModel.isExistGroup.observe(viewLifecycleOwner) {
+            if (!it) homeViewModel.setUnLoading()
         }
 
         // 그룹 리스트가 바뀌는 경우) 1. 스와이프 2. 홈 탭
