@@ -186,6 +186,7 @@
     <string name="access_group_invite_button">초대하기</string>
     <string name="access_group_day">D-%1$d</string>
     <string name="access_group_d_day">D-day</string>
+    <string name="access_group_day_ing">D-ing</string>
 
     <!-- MissionDetailActivity -->
     <string name="mission_detail_show_detail">미션 상세보기</string>

@@ -63,8 +63,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
         // 그룹 게시글
         postRecyclerViewAdapter = PostRecyclerViewAdapter()
-        binding.activityGroup.rvMyGroupPost.adapter = postRecyclerViewAdapter
-        binding.activityGroup.rvMyGroupPost.itemAnimator = null
+        binding.activityGroup.rvMyGroupPost.apply {
+            adapter = postRecyclerViewAdapter
+            itemAnimator = null
+            isNestedScrollingEnabled = false
+        }
 
         postRecyclerViewAdapter.apply {
             setPopupBottomClickListener { contentId, postMine, isSelected ->
@@ -157,7 +160,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         }
 
         binding.activityGroup.scrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, _, _, _, _ ->
-            if (homeViewModel.isLoading.value == false && homeViewModel.isNoData.value != true && !v.canScrollVertically(1)) {
+            if (homeViewModel.isLoading.value == false && homeViewModel.isNoData.value != true && !v.canScrollVertically(
+                    1
+                )
+            ) {
                 homeViewModel.setLoading()
                 homeViewModel.setUpPageNumber()
 
@@ -207,32 +213,56 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         popupWindow.showAsDropDown(view, 50, -250)
 
         activityPopupWindowBinding!!.ivEmotionOne.setOnClickListener {
-            setEmotion(contentId, position, RequestEmotionStatus(PopupWindowType.Type1.emotionPosition))
+            setEmotion(
+                contentId,
+                position,
+                RequestEmotionStatus(PopupWindowType.Type1.emotionPosition)
+            )
             popupWindow.dismiss()
         }
 
         activityPopupWindowBinding!!.ivEmotionTwo.setOnClickListener {
-            setEmotion(contentId, position, RequestEmotionStatus(PopupWindowType.Type2.emotionPosition))
+            setEmotion(
+                contentId,
+                position,
+                RequestEmotionStatus(PopupWindowType.Type2.emotionPosition)
+            )
             popupWindow.dismiss()
         }
 
         activityPopupWindowBinding!!.ivEmotionThree.setOnClickListener {
-            setEmotion(contentId, position, RequestEmotionStatus(PopupWindowType.Type3.emotionPosition))
+            setEmotion(
+                contentId,
+                position,
+                RequestEmotionStatus(PopupWindowType.Type3.emotionPosition)
+            )
             popupWindow.dismiss()
         }
 
         activityPopupWindowBinding!!.ivEmotionFour.setOnClickListener {
-            setEmotion(contentId, position, RequestEmotionStatus(PopupWindowType.Type4.emotionPosition))
+            setEmotion(
+                contentId,
+                position,
+                RequestEmotionStatus(PopupWindowType.Type4.emotionPosition)
+            )
             popupWindow.dismiss()
         }
 
         activityPopupWindowBinding!!.ivEmotionFive.setOnClickListener {
-            setEmotion(contentId, position, RequestEmotionStatus(PopupWindowType.Type5.emotionPosition))
+            setEmotion(
+                contentId,
+                position,
+                RequestEmotionStatus(PopupWindowType.Type5.emotionPosition)
+            )
             popupWindow.dismiss()
         }
 
         activityPopupWindowBinding!!.ivEmotionSix.setOnClickListener {
-            setEmotion(contentId, position, RequestEmotionStatus(PopupWindowType.Type6.emotionPosition))
+            setEmotion(
+                contentId,
+                position,
+                RequestEmotionStatus(PopupWindowType.Type6.emotionPosition)
+            )
             popupWindow.dismiss()
         }
     }

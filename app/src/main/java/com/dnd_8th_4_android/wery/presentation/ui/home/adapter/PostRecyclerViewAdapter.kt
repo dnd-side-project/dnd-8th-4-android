@@ -17,6 +17,7 @@ import com.dnd_8th_4_android.wery.data.remote.model.home.ResponsePostData
 import com.dnd_8th_4_android.wery.databinding.ItemPostBinding
 import com.dnd_8th_4_android.wery.domain.model.PopupWindowType
 import com.dnd_8th_4_android.wery.presentation.ui.detail.view.PostDetailActivity
+import java.time.LocalDate
 
 class PostRecyclerViewAdapter :
     ListAdapter<ResponsePostData.Data.Content, PostRecyclerViewAdapter.ViewHolder>(
@@ -119,7 +120,12 @@ class PostRecyclerViewAdapter :
                 binding.tvCommentCount.isVisible = false
             }
 
-            binding.tvTime.text = item.time.substring(IntRange(11, 15))
+            if (LocalDate.now().toString() == item.createAt.substring(IntRange(0, 10))) {
+                binding.tvTime.text = item.createAt.substring(IntRange(11, 15)).replace("-", ".")
+            } else {
+                binding.tvTime.text = item.createAt.substring(IntRange(2, 9)).replace("-", ".")
+            }
+
             binding.tvHitCount.text = item.hit
 
             if (item.emotionStatus != -1) {
@@ -221,7 +227,7 @@ class PostRecyclerViewAdapter :
             putExtra(WRITE_CHECK, checkWrite)
             putExtra(CONTENT_ID, item.id)
             putExtra(GROUP_NAME, item.groupName)
-            putExtra(TIME, item.time)
+            putExtra(TIME, item.createAt)
             putExtra(USER_IMAGE, item.image)
             putExtra(CONTENT, item.content)
             putExtra(EMOTION_STATUS, item.emotionStatus)

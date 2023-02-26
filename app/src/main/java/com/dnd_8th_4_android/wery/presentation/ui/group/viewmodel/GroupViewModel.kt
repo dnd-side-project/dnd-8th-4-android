@@ -1,12 +1,13 @@
 package com.dnd_8th_4_android.wery.presentation.ui.group.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dnd_8th_4_android.wery.data.remote.model.group.ResponseBookmarkData
+import com.dnd_8th_4_android.wery.data.remote.model.home.RequestEmotionStatus
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseGroupData
+import com.dnd_8th_4_android.wery.data.remote.model.home.ResponsePostData
 import com.dnd_8th_4_android.wery.domain.repository.GroupRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -26,9 +27,8 @@ class GroupViewModel @Inject constructor(private val groupRepository: GroupRepos
     private val _groupList = MutableLiveData<MutableList<ResponseGroupData.Data.GroupInfo>>()
     val groupList: LiveData<MutableList<ResponseGroupData.Data.GroupInfo>> = _groupList
 
-
-    private val _isUpdateGroup = MutableLiveData<MutableList<ResponseGroupData.Data>>()
-    val isUpdateGroup: LiveData<MutableList<ResponseGroupData.Data>> = _isUpdateGroup
+    private val _isLoading: MutableLiveData<Boolean> = MutableLiveData()
+    val isLoading: LiveData<Boolean> = _isLoading
 
     // 즐겨찾기한 그룹 목록 조회
     fun getBookmarkList() {
@@ -73,5 +73,13 @@ class GroupViewModel @Inject constructor(private val groupRepository: GroupRepos
                 Timber.tag("error").d(it.message.toString())
             }
         }
+    }
+
+    fun setLoading() {
+        _isLoading.value = true
+    }
+
+    fun setUnLoading() {
+        _isLoading.value = false
     }
 }

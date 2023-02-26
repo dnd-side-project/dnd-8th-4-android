@@ -17,7 +17,7 @@ data class ResponsePostData(
             val groupName: String,
             val content: String,
             val location: String?,
-            @SerializedName("createAt") val time: String,
+            val createAt: String,
             @SerializedName("views") val hit: String,
             val comments: Int,
             val emotions: Int,

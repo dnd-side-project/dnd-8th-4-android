@@ -1,6 +1,5 @@
 package com.dnd_8th_4_android.wery.presentation.ui.group.adapter
 
-import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -9,67 +8,47 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.dnd_8th_4_android.wery.R
-import com.dnd_8th_4_android.wery.data.remote.model.group.ResponseAccessGroupData
+import com.dnd_8th_4_android.wery.data.remote.model.group.ResponseGroupMissionData
+import com.dnd_8th_4_android.wery.data.remote.model.mission.ResponseMissionCard
 import com.dnd_8th_4_android.wery.databinding.ItemYesMissionBinding
 
-
 class AccessGroupMissionRecyclerViewAdapter :
-    ListAdapter<ResponseAccessGroupData.Data, AccessGroupMissionRecyclerViewAdapter.ViewHolder>(
+    ListAdapter<ResponseGroupMissionData.Data, AccessGroupMissionRecyclerViewAdapter.ViewHolder>(
         diffUtil
     ) {
     private lateinit var binding: ItemYesMissionBinding
 
     inner class ViewHolder(private val binding: ItemYesMissionBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: ResponseAccessGroupData.Data) {
+        fun bind(item: ResponseGroupMissionData.Data) {
 
-            if (item.day != 1) {
-                when (adapterPosition) {
-                    1 -> binding.layoutMission.backgroundTintList = ColorStateList.valueOf(
-                        ContextCompat.getColor(
-                            binding.root.context,
-                            R.color.color_f47aff
-                        )
-                    )
-                    2 -> binding.layoutMission.backgroundTintList = ColorStateList.valueOf(
-                        ContextCompat.getColor(
-                            binding.root.context,
-                            R.color.color_34c18e
-                        )
-                    )
-                    else -> binding.layoutMission.backgroundTintList = ColorStateList.valueOf(
-                        ContextCompat.getColor(
-                            binding.root.context,
-                            R.color.color_3f75ff
-                        )
-                    )
-                }
-                binding.tvRemainDay.text =
-                    binding.root.resources.getString(R.string.access_group_day, item.day)
+            binding.ivFire.isVisible = item.missionDday in -1..3
 
-                binding.ivFire.isVisible = item.day in 2..3
-            } else {
-                binding.tvRemainDay.text =
+            if (item.existPeriod) {
+                binding.tvRemainDay.text = if (item.missionDday != -1) {
+                    binding.root.resources.getString(R.string.access_group_day, item.missionDday)
+                } else {
                     binding.root.resources.getString(R.string.access_group_d_day)
-                binding.ivFire.isVisible = true
-            }
-
-
-            binding.tvMissionContent.text = item.content
-            binding.tvStartDay.text = item.startDay
-            binding.tvEndDay.text = item.endDay
-
-            if (item.isSelected) {
-                binding.btnCertify.icon =
-                    ContextCompat.getDrawable(binding.root.context, R.drawable.ic_check_write)
-                binding.btnCertify.text =
-                    binding.root.resources.getString(R.string.yes_mission_certify_write)
+                }
             } else {
-                binding.btnCertify.icon =
-                    ContextCompat.getDrawable(binding.root.context, R.drawable.ic_check)
-                binding.btnCertify.text =
-                    binding.root.resources.getString(R.string.yes_mission_certify)
+                binding.root.resources.getString(R.string.access_group_day_ing)
             }
+
+            binding.tvMissionContent.text = item.missionTitle
+            binding.tvStartDay.text = item.missionStartDate.substring(IntRange(2, 9))
+            binding.tvEndDay.text = item.missionEndDate.substring(IntRange(2, 9))
+
+//            if (item.userAssignMissionInfoList[0].locationCheck) {
+//                binding.btnCertify.icon =
+//                    ContextCompat.getDrawable(binding.root.context, R.drawable.ic_check_write)
+//                binding.btnCertify.text =
+//                    binding.root.resources.getString(R.string.yes_mission_certify_write)
+//            } else {
+//                binding.btnCertify.icon =
+//                    ContextCompat.getDrawable(binding.root.context, R.drawable.ic_check)
+//                binding.btnCertify.text =
+//                    binding.root.resources.getString(R.string.yes_mission_certify)
+//            }
         }
     }
 
@@ -83,17 +62,17 @@ class AccessGroupMissionRecyclerViewAdapter :
     }
 
     companion object {
-        private val diffUtil = object : DiffUtil.ItemCallback<ResponseAccessGroupData.Data>() {
+        private val diffUtil = object : DiffUtil.ItemCallback<ResponseGroupMissionData.Data>() {
             override fun areItemsTheSame(
-                oldItem: ResponseAccessGroupData.Data,
-                newItem: ResponseAccessGroupData.Data,
+                oldItem: ResponseGroupMissionData.Data,
+                newItem: ResponseGroupMissionData.Data,
             ): Boolean {
                 return oldItem == newItem
             }
 
             override fun areContentsTheSame(
-                oldItem: ResponseAccessGroupData.Data,
-                newItem: ResponseAccessGroupData.Data,
+                oldItem: ResponseGroupMissionData.Data,
+                newItem: ResponseGroupMissionData.Data,
             ): Boolean {
                 return oldItem == newItem
             }
