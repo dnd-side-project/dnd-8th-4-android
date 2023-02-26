@@ -39,6 +39,7 @@
                 android:hint="@string/home_search_hint"
                 android:imeOptions="actionSearch"
                 android:inputType="text"
+                android:maxLines="1"
                 android:paddingHorizontal="38dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/iv_back"
@@ -78,8 +79,9 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_search"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/layout_search_top">
 
             <TextView
@@ -95,6 +97,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/tv_post_count"
                 style="@style/TextView.Title.16.Sb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -130,11 +133,12 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_search"
                 dividerColor="@{@color/gray100}"
-                dividerHeight="@{@dimen/home_post_list_item_divider_height}"
+                dividerHeight="@{@dimen/group_list_item_divider_height}"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:orientation="vertical"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_post" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

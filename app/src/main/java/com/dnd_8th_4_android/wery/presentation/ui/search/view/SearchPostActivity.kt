@@ -1,7 +1,8 @@
 package com.dnd_8th_4_android.wery.presentation.ui.search.view
 
 import android.os.Bundle
-import android.util.Log
+import android.os.Handler
+import android.os.Looper
 import android.view.inputmethod.EditorInfo
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
@@ -31,12 +32,19 @@ class SearchPostActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity
 
     private fun initDataBinding() {
         viewModel.searchPostList.observe(this) {
-            postSearchAdapter.submitList(it)
+            postSearchAdapter.submitList(it.toMutableList())
+            binding.tvPostCount.text = it.size.toString()
         }
     }
 
     private fun initStartView() {
         groupAllList = intent.getStringExtra(HomeFragment.GROUP_ALL_LIST)!!
+
+        binding.etSearch.requestFocus()
+        Handler(Looper.getMainLooper())
+            .postDelayed({
+                binding.etSearch.showKeyboard()
+            }, 400)
 
         binding.etSearch.doBeforeTextChanged { _, _, _, after ->
             binding.ivSearchClose.isVisible = after > 0
@@ -48,12 +56,13 @@ class SearchPostActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity
                 if (!binding.layoutSearch.isVisible) {
                     binding.layoutSearch.isVisible = true
                     binding.ivSearch.isVisible = false
-
-                    postSearchAdapter = PostSearchAdapter()
-                    binding.rvSearch.adapter = postSearchAdapter
-                    binding.rvSearch.itemAnimator = null
                 }
+                postSearchAdapter = PostSearchAdapter()
+                binding.rvSearch.adapter = postSearchAdapter
+                binding.rvSearch.itemAnimator = null
+
                 viewModel.getSearchPost(groupAllList, searchKeyword)
+                postSearchAdapter.wordText = searchKeyword
                 binding.etSearch.hideKeyboard()
                 binding.etSearch.clearFocus()
             }

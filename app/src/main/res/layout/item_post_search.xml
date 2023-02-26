@@ -10,7 +10,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:paddingTop="17dp"
+        android:paddingBottom="16dp"
+        android:paddingHorizontal="16dp">
 
         <TextView
             android:id="@+id/tv_post_content"
