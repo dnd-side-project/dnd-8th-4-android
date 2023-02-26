@@ -32,6 +32,9 @@ class WritingViewModel @Inject constructor(private val postRepository: PostRepos
     private val _isLoading: MutableLiveData<Boolean> = MutableLiveData()
     val isLoading: LiveData<Boolean> = _isLoading
 
+    private val _groupId: MutableLiveData<Long> = MutableLiveData()
+    val groupId: LiveData<Long> = _groupId
+
     private val _groupListData = MutableLiveData<List<ResponseGroupList.ResultGroupList>>()
     var groupListData: LiveData<List<ResponseGroupList.ResultGroupList>> = _groupListData
 
@@ -40,6 +43,10 @@ class WritingViewModel @Inject constructor(private val postRepository: PostRepos
 
     fun setPhotoCnt(cntValue: Int) {
         _photoCnt.value = cntValue
+    }
+
+    fun setGroupId(idValue: Long) {
+        _groupId.value = idValue
     }
 
     fun getGroupList() {

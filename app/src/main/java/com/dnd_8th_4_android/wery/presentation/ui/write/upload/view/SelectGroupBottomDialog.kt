@@ -28,8 +28,14 @@ class SelectGroupBottomDialog(
 
     private fun getSelectedGroup(data: ResponseGroupList.ResultGroupList) {
         when (fromViewType) {
-            "w" -> (viewModel as WritingViewModel).selectedGroup.value = data.groupName
-            "m" -> (viewModel as CreateMissionViewModel).selectedGroup.value = data.groupName
+            "w" -> {
+                (viewModel as WritingViewModel).selectedGroup.value = data.groupName
+                viewModel.setGroupId(data.id)
+            }
+            "m" -> {
+                (viewModel as CreateMissionViewModel).selectedGroup.value = data.groupName
+                // viewModel.setGroupId(data.id)
+            }
         }
         dismiss()
     }

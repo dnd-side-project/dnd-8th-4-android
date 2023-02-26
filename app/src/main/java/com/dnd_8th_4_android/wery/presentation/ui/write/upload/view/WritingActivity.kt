@@ -207,8 +207,8 @@ class WritingActivity : BaseActivity<ActivityWritingBinding>(R.layout.activity_w
                 writingViewModel.selectedLongitude.value!!,
                 binding.tvAddPlace.text.toString(),
             )
+            writingViewModel.uploadFeed(writingViewModel.groupId.value!!, textHasMap)
             writingViewModel.setLoadingState(true)
-            writingViewModel.uploadFeed()
             finish()
         }
     }
