@@ -34,9 +34,9 @@ class GroupFragment : BaseFragment<FragmentGroupBinding>(R.layout.fragment_group
         binding.rvGroupList.itemAnimator = null
 
         groupListViewAdapter.apply {
-//          setBookmarkClickListener {
-//              viewModel.setUpdateBookmark(it, groupBookmarkData, groupList)
-//          }
+            setBookmarkClickListener {
+                viewModel.setBookmark(it)
+            }
         }
     }
 

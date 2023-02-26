@@ -27,7 +27,6 @@ class GroupViewModel @Inject constructor(private val groupRepository: GroupRepos
     val groupList: LiveData<MutableList<ResponseGroupData.Data.GroupInfo>> = _groupList
 
 
-
     private val _isUpdateGroup = MutableLiveData<MutableList<ResponseGroupData.Data>>()
     val isUpdateGroup: LiveData<MutableList<ResponseGroupData.Data>> = _isUpdateGroup
 
@@ -56,6 +55,20 @@ class GroupViewModel @Inject constructor(private val groupRepository: GroupRepos
                 groupRepository.signGroup()
             }.onSuccess {
                 _groupList.value = it.data.groupInfoList
+            }.onFailure {
+                Timber.tag("error").d(it.message.toString())
+            }
+        }
+    }
+
+    // 그룹 즐겨찾기 등록
+    fun setBookmark(groupId: Int) {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                groupRepository.setBookmark(groupId)
+            }.onSuccess {
+                getBookmarkList()
+                getSignGroup()
             }.onFailure {
                 Timber.tag("error").d(it.message.toString())
             }

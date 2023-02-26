@@ -29,7 +29,7 @@ class GroupListRecyclerViewAdapter :
             binding.ivGroupBookmark.isSelected = item.isStarGroup
 
             binding.ivGroupBookmark.setOnClickListener {
-                bookmarkClickListener.onClicked(adapterPosition)
+                bookmarkClickListener.onClicked(item.id)
             }
 
             binding.layer.setOnClickListener {
@@ -59,14 +59,14 @@ class GroupListRecyclerViewAdapter :
 
     fun setBookmarkClickListener(listener: (Int) -> Unit) {
         bookmarkClickListener = object : BookmarkClickListener {
-            override fun onClicked(position: Int) {
-                listener(position)
+            override fun onClicked(groupId: Int) {
+                listener(groupId)
             }
         }
     }
 
     interface BookmarkClickListener {
-        fun onClicked(position: Int)
+        fun onClicked(groupId: Int)
     }
 
     companion object {
