@@ -61,4 +61,10 @@ object DataSourceModule {
     fun provideGroupDataSource(groupService: GroupService): GroupDataSource {
         return GroupDataSourceImpl(groupService)
     }
+
+    @Provides
+    @Singleton
+    fun providePostDataSource(postService: PostService): PostDataSource {
+        return PostDataSourceImpl(postService)
+    }
 }

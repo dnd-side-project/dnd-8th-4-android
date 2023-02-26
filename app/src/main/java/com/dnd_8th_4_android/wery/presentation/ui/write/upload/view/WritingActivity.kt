@@ -18,7 +18,9 @@ import com.dnd_8th_4_android.wery.presentation.ui.write.place.view.SearchPlaceAc
 import com.dnd_8th_4_android.wery.presentation.ui.write.upload.adapter.UploadPhotoAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.write.upload.viewmodel.WritingViewModel
 import com.dnd_8th_4_android.wery.presentation.util.DialogFragmentUtil
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class WritingActivity : BaseActivity<ActivityWritingBinding>(R.layout.activity_writing) {
 
     private lateinit var uploadPhotoAdapter: UploadPhotoAdapter
@@ -187,6 +189,7 @@ class WritingActivity : BaseActivity<ActivityWritingBinding>(R.layout.activity_w
         writingViewModel.selectedGroup.value = getString(R.string.writing_select_group)
         binding.layoutSelectGroup.setOnClickListener {
             writingViewModel.selectedGroupState.value = true
+            writingViewModel.getGroupList()
             SelectGroupBottomDialog(writingViewModel,"w").show(supportFragmentManager, null)
         }
     }
