@@ -220,12 +220,9 @@ class PostRecyclerViewAdapter :
         Intent(binding.root.context, PostDetailActivity::class.java).apply {
             putExtra(WRITE_CHECK, checkWrite)
             putExtra(CONTENT_ID, item.id)
-            putExtra(USER_ID, item.userId)
             putExtra(GROUP_NAME, item.groupName)
-            putExtra(USER_IMAGE, item.image)
-            putExtra(NAME, item.name)
             putExtra(TIME, item.time)
-            putExtra(LOCATION, item.location)
+            putExtra(USER_IMAGE, item.image)
             putExtra(CONTENT, item.content)
             putExtra(EMOTION_STATUS, item.emotionStatus)
             putExtra(IMAGE, item.contentImage)
@@ -261,12 +258,9 @@ class PostRecyclerViewAdapter :
     companion object {
         const val WRITE_CHECK = "write_check"
         const val CONTENT_ID = "content_id"
-        const val USER_ID = "user_id"
         const val GROUP_NAME = "group_name"
-        const val USER_IMAGE = "user_image"
-        const val NAME = "name"
         const val TIME = "time"
-        const val LOCATION = "location"
+        const val USER_IMAGE = "user_image"
         const val CONTENT = "content"
         const val EMOTION_STATUS = "emotion_status"
         const val IMAGE = "image"

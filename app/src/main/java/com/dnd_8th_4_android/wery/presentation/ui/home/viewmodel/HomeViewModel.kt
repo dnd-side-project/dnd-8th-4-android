@@ -39,9 +39,6 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
     private val _isNoData = MutableLiveData(false)
     val isNoData: LiveData<Boolean> = _isNoData
 
-    var isSearchOn = false
-    var searchWord = ""
-
     // 등록된 그룹 조회
     fun getSignGroup() {
         viewModelScope.launch {
@@ -117,27 +114,6 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
                     } else {
                         getGroupPost()
                     }
-                }
-            }.onFailure {
-                Timber.tag("error").d(it.message.toString())
-            }
-        }
-    }
-
-    // 피드 검색
-    fun groupPostSearch(isSelectGroupId: Int, word: String) {
-        viewModelScope.launch {
-            kotlin.runCatching {
-                if (isSelectGroupId != 0) {
-                    homeRepository.groupPostSearch(isSelectGroupId.toString(), word, _pageNumber.value!!)
-                } else {
-                    homeRepository.groupPostSearch(groupAllIdList.joinToString(), word, _pageNumber.value!!)
-                }
-            }.onSuccess {
-                if (it.data != null) {
-                    _postList.value = it.data.content
-                } else {
-                    _isNoData.value = it.data.content.size != _pageNumber.value!! * 10
                 }
             }.onFailure {
                 Timber.tag("error").d(it.message.toString())

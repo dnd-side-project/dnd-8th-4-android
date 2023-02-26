@@ -1,6 +1,5 @@
 package com.dnd_8th_4_android.wery.presentation.ui.detail.view
 
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -32,6 +31,7 @@ import com.dnd_8th_4_android.wery.presentation.util.PopupBottomDialog
 import com.dnd_8th_4_android.wery.presentation.util.hideKeyboard
 import com.dnd_8th_4_android.wery.presentation.util.showKeyboard
 import dagger.hilt.android.AndroidEntryPoint
+import java.time.LocalDate
 
 @AndroidEntryPoint
 class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.activity_post_detail) {
@@ -44,9 +44,9 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
     private lateinit var postDetailCommentRecyclerViewAdapter: PostDetailCommentRecyclerViewAdapter
     private lateinit var postDetailStickerRecyclerViewAdapter: PostDetailStickerRecyclerViewAdapter
 
-    private lateinit var imageList: MutableList<ResponsePostData.Data.Content.Images>
     private lateinit var stickerList: ResponsePostDetailStickerData.Data
 
+    private var userId = 0
     private var contentId = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,7 +64,7 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
         initData()
 
         // 게시글 이미지
-        postDetailImageRecyclerViewAdapter = PostDetailImageRecyclerViewAdapter(imageList)
+        postDetailImageRecyclerViewAdapter = PostDetailImageRecyclerViewAdapter()
         binding.rvPostImage.adapter = postDetailImageRecyclerViewAdapter
         binding.rvPostImage.isNestedScrollingEnabled = false
 
@@ -109,6 +109,14 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
             } else {
                 View.GONE
             }
+        }
+
+        viewModel.postDetailList.observe(this) {
+            postDetailImageRecyclerViewAdapter.submitList(it.imageList)
+            binding.tvHitCount.text = it.views.toString()
+            binding.tvLocation.text = it.location
+            binding.tvFriendName.text = it.userName
+            userId = it.userId
         }
 
         viewModel.emotionList.observe(this) {
@@ -156,7 +164,7 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
             val bottomSheet = PopupBottomDialog(
                 false,
                 contentId,
-                intent.getIntExtra(PostRecyclerViewAdapter.USER_ID, -1),
+                userId,
                 intent.getBooleanExtra(
                     PostRecyclerViewAdapter.BOOKMARK,
                     false
@@ -227,29 +235,26 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
             writeButton = intent.getBooleanExtra(PostRecyclerViewAdapter.WRITE_CHECK, false)
             contentId = intent.getIntExtra(PostRecyclerViewAdapter.CONTENT_ID, 0)
 
-            tvGroupName.text = intent.getStringExtra(PostRecyclerViewAdapter.GROUP_NAME).toString()
+            tvContent.text = intent.getStringExtra(PostRecyclerViewAdapter.CONTENT).toString()
 
             Glide.with(applicationContext)
                 .load(intent.getStringExtra(PostRecyclerViewAdapter.USER_IMAGE))
                 .into(binding.ivFriendImage)
 
-            tvFriendName.text = intent.getStringExtra(PostRecyclerViewAdapter.NAME).toString()
-            tvTime.text = intent.getStringExtra(PostRecyclerViewAdapter.TIME).toString()
-            tvLocation.text = intent.getStringExtra(PostRecyclerViewAdapter.LOCATION).toString()
-            tvContent.text = intent.getStringExtra(PostRecyclerViewAdapter.CONTENT).toString()
-        }
+            tvGroupName.text = intent.getStringExtra(PostRecyclerViewAdapter.GROUP_NAME).toString()
 
-        imageList = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            intent.getSerializableExtra(
-                PostRecyclerViewAdapter.IMAGE,
-                ResponsePostData.Data.Content.Images::class.java
-            ) as MutableList<ResponsePostData.Data.Content.Images>
-        } else {
-            intent.getSerializableExtra(PostRecyclerViewAdapter.IMAGE) as MutableList<ResponsePostData.Data.Content.Images>
+            val time = intent.getStringExtra(PostRecyclerViewAdapter.TIME).toString()
+            if (LocalDate.now().toString() == time.substring(IntRange(0, 10))) {
+                binding.tvTime.text = time.substring(IntRange(11, 15)).replace("-", ".")
+            } else {
+                binding.tvTime.text = time.substring(IntRange(2, 9)).replace("-", ".")
+            }
         }
 
         viewModel.isSelectEmotionStatus.value =
             intent.getIntExtra(PostRecyclerViewAdapter.EMOTION_STATUS, -1)
+
+        viewModel.getPostDetail(contentId)
 
         viewModel.setPageNumber(1)
 
