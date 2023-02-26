@@ -17,7 +17,7 @@ interface PostService {
     suspend fun postFeed(
         @Query("groupId") groupId: Long,
         @PartMap request: HashMap<String, RequestBody>,
-        @Part multipartFile: ArrayList<MultipartBody.Part>
+        @Part multipartFile: MutableList<MultipartBody.Part>
     ): Response<BaseResponse>
 
 }

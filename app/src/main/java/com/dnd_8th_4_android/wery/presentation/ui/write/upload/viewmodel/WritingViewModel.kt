@@ -1,5 +1,6 @@
 package com.dnd_8th_4_android.wery.presentation.ui.write.upload.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,6 +14,7 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -59,12 +61,17 @@ class WritingViewModel @Inject constructor(private val postRepository: PostRepos
 
     fun uploadFeed(
         groupId: Long,
-        requestBody: HashMap<String, RequestBody>,
-        multipartFile: ArrayList<MultipartBody.Part>
+        request: HashMap<String, RequestBody>,
+        multipartFile: MutableList<MultipartBody.Part>
     ) {
         viewModelScope.launch {
-            postRepository.uploadFeed(groupId, requestBody, multipartFile).onSuccess {
+            postRepository.uploadFeed(groupId, request, multipartFile).onSuccess {
+                Timber.tag("kite").d(it.message.toString())
                 _postResultData.value = it
+                _isLoading.value = false
+            }.onFailure {
+                Timber.tag("kite").d(it.message.toString())
+                _isLoading.value = false
             }
         }
     }
@@ -75,12 +82,17 @@ class WritingViewModel @Inject constructor(private val postRepository: PostRepos
         longitude: String,
         location: String
     ): HashMap<String, RequestBody> {
+        Log.d("kite",content)
+        Log.d("kite",latitude)
+        Log.d("kite",longitude)
+        Log.d("kite",location)
+
         val contentRequestBody = content.toRequestBody("text/plain".toMediaTypeOrNull())
         val latitudeRequestBody = latitude.toRequestBody("text/plain".toMediaTypeOrNull())
         val longitudeRequestBody = longitude.toRequestBody("text/plain".toMediaTypeOrNull())
         val locationRequestBody = location.toRequestBody("text/plain".toMediaTypeOrNull())
 
-        val textHashMap = hashMapOf<String, RequestBody>()
+        val textHashMap = HashMap<String, RequestBody>()
         textHashMap["content"] = contentRequestBody
         textHashMap["latitude"] = latitudeRequestBody
         textHashMap["longitude"] = longitudeRequestBody

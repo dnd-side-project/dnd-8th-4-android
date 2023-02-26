@@ -17,9 +17,9 @@ class PostRepositoryImpl @Inject constructor(private val postDataSource: PostDat
 
     override suspend fun uploadFeed(
         groupId: Long,
-        requestBody: HashMap<String, RequestBody>,
-        multipartFile: ArrayList<MultipartBody.Part>
+        data: HashMap<String, RequestBody>,
+        multipartFile: MutableList<MultipartBody.Part>
     ): Result<BaseResponse> {
-        return postDataSource.uploadFeed(groupId, requestBody, multipartFile)
+        return postDataSource.uploadFeed(groupId, data, multipartFile)
     }
 }

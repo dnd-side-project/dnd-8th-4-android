@@ -19,10 +19,10 @@ class PostDataSourceImpl @Inject constructor(private val postService: PostServic
 
     override suspend fun uploadFeed(
         groupId: Long,
-        requestBody: HashMap<String, RequestBody>,
-        multipartFile: ArrayList<MultipartBody.Part>
+        request: HashMap<String, RequestBody>,
+        multipartFile: MutableList<MultipartBody.Part>
     ): Result<BaseResponse> {
-        val response = postService.postFeed(groupId, requestBody, multipartFile)
+        val response = postService.postFeed(groupId, request, multipartFile)
         if (response.isSuccessful) {
             response.body()?.let { return Result.success(it) }
         }

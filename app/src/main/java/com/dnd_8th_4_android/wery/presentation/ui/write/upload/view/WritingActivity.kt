@@ -7,6 +7,8 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
@@ -18,7 +20,10 @@ import com.dnd_8th_4_android.wery.presentation.ui.write.place.view.SearchPlaceAc
 import com.dnd_8th_4_android.wery.presentation.ui.write.upload.adapter.UploadPhotoAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.write.upload.viewmodel.WritingViewModel
 import com.dnd_8th_4_android.wery.presentation.util.DialogFragmentUtil
+import com.dnd_8th_4_android.wery.presentation.util.MultiPartFileUtil
 import dagger.hilt.android.AndroidEntryPoint
+import okhttp3.MultipartBody
+import timber.log.Timber
 
 @AndroidEntryPoint
 class WritingActivity : BaseActivity<ActivityWritingBinding>(R.layout.activity_writing) {
@@ -44,7 +49,7 @@ class WritingActivity : BaseActivity<ActivityWritingBinding>(R.layout.activity_w
                         val currentList = uploadPhotoAdapter.currentList.toMutableList()
                         for (i in 0 until clipDataSize) { //선택 한 사진 수만큼 반복
                             val selectedImageUri = clipData.getItemAt(i).uri
-                            currentList.add(selectedImageUri.toString())
+                            currentList.add(selectedImageUri)
                         }
                         uploadPhotoAdapter.submitList(currentList)
                     }
@@ -125,7 +130,11 @@ class WritingActivity : BaseActivity<ActivityWritingBinding>(R.layout.activity_w
     }
 
     private fun initDataBinding() {
+        writingViewModel.postResultData.observe(this){
+            Toast.makeText(this, it.message.toString(), Toast.LENGTH_SHORT).show()
+        }
         setPhotoCnt()
+        setLoadingDialog()
     }
 
     private fun initAfterBinding() {
@@ -137,16 +146,23 @@ class WritingActivity : BaseActivity<ActivityWritingBinding>(R.layout.activity_w
     }
 
     private fun setRvAdapter() {
-        uploadPhotoAdapter = UploadPhotoAdapter { imgUrl -> onItemDelete(imgUrl) }
+        uploadPhotoAdapter = UploadPhotoAdapter { imgUri -> onItemDelete(imgUri) }
         binding.rvPhoto.adapter = uploadPhotoAdapter
     }
 
-    private fun onItemDelete(imgUrl: String) {
+    private fun onItemDelete(imgUri: Uri) {
         val currentList = uploadPhotoAdapter.currentList.toMutableList()
-        currentList.remove(imgUrl)
+        currentList.remove(imgUri)
         uploadPhotoAdapter.submitList(currentList)
 
         writingViewModel.setPhotoCnt(currentList.size)
+    }
+
+    private fun setLoadingDialog() {
+        writingViewModel.isLoading.observe(this) {
+            if (it) showLoadingDialog(this)
+            else dismissLoadingDialog()
+        }
     }
 
     private fun setPhotoCnt() {
@@ -207,8 +223,13 @@ class WritingActivity : BaseActivity<ActivityWritingBinding>(R.layout.activity_w
                 writingViewModel.selectedLongitude.value!!,
                 binding.tvAddPlace.text.toString(),
             )
-            writingViewModel.uploadFeed(writingViewModel.groupId.value!!, textHasMap)
+            val imgFileList = mutableListOf<MultipartBody.Part>()
+            for (fileUri in uploadPhotoAdapter.currentList) {
+                imgFileList.add(MultiPartFileUtil(this, "multipartFile").uriToFile(fileUri))
+            }
+            Log.d("kite",textHasMap.toString())
             writingViewModel.setLoadingState(true)
+            writingViewModel.uploadFeed(writingViewModel.groupId.value!!, textHasMap, imgFileList)
             finish()
         }
     }
