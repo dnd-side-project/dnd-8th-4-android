@@ -1,17 +1,23 @@
 package com.dnd_8th_4_android.wery.presentation.ui.group.view
 
+import android.view.View
+import android.view.WindowManager
+import android.widget.PopupWindow
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.data.remote.model.group.ResponseAccessGroupData
-import com.dnd_8th_4_android.wery.data.remote.model.home.ResponsePostData
+import com.dnd_8th_4_android.wery.data.remote.model.home.RequestEmotionStatus
+import com.dnd_8th_4_android.wery.databinding.ActivityPopupWindowBinding
 import com.dnd_8th_4_android.wery.databinding.FragmentAccessGroupBinding
+import com.dnd_8th_4_android.wery.domain.model.PopupWindowType
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseFragment
 import com.dnd_8th_4_android.wery.presentation.ui.group.adapter.AccessGroupMissionRecyclerViewAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.group.adapter.GroupListRecyclerViewAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.group.viewmodel.AccessGroupViewModel
 import com.dnd_8th_4_android.wery.presentation.ui.home.adapter.PostRecyclerViewAdapter
+import com.dnd_8th_4_android.wery.presentation.util.PopupBottomDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -20,11 +26,13 @@ class AccessGroupFragment :
     private val viewModel: AccessGroupViewModel by viewModels()
     private lateinit var accessGroupMissionRecyclerViewAdapter: AccessGroupMissionRecyclerViewAdapter
     private lateinit var postRecyclerViewAdapter: PostRecyclerViewAdapter
+    private var activityPopupWindowBinding: ActivityPopupWindowBinding? = null
 
     private lateinit var missionList: MutableList<ResponseAccessGroupData.Data>
 
     override fun initStartView() {
         binding.vm = viewModel
+        activityPopupWindowBinding = ActivityPopupWindowBinding.inflate(layoutInflater)
 
         makeList()
         viewModel.isSelectGroupId.value =
@@ -32,6 +40,20 @@ class AccessGroupFragment :
         viewModel.getGroupPost()
 
         postRecyclerViewAdapter = PostRecyclerViewAdapter()
+        postRecyclerViewAdapter.apply {
+            setPopupBottomClickListener { contentId, postMine, isSelected ->
+                val bottomSheet = PopupBottomDialog(true, contentId, postMine, isSelected)
+                bottomSheet.setOnBookmarkListener {
+                    viewModel.getGroupPost()
+                }
+                bottomSheet.show(childFragmentManager, bottomSheet.tag)
+            }
+
+            setPopupWindowClickListener { view, position, contentId ->
+                getGradePopUp(view, position, contentId)
+            }
+        }
+
         binding.rvMyGroupPost.apply {
             adapter = postRecyclerViewAdapter
             itemAnimator = null
@@ -101,6 +123,79 @@ class AccessGroupFragment :
             requireArguments().getString(GroupListRecyclerViewAdapter.GROUP_NAME)
         binding.tvGroupMemberNumber.text =
             requireArguments().getString(GroupListRecyclerViewAdapter.GROUP_NUMBER)
+    }
+
+    private fun getGradePopUp(view: View, position: Int, contentId: Int) {
+        // 팝업 생성
+        val popupWindow = PopupWindow(
+            activityPopupWindowBinding!!.root,
+            WindowManager.LayoutParams.WRAP_CONTENT,
+            WindowManager.LayoutParams.WRAP_CONTENT,
+            true
+        )
+        // 현재 유지시킬 뷰 설정(이 줄을 없애면 키보드가 올라옴)
+        popupWindow.contentView = activityPopupWindowBinding!!.root
+
+        // 어떤 레이아웃 밑에 팝업을 달건지 설정
+        popupWindow.showAsDropDown(view, 50, -250)
+
+        activityPopupWindowBinding!!.ivEmotionOne.setOnClickListener {
+            setEmotion(
+                contentId,
+                position,
+                RequestEmotionStatus(PopupWindowType.Type1.emotionPosition)
+            )
+            popupWindow.dismiss()
+        }
+
+        activityPopupWindowBinding!!.ivEmotionTwo.setOnClickListener {
+            setEmotion(
+                contentId,
+                position,
+                RequestEmotionStatus(PopupWindowType.Type2.emotionPosition)
+            )
+            popupWindow.dismiss()
+        }
+
+        activityPopupWindowBinding!!.ivEmotionThree.setOnClickListener {
+            setEmotion(
+                contentId,
+                position,
+                RequestEmotionStatus(PopupWindowType.Type3.emotionPosition)
+            )
+            popupWindow.dismiss()
+        }
+
+        activityPopupWindowBinding!!.ivEmotionFour.setOnClickListener {
+            setEmotion(
+                contentId,
+                position,
+                RequestEmotionStatus(PopupWindowType.Type4.emotionPosition)
+            )
+            popupWindow.dismiss()
+        }
+
+        activityPopupWindowBinding!!.ivEmotionFive.setOnClickListener {
+            setEmotion(
+                contentId,
+                position,
+                RequestEmotionStatus(PopupWindowType.Type5.emotionPosition)
+            )
+            popupWindow.dismiss()
+        }
+
+        activityPopupWindowBinding!!.ivEmotionSix.setOnClickListener {
+            setEmotion(
+                contentId,
+                position,
+                RequestEmotionStatus(PopupWindowType.Type6.emotionPosition)
+            )
+            popupWindow.dismiss()
+        }
+    }
+
+    private fun setEmotion(contentId: Int, position: Int, emotionStatus: RequestEmotionStatus) {
+        viewModel.setUpdateEmotion(contentId, position, emotionStatus)
     }
 
     private fun makeList() {
