@@ -27,6 +27,9 @@ class GroupViewModel @Inject constructor(private val groupRepository: GroupRepos
     private val _groupList = MutableLiveData<MutableList<ResponseGroupData.Data.GroupInfo>>()
     val groupList: LiveData<MutableList<ResponseGroupData.Data.GroupInfo>> = _groupList
 
+    private val _isLoading: MutableLiveData<Boolean> = MutableLiveData()
+    val isLoading: LiveData<Boolean> = _isLoading
+
     // 즐겨찾기한 그룹 목록 조회
     fun getBookmarkList() {
         viewModelScope.launch {
@@ -70,5 +73,13 @@ class GroupViewModel @Inject constructor(private val groupRepository: GroupRepos
                 Timber.tag("error").d(it.message.toString())
             }
         }
+    }
+
+    fun setLoading() {
+        _isLoading.value = true
+    }
+
+    fun setUnLoading() {
+        _isLoading.value = false
     }
 }

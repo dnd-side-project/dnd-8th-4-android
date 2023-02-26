@@ -27,6 +27,8 @@ class AccessGroupViewModel @Inject constructor(private val groupRepository: Grou
 
     val isSelectGroupId = MutableLiveData(-1)
 
+    private val _isLoading: MutableLiveData<Boolean> = MutableLiveData()
+    val isLoading: LiveData<Boolean> = _isLoading
 
     // 그룹 게시글 조회
     fun getGroupPost() {
@@ -64,5 +66,13 @@ class AccessGroupViewModel @Inject constructor(private val groupRepository: Grou
                 Timber.tag("error").d(it.message.toString())
             }
         }
+    }
+
+    fun setLoading() {
+        _isLoading.value = true
+    }
+
+    fun setUnLoading() {
+        _isLoading.value = false
     }
 }

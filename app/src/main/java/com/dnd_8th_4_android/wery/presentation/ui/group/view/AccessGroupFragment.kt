@@ -30,14 +30,20 @@ class AccessGroupFragment :
 
     private lateinit var missionList: MutableList<ResponseAccessGroupData.Data>
 
-    override fun initStartView() {
+    override fun onResume() {
+        super.onResume()
         binding.vm = viewModel
-        activityPopupWindowBinding = ActivityPopupWindowBinding.inflate(layoutInflater)
 
-        makeList()
+        viewModel.setLoading()
         viewModel.isSelectGroupId.value =
             requireArguments().getInt(GroupListRecyclerViewAdapter.GROUP_Id)
         viewModel.getGroupPost()
+    }
+
+    override fun initStartView() {
+        activityPopupWindowBinding = ActivityPopupWindowBinding.inflate(layoutInflater)
+
+        makeList()
 
         postRecyclerViewAdapter = PostRecyclerViewAdapter()
         postRecyclerViewAdapter.apply {
@@ -62,6 +68,11 @@ class AccessGroupFragment :
     }
 
     override fun initDataBinding() {
+        viewModel.isLoading.observe(viewLifecycleOwner) {
+            if (it) showLoadingDialog(requireContext())
+            else dismissLoadingDialog()
+        }
+
         viewModel.isExistMission.observe(viewLifecycleOwner) { isExistMission ->
             if (isExistMission) {
                 binding.tvMissionIngCount.isVisible = true
@@ -108,6 +119,7 @@ class AccessGroupFragment :
 
         viewModel.postList.observe(viewLifecycleOwner) {
             postRecyclerViewAdapter.submitList(it)
+            viewModel.setUnLoading()
         }
     }
 
@@ -195,6 +207,7 @@ class AccessGroupFragment :
     }
 
     private fun setEmotion(contentId: Int, position: Int, emotionStatus: RequestEmotionStatus) {
+        viewModel.setLoading()
         viewModel.setUpdateEmotion(contentId, position, emotionStatus)
     }
 
