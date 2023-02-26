@@ -11,6 +11,7 @@
         android:id="@+id/layout_mission"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginEnd="12dp"
         android:background="@drawable/shape_gray100_radius_8"
         android:backgroundTint="@color/color_3f75ff">
 
