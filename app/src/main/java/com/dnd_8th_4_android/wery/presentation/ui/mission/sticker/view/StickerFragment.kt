@@ -32,10 +32,11 @@ class StickerFragment : BaseFragment<FragmentStickerBinding>(R.layout.fragment_s
     }
 
     override fun initAfterBinding() {
-
+        // TODO 서버에서 들어오는 값에 따라 분기처리
+        // StickerInfoBottomDialog("위어리의 알유 위어리", 2){moveToStickerDetail(null)}.show(parentFragmentManager, null)
     }
 
-    private fun moveToStickerDetail(data: ResponseSticker) {
+    private fun moveToStickerDetail(data: ResponseSticker?) {
         val intent = Intent(requireContext(), StickerDetailActivity::class.java)
         startActivity(intent)
     }

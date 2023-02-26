@@ -23,7 +23,6 @@ class StickerAdapter(private val onItemClick: (ResponseSticker) -> Unit) :
     override fun onBindViewHolder(holder: StickerViewHolder, position: Int) {
         holder.onBind(getItem(position))
         holder.binding.ivSticker.clipToOutline = true
-        if (position == (itemCount - 1)) holder.binding.viewLine.visibility = View.GONE
     }
 
     class StickerViewHolder(
