@@ -7,7 +7,6 @@ import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
-import androidx.annotation.RequiresApi
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -17,9 +16,7 @@ import java.io.InputStream
 
 class MultiPartFileUtil(private val mContext: Context, private val fileName: String) {
 
-    @RequiresApi(Build.VERSION_CODES.Q)
     fun uriToFile(uri: Uri?): MultipartBody.Part {
-
         val options = BitmapFactory.Options()
         val inputStream: InputStream =
             requireNotNull(mContext.contentResolver.openInputStream(uri!!))
@@ -35,7 +32,7 @@ class MultiPartFileUtil(private val mContext: Context, private val fileName: Str
         }
 
         val byteArrayOutputStream = ByteArrayOutputStream()
-        bitmap!!.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream)
+        bitmap!!.compress(Bitmap.CompressFormat.JPEG, 20, byteArrayOutputStream)
         val fileBody = byteArrayOutputStream.toByteArray()
             .toRequestBody(
                 "image/*".toMediaTypeOrNull(),

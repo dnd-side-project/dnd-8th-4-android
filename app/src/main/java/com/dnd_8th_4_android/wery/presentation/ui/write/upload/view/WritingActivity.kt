@@ -57,7 +57,12 @@ class WritingActivity : BaseActivity<ActivityWritingBinding>(R.layout.activity_w
             if (it.resultCode == Activity.RESULT_OK) {
                 val selectedPlace = it.data?.getStringExtra("selectedPlace")
                     ?: getString(R.string.search_place_hint)
+                val selectedX = it.data?.getDoubleExtra("selectedX", 0.0)
+                val selectedY = it.data?.getDoubleExtra("selectedY", 0.0)
+
                 writingViewModel.selectedPlace.value = selectedPlace
+                writingViewModel.selectedLongitude.value = selectedX.toString()
+                writingViewModel.selectedLatitude.value = selectedY.toString()
             }
         }
 
@@ -196,7 +201,14 @@ class WritingActivity : BaseActivity<ActivityWritingBinding>(R.layout.activity_w
 
     private fun registerListener() {
         binding.tvRegister.setOnClickListener {
-            // TODO 서버통신 글쓰기 예정
+            val textHasMap = writingViewModel.setRequestBodyData(
+                binding.etvNote.text.toString(),
+                writingViewModel.selectedLatitude.value!!,
+                writingViewModel.selectedLongitude.value!!,
+                binding.tvAddPlace.text.toString(),
+            )
+            writingViewModel.setLoadingState(true)
+            writingViewModel.uploadFeed()
             finish()
         }
     }
