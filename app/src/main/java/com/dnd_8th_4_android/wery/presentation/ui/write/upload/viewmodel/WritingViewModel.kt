@@ -1,6 +1,5 @@
 package com.dnd_8th_4_android.wery.presentation.ui.write.upload.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
