@@ -36,7 +36,7 @@ class StickerAdapter(private val onItemClick: (ResponseSticker) -> Unit) :
         init {
             binding.root.setOnClickListener {
                 stickerData?.let {
-                    if (!it.isStickerLocked) onItemClick(it)
+                    if (it.isStickerLocked) onItemClick(it)
                 }
             }
         }

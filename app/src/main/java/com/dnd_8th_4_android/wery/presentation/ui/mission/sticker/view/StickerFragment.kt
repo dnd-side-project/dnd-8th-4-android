@@ -1,4 +1,4 @@
-package com.dnd_8th_4_android.wery.presentation.ui.mission.sticker
+package com.dnd_8th_4_android.wery.presentation.ui.mission.sticker.view
 
 import android.content.Intent
 import com.dnd_8th_4_android.wery.R
@@ -36,7 +36,7 @@ class StickerFragment : BaseFragment<FragmentStickerBinding>(R.layout.fragment_s
     }
 
     private fun moveToStickerDetail(data: ResponseSticker) {
-        val intent = Intent()
-
+        val intent = Intent(requireContext(), StickerDetailActivity::class.java)
+        startActivity(intent)
     }
 }

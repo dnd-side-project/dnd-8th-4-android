@@ -59,6 +59,7 @@
             android:exported="true" />
 
         <activity android:name=".presentation.ui.mission.mymission.view.MissionProgressActivity" />
+        <activity android:name=".presentation.ui.mission.sticker.view.StickerDetailActivity"/>
     </application>
 
 </manifest>
