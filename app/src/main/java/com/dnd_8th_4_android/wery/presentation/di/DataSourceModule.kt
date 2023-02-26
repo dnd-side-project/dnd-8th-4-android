@@ -55,4 +55,10 @@ object DataSourceModule {
     fun provideSearchDataSource(searchService: SearchService): SearchDataSource {
         return SearchDataSourceImpl(searchService)
     }
+
+    @Provides
+    @Singleton
+    fun provideGroupDataSource(groupService: GroupService): GroupDataSource {
+        return GroupDataSourceImpl(groupService)
+    }
 }

@@ -56,4 +56,10 @@ object RepositoryModule {
     fun provideSearchRepository(searchDataSource: SearchDataSource): SearchRepository {
         return SearchRepositoryImpl(searchDataSource)
     }
+
+    @Provides
+    @Singleton
+    fun provideGroupRepository(groupDataSource: GroupDataSource): GroupRepository {
+        return GroupRepositoryImpl(groupDataSource)
+    }
 }

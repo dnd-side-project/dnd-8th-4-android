@@ -12,8 +12,11 @@ data class ResponseGroupData(
     ) {
         data class GroupInfo (
             @SerializedName("groupId") val id: Int,
-            @SerializedName("groupImageUrl") val image: String,
             @SerializedName("groupName") val name: String,
+            @SerializedName("groupImageUrl") val image: String,
+            val groupNote: String,
+            val memberCount: Int,
+            val isStarGroup: Boolean,
         )
     }
 }
