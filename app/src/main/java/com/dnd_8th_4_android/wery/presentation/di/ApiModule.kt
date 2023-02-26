@@ -1,5 +1,6 @@
 package com.dnd_8th_4_android.wery.presentation.di
 
+import androidx.constraintlayout.widget.Group
 import com.dnd_8th_4_android.wery.data.api.*
 import dagger.Module
 import dagger.Provides
@@ -49,5 +50,17 @@ object ApiModule {
     @Singleton
     fun providePopupBottomService(retrofit: Retrofit): PopupBottomService {
         return retrofit.create(PopupBottomService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSearchService(retrofit: Retrofit): SearchService {
+        return retrofit.create(SearchService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGroupService(retrofit: Retrofit): GroupService {
+        return retrofit.create(GroupService::class.java)
     }
 }

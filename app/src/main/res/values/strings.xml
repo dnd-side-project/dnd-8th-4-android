@@ -151,7 +151,6 @@
     <string name="sticker_info">스티커 정보</string>
     <string name="sticker_due">사용기간 무제한</string>
 
-
     <!-- bottomSheetFragment -->
     <string name="bottom_sheet_bookmark">북마크 하기</string>
     <string name="bottom_sheet_clip">링크 복사하기</string>
@@ -197,4 +196,8 @@
     <string name="yes_mission_day_flow">~</string>
     <string name="yes_mission_certify">인증하기</string>
     <string name="yes_mission_certify_write">인증글 쓰기</string>
+
+    <!-- SearchPostActivity -->
+    <string name="search_post">게시글</string>
+    <string name="search_filter">최신순</string>
 </resources>

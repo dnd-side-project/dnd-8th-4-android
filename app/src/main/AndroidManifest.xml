@@ -57,9 +57,10 @@
         <activity
             android:name=".presentation.ui.mission.create.CreateMissionActivity"
             android:exported="true" />
-
         <activity android:name=".presentation.ui.mission.mymission.view.MissionProgressActivity" />
         <activity android:name=".presentation.ui.mission.sticker.view.StickerDetailActivity"/>
+        <activity android:name=".presentation.ui.search.view.SearchPostActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

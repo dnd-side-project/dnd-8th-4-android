@@ -50,4 +50,16 @@ object RepositoryModule {
     fun providePopupBottomRepository(popupBottomDataSource: PopupBottomDataSource): PopupBottomRepository {
         return PopupBottomRepositoryImpl(popupBottomDataSource)
     }
+
+    @Provides
+    @Singleton
+    fun provideSearchRepository(searchDataSource: SearchDataSource): SearchRepository {
+        return SearchRepositoryImpl(searchDataSource)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGroupRepository(groupDataSource: GroupDataSource): GroupRepository {
+        return GroupRepositoryImpl(groupDataSource)
+    }
 }

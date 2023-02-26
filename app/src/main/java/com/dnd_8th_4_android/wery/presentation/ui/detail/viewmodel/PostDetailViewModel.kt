@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dnd_8th_4_android.wery.data.remote.model.detail.RequestPostDetailCommentNote
 import com.dnd_8th_4_android.wery.data.remote.model.detail.ResponsePostDetailCommentData
+import com.dnd_8th_4_android.wery.data.remote.model.detail.ResponsePostDetailData
 import com.dnd_8th_4_android.wery.data.remote.model.detail.ResponsePostDetailEmotionData
 import com.dnd_8th_4_android.wery.data.remote.model.home.RequestEmotionStatus
 import com.dnd_8th_4_android.wery.domain.repository.DetailRepository
@@ -21,6 +22,9 @@ import javax.inject.Inject
 class PostDetailViewModel @Inject constructor(
     private val detailRepository: DetailRepository,
 ) : ViewModel() {
+
+    private val _postDetailList = MutableLiveData<ResponsePostDetailData.Data>()
+    val postDetailList: LiveData<ResponsePostDetailData.Data> = _postDetailList
 
     private val _emotionList = MutableLiveData<MutableList<ResponsePostDetailEmotionData.Data>>()
     val emotionList: LiveData<MutableList<ResponsePostDetailEmotionData.Data>> = _emotionList
@@ -48,6 +52,19 @@ class PostDetailViewModel @Inject constructor(
 
     private val _isNoData = MutableLiveData(false)
     val isNoData: LiveData<Boolean> = _isNoData
+
+    // 피드 상세보기
+    fun getPostDetail(contentId: Int) {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                detailRepository.getPostDetail(contentId)
+            }.onSuccess {
+                _postDetailList.value = it.data
+            }.onFailure {
+                Timber.tag("error").d(it.message.toString())
+            }
+        }
+    }
 
     // 피드 공감 조회
     fun getEmotion(contentId: Int) {
