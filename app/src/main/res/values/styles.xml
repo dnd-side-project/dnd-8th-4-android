@@ -79,6 +79,12 @@
         <item name="fontFamily">@font/pretendard_medium</item>
     </style>
 
+    <style name="TextView.Caption.12.Sb" parent="Widget.AppCompat.TextView">
+        <item name="android:fontWeight">600</item>
+        <item name="android:textSize">12dp</item>
+        <item name="fontFamily">@font/pretendard_semi_bold</item>
+    </style>
+
     <style name="TextView.Caption.10.Sb" parent="Widget.AppCompat.TextView">
         <item name="android:fontWeight">600</item>
         <item name="android:textSize">10dp</item>

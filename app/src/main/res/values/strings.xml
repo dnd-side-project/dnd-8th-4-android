@@ -187,6 +187,15 @@
     <string name="access_group_day">D-%1$d</string>
     <string name="access_group_d_day">D-day</string>
 
+    <!-- MissionDetailActivity -->
+    <string name="mission_detail_show_detail">미션 상세보기</string>
+    <string name="mission_detail_mission_place">미션 장소</string>
+    <string name="mission_detail_mission_delete">미션 삭제하기</string>
+    <string name="mission_detail_made_by">님이 만든 미션</string>
+    <string name="mission_detail_due">기간</string>
+    <string name="mission_detail_in_group">참여 중인 그룹</string>
+    <string name="mission_detail_write">인증글 쓰기</string>
+
     <!-- NoMissionActivity -->
     <string name="no_mission_title">미션을 추가해 보세요</string>
     <string name="no_mission_content">멤버와 함께 하고 싶은 버킷리스트가 있나요?</string>
