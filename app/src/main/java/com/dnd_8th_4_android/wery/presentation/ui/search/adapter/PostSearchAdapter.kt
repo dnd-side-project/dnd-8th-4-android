@@ -1,5 +1,6 @@
 package com.dnd_8th_4_android.wery.presentation.ui.search.adapter
 
+import android.content.Intent
 import android.graphics.Typeface
 import android.text.SpannableStringBuilder
 import android.text.Spanned
@@ -13,8 +14,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.dnd_8th_4_android.wery.data.remote.model.search.ResponsePostSearchData
 import com.dnd_8th_4_android.wery.databinding.ItemPostSearchBinding
+import com.dnd_8th_4_android.wery.presentation.ui.detail.view.PostDetailActivity
+import com.dnd_8th_4_android.wery.presentation.ui.home.adapter.PostRecyclerViewAdapter
 import java.time.LocalDate
-
 
 class PostSearchAdapter :
     ListAdapter<ResponsePostSearchData.Data.Content, PostSearchAdapter.ViewHolder>(diffUtil) {
@@ -59,6 +61,10 @@ class PostSearchAdapter :
             } else {
                 binding.tvTime.text = item.createAt.substring(IntRange(2, 9)).replace("-", ".")
             }
+
+            binding.layoutPostSearch.setOnClickListener {
+                goToPostDetail(item)
+            }
         }
     }
 
@@ -71,6 +77,18 @@ class PostSearchAdapter :
         holder.bind(currentList[position])
     }
 
+    fun goToPostDetail(item: ResponsePostSearchData.Data.Content) {
+        Intent(binding.root.context, PostDetailActivity::class.java).apply {
+            putExtra(PostRecyclerViewAdapter.WRITE_CHECK, false)
+            putExtra(PostRecyclerViewAdapter.CONTENT_ID, item.contentId)
+            putExtra(PostRecyclerViewAdapter.CONTENT, item.content)
+            putExtra(PostRecyclerViewAdapter.USER_IMAGE, item.groupImage)
+            putExtra(PostRecyclerViewAdapter.GROUP_NAME, item.groupName)
+            putExtra(PostRecyclerViewAdapter.TIME, item.createAt)
+//            putExtra(PostRecyclerViewAdapter.BOOKMARK, item.bookmarkAddStatus)
+            binding.root.context.startActivity(this)
+        }
+    }
 
     companion object {
         private val diffUtil =

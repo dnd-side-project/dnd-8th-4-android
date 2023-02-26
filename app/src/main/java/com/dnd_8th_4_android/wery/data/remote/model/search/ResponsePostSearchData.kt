@@ -16,9 +16,9 @@ data class ResponsePostSearchData(
             val groupName: String,
             val createAt: String,
             val contentImageListSize: Int,
-            val contentImageList: List<Image>,
+            val contentImageList: ArrayList<Images>,
         ) {
-            data class Image(
+            data class Images(
                 val imageUrl: String,
             )
         }
