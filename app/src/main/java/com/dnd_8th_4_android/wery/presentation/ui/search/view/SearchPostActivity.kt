@@ -21,7 +21,13 @@ import dagger.hilt.android.AndroidEntryPoint
 class SearchPostActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity_search) {
     private val viewModel: SearchPostViewModel by viewModels()
     private lateinit var postSearchAdapter: PostSearchAdapter
+
     private var groupAllList = ""
+
+    override fun onRestart() {
+        super.onRestart()
+        viewModel.getSearchPost(groupAllList)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,8 +57,8 @@ class SearchPostActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity
         }
 
         binding.etSearch.setOnEditorActionListener { textView, actionId, _ ->
-            val searchKeyword = textView.text.toString()
-            if (actionId == EditorInfo.IME_ACTION_SEARCH && searchKeyword.isNotEmpty()) {
+            viewModel.searchKeyword.value = textView.text.toString()
+            if (actionId == EditorInfo.IME_ACTION_SEARCH && viewModel.searchKeyword.value != "") {
                 if (!binding.layoutSearch.isVisible) {
                     binding.layoutSearch.isVisible = true
                     binding.ivSearch.isVisible = false
@@ -61,8 +67,8 @@ class SearchPostActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity
                 binding.rvSearch.adapter = postSearchAdapter
                 binding.rvSearch.itemAnimator = null
 
-                viewModel.getSearchPost(groupAllList, searchKeyword)
-                postSearchAdapter.wordText = searchKeyword
+                viewModel.getSearchPost(groupAllList)
+                postSearchAdapter.wordText = viewModel.searchKeyword.value!!
                 binding.etSearch.hideKeyboard()
                 binding.etSearch.clearFocus()
             }

@@ -14,8 +14,6 @@ import javax.inject.Inject
 class PopupBottomViewModel @Inject constructor(private val popupBottomRepository: PopupBottomRepository) :
     ViewModel() {
 
-    val isHomeSelect = MutableLiveData<Boolean>()
-
     private val _isSelectedBookmark = MutableLiveData<Boolean>()
     val isSelectedBookmark: LiveData<Boolean> = _isSelectedBookmark
 
@@ -33,10 +31,6 @@ class PopupBottomViewModel @Inject constructor(private val popupBottomRepository
 
     fun setOnBookmark(value: Boolean) {
         _isSelectedBookmark.value = value
-    }
-
-    fun setIsHomeSelect(homeSelect: Boolean) {
-        isHomeSelect.value = homeSelect
     }
 
     fun setPostDelete(contentId: Int) {

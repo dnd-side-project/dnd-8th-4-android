@@ -11,6 +11,8 @@ data class ResponsePostDetailData(
         val location: String,
         val views: Int,
         val userId: Int,
+        val bookmarkAddStatus: Boolean,
+        val emotionStatus: Int,
         @SerializedName("collect") val imageList: MutableList<Images>,
     ) {
         data class Images(

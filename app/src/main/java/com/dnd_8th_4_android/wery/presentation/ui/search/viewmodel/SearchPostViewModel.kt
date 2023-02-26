@@ -15,14 +15,17 @@ import javax.inject.Inject
 class SearchPostViewModel @Inject constructor(private val searchRepository: SearchRepository) :
     ViewModel() {
 
-    private val _searchPostList = MutableLiveData<MutableList<ResponsePostSearchData.Data.Content>>()
+    private val _searchPostList =
+        MutableLiveData<MutableList<ResponsePostSearchData.Data.Content>>()
     val searchPostList: LiveData<MutableList<ResponsePostSearchData.Data.Content>> = _searchPostList
 
-    fun getSearchPost(groupId: String, word: String) {
+    val searchKeyword = MutableLiveData("")
+
+    fun getSearchPost(groupId: String) {
         // TODO 페이지 처리
         viewModelScope.launch {
             kotlin.runCatching {
-                searchRepository.groupPostSearch(groupId, word, 1)
+                searchRepository.groupPostSearch(groupId, searchKeyword.value!!, 1)
             }.onSuccess {
                 _searchPostList.value = it.data.content
             }.onFailure {

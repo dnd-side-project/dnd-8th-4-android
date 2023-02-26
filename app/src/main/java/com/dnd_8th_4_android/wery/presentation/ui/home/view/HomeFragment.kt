@@ -71,7 +71,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
         postRecyclerViewAdapter.apply {
             setPopupBottomClickListener { contentId, postMine, isSelected ->
-                val bottomSheet = PopupBottomDialog(true, contentId, postMine, isSelected)
+                val bottomSheet = PopupBottomDialog(contentId, postMine, isSelected)
                 bottomSheet.setOnBookmarkListener {
                     homeViewModel.getGroupPost()
                 }

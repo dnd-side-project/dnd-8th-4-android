@@ -16,7 +16,6 @@ import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.data.remote.model.detail.RequestPostDetailCommentNote
 import com.dnd_8th_4_android.wery.data.remote.model.detail.ResponsePostDetailStickerData
 import com.dnd_8th_4_android.wery.data.remote.model.home.RequestEmotionStatus
-import com.dnd_8th_4_android.wery.data.remote.model.home.ResponsePostData
 import com.dnd_8th_4_android.wery.databinding.ActivityPopupWindowBinding
 import com.dnd_8th_4_android.wery.databinding.ActivityPostDetailBinding
 import com.dnd_8th_4_android.wery.domain.model.PopupWindowType
@@ -48,6 +47,7 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
 
     private var userId = 0
     private var contentId = 0
+    private var bookmarkAddStatus = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -117,6 +117,8 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
             binding.tvLocation.text = it.location
             binding.tvFriendName.text = it.userName
             userId = it.userId
+            bookmarkAddStatus = it.bookmarkAddStatus
+            viewModel.isSelectEmotionStatus.value = it.emotionStatus
         }
 
         viewModel.emotionList.observe(this) {
@@ -162,14 +164,13 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
 
         binding.ivPopup.setOnClickListener {
             val bottomSheet = PopupBottomDialog(
-                false,
                 contentId,
                 userId,
-                intent.getBooleanExtra(
-                    PostRecyclerViewAdapter.BOOKMARK,
-                    false
-                )
+                bookmarkAddStatus
             )
+            bottomSheet.setOnBookmarkListener {
+                viewModel.getPostDetail(contentId)
+            }
             bottomSheet.show(supportFragmentManager, bottomSheet.tag)
         }
 
@@ -250,9 +251,6 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
                 binding.tvTime.text = time.substring(IntRange(2, 9)).replace("-", ".")
             }
         }
-
-        viewModel.isSelectEmotionStatus.value =
-            intent.getIntExtra(PostRecyclerViewAdapter.EMOTION_STATUS, -1)
 
         viewModel.getPostDetail(contentId)
 

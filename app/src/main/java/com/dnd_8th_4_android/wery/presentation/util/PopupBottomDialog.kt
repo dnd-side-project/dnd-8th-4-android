@@ -10,7 +10,6 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class PopupBottomDialog(
-    private val homeSelect: Boolean,
     private val contentId: Int,
     private val postMine: Int,
     private val selected: Boolean,
@@ -21,7 +20,6 @@ class PopupBottomDialog(
 
     override fun initAfterBinding() {
         viewModel.setOnBookmark(selected)
-        viewModel.setIsHomeSelect(homeSelect)
 
         if (postMine != AuthLocalDataSource(requireContext()).userId) {
             binding.viewLine2.isVisible = false
@@ -49,7 +47,6 @@ class PopupBottomDialog(
         binding.layoutDelete.setOnClickListener {
             val postRemoveDialog = PostRemoveDialog()
             postRemoveDialog.setOnPostDeleteListener {
-                viewModel.isHomeSelect.value = true
                 viewModel.setPostDelete(contentId)
                 dialog!!.dismiss()
             }
@@ -58,7 +55,7 @@ class PopupBottomDialog(
     }
 
     override fun onDestroyView() {
-        if (viewModel.isHomeSelect.value == true) onBookmarkListener.onClicked()
+        onBookmarkListener.onClicked()
         super.onDestroyView()
     }
 

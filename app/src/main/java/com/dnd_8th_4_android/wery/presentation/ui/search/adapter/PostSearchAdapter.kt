@@ -85,7 +85,6 @@ class PostSearchAdapter :
             putExtra(PostRecyclerViewAdapter.USER_IMAGE, item.groupImage)
             putExtra(PostRecyclerViewAdapter.GROUP_NAME, item.groupName)
             putExtra(PostRecyclerViewAdapter.TIME, item.createAt)
-//            putExtra(PostRecyclerViewAdapter.BOOKMARK, item.bookmarkAddStatus)
             binding.root.context.startActivity(this)
         }
     }

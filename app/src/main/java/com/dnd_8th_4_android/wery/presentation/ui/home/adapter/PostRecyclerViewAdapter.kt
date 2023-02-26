@@ -230,9 +230,7 @@ class PostRecyclerViewAdapter :
             putExtra(TIME, item.createAt)
             putExtra(USER_IMAGE, item.image)
             putExtra(CONTENT, item.content)
-            putExtra(EMOTION_STATUS, item.emotionStatus)
             putExtra(IMAGE, item.contentImage)
-            putExtra(BOOKMARK, item.bookmarkAddStatus)
             binding.root.context.startActivity(this)
         }
     }
@@ -268,9 +266,7 @@ class PostRecyclerViewAdapter :
         const val TIME = "time"
         const val USER_IMAGE = "user_image"
         const val CONTENT = "content"
-        const val EMOTION_STATUS = "emotion_status"
         const val IMAGE = "image"
-        const val BOOKMARK = "bookmark_selected"
 
         private val diffUtil = object : DiffUtil.ItemCallback<ResponsePostData.Data.Content>() {
             override fun areItemsTheSame(
