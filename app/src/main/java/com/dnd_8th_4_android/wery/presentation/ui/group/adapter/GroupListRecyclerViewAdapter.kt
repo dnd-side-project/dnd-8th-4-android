@@ -9,24 +9,24 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.dnd_8th_4_android.wery.R
-import com.dnd_8th_4_android.wery.data.remote.model.group.ResponseGroupListData
+import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseGroupData
 import com.dnd_8th_4_android.wery.databinding.ItemGroupListBinding
 
 class GroupListRecyclerViewAdapter :
-    ListAdapter<ResponseGroupListData.Data, GroupListRecyclerViewAdapter.ViewHolder>(diffUtil) {
+    ListAdapter<ResponseGroupData.Data.GroupInfo, GroupListRecyclerViewAdapter.ViewHolder>(diffUtil) {
     private lateinit var binding: ItemGroupListBinding
     private lateinit var bookmarkClickListener: BookmarkClickListener
 
     inner class ViewHolder(private val binding: ItemGroupListBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: ResponseGroupListData.Data) {
+        fun bind(item: ResponseGroupData.Data.GroupInfo) {
             binding.ivGroupImage.clipToOutline = true
             Glide.with(binding.ivGroupImage.context).load(item.image)
                 .into(binding.ivGroupImage)
             binding.tvGroupName.text = item.name
-            binding.tvGroupIntroduce.text = item.introduce
-            binding.tvGroupNumber.text = item.number.toString()
-            binding.ivGroupBookmark.isSelected = item.isSelected
+            binding.tvGroupIntroduce.text = item.groupNote
+            binding.tvGroupNumber.text = item.memberCount.toString()
+            binding.ivGroupBookmark.isSelected = item.isStarGroup
 
             binding.ivGroupBookmark.setOnClickListener {
                 bookmarkClickListener.onClicked(adapterPosition)
@@ -73,17 +73,17 @@ class GroupListRecyclerViewAdapter :
         const val GROUP_NAME = "group_name"
         const val GROUP_NUMBER = "group_number"
 
-        private val diffUtil = object : DiffUtil.ItemCallback<ResponseGroupListData.Data>() {
+        private val diffUtil = object : DiffUtil.ItemCallback<ResponseGroupData.Data.GroupInfo>() {
             override fun areItemsTheSame(
-                oldItem: ResponseGroupListData.Data,
-                newItem: ResponseGroupListData.Data,
+                oldItem: ResponseGroupData.Data.GroupInfo,
+                newItem: ResponseGroupData.Data.GroupInfo,
             ): Boolean {
                 return oldItem == newItem
             }
 
             override fun areContentsTheSame(
-                oldItem: ResponseGroupListData.Data,
-                newItem: ResponseGroupListData.Data,
+                oldItem: ResponseGroupData.Data.GroupInfo,
+                newItem: ResponseGroupData.Data.GroupInfo,
             ): Boolean {
                 return oldItem == newItem
             }

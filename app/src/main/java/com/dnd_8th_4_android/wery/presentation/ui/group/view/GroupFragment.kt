@@ -6,8 +6,6 @@ import androidx.core.view.isVisible
 import androidx.core.widget.doBeforeTextChanged
 import androidx.fragment.app.viewModels
 import com.dnd_8th_4_android.wery.R
-import com.dnd_8th_4_android.wery.data.remote.model.group.ResponseGroupListData
-import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseGroupData
 import com.dnd_8th_4_android.wery.databinding.FragmentGroupBinding
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseFragment
 import com.dnd_8th_4_android.wery.presentation.ui.group.adapter.GroupBookmarkRecyclerViewAdapter
@@ -25,46 +23,41 @@ class GroupFragment : BaseFragment<FragmentGroupBinding>(R.layout.fragment_group
     private lateinit var groupRecyclerViewAdapter: GroupBookmarkRecyclerViewAdapter
     private lateinit var groupListViewAdapter: GroupListRecyclerViewAdapter
 
-    private lateinit var groupList: List<ResponseGroupListData.Data>
-
     override fun initStartView() {
         binding.vm = viewModel
-        viewModel.getBookmarkList()
 
-        groupRecyclerViewAdapter = GroupBookmarkRecyclerViewAdapter()
-        binding.activityGroupBookmark.rvGroupBookmarkList.apply {
-            itemAnimator = null
-            adapter = groupRecyclerViewAdapter
-        }
+        viewModel.getBookmarkList()
+        viewModel.getSignGroup()
 
         groupListViewAdapter = GroupListRecyclerViewAdapter()
         binding.rvGroupList.adapter = groupListViewAdapter
         binding.rvGroupList.itemAnimator = null
 
         groupListViewAdapter.apply {
-//            setBookmarkClickListener {
-//                viewModel.setUpdateBookmark(it, groupBookmarkData, groupList)
-//            }
+//          setBookmarkClickListener {
+//              viewModel.setUpdateBookmark(it, groupBookmarkData, groupList)
+//          }
         }
     }
 
     override fun initDataBinding() {
         viewModel.isExistGroup.observe(viewLifecycleOwner) { isExistGroup ->
             if (isExistGroup) {
-                makeList()
-
-                groupListViewAdapter.submitList(groupList)
-
-                viewModel.groupCount.value = groupList.size
-
-
-            } else {
-                // TODO 북마크한 그룹이 없는 경우
+                groupRecyclerViewAdapter = GroupBookmarkRecyclerViewAdapter()
+                binding.activityGroupBookmark.rvGroupBookmarkList.apply {
+                    itemAnimator = null
+                    adapter = groupRecyclerViewAdapter
+                }
             }
         }
 
         viewModel.bookmarkList.observe(viewLifecycleOwner) {
             groupRecyclerViewAdapter.submitList(it)
+        }
+
+        viewModel.groupList.observe(viewLifecycleOwner) {
+            groupListViewAdapter.submitList(it)
+            binding.tvGroupListCount.text = it.size.toString()
         }
     }
 
@@ -91,34 +84,5 @@ class GroupFragment : BaseFragment<FragmentGroupBinding>(R.layout.fragment_group
         binding.btnFloatingAction.setOnClickListener {
             startActivity(Intent(requireContext(), CreateGroupActivity::class.java))
         }
-    }
-
-    private fun makeList() {
-        groupList = arrayListOf(
-            ResponseGroupListData.Data(
-                1,
-                R.drawable.img_no_group,
-                "산본 솜주먹11",
-                "1111소개글은 최대 12자까지만",
-                10,
-                false
-            ),
-            ResponseGroupListData.Data(
-                2,
-                R.drawable.img_no_group,
-                "산본 솜주먹22",
-                "2222소개글은 최대 12자까지만111111",
-                20,
-                false
-            ),
-            ResponseGroupListData.Data(
-                3,
-                R.drawable.img_no_group,
-                "산본 솜주먹33",
-                "33333소개글은 최대 12자까지만111111",
-                30,
-                false
-            ),
-        )
     }
 }

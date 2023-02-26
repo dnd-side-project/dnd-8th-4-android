@@ -155,7 +155,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
-                        android:text="@{vm.groupCount.toString()}"
                         android:textColor="@color/color_f47aff"
                         app:layout_constraintBottom_toBottomOf="@id/tv_group_list"
                         app:layout_constraintStart_toEndOf="@id/tv_group_list"
