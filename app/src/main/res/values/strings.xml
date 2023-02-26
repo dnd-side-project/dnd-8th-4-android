@@ -145,6 +145,8 @@
     <string name="sticker_speech_bubble">다 채우면 스티커</string>
     <string name="sticker_earn_sticker">획득한 스티커</string>
     <string name="sticker_infinite">무제한</string>
+    <string name="sticker_dialog_close">닫기</string>
+    <string name="sticker_dialog_show_sticker">스티커 보기</string>
 
 
     <!-- bottomSheetFragment -->
