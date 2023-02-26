@@ -16,6 +16,7 @@ class GroupListRecyclerViewAdapter :
     ListAdapter<ResponseGroupData.Data.GroupInfo, GroupListRecyclerViewAdapter.ViewHolder>(diffUtil) {
     private lateinit var binding: ItemGroupListBinding
     private lateinit var bookmarkClickListener: BookmarkClickListener
+    var signGroupId = ""
 
     inner class ViewHolder(private val binding: ItemGroupListBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -53,6 +54,7 @@ class GroupListRecyclerViewAdapter :
         bundle.putString(GROUP_NUMBER, binding.tvGroupNumber.text.toString())
         bundle.putInt(GROUP_Id, groupId)
         bundle.putString(GROUP_IMAGE, groupImage)
+        bundle.putString(SIGN_GROUP_ID, signGroupId)
 
         binding.root.findNavController().navigate(
             R.id.action_groupFragment_to_accessGroupFragment, bundle
@@ -76,6 +78,7 @@ class GroupListRecyclerViewAdapter :
         const val GROUP_NUMBER = "group_number"
         const val GROUP_Id= "group_id"
         const val GROUP_IMAGE= "group_image"
+        const val SIGN_GROUP_ID= "sign_group_id"
 
         private val diffUtil = object : DiffUtil.ItemCallback<ResponseGroupData.Data.GroupInfo>() {
             override fun areItemsTheSame(

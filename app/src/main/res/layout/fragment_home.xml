@@ -25,7 +25,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/et_search"
+                android:id="@+id/tv_search"
                 style="@style/TextView.Caption.12.R"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -44,7 +44,7 @@
                 android:layout_marginStart="12dp"
                 android:src="@drawable/ic_search"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@id/et_search"
+                app:layout_constraintStart_toStartOf="@id/tv_search"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView

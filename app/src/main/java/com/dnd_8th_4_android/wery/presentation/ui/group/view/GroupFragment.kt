@@ -1,6 +1,7 @@
 package com.dnd_8th_4_android.wery.presentation.ui.group.view
 
 import android.content.Intent
+import android.util.Log
 import android.view.inputmethod.EditorInfo
 import androidx.core.view.isVisible
 import androidx.core.widget.doBeforeTextChanged
@@ -12,6 +13,8 @@ import com.dnd_8th_4_android.wery.presentation.ui.group.adapter.GroupBookmarkRec
 import com.dnd_8th_4_android.wery.presentation.ui.group.adapter.GroupListRecyclerViewAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.group.create.view.CreateGroupActivity
 import com.dnd_8th_4_android.wery.presentation.ui.group.viewmodel.GroupViewModel
+import com.dnd_8th_4_android.wery.presentation.ui.home.view.HomeFragment
+import com.dnd_8th_4_android.wery.presentation.ui.search.view.SearchPostActivity
 import com.dnd_8th_4_android.wery.presentation.util.hideKeyboard
 import com.dnd_8th_4_android.wery.presentation.util.showKeyboard
 import dagger.hilt.android.AndroidEntryPoint
@@ -67,26 +70,18 @@ class GroupFragment : BaseFragment<FragmentGroupBinding>(R.layout.fragment_group
             binding.tvGroupListCount.text = it.size.toString()
             viewModel.setUnLoading()
         }
+
+        viewModel.groupAllIdList.observe(viewLifecycleOwner) {
+            groupListViewAdapter.signGroupId = it
+        }
     }
 
     override fun initAfterBinding() {
-        binding.etSearch.doBeforeTextChanged { _, _, _, after ->
-            binding.ivSearchClose.isVisible = after > 0
-        }
-
-        binding.etSearch.setOnEditorActionListener { textView, actionId, _ ->
-            val searchKeyword = textView.text.toString()
-            if (actionId == EditorInfo.IME_ACTION_SEARCH && searchKeyword.isNotEmpty()) {
-                binding.etSearch.hideKeyboard()
-                binding.etSearch.clearFocus()
-                // TODO 검색 동작
+        binding.tvSearch.setOnClickListener {
+            Intent(requireContext(), SearchPostActivity::class.java).apply {
+                putExtra(HomeFragment.GROUP_ALL_LIST, viewModel.groupAllIdList.value)
+                startActivity(this)
             }
-            false
-        }
-
-        binding.ivSearchClose.setOnClickListener {
-            binding.etSearch.text.clear()
-            binding.etSearch.showKeyboard()
         }
 
         binding.btnFloatingAction.setOnClickListener {

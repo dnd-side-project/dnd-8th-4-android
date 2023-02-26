@@ -1,5 +1,6 @@
 package com.dnd_8th_4_android.wery.presentation.ui.group.view
 
+import android.content.Intent
 import android.view.View
 import android.view.WindowManager
 import android.widget.PopupWindow
@@ -17,6 +18,8 @@ import com.dnd_8th_4_android.wery.presentation.ui.group.adapter.AccessGroupMissi
 import com.dnd_8th_4_android.wery.presentation.ui.group.adapter.GroupListRecyclerViewAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.group.viewmodel.AccessGroupViewModel
 import com.dnd_8th_4_android.wery.presentation.ui.home.adapter.PostRecyclerViewAdapter
+import com.dnd_8th_4_android.wery.presentation.ui.home.view.HomeFragment
+import com.dnd_8th_4_android.wery.presentation.ui.search.view.SearchPostActivity
 import com.dnd_8th_4_android.wery.presentation.util.PopupBottomDialog
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -65,10 +68,10 @@ class AccessGroupFragment :
     }
 
     override fun initDataBinding() {
-//        viewModel.isLoading.observe(viewLifecycleOwner) {
-//            if (it) showLoadingDialog(requireContext())
-//            else dismissLoadingDialog()
-//        }
+        viewModel.isLoading.observe(viewLifecycleOwner) {
+            if (it) showLoadingDialog(requireContext())
+            else dismissLoadingDialog()
+        }
 
         viewModel.isExistMission.observe(viewLifecycleOwner) { isExistMission ->
             if (isExistMission) {
@@ -125,6 +128,13 @@ class AccessGroupFragment :
             requireArguments().getString(GroupListRecyclerViewAdapter.GROUP_NAME)
         binding.tvGroupMemberNumber.text =
             requireArguments().getString(GroupListRecyclerViewAdapter.GROUP_NUMBER)
+
+        binding.ivSearch.setOnClickListener {
+            Intent(requireContext(), SearchPostActivity::class.java).apply {
+                putExtra(HomeFragment.GROUP_ALL_LIST, requireArguments().getString(GroupListRecyclerViewAdapter.SIGN_GROUP_ID))
+                startActivity(this)
+            }
+        }
     }
 
     private fun getGradePopUp(view: View, position: Int, contentId: Int) {

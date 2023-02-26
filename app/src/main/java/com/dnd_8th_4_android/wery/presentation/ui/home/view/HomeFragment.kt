@@ -142,7 +142,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             }
         }
 
-        binding.etSearch.setOnClickListener {
+        binding.tvSearch.setOnClickListener {
             Intent(requireContext(), SearchPostActivity::class.java).apply {
                 putExtra(GROUP_ALL_LIST, homeViewModel.groupAllIdList.joinToString())
                 startActivity(this)
