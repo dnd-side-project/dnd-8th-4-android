@@ -4,7 +4,7 @@ import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.databinding.FragmentMissionBinding
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseFragment
 import com.dnd_8th_4_android.wery.presentation.ui.mission.mymission.view.MyMissionFragment
-import com.dnd_8th_4_android.wery.presentation.ui.mission.sticker.StickerFragment
+import com.dnd_8th_4_android.wery.presentation.ui.mission.sticker.view.StickerFragment
 import com.google.android.material.tabs.TabLayout
 
 class MissionFragment : BaseFragment<FragmentMissionBinding>(R.layout.fragment_mission) {
