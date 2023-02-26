@@ -147,6 +147,8 @@
     <string name="sticker_infinite">무제한</string>
     <string name="sticker_dialog_close">닫기</string>
     <string name="sticker_dialog_show_sticker">스티커 보기</string>
+    <string name="sticker_info">스티커 정보</string>
+    <string name="sticker_due">사용기간 무제한</string>
 
 
     <!-- bottomSheetFragment -->
