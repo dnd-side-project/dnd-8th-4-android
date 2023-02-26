@@ -28,7 +28,7 @@
                 <ImageView
                     android:id="@+id/iv_group_image"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="240dp"
                     android:scaleType="fitXY"
                     android:src="@drawable/img_sample"
                     app:layout_constraintTop_toTopOf="parent" />

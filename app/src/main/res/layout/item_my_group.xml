@@ -28,6 +28,7 @@
                 android:id="@+id/iv_my_group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/selector_btn_group"
                 android:src="@drawable/img_no_group" />
         </LinearLayout>
 

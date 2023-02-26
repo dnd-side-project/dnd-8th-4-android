@@ -1,9 +1,11 @@
 package com.dnd_8th_4_android.wery.presentation.ui.group.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.dnd_8th_4_android.wery.data.remote.model.group.ResponseGroupMissionData
 import com.dnd_8th_4_android.wery.data.remote.model.home.RequestEmotionStatus
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponsePostData
 import com.dnd_8th_4_android.wery.domain.repository.GroupRepository
@@ -16,16 +18,16 @@ import javax.inject.Inject
 class AccessGroupViewModel @Inject constructor(private val groupRepository: GroupRepository) :
     ViewModel() {
 
-    private val _isExistMission = MutableLiveData<Boolean>(true)
+    private val _isExistMission = MutableLiveData<Boolean>()
     val isExistMission: LiveData<Boolean> = _isExistMission
-
-    private val _isMissionCount = MutableLiveData(0)
-    val isMissionCount: LiveData<Int> = _isMissionCount
 
     private val _postList = MutableLiveData<MutableList<ResponsePostData.Data.Content>>()
     val postList: LiveData<MutableList<ResponsePostData.Data.Content>> = _postList
 
     val isSelectGroupId = MutableLiveData(-1)
+
+    private val _missionList = MutableLiveData<MutableList<ResponseGroupMissionData.Data>>()
+    val missionList: LiveData<MutableList<ResponseGroupMissionData.Data>> = _missionList
 
     private val _isLoading: MutableLiveData<Boolean> = MutableLiveData()
     val isLoading: LiveData<Boolean> = _isLoading
@@ -64,6 +66,26 @@ class AccessGroupViewModel @Inject constructor(private val groupRepository: Grou
                 }
             }.onFailure {
                 Timber.tag("error").d(it.message.toString())
+            }
+        }
+    }
+
+    // 미션 목록 조회
+    fun getMission() {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                groupRepository.getMission(isSelectGroupId.value!!)
+            }.onSuccess {
+                if (it.data.isNotEmpty()) {
+                    _isExistMission.value = true
+                    _missionList.value = it.data
+                } else {
+                    _isExistMission.value = false
+                }
+                Log.e("태그", it.data.toString())
+            }.onFailure {
+                Timber.tag("error").d(it.message.toString())
+                Log.e("태그", it.message.toString())
             }
         }
     }

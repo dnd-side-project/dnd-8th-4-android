@@ -1,6 +1,7 @@
 package com.dnd_8th_4_android.wery.domain.repository
 
 import com.dnd_8th_4_android.wery.data.remote.model.group.ResponseBookmarkData
+import com.dnd_8th_4_android.wery.data.remote.model.group.ResponseGroupMissionData
 import com.dnd_8th_4_android.wery.data.remote.model.group.ResponseSetBookmarkData
 import com.dnd_8th_4_android.wery.data.remote.model.home.RequestEmotionStatus
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseEmotionData
@@ -14,7 +15,7 @@ interface GroupRepository {
     suspend fun signGroup(): ResponseGroupData
 
     suspend fun setBookmark(
-        groupId: Int
+        groupId: Int,
     ): ResponseSetBookmarkData
 
     suspend fun allGroupPost(
@@ -26,4 +27,8 @@ interface GroupRepository {
         contentId: Int,
         body: RequestEmotionStatus,
     ): ResponseEmotionData
+
+    suspend fun getMission(
+        groupId: Int
+    ): ResponseGroupMissionData
 }

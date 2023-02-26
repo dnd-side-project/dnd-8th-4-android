@@ -28,8 +28,6 @@ class AccessGroupFragment :
     private lateinit var postRecyclerViewAdapter: PostRecyclerViewAdapter
     private var activityPopupWindowBinding: ActivityPopupWindowBinding? = null
 
-    private lateinit var missionList: MutableList<ResponseAccessGroupData.Data>
-
     override fun onResume() {
         super.onResume()
         binding.vm = viewModel
@@ -38,12 +36,11 @@ class AccessGroupFragment :
         viewModel.isSelectGroupId.value =
             requireArguments().getInt(GroupListRecyclerViewAdapter.GROUP_Id)
         viewModel.getGroupPost()
+        viewModel.getMission()
     }
 
     override fun initStartView() {
         activityPopupWindowBinding = ActivityPopupWindowBinding.inflate(layoutInflater)
-
-        makeList()
 
         postRecyclerViewAdapter = PostRecyclerViewAdapter()
         postRecyclerViewAdapter.apply {
@@ -68,16 +65,14 @@ class AccessGroupFragment :
     }
 
     override fun initDataBinding() {
-        viewModel.isLoading.observe(viewLifecycleOwner) {
-            if (it) showLoadingDialog(requireContext())
-            else dismissLoadingDialog()
-        }
+//        viewModel.isLoading.observe(viewLifecycleOwner) {
+//            if (it) showLoadingDialog(requireContext())
+//            else dismissLoadingDialog()
+//        }
 
         viewModel.isExistMission.observe(viewLifecycleOwner) { isExistMission ->
             if (isExistMission) {
                 binding.tvMissionIngCount.isVisible = true
-//                binding.tvMissionIngCount.text = postList.size.toString()
-
                 val pagerWidth =
                     resources.getDimensionPixelOffset(R.dimen.accessGroup_viewPager_width)
                 val screenWidth = resources.displayMetrics.widthPixels
@@ -98,20 +93,9 @@ class AccessGroupFragment :
                 binding.layoutYesMission.vpYesMission.offscreenPageLimit = 1
 
                 accessGroupMissionRecyclerViewAdapter = AccessGroupMissionRecyclerViewAdapter()
-                accessGroupMissionRecyclerViewAdapter.submitList(missionList)
-                binding.layoutYesMission.vpYesMission.apply {
-                    adapter = accessGroupMissionRecyclerViewAdapter
-                }
+                binding.layoutYesMission.vpYesMission.adapter =
+                    accessGroupMissionRecyclerViewAdapter
                 binding.layoutYesMission.vpIndicator.attachTo(binding.layoutYesMission.vpYesMission)
-            } else {
-                binding.tvMissionIngCount.isVisible = true
-            }
-        }
-
-        viewModel.isMissionCount.observe(viewLifecycleOwner) {
-            if (it != 0) {
-                binding.tvMissionIngCount.isVisible = true
-//                binding.tvMissionIngCount.text = postList.size.toString()
             } else {
                 binding.tvMissionIngCount.isVisible = false
             }
@@ -119,6 +103,12 @@ class AccessGroupFragment :
 
         viewModel.postList.observe(viewLifecycleOwner) {
             postRecyclerViewAdapter.submitList(it)
+            viewModel.setUnLoading()
+        }
+
+        viewModel.missionList.observe(viewLifecycleOwner) {
+            accessGroupMissionRecyclerViewAdapter.submitList(it)
+            binding.tvMissionIngCount.text = it.size.toString()
             viewModel.setUnLoading()
         }
     }
@@ -209,42 +199,5 @@ class AccessGroupFragment :
     private fun setEmotion(contentId: Int, position: Int, emotionStatus: RequestEmotionStatus) {
         viewModel.setLoading()
         viewModel.setUpdateEmotion(contentId, position, emotionStatus)
-    }
-
-    private fun makeList() {
-        missionList = mutableListOf(
-            ResponseAccessGroupData.Data(
-                1,
-                1,
-                "홍대 기범 생카 가서 예절샷 찍기1",
-                "11.11.11",
-                "22.22.22",
-                true
-            ),
-            ResponseAccessGroupData.Data(
-                2,
-                2,
-                "홍대 기범 생카 가서 예절샷 찍기1",
-                "33.33.33",
-                "44.44.44",
-                false
-            ),
-            ResponseAccessGroupData.Data(
-                3,
-                5,
-                "홍대 기범 생카 가서 예절샷 찍기1",
-                "55.55.55",
-                "66.66.66",
-                false
-            ),
-            ResponseAccessGroupData.Data(
-                4,
-                7,
-                "홍대 기범 생카 가서 예절샷 찍기1",
-                "55.55.55",
-                "66.66.66",
-                true
-            )
-        )
     }
 }
