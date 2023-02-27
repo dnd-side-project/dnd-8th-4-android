@@ -1,10 +1,14 @@
 package com.dnd_8th_4_android.wery.presentation.ui.group.adapter
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.data.remote.model.group.ResponseBookmarkData
 import com.dnd_8th_4_android.wery.databinding.ItemMyGroupBinding
 
@@ -12,14 +16,18 @@ class GroupBookmarkRecyclerViewAdapter :
     ListAdapter<ResponseBookmarkData.Data, GroupBookmarkRecyclerViewAdapter.ViewHolder>(diffUtil) {
     private lateinit var binding: ItemMyGroupBinding
 
-    class ViewHolder(private val binding: ItemMyGroupBinding) :
+    inner class ViewHolder(private val binding: ItemMyGroupBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ResponseBookmarkData.Data) {
             binding.ivMyGroup.clipToOutline = true
-//            Glide.with(binding.ivMyGroup.context).load(item.)
-//                .into(binding.ivMyGroup)
+            Glide.with(binding.ivMyGroup.context).load(item.groupImageUrl)
+                .into(binding.ivMyGroup)
 
             binding.tvGroupName.text = item.groupName
+
+            binding.layoutMyGroup.setOnClickListener {
+                goToAccessGroup(item.groupId, item.groupImageUrl, item.memberCount)
+            }
         }
     }
 
@@ -30,6 +38,19 @@ class GroupBookmarkRecyclerViewAdapter :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(currentList[position])
+    }
+
+    private fun goToAccessGroup(groupId: Int, groupImage: String, memberCount: Int) {
+        val bundle = Bundle()
+        bundle.putString(GroupListRecyclerViewAdapter.GROUP_NAME, binding.tvGroupName.text.toString())
+        bundle.putInt(GroupListRecyclerViewAdapter.GROUP_NUMBER, memberCount)
+        bundle.putInt(GroupListRecyclerViewAdapter.GROUP_Id, groupId)
+        bundle.putString(GroupListRecyclerViewAdapter.GROUP_IMAGE, groupImage)
+        bundle.putBoolean(GroupListRecyclerViewAdapter.GROUP_BOOKMARK, true)
+
+        binding.root.findNavController().navigate(
+            R.id.action_groupFragment_to_accessGroupFragment, bundle
+        )
     }
 
     companion object {

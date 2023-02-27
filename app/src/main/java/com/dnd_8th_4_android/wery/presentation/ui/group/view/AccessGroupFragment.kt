@@ -8,7 +8,6 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.dnd_8th_4_android.wery.R
-import com.dnd_8th_4_android.wery.data.remote.model.group.ResponseAccessGroupData
 import com.dnd_8th_4_android.wery.data.remote.model.home.RequestEmotionStatus
 import com.dnd_8th_4_android.wery.databinding.ActivityPopupWindowBinding
 import com.dnd_8th_4_android.wery.databinding.FragmentAccessGroupBinding
@@ -129,9 +128,11 @@ class AccessGroupFragment :
         binding.tvGroupMemberNumber.text =
             requireArguments().getString(GroupListRecyclerViewAdapter.GROUP_NUMBER)
 
+        binding.ivBookmark.isSelected = requireArguments().getBoolean(GroupListRecyclerViewAdapter.GROUP_BOOKMARK)
+
         binding.ivSearch.setOnClickListener {
             Intent(requireContext(), SearchPostActivity::class.java).apply {
-                putExtra(HomeFragment.GROUP_ALL_LIST, requireArguments().getString(GroupListRecyclerViewAdapter.SIGN_GROUP_ID))
+                putExtra(HomeFragment.GROUP_ALL_LIST, viewModel.isSelectGroupId.value)
                 startActivity(this)
             }
         }

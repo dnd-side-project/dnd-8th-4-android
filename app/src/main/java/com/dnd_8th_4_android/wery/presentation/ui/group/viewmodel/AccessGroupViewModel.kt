@@ -82,10 +82,8 @@ class AccessGroupViewModel @Inject constructor(private val groupRepository: Grou
                 } else {
                     _isExistMission.value = false
                 }
-                Log.e("태그", it.data.toString())
             }.onFailure {
                 Timber.tag("error").d(it.message.toString())
-                Log.e("태그", it.message.toString())
             }
         }
     }

@@ -31,8 +31,6 @@ class GroupViewModel @Inject constructor(private val groupRepository: GroupRepos
     private val _groupAllIdList = MutableLiveData<String>()
     val groupAllIdList: LiveData<String> = _groupAllIdList
 
-    lateinit var groupIdList: MutableList<Int>
-
     private val _isLoading: MutableLiveData<Boolean> = MutableLiveData()
     val isLoading: LiveData<Boolean> = _isLoading
 
@@ -61,12 +59,6 @@ class GroupViewModel @Inject constructor(private val groupRepository: GroupRepos
                 groupRepository.signGroup()
             }.onSuccess {
                 _groupList.value = it.data.groupInfoList
-
-                groupIdList = mutableListOf()
-                for (i in it.data.groupInfoList.indices) {
-                    groupIdList.add(it.data.groupInfoList[i].id)
-                }
-                _groupAllIdList.value = groupIdList.joinToString()
             }.onFailure {
                 Timber.tag("error").d(it.message.toString())
             }

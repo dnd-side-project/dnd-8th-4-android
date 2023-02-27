@@ -7,7 +7,8 @@ data class ResponseBookmarkData(
 ) : BaseResponse() {
     data class Data(
         val groupId: Int,
-//        val groupImage: String,
+        val groupImageUrl: String,
         val groupName: String,
+        val memberCount: Int
     )
 }

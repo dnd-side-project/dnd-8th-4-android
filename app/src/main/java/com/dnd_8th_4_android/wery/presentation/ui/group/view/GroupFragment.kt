@@ -1,10 +1,6 @@
 package com.dnd_8th_4_android.wery.presentation.ui.group.view
 
 import android.content.Intent
-import android.util.Log
-import android.view.inputmethod.EditorInfo
-import androidx.core.view.isVisible
-import androidx.core.widget.doBeforeTextChanged
 import androidx.fragment.app.viewModels
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.databinding.FragmentGroupBinding
@@ -15,8 +11,6 @@ import com.dnd_8th_4_android.wery.presentation.ui.group.create.view.CreateGroupA
 import com.dnd_8th_4_android.wery.presentation.ui.group.viewmodel.GroupViewModel
 import com.dnd_8th_4_android.wery.presentation.ui.home.view.HomeFragment
 import com.dnd_8th_4_android.wery.presentation.ui.search.view.SearchPostActivity
-import com.dnd_8th_4_android.wery.presentation.util.hideKeyboard
-import com.dnd_8th_4_android.wery.presentation.util.showKeyboard
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -69,10 +63,6 @@ class GroupFragment : BaseFragment<FragmentGroupBinding>(R.layout.fragment_group
             groupListViewAdapter.submitList(it)
             binding.tvGroupListCount.text = it.size.toString()
             viewModel.setUnLoading()
-        }
-
-        viewModel.groupAllIdList.observe(viewLifecycleOwner) {
-            groupListViewAdapter.signGroupId = it
         }
     }
 

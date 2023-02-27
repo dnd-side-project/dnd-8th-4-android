@@ -16,7 +16,6 @@ class GroupListRecyclerViewAdapter :
     ListAdapter<ResponseGroupData.Data.GroupInfo, GroupListRecyclerViewAdapter.ViewHolder>(diffUtil) {
     private lateinit var binding: ItemGroupListBinding
     private lateinit var bookmarkClickListener: BookmarkClickListener
-    var signGroupId = ""
 
     inner class ViewHolder(private val binding: ItemGroupListBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -34,7 +33,7 @@ class GroupListRecyclerViewAdapter :
             }
 
             binding.layer.setOnClickListener {
-                goToAccessGroup(item.id, item.image)
+                goToAccessGroup(item.id, item.image, item.isStarGroup)
             }
         }
     }
@@ -48,13 +47,13 @@ class GroupListRecyclerViewAdapter :
         holder.bind(currentList[position])
     }
 
-    private fun goToAccessGroup(groupId: Int, groupImage: String) {
+    private fun goToAccessGroup(groupId: Int, groupImage: String, isStartGroup: Boolean) {
         val bundle = Bundle()
         bundle.putString(GROUP_NAME, binding.tvGroupName.text.toString())
         bundle.putString(GROUP_NUMBER, binding.tvGroupNumber.text.toString())
         bundle.putInt(GROUP_Id, groupId)
         bundle.putString(GROUP_IMAGE, groupImage)
-        bundle.putString(SIGN_GROUP_ID, signGroupId)
+        bundle.putBoolean(GROUP_BOOKMARK, isStartGroup)
 
         binding.root.findNavController().navigate(
             R.id.action_groupFragment_to_accessGroupFragment, bundle
@@ -76,9 +75,9 @@ class GroupListRecyclerViewAdapter :
     companion object {
         const val GROUP_NAME = "group_name"
         const val GROUP_NUMBER = "group_number"
-        const val GROUP_Id= "group_id"
-        const val GROUP_IMAGE= "group_image"
-        const val SIGN_GROUP_ID= "sign_group_id"
+        const val GROUP_Id = "group_id"
+        const val GROUP_IMAGE = "group_image"
+        const val GROUP_BOOKMARK = "group_bookmark"
 
         private val diffUtil = object : DiffUtil.ItemCallback<ResponseGroupData.Data.GroupInfo>() {
             override fun areItemsTheSame(
