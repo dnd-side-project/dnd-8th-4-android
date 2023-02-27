@@ -10,6 +10,14 @@
 
     <!-- OnBoardingActivity -->
     <string name="onBoarding_next">다음</string>
+    <string name="onBoard_title_one">남들은 볼 수 없는\n우리만의 공간이 필요하다면?</string>
+    <string name="onBoard_title_two">친구의 일상에\n공감 이모지를 남겨봐요!</string>
+    <string name="onBoard_title_three">친구들과의 추억을\n모아서 한눈에 볼 수 있어요!</string>
+    <string name="onBoard_title_four">친구들과 함께 하고 싶은\n버킷리스트가 있나요?</string>
+    <string name="onBoard_content_one">원하는 그룹을 생성해 그룹원들과\n일상을 공유해 보세요.</string>
+    <string name="onBoard_content_two">심도 있는 소통을 원하시나요?\n그룹원의 기록에 이모지를 남겨 공감할 수 있어요.</string>
+    <string name="onBoard_content_three">모아보기 지도를 통해\n다양한 장소에서 남긴 추억을 확인해 보세요.</string>
+    <string name="onBoard_content_four">원하는 그룹과 미션을 생성해 보세요.\n미션을 달성하면 스티커를 획득할 수 있어요!</string>
 
     <!-- FragmentSignIn -->
     <string name="sign_in_id_hint">이메일을 입력하세요.</string>
