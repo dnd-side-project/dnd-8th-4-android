@@ -41,6 +41,7 @@
                 android:inputType="text"
                 android:maxLines="1"
                 android:paddingHorizontal="38dp"
+                android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/iv_back"
                 app:layout_constraintTop_toTopOf="parent" />

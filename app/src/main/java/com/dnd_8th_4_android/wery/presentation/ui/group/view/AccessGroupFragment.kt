@@ -145,7 +145,7 @@ class AccessGroupFragment :
         }
 
         binding.layerGroupName.setOnClickListener {
-            Intent(context, GroupInformationActivity::class.java).apply {
+            Intent(requireContext(), GroupInformationActivity::class.java).apply {
                 putExtra(GroupListRecyclerViewAdapter.GROUP_Id, viewModel.isSelectGroupId.value)
                 startActivity(this)
             }

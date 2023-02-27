@@ -1,5 +1,6 @@
 package com.dnd_8th_4_android.wery.presentation.ui.group.view
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import com.bumptech.glide.Glide
@@ -64,6 +65,12 @@ class GroupInformationActivity :
             isNestedScrollingEnabled = false
         }
 
+        binding.ivSearchInvite.setOnClickListener {
+            Intent(this, UserSearchActivity::class.java).apply {
+                startActivity(this)
+            }
+        }
+
         binding.layerOut.setOnClickListener {
             val dialog = DialogFragmentUtil(
                 DialogInfo(
@@ -74,6 +81,7 @@ class GroupInformationActivity :
                 )
             ) {
                 viewModel.deleteGroup()
+                finish()
             }
             dialog.show(supportFragmentManager, dialog.tag)
         }
