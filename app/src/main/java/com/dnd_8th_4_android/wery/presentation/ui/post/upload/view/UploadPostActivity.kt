@@ -10,6 +10,7 @@ import android.provider.Settings
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.databinding.ActivityUploadPostBinding
 import com.dnd_8th_4_android.wery.domain.model.DialogInfo
@@ -46,7 +47,7 @@ class UploadPostActivity : BaseActivity<ActivityUploadPostBinding>(R.layout.acti
                         val currentList = uploadPhotoAdapter.currentList.toMutableList()
                         for (i in 0 until clipDataSize) { //선택 한 사진 수만큼 반복
                             val selectedImageUri = clipData.getItemAt(i).uri
-                            currentList.add(selectedImageUri)
+                            currentList.add(selectedImageUri.toString())
                         }
                         uploadPhotoAdapter.submitList(currentList)
                     }
@@ -122,13 +123,22 @@ class UploadPostActivity : BaseActivity<ActivityUploadPostBinding>(R.layout.acti
     }
 
     private fun initStartView() {
+        isFromModify()
         binding.viewModel = postViewModel
         setRvAdapter()
+    }
+
+    private fun isFromModify() {
+        if (intent.hasExtra("contentId")) {
+            binding.layoutSelectGroup.isEnabled = false
+            postViewModel.getExistingPostData(intent.getIntExtra("contentId", 0))
+        }
     }
 
     private fun initDataBinding() {
         setPhotoCnt()
         setLoadingDialog()
+        if (intent.hasExtra("contentId")) getExistingPhotoList()
     }
 
     private fun initAfterBinding() {
@@ -140,16 +150,26 @@ class UploadPostActivity : BaseActivity<ActivityUploadPostBinding>(R.layout.acti
     }
 
     private fun setRvAdapter() {
-        uploadPhotoAdapter = UploadPhotoAdapter { imgUri -> onItemDelete(imgUri) }
+        uploadPhotoAdapter = UploadPhotoAdapter { imgUrl -> onItemDelete(imgUrl) }
         binding.rvPhoto.adapter = uploadPhotoAdapter
     }
 
-    private fun onItemDelete(imgUri: Uri) {
+    private fun onItemDelete(imgUrl: String) {
         val currentList = uploadPhotoAdapter.currentList.toMutableList()
-        currentList.remove(imgUri)
+        currentList.remove(imgUrl)
         uploadPhotoAdapter.submitList(currentList)
 
         postViewModel.setPhotoCnt(currentList.size)
+    }
+
+    private fun getExistingPhotoList() {
+        postViewModel.photoUrlList.observe(this) {
+            val currentList = uploadPhotoAdapter.currentList.toMutableList()
+            for (i in it.indices) {
+                currentList.add(it[i].imageUrl)
+            }
+            uploadPhotoAdapter.submitList(currentList)
+        }
     }
 
     private fun setLoadingDialog() {
@@ -222,8 +242,8 @@ class UploadPostActivity : BaseActivity<ActivityUploadPostBinding>(R.layout.acti
                 binding.tvAddPlace.text.toString(),
             )
             val imgFileList = mutableListOf<MultipartBody.Part>()
-            for (fileUri in uploadPhotoAdapter.currentList) {
-                imgFileList.add(MultiPartFileUtil(this, "multipartFile").uriToFile(fileUri))
+            for (imgUrl in uploadPhotoAdapter.currentList) {
+                imgFileList.add(MultiPartFileUtil(this, "multipartFile").uriToFile(imgUrl.toUri()))
             }
             postViewModel.uploadFeed(postViewModel.groupId.value!!, textHasMap, imgFileList)
         }

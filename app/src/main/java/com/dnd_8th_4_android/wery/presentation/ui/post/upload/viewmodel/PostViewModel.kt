@@ -1,11 +1,12 @@
 package com.dnd_8th_4_android.wery.presentation.ui.post.upload.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dnd_8th_4_android.wery.data.remote.model.BaseResponse
 import com.dnd_8th_4_android.wery.data.remote.model.post.ResponseGroupList
+import com.dnd_8th_4_android.wery.data.remote.model.post.ResponsePostData
 import com.dnd_8th_4_android.wery.domain.repository.PostRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -38,8 +39,11 @@ class PostViewModel @Inject constructor(private val postRepository: PostReposito
     private val _groupListData = MutableLiveData<List<ResponseGroupList.ResultGroupList>>()
     var groupListData: LiveData<List<ResponseGroupList.ResultGroupList>> = _groupListData
 
-    private val _postResultData = MutableLiveData<BaseResponse>()
-    var postResultData: LiveData<BaseResponse> = _postResultData
+    private val _postResultData = MutableLiveData<ResponsePostData>()
+    var postResultData: LiveData<ResponsePostData> = _postResultData
+
+    private val _photoUrlList = MutableLiveData<List<ResponsePostData.ResultPost.Collect>>()
+    var photoUrlList: LiveData<List<ResponsePostData.ResultPost.Collect>> = _photoUrlList
 
     fun setPhotoCnt(cntValue: Int) {
         _photoCnt.value = cntValue
@@ -47,6 +51,24 @@ class PostViewModel @Inject constructor(private val postRepository: PostReposito
 
     fun setGroupId(idValue: Long) {
         _groupId.value = idValue
+    }
+
+    fun getExistingPostData(contentId: Int) {
+        viewModelScope.launch {
+            postRepository.getPostData(contentId).onSuccess {
+                _postResultData.value = it
+                setExistingPostData(it)
+            }
+        }
+    }
+
+    private fun setExistingPostData(data: ResponsePostData) {
+        selectedGroup.value = data.data.groupName
+        selectedLatitude.value = data.data.latitude.toString()
+        selectedLongitude.value = data.data.longitude.toString()
+        selectedPlace.value = data.data.location ?: "어디를 방문하셨나요?"
+        noteTxt.value = data.data.content
+        _photoUrlList.value = data.data.collect
     }
 
     fun getGroupList() {
@@ -64,7 +86,6 @@ class PostViewModel @Inject constructor(private val postRepository: PostReposito
     ) {
         viewModelScope.launch {
             postRepository.uploadFeed(groupId, data, multipartFile).onSuccess {
-                _postResultData.value = it
                 _isLoading.value = false
             }.onFailure {
                 _isLoading.value = false

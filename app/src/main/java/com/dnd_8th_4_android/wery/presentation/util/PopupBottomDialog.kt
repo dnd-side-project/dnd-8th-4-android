@@ -1,11 +1,13 @@
 package com.dnd_8th_4_android.wery.presentation.util
 
+import android.content.Intent
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.data.local.AuthLocalDataSource
 import com.dnd_8th_4_android.wery.databinding.BottomDialogPopupBinding
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseBottomDialogFragment
+import com.dnd_8th_4_android.wery.presentation.ui.post.upload.view.UploadPostActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -51,6 +53,13 @@ class PopupBottomDialog(
                 dialog!!.dismiss()
             }
             postRemoveDialog.show(childFragmentManager, null)
+        }
+
+        binding.layoutModify.setOnClickListener {
+            val intent = Intent(requireContext(), UploadPostActivity::class.java)
+            intent.putExtra("contentId", contentId)
+            startActivity(intent)
+            dismiss()
         }
     }
 

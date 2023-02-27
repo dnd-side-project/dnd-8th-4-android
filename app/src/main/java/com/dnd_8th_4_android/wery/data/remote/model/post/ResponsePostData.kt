@@ -10,9 +10,9 @@ data class ResponsePostData(
         val content: String,
         val groupName: String,
         val id: Int,
-        val latitude: Double?,
+        val latitude: Double? = -1.0,
         val location: String?,
-        val longitude: Double?,
+        val longitude: Double? = -1.0,
     ) {
         data class Collect(
             val imageUrl: String
