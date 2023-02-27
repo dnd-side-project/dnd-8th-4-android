@@ -7,6 +7,7 @@ import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
+import android.util.Log
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -49,7 +50,7 @@ class MultiPartFileUtil(private val mContext: Context, private val fileName: Str
         )
     }
 
-    fun httpToFile(strImageURL: String): MultipartBody.Part? {
+    fun httpsToFile(strImageURL: String): MultipartBody.Part? {
         val options = BitmapFactory.Options()
         var imgBitmap: Bitmap? = null
 

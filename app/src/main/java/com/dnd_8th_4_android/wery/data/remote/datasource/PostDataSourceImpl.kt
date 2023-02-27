@@ -37,4 +37,16 @@ class PostDataSourceImpl @Inject constructor(private val postService: PostServic
         }
         return Result.failure(IllegalStateException(response.message()))
     }
+
+    override suspend fun modifyFeed(
+        data: HashMap<String, RequestBody>,
+        multipartFile: MutableList<MultipartBody.Part>
+    ): Result<BaseResponse> {
+        val response = postService.patchFeed(data, multipartFile)
+        if (response.isSuccessful) {
+            response.body()?.let { return Result.success(it) }
+        }
+        return Result.failure(IllegalStateException(response.message()))
+    }
+
 }

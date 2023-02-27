@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
@@ -228,25 +229,46 @@ class UploadPostActivity : BaseActivity<ActivityUploadPostBinding>(R.layout.acti
         binding.layoutSelectGroup.setOnClickListener {
             postViewModel.selectedGroupState.value = true
             postViewModel.getGroupList()
-            SelectGroupBottomDialog(postViewModel,"w").show(supportFragmentManager, null)
+            SelectGroupBottomDialog(postViewModel, "w").show(supportFragmentManager, null)
         }
     }
 
     private fun registerListener() {
         binding.tvRegister.setOnClickListener {
-            postViewModel.setLoadingState(true)
-            val textHasMap = postViewModel.setRequestBodyData(
-                binding.etvNote.text.toString(),
-                postViewModel.selectedLatitude.value!!,
-                postViewModel.selectedLongitude.value!!,
-                binding.tvAddPlace.text.toString(),
-            )
-            val imgFileList = mutableListOf<MultipartBody.Part>()
-            for (imgUrl in uploadPhotoAdapter.currentList) {
-                imgFileList.add(MultiPartFileUtil(this, "multipartFile").uriToFile(imgUrl.toUri()))
-            }
-            postViewModel.uploadFeed(postViewModel.groupId.value!!, textHasMap, imgFileList)
+            if (intent.hasExtra("contentId")) modifyFeed() else uploadFeed()
         }
+    }
+
+    private fun uploadFeed() {
+        postViewModel.setLoadingState(true)
+        val textHasMap = postViewModel.setRequestBodyData(
+            binding.etvNote.text.toString(),
+            postViewModel.selectedLatitude.value!!,
+            postViewModel.selectedLongitude.value!!,
+            binding.tvAddPlace.text.toString(),
+        )
+        val imgFileList = mutableListOf<MultipartBody.Part>()
+        for (imgUrl in uploadPhotoAdapter.currentList) {
+            imgFileList.add(MultiPartFileUtil(this, "multipartFile").uriToFile(imgUrl.toUri()))
+        }
+        postViewModel.uploadFeed(postViewModel.groupId.value!!, textHasMap, imgFileList)
+    }
+
+    private fun modifyFeed() {
+        postViewModel.setLoadingState(true)
+        val textHasMap = postViewModel.setRequestBodyData(
+            binding.etvNote.text.toString(),
+            postViewModel.selectedLatitude.value!!,
+            postViewModel.selectedLongitude.value!!,
+            binding.tvAddPlace.text.toString(),
+        )
+        val imgFileList = mutableListOf<MultipartBody.Part>()
+        for (imgUrl in uploadPhotoAdapter.currentList) {
+            if (imgUrl.contains("https")) imgFileList.add(MultiPartFileUtil(this,"multipartFile").httpsToFile(imgUrl)!!)
+            else imgFileList.add(MultiPartFileUtil(this, "multipartFile").uriToFile(imgUrl.toUri()))
+        }
+        val contentId = intent.getIntExtra("contentId", -1).toLong()
+        postViewModel.modifyFeed(contentId, textHasMap, imgFileList)
     }
 
     private fun closeListener() {

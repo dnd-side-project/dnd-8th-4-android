@@ -15,6 +15,11 @@ interface PostRepository {
     ): Result<BaseResponse>
 
     suspend fun getPostData(
-        contentId:Int
-    ):Result<ResponsePostData>
+        contentId: Int
+    ): Result<ResponsePostData>
+
+    suspend fun modifyFeed(
+        data: HashMap<String, RequestBody>,
+        multipartFile: MutableList<MultipartBody.Part>
+    ): Result<BaseResponse>
 }

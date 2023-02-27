@@ -24,6 +24,13 @@ interface PostService {
     @GET("/content")
     suspend fun getPostData(
         @Query("contentId") contentId: Int,
-    ):Response<ResponsePostData>
+    ): Response<ResponsePostData>
+
+    @Multipart
+    @PATCH("/content")
+    suspend fun patchFeed(
+        @PartMap data: HashMap<String, RequestBody>,
+        @Part multipartFile: MutableList<MultipartBody.Part>
+    ): Response<BaseResponse>
 
 }

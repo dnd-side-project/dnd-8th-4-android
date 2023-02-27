@@ -27,4 +27,11 @@ class PostRepositoryImpl @Inject constructor(private val postDataSource: PostDat
     override suspend fun getPostData(contentId: Int): Result<ResponsePostData> {
         return postDataSource.getPostData(contentId)
     }
+
+    override suspend fun modifyFeed(
+        data: HashMap<String, RequestBody>,
+        multipartFile: MutableList<MultipartBody.Part>
+    ): Result<BaseResponse> {
+        return postDataSource.modifyFeed(data,multipartFile)
+    }
 }

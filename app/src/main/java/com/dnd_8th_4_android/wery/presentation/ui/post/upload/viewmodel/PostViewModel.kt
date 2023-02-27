@@ -1,6 +1,5 @@
 package com.dnd_8th_4_android.wery.presentation.ui.post.upload.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -86,6 +85,21 @@ class PostViewModel @Inject constructor(private val postRepository: PostReposito
     ) {
         viewModelScope.launch {
             postRepository.uploadFeed(groupId, data, multipartFile).onSuccess {
+                _isLoading.value = false
+            }.onFailure {
+                _isLoading.value = false
+            }
+        }
+    }
+
+    fun modifyFeed(
+        contentId: Long,
+        data: HashMap<String, RequestBody>,
+        multipartFile: MutableList<MultipartBody.Part>
+    ) {
+        data["contentId"] = contentId.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        viewModelScope.launch {
+            postRepository.modifyFeed(data, multipartFile).onSuccess {
                 _isLoading.value = false
             }.onFailure {
                 _isLoading.value = false
