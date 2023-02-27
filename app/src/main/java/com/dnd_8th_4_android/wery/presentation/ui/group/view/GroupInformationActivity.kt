@@ -67,6 +67,7 @@ class GroupInformationActivity :
 
         binding.ivSearchInvite.setOnClickListener {
             Intent(this, UserSearchActivity::class.java).apply {
+                putExtra(GroupListRecyclerViewAdapter.GROUP_Id, viewModel.isSelectGroupId.value)
                 startActivity(this)
             }
         }

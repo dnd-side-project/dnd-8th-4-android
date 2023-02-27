@@ -52,4 +52,9 @@ interface GroupService {
     suspend fun getUserSearchList(
         @Query("keyword") keyword: String,
     ): ResponseUserSearchData
+
+    @POST("/group/invite")
+    suspend fun groupInvite(
+        @Body body: RequestGroupInviteData
+    ): BaseResponse
 }

@@ -51,4 +51,8 @@ class GroupRepositoryImpl @Inject constructor(private val groupDataSource: Group
     override suspend fun getUserSearchList(keyword: String): ResponseUserSearchData {
         return groupDataSource.getUserSearchList(keyword)
     }
+
+    override suspend fun groupInvite(body: RequestGroupInviteData): BaseResponse {
+        return groupDataSource.groupInvite(body)
+    }
 }

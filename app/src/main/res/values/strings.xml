@@ -229,4 +229,9 @@
     <string name="group_information_out_dialog_title">그룹을 나가시겠어요?</string>
     <string name="group_information_out_dialog_content">해당 그룹을 나가도 작성한 글은 내 프로필, 내가 속한 그룹의 피드, 그리고 앱 검색 결과에서 노출됩니다.</string>
     <string name="group_information_out_dialog_confirm">나가기</string>
+
+    <!-- UserSearchActivity -->
+    <string name="search_user_invite_title">초대하기</string>
+    <string name="search_user_invite_button">초대</string>
+    <string name="search_user_invite_hint">함께할 친구의 닉네임을 검색해 보세요.</string>
 </resources>

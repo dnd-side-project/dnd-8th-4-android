@@ -42,4 +42,8 @@ interface GroupDataSource {
     suspend fun getUserSearchList(
         keyword: String,
     ): ResponseUserSearchData
+
+    suspend fun groupInvite(
+        body: RequestGroupInviteData
+    ): BaseResponse
 }

@@ -10,6 +10,7 @@ import androidx.core.widget.doBeforeTextChanged
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.databinding.ActivitySearchUserInviteBinding
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseActivity
+import com.dnd_8th_4_android.wery.presentation.ui.group.adapter.GroupListRecyclerViewAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.group.adapter.UserSearchRecyclerViewAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.group.viewmodel.UserSearchViewModel
 import com.dnd_8th_4_android.wery.presentation.util.hideKeyboard
@@ -24,6 +25,9 @@ class UserSearchActivity :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        viewModel.isSelectGroupId.value =
+            intent.getStringExtra(GroupListRecyclerViewAdapter.GROUP_Id)
 
         initStartView()
         initDataBinding()
@@ -55,8 +59,12 @@ class UserSearchActivity :
                     binding.ivSearch.isVisible = false
                 }
                 userSearchRecyclerViewAdapter = UserSearchRecyclerViewAdapter()
-                userSearchRecyclerViewAdapter.setOnUserClickListener {
+                userSearchRecyclerViewAdapter.setOnUserClickListener { userId ->
                     binding.tvInvite.isEnabled = true
+                    binding.tvInvite.setOnClickListener {
+                        viewModel.groupInvite(userId)
+                        binding.tvInvite.isEnabled = false
+                    }
                 }
 
                 binding.rvSearch.apply {
