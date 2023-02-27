@@ -8,7 +8,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
@@ -23,7 +22,6 @@ import com.dnd_8th_4_android.wery.presentation.util.DialogFragmentUtil
 import com.dnd_8th_4_android.wery.presentation.util.MultiPartFileUtil
 import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.MultipartBody
-import timber.log.Timber
 
 @AndroidEntryPoint
 class WritingActivity : BaseActivity<ActivityWritingBinding>(R.layout.activity_writing) {
@@ -62,8 +60,8 @@ class WritingActivity : BaseActivity<ActivityWritingBinding>(R.layout.activity_w
             if (it.resultCode == Activity.RESULT_OK) {
                 val selectedPlace = it.data?.getStringExtra("selectedPlace")
                     ?: getString(R.string.search_place_hint)
-                val selectedX = it.data?.getDoubleExtra("selectedX", 0.0)
-                val selectedY = it.data?.getDoubleExtra("selectedY", 0.0)
+                val selectedX = it.data?.getDoubleExtra("selectedX", -1.0)
+                val selectedY = it.data?.getDoubleExtra("selectedY", -1.0)
 
                 writingViewModel.selectedPlace.value = selectedPlace
                 writingViewModel.selectedLongitude.value = selectedX.toString()
@@ -130,9 +128,6 @@ class WritingActivity : BaseActivity<ActivityWritingBinding>(R.layout.activity_w
     }
 
     private fun initDataBinding() {
-        writingViewModel.postResultData.observe(this){
-            Toast.makeText(this, it.message.toString(), Toast.LENGTH_SHORT).show()
-        }
         setPhotoCnt()
         setLoadingDialog()
     }
@@ -161,7 +156,10 @@ class WritingActivity : BaseActivity<ActivityWritingBinding>(R.layout.activity_w
     private fun setLoadingDialog() {
         writingViewModel.isLoading.observe(this) {
             if (it) showLoadingDialog(this)
-            else dismissLoadingDialog()
+            else {
+                dismissLoadingDialog()
+                finish()
+            }
         }
     }
 
@@ -188,7 +186,7 @@ class WritingActivity : BaseActivity<ActivityWritingBinding>(R.layout.activity_w
     private fun openGallery() {
         val intent = Intent()
         intent.apply {
-            type = "image/*"
+            type = "image/jpeg"
             putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
             action = Intent.ACTION_PICK
         }
@@ -217,6 +215,7 @@ class WritingActivity : BaseActivity<ActivityWritingBinding>(R.layout.activity_w
 
     private fun registerListener() {
         binding.tvRegister.setOnClickListener {
+            writingViewModel.setLoadingState(true)
             val textHasMap = writingViewModel.setRequestBodyData(
                 binding.etvNote.text.toString(),
                 writingViewModel.selectedLatitude.value!!,
@@ -227,10 +226,9 @@ class WritingActivity : BaseActivity<ActivityWritingBinding>(R.layout.activity_w
             for (fileUri in uploadPhotoAdapter.currentList) {
                 imgFileList.add(MultiPartFileUtil(this, "multipartFile").uriToFile(fileUri))
             }
-            Log.d("kite",textHasMap.toString())
-            writingViewModel.setLoadingState(true)
+            Log.d("kite", uploadPhotoAdapter.currentList.toString())
+            Log.d("kite", imgFileList.toString())
             writingViewModel.uploadFeed(writingViewModel.groupId.value!!, textHasMap, imgFileList)
-            finish()
         }
     }
 

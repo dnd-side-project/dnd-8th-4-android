@@ -10,7 +10,7 @@ interface PostDataSource {
 
     suspend fun uploadFeed(
         groupId: Long,
-        request: HashMap<String, RequestBody>,
+        data: HashMap<String, RequestBody>,
         multipartFile: MutableList<MultipartBody.Part>
     ): Result<BaseResponse>
 }
