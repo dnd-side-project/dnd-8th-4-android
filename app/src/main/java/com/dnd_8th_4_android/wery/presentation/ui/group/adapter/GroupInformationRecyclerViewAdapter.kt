@@ -10,19 +10,19 @@ import com.dnd_8th_4_android.wery.data.remote.model.group.ResponseGroupInformati
 import com.dnd_8th_4_android.wery.databinding.ItemGroupInformationBinding
 
 class GroupInformationRecyclerViewAdapter :
-    ListAdapter<ResponseGroupInformationData.Data.GroupUserInfoList, GroupInformationRecyclerViewAdapter.ViewHolder>(
+    ListAdapter<ResponseGroupInformationData.Data.GroupMemberInfoList, GroupInformationRecyclerViewAdapter.ViewHolder>(
         diffUtil
     ) {
     private lateinit var binding: ItemGroupInformationBinding
 
     class ViewHolder(private val binding: ItemGroupInformationBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: ResponseGroupInformationData.Data.GroupUserInfoList) {
+        fun bind(item: ResponseGroupInformationData.Data.GroupMemberInfoList) {
             binding.ivFriendImage.clipToOutline = true
-            Glide.with(binding.ivFriendImage.context).load(item.groupImageUrl)
+            Glide.with(binding.ivFriendImage.context).load(item.userProfileImageUrl)
                 .into(binding.ivFriendImage)
 
-            binding.tvFriendName.text = item.groupName
+            binding.tvFriendName.text = item.userName
         }
     }
 
@@ -37,17 +37,18 @@ class GroupInformationRecyclerViewAdapter :
     }
 
     companion object {
-        private val diffUtil = object : DiffUtil.ItemCallback<ResponseGroupInformationData.Data.GroupUserInfoList>() {
+        private val diffUtil = object :
+            DiffUtil.ItemCallback<ResponseGroupInformationData.Data.GroupMemberInfoList>() {
             override fun areItemsTheSame(
-                oldItem: ResponseGroupInformationData.Data.GroupUserInfoList,
-                newItem: ResponseGroupInformationData.Data.GroupUserInfoList,
+                oldItem: ResponseGroupInformationData.Data.GroupMemberInfoList,
+                newItem: ResponseGroupInformationData.Data.GroupMemberInfoList,
             ): Boolean {
                 return oldItem == newItem
             }
 
             override fun areContentsTheSame(
-                oldItem: ResponseGroupInformationData.Data.GroupUserInfoList,
-                newItem: ResponseGroupInformationData.Data.GroupUserInfoList,
+                oldItem: ResponseGroupInformationData.Data.GroupMemberInfoList,
+                newItem: ResponseGroupInformationData.Data.GroupMemberInfoList,
             ): Boolean {
                 return oldItem == newItem
             }

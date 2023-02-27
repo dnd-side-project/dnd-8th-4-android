@@ -19,7 +19,9 @@ class GroupInformationActivity :
 
     override fun onResume() {
         super.onResume()
-        viewModel.isSelectGroupId.value = intent.getStringExtra(GroupListRecyclerViewAdapter.GROUP_Id)
+        viewModel.setLoading()
+        viewModel.isSelectGroupId.value =
+            intent.getStringExtra(GroupListRecyclerViewAdapter.GROUP_Id)
         viewModel.getGroupInformation()
     }
 
@@ -31,8 +33,24 @@ class GroupInformationActivity :
     }
 
     private fun initDataBinding() {
+        viewModel.isLoading.observe(this) {
+            if (it) showLoadingDialog(this)
+            else dismissLoadingDialog()
+        }
+
         viewModel.groupList.observe(this) {
-            groupInformationRecyclerViewAdapter.submitList(it.groupUserInfoList)
+            groupInformationRecyclerViewAdapter.submitList(it.groupMemberInfoList)
+
+            binding.ivGroupImage.clipToOutline = true
+            Glide.with(binding.ivGroupImage.context).load(it.groupImageUrl)
+                .into(binding.ivGroupImage)
+
+            binding.tvGroupName.text = it.groupName
+            binding.tvGroupIntroduceContent.text = it.groupNote
+            binding.tvGroupCreateAt.text = it.groupCreatedAt
+            binding.tvGroupListCount.text = it.groupMemberInfoList.size.toString()
+
+            viewModel.setUnLoading()
         }
     }
 

@@ -75,6 +75,7 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/tv_group_name"
                 style="@style/TextView.Title.14.Sb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -126,7 +127,7 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_group_introduce_content" />
 
             <TextView
-                android:id="@+id/tv_group_createAt"
+                android:id="@+id/tv_group_createAt_title"
                 style="@style/TextView.Title.14.Sb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -138,13 +139,14 @@
                 app:layout_constraintTop_toBottomOf="@id/view_line_three" />
 
             <TextView
+                android:id="@+id/tv_group_createAt"
                 style="@style/TextView.Body.14.R"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:textColor="@color/gray700"
-                app:layout_constraintStart_toEndOf="@id/tv_group_createAt"
-                app:layout_constraintTop_toTopOf="@id/tv_group_createAt"
+                app:layout_constraintStart_toEndOf="@id/tv_group_createAt_title"
+                app:layout_constraintTop_toTopOf="@id/tv_group_createAt_title"
                 tools:text="2023년 1월 10일" />
 
             <TextView

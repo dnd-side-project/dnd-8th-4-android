@@ -11,9 +11,9 @@ data class ResponseGroupInformationData(
         val groupImageUrl: String,
         val groupCreatedAt: String,
         val memberCount: Int,
-        val groupUserInfoList: MutableList<GroupUserInfoList>,
+        val groupMemberInfoList: MutableList<GroupMemberInfoList>,
     ) {
-        data class GroupUserInfoList(
+        data class GroupMemberInfoList(
             val userName: String,
             val userProfileImageUrl: String,
         )

@@ -143,6 +143,13 @@ class AccessGroupFragment :
         binding.ivBookmark.setOnClickListener {
             viewModel.setBookmark()
         }
+
+        binding.layerGroupName.setOnClickListener {
+            Intent(context, GroupInformationActivity::class.java).apply {
+                putExtra(GroupListRecyclerViewAdapter.GROUP_Id, viewModel.isSelectGroupId.value)
+                startActivity(this)
+            }
+        }
     }
 
     private fun getGradePopUp(view: View, position: Int, contentId: Int) {

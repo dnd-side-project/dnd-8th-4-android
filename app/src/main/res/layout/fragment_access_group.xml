@@ -29,9 +29,9 @@
                     android:id="@+id/iv_group_image"
                     android:layout_width="match_parent"
                     android:layout_height="240dp"
+                    android:foreground="@drawable/bg_group_iamge_shadow"
                     android:scaleType="fitXY"
                     android:src="@drawable/img_sample"
-                    android:foreground="@drawable/bg_group_iamge_shadow"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
@@ -77,6 +77,7 @@
                     tools:text="몬베베와 샤월들" />
 
                 <ImageView
+                    android:id="@+id/iv_group_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
@@ -221,6 +222,13 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.helper.widget.Layer
+                    android:id="@+id/layer_group_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:constraint_referenced_ids="tv_group_name, iv_group_name"
+                    tools:ignore="MissingConstraints" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
 
