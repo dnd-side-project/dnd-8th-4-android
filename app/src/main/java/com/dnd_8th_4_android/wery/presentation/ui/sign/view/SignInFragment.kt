@@ -4,6 +4,7 @@ import android.content.Intent
 import android.text.InputType
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.databinding.FragmentSignInBinding
 import com.dnd_8th_4_android.wery.domain.model.DialogInfo
@@ -19,6 +20,7 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sig
 
     override fun initStartView() {
         binding.viewModel = signInViewModel
+        Glide.with(requireContext()).load(R.drawable.gif_login).into(binding.ivLogo)
     }
 
     override fun initDataBinding() {
