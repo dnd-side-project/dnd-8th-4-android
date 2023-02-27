@@ -2,10 +2,7 @@ package com.dnd_8th_4_android.wery.data.remote.datasource
 
 import com.dnd_8th_4_android.wery.data.api.GroupService
 import com.dnd_8th_4_android.wery.data.remote.model.BaseResponse
-import com.dnd_8th_4_android.wery.data.remote.model.group.ResponseBookmarkData
-import com.dnd_8th_4_android.wery.data.remote.model.group.ResponseGroupInformationData
-import com.dnd_8th_4_android.wery.data.remote.model.group.ResponseGroupMissionData
-import com.dnd_8th_4_android.wery.data.remote.model.group.ResponseSetBookmarkData
+import com.dnd_8th_4_android.wery.data.remote.model.group.*
 import com.dnd_8th_4_android.wery.data.remote.model.home.RequestEmotionStatus
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseEmotionData
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseGroupData
@@ -48,5 +45,9 @@ class GroupDataSourceImpl @Inject constructor(private val groupService: GroupSer
 
     override suspend fun deleteGroup(groupId: Int): BaseResponse {
         return groupService.deleteGroup(groupId)
+    }
+
+    override suspend fun getUserSearchList(keyword: String): ResponseUserSearchData {
+        return groupService.getUserSearchList(keyword)
     }
 }

@@ -1,10 +1,7 @@
 package com.dnd_8th_4_android.wery.data.api
 
 import com.dnd_8th_4_android.wery.data.remote.model.BaseResponse
-import com.dnd_8th_4_android.wery.data.remote.model.group.ResponseBookmarkData
-import com.dnd_8th_4_android.wery.data.remote.model.group.ResponseGroupInformationData
-import com.dnd_8th_4_android.wery.data.remote.model.group.ResponseGroupMissionData
-import com.dnd_8th_4_android.wery.data.remote.model.group.ResponseSetBookmarkData
+import com.dnd_8th_4_android.wery.data.remote.model.group.*
 import com.dnd_8th_4_android.wery.data.remote.model.home.RequestEmotionStatus
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseEmotionData
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseGroupData
@@ -50,4 +47,9 @@ interface GroupService {
     suspend fun deleteGroup(
         @Query("groupId") groupId: Int,
     ): BaseResponse
+
+    @GET("/user/search")
+    suspend fun getUserSearchList(
+        @Query("keyword") keyword: String,
+    ): ResponseUserSearchData
 }
