@@ -31,6 +31,9 @@ class AccessGroupViewModel @Inject constructor(private val groupRepository: Grou
     private val _isLoading: MutableLiveData<Boolean> = MutableLiveData()
     val isLoading: LiveData<Boolean> = _isLoading
 
+    private val _isSelectedBookmark = MutableLiveData<Boolean>()
+    val isSelectedBookmark: LiveData<Boolean> = _isSelectedBookmark
+
     // 그룹 게시글 조회
     fun getGroupPost() {
         viewModelScope.launch {
@@ -85,6 +88,23 @@ class AccessGroupViewModel @Inject constructor(private val groupRepository: Grou
                 Timber.tag("error").d(it.message.toString())
             }
         }
+    }
+
+    // 그룹 즐겨찾기 등록
+    fun setBookmark() {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                groupRepository.setBookmark(isSelectGroupId.value!!.toInt())
+            }.onSuccess {
+                _isSelectedBookmark.value = it.data.groupStarYn == "ADD"
+            }.onFailure {
+                Timber.tag("error").d(it.message.toString())
+            }
+        }
+    }
+
+    fun initBookmark(value: Boolean) {
+        _isSelectedBookmark.value = value
     }
 
     fun setLoading() {

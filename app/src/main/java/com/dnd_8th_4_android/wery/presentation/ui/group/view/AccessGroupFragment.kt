@@ -37,6 +37,7 @@ class AccessGroupFragment :
         viewModel.setLoading()
         viewModel.isSelectGroupId.value =
             requireArguments().getString(GroupListRecyclerViewAdapter.GROUP_Id)
+        viewModel.initBookmark(requireArguments().getBoolean(GroupListRecyclerViewAdapter.GROUP_BOOKMARK))
         viewModel.getGroupPost()
         viewModel.getMission()
     }
@@ -70,6 +71,10 @@ class AccessGroupFragment :
         viewModel.isLoading.observe(viewLifecycleOwner) {
             if (it) showLoadingDialog(requireContext())
             else dismissLoadingDialog()
+        }
+
+        viewModel.isSelectedBookmark.observe(viewLifecycleOwner) {
+            binding.ivBookmark.isSelected = it
         }
 
         viewModel.isExistMission.observe(viewLifecycleOwner) { isExistMission ->
@@ -128,14 +133,15 @@ class AccessGroupFragment :
         binding.tvGroupMemberNumber.text =
             requireArguments().getString(GroupListRecyclerViewAdapter.GROUP_NUMBER)
 
-        binding.ivBookmark.isSelected =
-            requireArguments().getBoolean(GroupListRecyclerViewAdapter.GROUP_BOOKMARK)
-
         binding.ivSearch.setOnClickListener {
             Intent(requireContext(), SearchPostActivity::class.java).apply {
                 putExtra(HomeFragment.GROUP_ALL_LIST, viewModel.isSelectGroupId.value)
                 startActivity(this)
             }
+        }
+
+        binding.ivBookmark.setOnClickListener {
+            viewModel.setBookmark()
         }
     }
 
