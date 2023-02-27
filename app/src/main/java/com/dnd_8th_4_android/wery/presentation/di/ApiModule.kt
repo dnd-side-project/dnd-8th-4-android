@@ -63,4 +63,10 @@ object ApiModule {
     fun provideGroupService(retrofit: Retrofit): GroupService {
         return retrofit.create(GroupService::class.java)
     }
+
+    @Provides
+    @Singleton
+    fun providePostService(retrofit: Retrofit): PostService {
+        return retrofit.create(PostService::class.java)
+    }
 }
