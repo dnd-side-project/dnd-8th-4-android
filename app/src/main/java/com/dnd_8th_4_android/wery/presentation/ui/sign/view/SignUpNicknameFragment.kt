@@ -47,7 +47,7 @@ class SignUpNicknameFragment :
 
         signUpNicknameViewModel.signUpSuccess.observe(viewLifecycleOwner) {
             if (it) {
-                findNavController().navigate(R.id.action_signUpNicknameFragment_to_signInFragment)
+                findNavController().navigate(R.id.action_signUpNicknameFragment_to_signUpWelcomeFragment)
             }
         }
     }

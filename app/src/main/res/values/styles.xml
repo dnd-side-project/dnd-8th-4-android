@@ -13,6 +13,12 @@
         <item name="fontFamily">@font/pretendard_semi_bold</item>
     </style>
 
+    <style name="TextView.Title.20" parent="Widget.AppCompat.TextView">
+        <item name="android:fontWeight">700</item>
+        <item name="android:textSize">20dp</item>
+        <item name="fontFamily">@font/pretendard_semi_bold</item>
+    </style>
+
     <style name="TextView.Title.16.Sb" parent="Widget.AppCompat.TextView">
         <item name="android:fontWeight">600</item>
         <item name="android:textSize">16dp</item>

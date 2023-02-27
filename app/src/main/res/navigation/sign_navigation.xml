@@ -56,7 +56,16 @@
         android:label="SignUpNicknameFragment"
         tools:layout="@layout/fragment_sign_up_nickname">
         <action
-            android:id="@+id/action_signUpNicknameFragment_to_signInFragment"
+            android:id="@+id/action_signUpNicknameFragment_to_signUpWelcomeFragment"
+            app:destination="@id/signUpWelcomeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpWelcomeFragment"
+        android:name="com.dnd_8th_4_android.wery.presentation.ui.sign.view.SignUpWelcomeFragment"
+        android:label="SignUpWelcomeFragment"
+        tools:layout="@layout/fragment_sign_up_welcome">
+        <action
+            android:id="@+id/action_signUpWelcomeFragment_to_signInFragment"
             app:destination="@id/signInFragment"
             app:popUpTo="@id/signInFragment"
             app:popUpToInclusive="true" />
