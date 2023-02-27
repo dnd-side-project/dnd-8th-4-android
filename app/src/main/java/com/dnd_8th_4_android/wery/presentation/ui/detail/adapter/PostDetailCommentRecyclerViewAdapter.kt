@@ -71,7 +71,7 @@ class PostDetailCommentRecyclerViewAdapter :
                 val commentImageData = currentList[position]
                 holder.bind(
                     ResponsePostDetailCommentImageData.Data(
-                        commentImageData.friendImage,
+                        commentImageData.profileImageUrl,
                         commentImageData.name,
                         commentImageData.sticker,
                         commentImageData.time
@@ -82,7 +82,7 @@ class PostDetailCommentRecyclerViewAdapter :
                 val commentNoImageData = currentList[position]
                 holder.bind(
                     ResponsePostDetailCommentNoImageData.Data(
-                        commentNoImageData.friendImage,
+                        commentNoImageData.profileImageUrl,
                         commentNoImageData.name,
                         commentNoImageData.comment,
                         commentNoImageData.time

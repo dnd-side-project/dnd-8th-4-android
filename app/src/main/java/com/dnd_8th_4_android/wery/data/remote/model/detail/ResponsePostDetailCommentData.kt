@@ -10,7 +10,7 @@ data class ResponsePostDetailCommentData(
         val content: MutableList<Content>
     ) {
         data class Content(
-        val friendImage: String?,
+        val profileImageUrl: String?,
             @SerializedName("username") val name: String,
         val sticker: Int?,
             @SerializedName("commentNote") val comment: String,
