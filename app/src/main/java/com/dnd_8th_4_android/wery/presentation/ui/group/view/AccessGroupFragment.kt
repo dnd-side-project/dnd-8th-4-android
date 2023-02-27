@@ -36,7 +36,7 @@ class AccessGroupFragment :
 
         viewModel.setLoading()
         viewModel.isSelectGroupId.value =
-            requireArguments().getInt(GroupListRecyclerViewAdapter.GROUP_Id)
+            requireArguments().getString(GroupListRecyclerViewAdapter.GROUP_Id)
         viewModel.getGroupPost()
         viewModel.getMission()
     }
@@ -128,7 +128,8 @@ class AccessGroupFragment :
         binding.tvGroupMemberNumber.text =
             requireArguments().getString(GroupListRecyclerViewAdapter.GROUP_NUMBER)
 
-        binding.ivBookmark.isSelected = requireArguments().getBoolean(GroupListRecyclerViewAdapter.GROUP_BOOKMARK)
+        binding.ivBookmark.isSelected =
+            requireArguments().getBoolean(GroupListRecyclerViewAdapter.GROUP_BOOKMARK)
 
         binding.ivSearch.setOnClickListener {
             Intent(requireContext(), SearchPostActivity::class.java).apply {

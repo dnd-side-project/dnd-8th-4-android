@@ -33,7 +33,7 @@ class GroupListRecyclerViewAdapter :
             }
 
             binding.layer.setOnClickListener {
-                goToAccessGroup(item.id, item.image, item.isStarGroup)
+                goToAccessGroup(item.id.toString(), item.image, item.isStarGroup)
             }
         }
     }
@@ -47,11 +47,11 @@ class GroupListRecyclerViewAdapter :
         holder.bind(currentList[position])
     }
 
-    private fun goToAccessGroup(groupId: Int, groupImage: String, isStartGroup: Boolean) {
+    private fun goToAccessGroup(groupId: String, groupImage: String, isStartGroup: Boolean) {
         val bundle = Bundle()
         bundle.putString(GROUP_NAME, binding.tvGroupName.text.toString())
         bundle.putString(GROUP_NUMBER, binding.tvGroupNumber.text.toString())
-        bundle.putInt(GROUP_Id, groupId)
+        bundle.putString(GROUP_Id, groupId)
         bundle.putString(GROUP_IMAGE, groupImage)
         bundle.putBoolean(GROUP_BOOKMARK, isStartGroup)
 

@@ -1,6 +1,5 @@
 package com.dnd_8th_4_android.wery.presentation.ui.group.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -24,7 +23,7 @@ class AccessGroupViewModel @Inject constructor(private val groupRepository: Grou
     private val _postList = MutableLiveData<MutableList<ResponsePostData.Data.Content>>()
     val postList: LiveData<MutableList<ResponsePostData.Data.Content>> = _postList
 
-    val isSelectGroupId = MutableLiveData(-1)
+    val isSelectGroupId = MutableLiveData("")
 
     private val _missionList = MutableLiveData<MutableList<ResponseGroupMissionData.Data>>()
     val missionList: LiveData<MutableList<ResponseGroupMissionData.Data>> = _missionList
@@ -36,7 +35,7 @@ class AccessGroupViewModel @Inject constructor(private val groupRepository: Grou
     fun getGroupPost() {
         viewModelScope.launch {
             kotlin.runCatching {
-                groupRepository.allGroupPost(isSelectGroupId.value!!, 1)
+                groupRepository.allGroupPost(isSelectGroupId.value!!.toInt(), 1)
             }.onSuccess {
                 _postList.value = it.data.content
             }.onFailure {
@@ -74,7 +73,7 @@ class AccessGroupViewModel @Inject constructor(private val groupRepository: Grou
     fun getMission() {
         viewModelScope.launch {
             kotlin.runCatching {
-                groupRepository.getMission(isSelectGroupId.value!!)
+                groupRepository.getMission(isSelectGroupId.value!!.toInt())
             }.onSuccess {
                 if (it.data.isNotEmpty()) {
                     _isExistMission.value = true

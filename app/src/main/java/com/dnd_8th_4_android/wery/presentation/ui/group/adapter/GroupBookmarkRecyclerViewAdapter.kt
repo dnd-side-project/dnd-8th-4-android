@@ -26,7 +26,7 @@ class GroupBookmarkRecyclerViewAdapter :
             binding.tvGroupName.text = item.groupName
 
             binding.layoutMyGroup.setOnClickListener {
-                goToAccessGroup(item.groupId, item.groupImageUrl, item.memberCount)
+                goToAccessGroup(item.groupId.toString(), item.groupImageUrl, item.memberCount)
             }
         }
     }
@@ -40,11 +40,14 @@ class GroupBookmarkRecyclerViewAdapter :
         holder.bind(currentList[position])
     }
 
-    private fun goToAccessGroup(groupId: Int, groupImage: String, memberCount: Int) {
+    private fun goToAccessGroup(groupId: String, groupImage: String, memberCount: Int) {
         val bundle = Bundle()
-        bundle.putString(GroupListRecyclerViewAdapter.GROUP_NAME, binding.tvGroupName.text.toString())
+        bundle.putString(
+            GroupListRecyclerViewAdapter.GROUP_NAME,
+            binding.tvGroupName.text.toString()
+        )
         bundle.putInt(GroupListRecyclerViewAdapter.GROUP_NUMBER, memberCount)
-        bundle.putInt(GroupListRecyclerViewAdapter.GROUP_Id, groupId)
+        bundle.putString(GroupListRecyclerViewAdapter.GROUP_Id, groupId)
         bundle.putString(GroupListRecyclerViewAdapter.GROUP_IMAGE, groupImage)
         bundle.putBoolean(GroupListRecyclerViewAdapter.GROUP_BOOKMARK, true)
 

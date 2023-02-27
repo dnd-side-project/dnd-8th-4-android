@@ -1,14 +1,11 @@
 package com.dnd_8th_4_android.wery.presentation.ui.group.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dnd_8th_4_android.wery.data.remote.model.group.ResponseBookmarkData
-import com.dnd_8th_4_android.wery.data.remote.model.home.RequestEmotionStatus
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseGroupData
-import com.dnd_8th_4_android.wery.data.remote.model.home.ResponsePostData
 import com.dnd_8th_4_android.wery.domain.repository.GroupRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -30,6 +27,8 @@ class GroupViewModel @Inject constructor(private val groupRepository: GroupRepos
 
     private val _groupAllIdList = MutableLiveData<String>()
     val groupAllIdList: LiveData<String> = _groupAllIdList
+
+    lateinit var groupIdList: MutableList<Int>
 
     private val _isLoading: MutableLiveData<Boolean> = MutableLiveData()
     val isLoading: LiveData<Boolean> = _isLoading
@@ -59,6 +58,13 @@ class GroupViewModel @Inject constructor(private val groupRepository: GroupRepos
                 groupRepository.signGroup()
             }.onSuccess {
                 _groupList.value = it.data.groupInfoList
+
+                groupIdList = mutableListOf()
+                for (i in it.data.groupInfoList.indices) {
+                    groupIdList.add(it.data.groupInfoList[i].id)
+                }
+
+                _groupAllIdList.value = groupIdList.joinToString()
             }.onFailure {
                 Timber.tag("error").d(it.message.toString())
             }
