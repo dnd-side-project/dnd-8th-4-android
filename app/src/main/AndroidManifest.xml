@@ -54,6 +54,7 @@
             android:exported="true" />
         <activity
             android:name=".presentation.ui.detail.view.PostDetailActivity"
+            android:theme="@style/BlackStatusTheme"
             android:exported="true" />
         <activity
             android:name=".presentation.ui.mission.create.CreateMissionActivity"
