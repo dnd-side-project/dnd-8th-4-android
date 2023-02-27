@@ -22,7 +22,7 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
     private val _postList = MutableLiveData<MutableList<ResponsePostData.Data.Content>>()
     val postList: LiveData<MutableList<ResponsePostData.Data.Content>> = _postList
 
-    private val _isExistGroup = MutableLiveData<Boolean>()
+    private val _isExistGroup = MutableLiveData<Boolean>(true)
     val isExistGroup: LiveData<Boolean> = _isExistGroup
 
     private val _isNoAccess = MutableLiveData<Boolean>()
