@@ -1,5 +1,6 @@
 package com.dnd_8th_4_android.wery.presentation.ui.group.adapter
 
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -9,8 +10,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.data.remote.model.group.ResponseGroupMissionData
-import com.dnd_8th_4_android.wery.data.remote.model.mission.ResponseMissionCard
 import com.dnd_8th_4_android.wery.databinding.ItemYesMissionBinding
+import com.dnd_8th_4_android.wery.domain.model.MissionColor
 
 class AccessGroupMissionRecyclerViewAdapter :
     ListAdapter<ResponseGroupMissionData.Data, AccessGroupMissionRecyclerViewAdapter.ViewHolder>(
@@ -37,6 +38,18 @@ class AccessGroupMissionRecyclerViewAdapter :
             binding.tvMissionContent.text = item.missionTitle
             binding.tvStartDay.text = item.missionStartDate.substring(IntRange(2, 9))
             binding.tvEndDay.text = item.missionEndDate.substring(IntRange(2, 9))
+
+            binding.layoutMission.backgroundTintList = when (item.missionColor) {
+                MissionColor.BLUE.colorNumber -> {
+                     ColorStateList.valueOf(ContextCompat.getColor(binding.root.context, MissionColor.BLUE.color))
+                }
+                MissionColor.PINK.colorNumber -> {
+                    ColorStateList.valueOf(ContextCompat.getColor(binding.root.context, MissionColor.PINK.color))
+                }
+                else -> {
+                    ColorStateList.valueOf(ContextCompat.getColor(binding.root.context, MissionColor.GREEN.color))
+                }
+            }
 
 //            if (item.userAssignMissionInfoList[0].locationCheck) {
 //                binding.btnCertify.icon =
