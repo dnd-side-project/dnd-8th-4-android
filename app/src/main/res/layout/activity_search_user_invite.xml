@@ -77,9 +77,9 @@
             android:layout_marginEnd="12dp"
             android:src="@drawable/ic_search_close"
             android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/et_search"
             app:layout_constraintEnd_toEndOf="@id/et_search"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@id/et_search" />
 
         <ImageView
             android:id="@+id/iv_search"
@@ -98,6 +98,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="vertical"
+            android:visibility="gone"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/et_search" />
