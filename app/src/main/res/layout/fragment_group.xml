@@ -59,7 +59,7 @@
                     android:src="@drawable/ic_search_close"
                     android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@id/et_search"
+                    app:layout_constraintEnd_toEndOf="@id/tv_search"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView

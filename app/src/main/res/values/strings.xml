@@ -216,4 +216,14 @@
     <!-- SearchPostActivity -->
     <string name="search_post">게시글</string>
     <string name="search_filter">최신순</string>
+
+    <!-- GroupInformationActivity -->
+    <string name="group_information_title">그룹 정보</string>
+    <string name="group_information_introduce">그룹 소개글</string>
+    <string name="group_information_createAt">개설일</string>
+    <string name="group_information_createAt_example">초대를 통해서만 가입할 수 있습니다.</string>
+    <string name="group_information_invite">멤버 초대하기</string>
+    <string name="group_information_invite_content">아직 가입하지 않은 친구를 초대해보세요!</string>
+    <string name="group_information_member">멤버</string>
+    <string name="group_information_out">그룹 나가기</string>
 </resources>
