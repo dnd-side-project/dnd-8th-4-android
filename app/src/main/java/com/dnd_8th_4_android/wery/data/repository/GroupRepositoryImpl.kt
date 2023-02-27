@@ -2,6 +2,7 @@ package com.dnd_8th_4_android.wery.data.repository
 
 import com.dnd_8th_4_android.wery.data.remote.datasource.GroupDataSource
 import com.dnd_8th_4_android.wery.data.remote.model.group.ResponseBookmarkData
+import com.dnd_8th_4_android.wery.data.remote.model.group.ResponseGroupInformationData
 import com.dnd_8th_4_android.wery.data.remote.model.group.ResponseGroupMissionData
 import com.dnd_8th_4_android.wery.data.remote.model.group.ResponseSetBookmarkData
 import com.dnd_8th_4_android.wery.data.remote.model.home.RequestEmotionStatus
@@ -35,5 +36,9 @@ class GroupRepositoryImpl @Inject constructor(private val groupDataSource: Group
 
     override suspend fun getMission(groupId: Int): ResponseGroupMissionData {
         return groupDataSource.getMission(groupId)
+    }
+
+    override suspend fun getGroupInformation(groupId: Int): ResponseGroupInformationData {
+        return groupDataSource.getGroupInformation(groupId)
     }
 }

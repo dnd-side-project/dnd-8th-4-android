@@ -1,6 +1,7 @@
 package com.dnd_8th_4_android.wery.data.api
 
 import com.dnd_8th_4_android.wery.data.remote.model.group.ResponseBookmarkData
+import com.dnd_8th_4_android.wery.data.remote.model.group.ResponseGroupInformationData
 import com.dnd_8th_4_android.wery.data.remote.model.group.ResponseGroupMissionData
 import com.dnd_8th_4_android.wery.data.remote.model.group.ResponseSetBookmarkData
 import com.dnd_8th_4_android.wery.data.remote.model.home.RequestEmotionStatus
@@ -38,4 +39,9 @@ interface GroupService {
     suspend fun getMission(
         @Query("groupId") groupId: Int,
     ): ResponseGroupMissionData
+
+    @GET("/group")
+    suspend fun getGroupInformation(
+        @Query("groupId") groupId: Int,
+    ): ResponseGroupInformationData
 }
