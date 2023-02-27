@@ -6,7 +6,7 @@
         <import type="android.view.View" />
         <variable
             name="data"
-            type="com.dnd_8th_4_android.wery.data.remote.model.write.ResponseSearchPlace.Document" />
+            type="com.dnd_8th_4_android.wery.data.remote.model.post.ResponseSearchPlace.Document" />
     </data>
 
     <LinearLayout

@@ -1,13 +1,13 @@
-package com.dnd_8th_4_android.wery.presentation.ui.write.upload.view
+package com.dnd_8th_4_android.wery.presentation.ui.post.upload.view
 
 import androidx.lifecycle.ViewModel
 import com.dnd_8th_4_android.wery.R
-import com.dnd_8th_4_android.wery.data.remote.model.write.ResponseGroupList
+import com.dnd_8th_4_android.wery.data.remote.model.post.ResponseGroupList
 import com.dnd_8th_4_android.wery.databinding.DialogFragmentSelectGroupBinding
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseBottomDialogFragment
 import com.dnd_8th_4_android.wery.presentation.ui.mission.create.CreateMissionViewModel
-import com.dnd_8th_4_android.wery.presentation.ui.write.upload.adapter.SelectGroupAdapter
-import com.dnd_8th_4_android.wery.presentation.ui.write.upload.viewmodel.WritingViewModel
+import com.dnd_8th_4_android.wery.presentation.ui.post.upload.adapter.SelectGroupAdapter
+import com.dnd_8th_4_android.wery.presentation.ui.post.upload.viewmodel.PostViewModel
 
 class SelectGroupBottomDialog(
     private val viewModel: ViewModel,
@@ -19,7 +19,7 @@ class SelectGroupBottomDialog(
 
     override fun initAfterBinding() {
         selectGroupAdapter = SelectGroupAdapter { data -> getSelectedGroup(data) }
-        (viewModel as WritingViewModel).groupListData.observe(this) {
+        (viewModel as PostViewModel).groupListData.observe(this) {
             selectGroupAdapter.itemList = it
             binding.tvGroupCnt.text = it.size.toString()
         }
@@ -29,7 +29,7 @@ class SelectGroupBottomDialog(
     private fun getSelectedGroup(data: ResponseGroupList.ResultGroupList) {
         when (fromViewType) {
             "w" -> {
-                (viewModel as WritingViewModel).selectedGroup.value = data.groupName
+                (viewModel as PostViewModel).selectedGroup.value = data.groupName
                 viewModel.setGroupId(data.id)
             }
             "m" -> {
@@ -43,7 +43,7 @@ class SelectGroupBottomDialog(
     override fun onDestroyView() {
         super.onDestroyView()
         when (fromViewType) {
-            "w" -> (viewModel as WritingViewModel).selectedGroupState.value = false
+            "w" -> (viewModel as PostViewModel).selectedGroupState.value = false
             "m" -> (viewModel as CreateMissionViewModel).selectedGroupState.value = false
         }
     }

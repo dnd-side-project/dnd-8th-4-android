@@ -1,4 +1,4 @@
-package com.dnd_8th_4_android.wery.presentation.ui.write.upload.adapter
+package com.dnd_8th_4_android.wery.presentation.ui.post.upload.adapter
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable

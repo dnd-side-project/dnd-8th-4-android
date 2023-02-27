@@ -1,4 +1,4 @@
-package com.dnd_8th_4_android.wery.presentation.ui.write.place.view
+package com.dnd_8th_4_android.wery.presentation.ui.post.place.view
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,11 +7,11 @@ import android.view.inputmethod.EditorInfo
 import androidx.activity.viewModels
 import androidx.core.widget.addTextChangedListener
 import com.dnd_8th_4_android.wery.R
-import com.dnd_8th_4_android.wery.data.remote.model.write.ResponseSearchPlace.Document
+import com.dnd_8th_4_android.wery.data.remote.model.post.ResponseSearchPlace.Document
 import com.dnd_8th_4_android.wery.databinding.ActivitySearchPlaceBinding
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseActivity
-import com.dnd_8th_4_android.wery.presentation.ui.write.place.adapter.SearchAdapter
-import com.dnd_8th_4_android.wery.presentation.ui.write.place.viewmodel.SearchPlaceViewModel
+import com.dnd_8th_4_android.wery.presentation.ui.post.place.adapter.SearchAdapter
+import com.dnd_8th_4_android.wery.presentation.ui.post.place.viewmodel.SearchPlaceViewModel
 import com.dnd_8th_4_android.wery.presentation.util.hideKeyboard
 import dagger.hilt.android.AndroidEntryPoint
 

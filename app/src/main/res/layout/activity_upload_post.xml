@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.dnd_8th_4_android.wery.presentation.ui.write.upload.viewmodel.WritingViewModel" />
+            type="com.dnd_8th_4_android.wery.presentation.ui.post.upload.viewmodel.PostViewModel" />
 
     </data>
 

@@ -14,8 +14,8 @@ import androidx.core.widget.addTextChangedListener
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.databinding.ActivityCreateMissionBinding
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseActivity
-import com.dnd_8th_4_android.wery.presentation.ui.write.place.view.SearchPlaceActivity
-import com.dnd_8th_4_android.wery.presentation.ui.write.upload.view.SelectGroupBottomDialog
+import com.dnd_8th_4_android.wery.presentation.ui.post.place.view.SearchPlaceActivity
+import com.dnd_8th_4_android.wery.presentation.ui.post.upload.view.SelectGroupBottomDialog
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import java.util.*

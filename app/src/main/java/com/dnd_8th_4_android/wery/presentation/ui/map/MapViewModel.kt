@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.dnd_8th_4_android.wery.data.remote.model.map.ResponseMapMission
-import com.dnd_8th_4_android.wery.data.remote.model.write.ResponseSearchPlace
+import com.dnd_8th_4_android.wery.data.remote.model.post.ResponseSearchPlace
 
 class MapViewModel : ViewModel() {
     var myCurrentLatitude = MutableLiveData<Double>()

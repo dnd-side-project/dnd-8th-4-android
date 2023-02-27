@@ -1,11 +1,11 @@
-package com.dnd_8th_4_android.wery.presentation.ui.write.upload.viewmodel
+package com.dnd_8th_4_android.wery.presentation.ui.post.upload.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dnd_8th_4_android.wery.data.remote.model.BaseResponse
-import com.dnd_8th_4_android.wery.data.remote.model.write.ResponseGroupList
+import com.dnd_8th_4_android.wery.data.remote.model.post.ResponseGroupList
 import com.dnd_8th_4_android.wery.domain.repository.PostRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -16,7 +16,7 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import javax.inject.Inject
 
 @HiltViewModel
-class WritingViewModel @Inject constructor(private val postRepository: PostRepository) :
+class PostViewModel @Inject constructor(private val postRepository: PostRepository) :
     ViewModel() {
 
     private var _photoCnt = MutableLiveData<Int>(0)

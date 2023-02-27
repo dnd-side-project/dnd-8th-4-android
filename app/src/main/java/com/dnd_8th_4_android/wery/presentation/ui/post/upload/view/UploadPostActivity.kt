@@ -1,4 +1,4 @@
-package com.dnd_8th_4_android.wery.presentation.ui.write.upload.view
+package com.dnd_8th_4_android.wery.presentation.ui.post.upload.view
 
 import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.app.Activity
@@ -7,27 +7,26 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import com.dnd_8th_4_android.wery.R
-import com.dnd_8th_4_android.wery.databinding.ActivityWritingBinding
+import com.dnd_8th_4_android.wery.databinding.ActivityUploadPostBinding
 import com.dnd_8th_4_android.wery.domain.model.DialogInfo
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseActivity
-import com.dnd_8th_4_android.wery.presentation.ui.write.place.view.SearchPlaceActivity
-import com.dnd_8th_4_android.wery.presentation.ui.write.upload.adapter.UploadPhotoAdapter
-import com.dnd_8th_4_android.wery.presentation.ui.write.upload.viewmodel.WritingViewModel
+import com.dnd_8th_4_android.wery.presentation.ui.post.place.view.SearchPlaceActivity
+import com.dnd_8th_4_android.wery.presentation.ui.post.upload.adapter.UploadPhotoAdapter
+import com.dnd_8th_4_android.wery.presentation.ui.post.upload.viewmodel.PostViewModel
 import com.dnd_8th_4_android.wery.presentation.util.DialogFragmentUtil
 import com.dnd_8th_4_android.wery.presentation.util.MultiPartFileUtil
 import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.MultipartBody
 
 @AndroidEntryPoint
-class WritingActivity : BaseActivity<ActivityWritingBinding>(R.layout.activity_writing) {
+class UploadPostActivity : BaseActivity<ActivityUploadPostBinding>(R.layout.activity_upload_post) {
 
     private lateinit var uploadPhotoAdapter: UploadPhotoAdapter
-    private val writingViewModel: WritingViewModel by viewModels()
+    private val postViewModel: PostViewModel by viewModels()
 
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
@@ -63,9 +62,9 @@ class WritingActivity : BaseActivity<ActivityWritingBinding>(R.layout.activity_w
                 val selectedX = it.data?.getDoubleExtra("selectedX", -1.0)
                 val selectedY = it.data?.getDoubleExtra("selectedY", -1.0)
 
-                writingViewModel.selectedPlace.value = selectedPlace
-                writingViewModel.selectedLongitude.value = selectedX.toString()
-                writingViewModel.selectedLatitude.value = selectedY.toString()
+                postViewModel.selectedPlace.value = selectedPlace
+                postViewModel.selectedLongitude.value = selectedX.toString()
+                postViewModel.selectedLatitude.value = selectedY.toString()
             }
         }
 
@@ -76,7 +75,7 @@ class WritingActivity : BaseActivity<ActivityWritingBinding>(R.layout.activity_w
             return false
         }
 
-        writingViewModel.setPhotoCnt(totalPhotoCnt)
+        postViewModel.setPhotoCnt(totalPhotoCnt)
 
         return true
     }
@@ -123,7 +122,7 @@ class WritingActivity : BaseActivity<ActivityWritingBinding>(R.layout.activity_w
     }
 
     private fun initStartView() {
-        binding.viewModel = writingViewModel
+        binding.viewModel = postViewModel
         setRvAdapter()
     }
 
@@ -150,11 +149,11 @@ class WritingActivity : BaseActivity<ActivityWritingBinding>(R.layout.activity_w
         currentList.remove(imgUri)
         uploadPhotoAdapter.submitList(currentList)
 
-        writingViewModel.setPhotoCnt(currentList.size)
+        postViewModel.setPhotoCnt(currentList.size)
     }
 
     private fun setLoadingDialog() {
-        writingViewModel.isLoading.observe(this) {
+        postViewModel.isLoading.observe(this) {
             if (it) showLoadingDialog(this)
             else {
                 dismissLoadingDialog()
@@ -164,7 +163,7 @@ class WritingActivity : BaseActivity<ActivityWritingBinding>(R.layout.activity_w
     }
 
     private fun setPhotoCnt() {
-        writingViewModel.photoCnt.observe(this) {
+        postViewModel.photoCnt.observe(this) {
             binding.tvPhotoCnt.apply {
                 if (it == 0) {
                     setTextAppearance(R.style.TextView_Body_12_R)
@@ -195,9 +194,9 @@ class WritingActivity : BaseActivity<ActivityWritingBinding>(R.layout.activity_w
 
     private fun addPlaceListener() {
         if (intent?.hasExtra("placeName") == true) {
-            writingViewModel.selectedPlace.value = intent?.getStringExtra("placeName")
+            postViewModel.selectedPlace.value = intent?.getStringExtra("placeName")
         } else {
-            writingViewModel.selectedPlace.value = getString(R.string.search_place_hint)
+            postViewModel.selectedPlace.value = getString(R.string.search_place_hint)
         }
         binding.layoutAddPlace.setOnClickListener {
             requestSearchActivity.launch(Intent(this, SearchPlaceActivity::class.java))
@@ -205,30 +204,28 @@ class WritingActivity : BaseActivity<ActivityWritingBinding>(R.layout.activity_w
     }
 
     private fun selectGroupListener() {
-        writingViewModel.selectedGroup.value = getString(R.string.writing_select_group)
+        postViewModel.selectedGroup.value = getString(R.string.writing_select_group)
         binding.layoutSelectGroup.setOnClickListener {
-            writingViewModel.selectedGroupState.value = true
-            writingViewModel.getGroupList()
-            SelectGroupBottomDialog(writingViewModel,"w").show(supportFragmentManager, null)
+            postViewModel.selectedGroupState.value = true
+            postViewModel.getGroupList()
+            SelectGroupBottomDialog(postViewModel,"w").show(supportFragmentManager, null)
         }
     }
 
     private fun registerListener() {
         binding.tvRegister.setOnClickListener {
-            writingViewModel.setLoadingState(true)
-            val textHasMap = writingViewModel.setRequestBodyData(
+            postViewModel.setLoadingState(true)
+            val textHasMap = postViewModel.setRequestBodyData(
                 binding.etvNote.text.toString(),
-                writingViewModel.selectedLatitude.value!!,
-                writingViewModel.selectedLongitude.value!!,
+                postViewModel.selectedLatitude.value!!,
+                postViewModel.selectedLongitude.value!!,
                 binding.tvAddPlace.text.toString(),
             )
             val imgFileList = mutableListOf<MultipartBody.Part>()
             for (fileUri in uploadPhotoAdapter.currentList) {
                 imgFileList.add(MultiPartFileUtil(this, "multipartFile").uriToFile(fileUri))
             }
-            Log.d("kite", uploadPhotoAdapter.currentList.toString())
-            Log.d("kite", imgFileList.toString())
-            writingViewModel.uploadFeed(writingViewModel.groupId.value!!, textHasMap, imgFileList)
+            postViewModel.uploadFeed(postViewModel.groupId.value!!, textHasMap, imgFileList)
         }
     }
 
