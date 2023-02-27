@@ -46,6 +46,7 @@
             android:padding="16dp"
             android:text="@={vm.signUpName}"
             android:textColor="@drawable/selector_et_sign_up"
+            android:textColorHint="@color/gray500"
             app:addTextChangedListener="@{vm.textWatcher}"
             app:layout_constraintTop_toBottomOf="@id/tv_name" />
 

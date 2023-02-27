@@ -22,7 +22,6 @@ class GroupInformationActivity :
 
     override fun onResume() {
         super.onResume()
-        viewModel.setLoading()
         viewModel.isSelectGroupId.value =
             intent.getStringExtra(GroupListRecyclerViewAdapter.GROUP_Id)
         viewModel.getGroupInformation()
@@ -52,8 +51,6 @@ class GroupInformationActivity :
             binding.tvGroupIntroduceContent.text = it.groupNote
             binding.tvGroupCreateAt.text = it.groupCreatedAt
             binding.tvGroupListCount.text = it.groupMemberInfoList.size.toString()
-
-            viewModel.setUnLoading()
         }
     }
 

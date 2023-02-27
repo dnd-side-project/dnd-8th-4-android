@@ -60,7 +60,6 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
     }
 
     private fun initStartView() {
-        viewModel.setLoading()
         initData()
 
         // 게시글 이미지
@@ -123,12 +122,10 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
 
         viewModel.emotionList.observe(this) {
             postDetailEmotionRecyclerViewAdapter.submitList(it.toMutableList())
-            viewModel.setUnLoading()
         }
 
         viewModel.commentList.observe(this) {
             postDetailCommentRecyclerViewAdapter.submitList(it.toMutableList())
-            viewModel.setUnLoading()
         }
 
         viewModel.commentCount.observe(this) {
@@ -204,7 +201,6 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
 
         binding.ivSend.setOnClickListener {
             if (binding.etComment.text.toString() != "") {
-                viewModel.setLoading()
                 viewModel.setUpdateComment(
                     contentId,
                     RequestPostDetailCommentNote(binding.etComment.text.toString())
@@ -219,7 +215,6 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
                     1
                 )
             ) {
-                viewModel.setLoading()
                 viewModel.setUpPageNumber()
                 viewModel.getComment(contentId)
             }
@@ -238,6 +233,7 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
 
             tvContent.text = intent.getStringExtra(PostRecyclerViewAdapter.CONTENT).toString()
 
+            binding.ivFriendImage.clipToOutline = true
             Glide.with(applicationContext)
                 .load(intent.getStringExtra(PostRecyclerViewAdapter.USER_IMAGE))
                 .into(binding.ivFriendImage)

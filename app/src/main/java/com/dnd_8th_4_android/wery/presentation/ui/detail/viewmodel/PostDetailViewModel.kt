@@ -82,6 +82,7 @@ class PostDetailViewModel @Inject constructor(
 
     // 피드 댓글 조회
     fun getComment(contentId: Int) {
+        _isLoading.value = true
         viewModelScope.launch {
             kotlin.runCatching {
                 detailRepository.getComment(contentId, _pageNumber.value!!)
@@ -98,9 +99,8 @@ class PostDetailViewModel @Inject constructor(
                     _commentList.value = commentList
                 }
                 _isNoData.value = it.data.content.size != _pageNumber.value!! * 10
-
-                // TODO 댓글 총 개수 response 필요
                 _commentCount.value = _commentList.value!!.size
+                _isLoading.value = false
             }.onFailure {
                 Timber.tag("error").d(it.message.toString())
             }
@@ -176,13 +176,5 @@ class PostDetailViewModel @Inject constructor(
         override fun afterTextChanged(p0: Editable?) {
 
         }
-    }
-
-    fun setLoading() {
-        _isLoading.value = true
-    }
-
-    fun setUnLoading() {
-        _isLoading.value = false
     }
 }

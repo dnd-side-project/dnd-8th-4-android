@@ -34,7 +34,6 @@ class AccessGroupFragment :
         super.onResume()
         binding.vm = viewModel
 
-        viewModel.setLoading()
         viewModel.isSelectGroupId.value =
             requireArguments().getString(GroupListRecyclerViewAdapter.GROUP_Id)
         viewModel.initBookmark(requireArguments().getBoolean(GroupListRecyclerViewAdapter.GROUP_BOOKMARK))
@@ -110,13 +109,11 @@ class AccessGroupFragment :
 
         viewModel.postList.observe(viewLifecycleOwner) {
             postRecyclerViewAdapter.submitList(it)
-            viewModel.setUnLoading()
         }
 
         viewModel.missionList.observe(viewLifecycleOwner) {
             accessGroupMissionRecyclerViewAdapter.submitList(it)
             binding.tvMissionIngCount.text = it.size.toString()
-            viewModel.setUnLoading()
         }
     }
 
@@ -229,7 +226,6 @@ class AccessGroupFragment :
     }
 
     private fun setEmotion(contentId: Int, position: Int, emotionStatus: RequestEmotionStatus) {
-        viewModel.setLoading()
         viewModel.setUpdateEmotion(contentId, position, emotionStatus)
     }
 }

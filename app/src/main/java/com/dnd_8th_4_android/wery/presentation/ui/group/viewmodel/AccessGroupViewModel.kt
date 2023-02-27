@@ -36,11 +36,13 @@ class AccessGroupViewModel @Inject constructor(private val groupRepository: Grou
 
     // 그룹 게시글 조회
     fun getGroupPost() {
+        _isLoading.value = true
         viewModelScope.launch {
             kotlin.runCatching {
                 groupRepository.allGroupPost(isSelectGroupId.value!!.toInt(), 1)
             }.onSuccess {
                 _postList.value = it.data.content
+                _isLoading.value = false
             }.onFailure {
                 Timber.tag("error").d(it.message.toString())
             }
@@ -105,13 +107,5 @@ class AccessGroupViewModel @Inject constructor(private val groupRepository: Grou
 
     fun initBookmark(value: Boolean) {
         _isSelectedBookmark.value = value
-    }
-
-    fun setLoading() {
-        _isLoading.value = true
-    }
-
-    fun setUnLoading() {
-        _isLoading.value = false
     }
 }
