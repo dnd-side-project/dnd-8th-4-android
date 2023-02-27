@@ -1,9 +1,8 @@
 package com.dnd_8th_4_android.wery.data.repository
 
 import com.dnd_8th_4_android.wery.data.remote.datasource.GroupDataSource
-import com.dnd_8th_4_android.wery.data.remote.model.group.ResponseBookmarkData
-import com.dnd_8th_4_android.wery.data.remote.model.group.ResponseGroupMissionData
-import com.dnd_8th_4_android.wery.data.remote.model.group.ResponseSetBookmarkData
+import com.dnd_8th_4_android.wery.data.remote.model.BaseResponse
+import com.dnd_8th_4_android.wery.data.remote.model.group.*
 import com.dnd_8th_4_android.wery.data.remote.model.home.RequestEmotionStatus
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseEmotionData
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseGroupData
@@ -11,7 +10,8 @@ import com.dnd_8th_4_android.wery.data.remote.model.home.ResponsePostData
 import com.dnd_8th_4_android.wery.domain.repository.GroupRepository
 import javax.inject.Inject
 
-class GroupRepositoryImpl @Inject constructor(private val groupDataSource: GroupDataSource): GroupRepository {
+class GroupRepositoryImpl @Inject constructor(private val groupDataSource: GroupDataSource) :
+    GroupRepository {
 
     override suspend fun getBookmarkList(): ResponseBookmarkData {
         return groupDataSource.getBookmarkList()
@@ -29,11 +29,30 @@ class GroupRepositoryImpl @Inject constructor(private val groupDataSource: Group
         return groupDataSource.allGroupPost(groupId, page)
     }
 
-    override suspend fun sendEmotionData(contentId: Int, body: RequestEmotionStatus): ResponseEmotionData {
+    override suspend fun sendEmotionData(
+        contentId: Int,
+        body: RequestEmotionStatus,
+    ): ResponseEmotionData {
         return groupDataSource.sendEmotionData(contentId, body)
     }
 
     override suspend fun getMission(groupId: Int): ResponseGroupMissionData {
         return groupDataSource.getMission(groupId)
+    }
+
+    override suspend fun getGroupInformation(groupId: Int): ResponseGroupInformationData {
+        return groupDataSource.getGroupInformation(groupId)
+    }
+
+    override suspend fun deleteGroup(groupId: Int): BaseResponse {
+        return groupDataSource.deleteGroup(groupId)
+    }
+
+    override suspend fun getUserSearchList(keyword: String): ResponseUserSearchData {
+        return groupDataSource.getUserSearchList(keyword)
+    }
+
+    override suspend fun groupInvite(body: RequestGroupInviteData): BaseResponse {
+        return groupDataSource.groupInvite(body)
     }
 }

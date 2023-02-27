@@ -62,6 +62,10 @@
         <activity android:name=".presentation.ui.mission.sticker.view.StickerDetailActivity"/>
         <activity android:name=".presentation.ui.search.view.SearchPostActivity"
             android:exported="true" />
+        <activity android:name=".presentation.ui.group.view.GroupInformationActivity"
+            android:exported="true" />
+        <activity android:name=".presentation.ui.group.view.UserSearchActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

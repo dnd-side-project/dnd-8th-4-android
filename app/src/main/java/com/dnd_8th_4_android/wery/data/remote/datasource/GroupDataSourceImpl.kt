@@ -1,9 +1,8 @@
 package com.dnd_8th_4_android.wery.data.remote.datasource
 
 import com.dnd_8th_4_android.wery.data.api.GroupService
-import com.dnd_8th_4_android.wery.data.remote.model.group.ResponseBookmarkData
-import com.dnd_8th_4_android.wery.data.remote.model.group.ResponseGroupMissionData
-import com.dnd_8th_4_android.wery.data.remote.model.group.ResponseSetBookmarkData
+import com.dnd_8th_4_android.wery.data.remote.model.BaseResponse
+import com.dnd_8th_4_android.wery.data.remote.model.group.*
 import com.dnd_8th_4_android.wery.data.remote.model.home.RequestEmotionStatus
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseEmotionData
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseGroupData
@@ -29,11 +28,30 @@ class GroupDataSourceImpl @Inject constructor(private val groupService: GroupSer
         return groupService.allGroupPost(groupId, page)
     }
 
-    override suspend fun sendEmotionData(contentId: Int, body: RequestEmotionStatus): ResponseEmotionData {
+    override suspend fun sendEmotionData(
+        contentId: Int,
+        body: RequestEmotionStatus,
+    ): ResponseEmotionData {
         return groupService.sendEmotion(contentId, body)
     }
 
     override suspend fun getMission(groupId: Int): ResponseGroupMissionData {
         return groupService.getMission(groupId)
+    }
+
+    override suspend fun getGroupInformation(groupId: Int): ResponseGroupInformationData {
+        return groupService.getGroupInformation(groupId)
+    }
+
+    override suspend fun deleteGroup(groupId: Int): BaseResponse {
+        return groupService.deleteGroup(groupId)
+    }
+
+    override suspend fun getUserSearchList(keyword: String): ResponseUserSearchData {
+        return groupService.getUserSearchList(keyword)
+    }
+
+    override suspend fun groupInvite(body: RequestGroupInviteData): BaseResponse {
+        return groupService.groupInvite(body)
     }
 }
