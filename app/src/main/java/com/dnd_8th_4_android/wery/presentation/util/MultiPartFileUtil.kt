@@ -10,9 +10,12 @@ import android.provider.MediaStore
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.BufferedInputStream
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.InputStream
+import java.net.URL
+import java.net.URLConnection
 
 class MultiPartFileUtil(private val mContext: Context, private val fileName: String) {
 
@@ -44,5 +47,43 @@ class MultiPartFileUtil(private val mContext: Context, private val fileName: Str
             File(uri.toString()).name + ".jpg",
             fileBody
         )
+    }
+
+    fun httpToFile(strImageURL: String): MultipartBody.Part? {
+        val options = BitmapFactory.Options()
+        var imgBitmap: Bitmap? = null
+
+        try {
+            val url = URL(strImageURL)
+            val conn: URLConnection = url.openConnection()
+            conn.connect()
+
+            val nSize = conn.contentLength
+            val bis: BufferedInputStream = BufferedInputStream(conn.getInputStream(), nSize)
+            imgBitmap = BitmapFactory.decodeStream(bis, null, options)
+
+            val byteArrayOutputStream = ByteArrayOutputStream()
+            imgBitmap!!.compress(Bitmap.CompressFormat.JPEG, 20, byteArrayOutputStream)
+            val fileBody = byteArrayOutputStream.toByteArray()
+                .toRequestBody(
+                    "image/*".toMediaTypeOrNull(),
+                    0
+                )
+
+            val part = MultipartBody.Part.createFormData(
+                fileName,
+                strImageURL,
+                fileBody
+            )
+
+            bis.close()
+
+            return part
+
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+        }
+
+        return null
     }
 }
