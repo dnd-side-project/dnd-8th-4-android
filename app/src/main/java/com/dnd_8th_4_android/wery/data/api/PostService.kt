@@ -27,7 +27,7 @@ interface PostService {
     ): Response<ResponsePostData>
 
     @Multipart
-    @PATCH("/content")
+    @PUT("/content")
     suspend fun patchFeed(
         @PartMap data: HashMap<String, RequestBody>,
         @Part multipartFile: MutableList<MultipartBody.Part>

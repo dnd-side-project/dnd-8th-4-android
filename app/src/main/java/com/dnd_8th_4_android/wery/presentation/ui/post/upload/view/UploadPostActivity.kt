@@ -7,7 +7,6 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
@@ -262,13 +261,27 @@ class UploadPostActivity : BaseActivity<ActivityUploadPostBinding>(R.layout.acti
             postViewModel.selectedLongitude.value!!,
             binding.tvAddPlace.text.toString(),
         )
-        val imgFileList = mutableListOf<MultipartBody.Part>()
-        for (imgUrl in uploadPhotoAdapter.currentList) {
-            if (imgUrl.contains("https")) imgFileList.add(MultiPartFileUtil(this,"multipartFile").httpsToFile(imgUrl)!!)
-            else imgFileList.add(MultiPartFileUtil(this, "multipartFile").uriToFile(imgUrl.toUri()))
-        }
         val contentId = intent.getIntExtra("contentId", -1).toLong()
-        postViewModel.modifyFeed(contentId, textHasMap, imgFileList)
+        val imgFileList = mutableListOf<MultipartBody.Part>()
+        Thread {
+            kotlin.run {
+                for (imgUrl in uploadPhotoAdapter.currentList) {
+                    if (imgUrl.contains("https")) imgFileList.add(
+                        MultiPartFileUtil(
+                            this,
+                            "multipartFile"
+                        ).httpsToFile(imgUrl)!!
+                    )
+                    else imgFileList.add(
+                        MultiPartFileUtil(
+                            this,
+                            "multipartFile"
+                        ).uriToFile(imgUrl.toUri())
+                    )
+                }
+            }
+            postViewModel.modifyFeed(contentId, textHasMap, imgFileList)
+        }.start()
     }
 
     private fun closeListener() {

@@ -45,7 +45,7 @@ class MultiPartFileUtil(private val mContext: Context, private val fileName: Str
 
         return MultipartBody.Part.createFormData(
             fileName,
-            File(uri.toString()).name + ".jpg",
+            File(uri.toString()).name+".jpeg",
             fileBody
         )
     }

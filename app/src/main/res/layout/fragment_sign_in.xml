@@ -34,16 +34,22 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_top"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.19"/>
+
         <ImageView
             android:id="@+id/iv_logo"
             android:layout_width="220dp"
             android:layout_height="220dp"
             android:scaleType="fitXY"
-            android:layout_marginTop="82dp"
             app:layout_constraintBottom_toTopOf="@+id/etv_id"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layout_sign_in_top"
+            app:layout_constraintTop_toBottomOf="@id/guideline_top"
             app:layout_constraintVertical_chainStyle="packed" />
 
         <EditText
@@ -123,7 +129,7 @@
                 style="@style/TextView.Body.14.R"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="14dp"
+                android:layout_marginStart="10dp"
                 android:text="@string/sign_in_auto_login"
                 android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -133,7 +139,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_login"
-            style="@style/MaterialButton"
+            style="@style/MaterialButton.8.16.M"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -155,15 +161,15 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:orientation="horizontal"
-            android:layout_marginBottom="104dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/guideline_bottom"
             app:layout_constraintEnd_toEndOf="@id/btn_login"
             app:layout_constraintStart_toStartOf="@id/btn_login"
             app:layout_constraintTop_toBottomOf="@id/btn_login">
 
             <TextView
                 android:id="@+id/tv_find_id"
-                style="@style/TextView.Body.12.M"
+                style="@style/TextView.Caption.12.M"
+                android:textColor="@color/gray500"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/sign_in_find_id" />
@@ -176,9 +182,10 @@
 
             <TextView
                 android:id="@+id/tv_reset_pw"
-                style="@style/TextView.Body.12.M"
+                style="@style/TextView.Caption.12.M"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/gray500"
                 android:text="@string/sign_in_reset_pw" />
 
             <View
@@ -189,12 +196,19 @@
 
             <TextView
                 android:id="@+id/tv_sign_up"
-                style="@style/TextView.Body.12.M"
+                style="@style/TextView.Caption.12.M"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/gray500"
                 android:text="@string/sign_in_sign_up" />
         </LinearLayout>
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.9"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
