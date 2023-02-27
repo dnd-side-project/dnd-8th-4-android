@@ -179,6 +179,7 @@ class CreateGroupActivity :
     }
 
     private fun setGroupImg() {
+        binding.layoutGroupImg.clipToOutline = true
         binding.ivGroupImg.clipToOutline = true
         binding.frameLayoutImg.setOnClickListener {
             requestPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -203,6 +204,6 @@ class CreateGroupActivity :
 
     private fun removePhoto() {
         // TODO 추후 서버 통신을 위해 이미지 값 null 로 설정할 것
-        Glide.with(this).load(R.drawable.ic_location_pink).into(binding.ivGroupImg)
+        Glide.with(this).load(R.drawable.img_group_default).into(binding.ivGroupImg)
     }
 }
