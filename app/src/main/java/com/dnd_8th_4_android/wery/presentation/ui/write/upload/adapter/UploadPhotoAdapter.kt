@@ -46,7 +46,7 @@ class UploadPhotoAdapter(private val onItemDelete: (Uri) -> Unit) :
             currentPhoto = imgUri
 
             binding.ivPhoto.clipToOutline = true
-            Glide.with(binding.root).load(imgUri.toString())
+            Glide.with(binding.root).load(imgUri)
                 .placeholder(ColorDrawable(Color.parseColor("#E0E2E5"))).into(binding.ivPhoto)
         }
     }
