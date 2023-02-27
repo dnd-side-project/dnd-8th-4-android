@@ -62,4 +62,10 @@ object RepositoryModule {
     fun provideGroupRepository(groupDataSource: GroupDataSource): GroupRepository {
         return GroupRepositoryImpl(groupDataSource)
     }
+
+    @Provides
+    @Singleton
+    fun providePostRepository(postDataSource: PostDataSource): PostRepository {
+        return PostRepositoryImpl(postDataSource)
+    }
 }
