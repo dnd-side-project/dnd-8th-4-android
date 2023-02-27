@@ -5,10 +5,12 @@ import androidx.activity.viewModels
 import com.bumptech.glide.Glide
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.databinding.ActivityGroupInformationBinding
+import com.dnd_8th_4_android.wery.domain.model.DialogInfo
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseActivity
 import com.dnd_8th_4_android.wery.presentation.ui.group.adapter.GroupInformationRecyclerViewAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.group.adapter.GroupListRecyclerViewAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.group.viewmodel.GroupInformationViewModel
+import com.dnd_8th_4_android.wery.presentation.util.DialogFragmentUtil
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -60,6 +62,20 @@ class GroupInformationActivity :
             adapter = groupInformationRecyclerViewAdapter
             itemAnimator = null
             isNestedScrollingEnabled = false
+        }
+
+        binding.layerOut.setOnClickListener {
+            val dialog = DialogFragmentUtil(
+                DialogInfo(
+                    resources.getString(R.string.group_information_out_dialog_title),
+                    resources.getString(R.string.group_information_out_dialog_content),
+                    "취소",
+                    resources.getString(R.string.group_information_out_dialog_confirm)
+                )
+            ) {
+                viewModel.deleteGroup()
+            }
+            dialog.show(supportFragmentManager, dialog.tag)
         }
     }
 }

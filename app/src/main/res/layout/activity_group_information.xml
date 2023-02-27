@@ -271,6 +271,7 @@
                 app:layout_constraintTop_toBottomOf="@id/view_line_six" />
 
             <TextView
+                android:id="@+id/tv_out"
                 style="@style/TextView.Title.14.Sb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -280,6 +281,12 @@
                 app:layout_constraintBottom_toBottomOf="@id/iv_out"
                 app:layout_constraintStart_toEndOf="@id/iv_out"
                 app:layout_constraintTop_toTopOf="@id/iv_out" />
+
+            <androidx.constraintlayout.helper.widget.Layer
+                android:id="@+id/layer_out"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="iv_out,tv_out" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </layout>

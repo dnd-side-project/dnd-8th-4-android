@@ -1,5 +1,6 @@
 package com.dnd_8th_4_android.wery.data.api
 
+import com.dnd_8th_4_android.wery.data.remote.model.BaseResponse
 import com.dnd_8th_4_android.wery.data.remote.model.group.ResponseBookmarkData
 import com.dnd_8th_4_android.wery.data.remote.model.group.ResponseGroupInformationData
 import com.dnd_8th_4_android.wery.data.remote.model.group.ResponseGroupMissionData
@@ -44,4 +45,9 @@ interface GroupService {
     suspend fun getGroupInformation(
         @Query("groupId") groupId: Int,
     ): ResponseGroupInformationData
+
+    @DELETE("/group/delete")
+    suspend fun deleteGroup(
+        @Query("groupId") groupId: Int,
+    ): BaseResponse
 }

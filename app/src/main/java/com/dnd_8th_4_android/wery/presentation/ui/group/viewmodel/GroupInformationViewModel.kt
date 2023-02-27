@@ -1,6 +1,5 @@
 package com.dnd_8th_4_android.wery.presentation.ui.group.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -30,10 +29,20 @@ class GroupInformationViewModel @Inject constructor(private val groupRepository:
                 groupRepository.getGroupInformation(isSelectGroupId.value!!.toInt())
             }.onSuccess {
                 _groupList.value = it.data
-                Log.e("태그", it.data.toString())
             }.onFailure {
                 Timber.tag("error").d(it.message.toString())
-                Log.e("태그", it.message.toString())
+            }
+        }
+    }
+
+    fun deleteGroup() {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                groupRepository.deleteGroup(isSelectGroupId.value!!.toInt())
+            }.onSuccess {
+
+            }.onFailure {
+                Timber.tag("error").d(it.message.toString())
             }
         }
     }

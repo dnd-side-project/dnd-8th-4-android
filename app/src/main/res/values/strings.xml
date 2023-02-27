@@ -226,4 +226,7 @@
     <string name="group_information_invite_content">아직 가입하지 않은 친구를 초대해보세요!</string>
     <string name="group_information_member">멤버</string>
     <string name="group_information_out">그룹 나가기</string>
+    <string name="group_information_out_dialog_title">그룹을 나가시겠어요?</string>
+    <string name="group_information_out_dialog_content">해당 그룹을 나가도 작성한 글은 내 프로필, 내가 속한 그룹의 피드, 그리고 앱 검색 결과에서 노출됩니다.</string>
+    <string name="group_information_out_dialog_confirm">나가기</string>
 </resources>
