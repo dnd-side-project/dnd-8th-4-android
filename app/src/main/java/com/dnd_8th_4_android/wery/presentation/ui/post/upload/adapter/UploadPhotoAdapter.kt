@@ -1,4 +1,4 @@
-package com.dnd_8th_4_android.wery.presentation.ui.write.upload.adapter
+package com.dnd_8th_4_android.wery.presentation.ui.post.upload.adapter
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -12,8 +12,8 @@ import com.bumptech.glide.Glide
 import com.dnd_8th_4_android.wery.databinding.ItemWritingPhotoBinding
 
 
-class UploadPhotoAdapter(private val onItemDelete: (Uri) -> Unit) :
-    ListAdapter<Uri, UploadPhotoAdapter.UploadPhotoViewAdapter>(
+class UploadPhotoAdapter(private val onItemDelete: (String) -> Unit) :
+    ListAdapter<String, UploadPhotoAdapter.UploadPhotoViewAdapter>(
         uploadPhotoDiffUtil
     ) {
 
@@ -29,10 +29,10 @@ class UploadPhotoAdapter(private val onItemDelete: (Uri) -> Unit) :
 
     class UploadPhotoViewAdapter(
         val binding: ItemWritingPhotoBinding,
-        val onItemDelete: (Uri) -> Unit
+        val onItemDelete: (String) -> Unit
     ) :
         RecyclerView.ViewHolder(binding.root) {
-        private var currentPhoto: Uri? = null
+        private var currentPhoto: String? = null
 
         init {
             binding.ivDelete.setOnClickListener {
@@ -42,26 +42,26 @@ class UploadPhotoAdapter(private val onItemDelete: (Uri) -> Unit) :
             }
         }
 
-        fun onBind(imgUri: Uri) {
-            currentPhoto = imgUri
+        fun onBind(imgUrl: String) {
+            currentPhoto = imgUrl
 
             binding.ivPhoto.clipToOutline = true
-            Glide.with(binding.root).load(imgUri)
+            Glide.with(binding.root).load(imgUrl)
                 .placeholder(ColorDrawable(Color.parseColor("#E0E2E5"))).into(binding.ivPhoto)
         }
     }
 
     companion object {
-        private val uploadPhotoDiffUtil = object : DiffUtil.ItemCallback<Uri>() {
+        private val uploadPhotoDiffUtil = object : DiffUtil.ItemCallback<String>() {
             override fun areItemsTheSame(
-                oldItem: Uri,
-                newItem: Uri
+                oldItem: String,
+                newItem: String
             ): Boolean =
                 oldItem === newItem
 
             override fun areContentsTheSame(
-                oldItem: Uri,
-                newItem: Uri
+                oldItem: String,
+                newItem: String
             ): Boolean =
                 oldItem == newItem
         }

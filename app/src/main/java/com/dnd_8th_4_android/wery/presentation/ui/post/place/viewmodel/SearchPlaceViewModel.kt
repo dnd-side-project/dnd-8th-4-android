@@ -1,10 +1,10 @@
-package com.dnd_8th_4_android.wery.presentation.ui.write.place.viewmodel
+package com.dnd_8th_4_android.wery.presentation.ui.post.place.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dnd_8th_4_android.wery.data.remote.model.write.ResponseSearchPlace.Document
+import com.dnd_8th_4_android.wery.data.remote.model.post.ResponseSearchPlace.Document
 import com.dnd_8th_4_android.wery.domain.repository.PlaceRepository
 import com.dnd_8th_4_android.wery.presentation.di.OtherHttpClient
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -1,4 +1,4 @@
-package com.dnd_8th_4_android.wery.data.remote.model.write
+package com.dnd_8th_4_android.wery.data.remote.model.post
 
 import java.io.Serializable
 

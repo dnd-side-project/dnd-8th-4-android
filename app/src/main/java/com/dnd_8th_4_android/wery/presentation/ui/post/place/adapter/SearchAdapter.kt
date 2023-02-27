@@ -1,11 +1,11 @@
-package com.dnd_8th_4_android.wery.presentation.ui.write.place.adapter
+package com.dnd_8th_4_android.wery.presentation.ui.post.place.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.dnd_8th_4_android.wery.data.remote.model.write.ResponseSearchPlace.Document
+import com.dnd_8th_4_android.wery.data.remote.model.post.ResponseSearchPlace.Document
 import com.dnd_8th_4_android.wery.databinding.ItemSearchBinding
 
 class SearchAdapter(private val onItemClick: (Document) -> Unit) :

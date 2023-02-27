@@ -1,10 +1,10 @@
-package com.dnd_8th_4_android.wery.presentation.ui.write.upload.adapter
+package com.dnd_8th_4_android.wery.presentation.ui.post.upload.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.dnd_8th_4_android.wery.data.remote.model.write.ResponseGroupList
+import com.dnd_8th_4_android.wery.data.remote.model.post.ResponseGroupList
 import com.dnd_8th_4_android.wery.databinding.ItemSelectGroupBinding
 
 class SelectGroupAdapter(private val onItemClick: (ResponseGroupList.ResultGroupList) -> Unit) :

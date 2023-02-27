@@ -20,7 +20,7 @@ import com.dnd_8th_4_android.wery.presentation.ui.home.adapter.PostRecyclerViewA
 import com.dnd_8th_4_android.wery.presentation.ui.home.viewmodel.HomeViewModel
 import com.dnd_8th_4_android.wery.presentation.ui.search.view.SearchPostActivity
 import com.dnd_8th_4_android.wery.presentation.ui.sign.view.SignActivity
-import com.dnd_8th_4_android.wery.presentation.ui.write.upload.view.WritingActivity
+import com.dnd_8th_4_android.wery.presentation.ui.post.upload.view.UploadPostActivity
 import com.dnd_8th_4_android.wery.presentation.util.PopupBottomDialog
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
@@ -176,7 +176,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         })
 
         binding.btnFloatingAction.setOnClickListener {
-            startActivity(Intent(requireContext(), WritingActivity::class.java))
+            startActivity(Intent(requireContext(), UploadPostActivity::class.java))
         }
     }
 

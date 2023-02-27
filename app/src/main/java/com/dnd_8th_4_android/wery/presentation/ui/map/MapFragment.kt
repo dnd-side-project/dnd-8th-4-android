@@ -23,14 +23,14 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.data.remote.model.map.ResponseMapFeed
 import com.dnd_8th_4_android.wery.data.remote.model.map.ResponseMapMission
-import com.dnd_8th_4_android.wery.data.remote.model.write.ResponseSearchPlace
+import com.dnd_8th_4_android.wery.data.remote.model.post.ResponseSearchPlace
 import com.dnd_8th_4_android.wery.databinding.FragmentMapBinding
 import com.dnd_8th_4_android.wery.databinding.ItemMarkerFeedBinding
 import com.dnd_8th_4_android.wery.domain.model.DialogInfo
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseFragment
 import com.dnd_8th_4_android.wery.presentation.ui.map.adapter.MapFeedAdapter
-import com.dnd_8th_4_android.wery.presentation.ui.write.place.view.SearchPlaceActivity
-import com.dnd_8th_4_android.wery.presentation.ui.write.upload.view.WritingActivity
+import com.dnd_8th_4_android.wery.presentation.ui.post.place.view.SearchPlaceActivity
+import com.dnd_8th_4_android.wery.presentation.ui.post.upload.view.UploadPostActivity
 import com.dnd_8th_4_android.wery.presentation.util.DialogFragmentUtil
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
@@ -265,7 +265,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
         }
 
         binding.btnFloatingAction.setOnClickListener {
-            val intent = Intent(requireContext(), WritingActivity::class.java)
+            val intent = Intent(requireContext(), UploadPostActivity::class.java)
             if (mapViewModel.searchPlaceTxt.value != resources.getString(R.string.map_search_hint)) intent.putExtra(
                 "placeName", mapViewModel.searchPlaceTxt.value
             )

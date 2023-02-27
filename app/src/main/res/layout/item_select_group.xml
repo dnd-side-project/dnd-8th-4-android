@@ -7,7 +7,7 @@
 
         <variable
             name="data"
-            type="com.dnd_8th_4_android.wery.data.remote.model.write.ResponseGroupList.ResultGroupList" />
+            type="com.dnd_8th_4_android.wery.data.remote.model.post.ResponseGroupList.ResultGroupList" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
