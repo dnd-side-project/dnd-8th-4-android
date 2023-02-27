@@ -84,7 +84,7 @@
 
     <!-- SearchPlaceActivity -->
     <string name="search_place_add_place">장소 추가하기</string>
-    <string name="search_place_hint">장소명, 지번, 도로명으로 검색</string>
+    <string name="search_place_hint">어디를 방문하셨나요?</string>
 
     <!-- HomeFragment -->
     <string name="home_search_hint">어떤 추억이 궁금하신가요?</string>

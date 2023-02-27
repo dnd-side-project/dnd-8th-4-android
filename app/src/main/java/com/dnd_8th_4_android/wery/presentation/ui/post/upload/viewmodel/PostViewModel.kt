@@ -95,11 +95,9 @@ class PostViewModel @Inject constructor(private val postRepository: PostReposito
     }
 
     fun modifyFeed(
-        contentId: Long,
         data: HashMap<String, RequestBody>,
         multipartFile: MutableList<MultipartBody.Part>
     ) {
-        data["contentId"] = contentId.toString().toRequestBody("text/plain".toMediaTypeOrNull())
         viewModelScope.launch {
             postRepository.modifyFeed(data, multipartFile).onSuccess {
                 _isLoading.value = false
@@ -109,7 +107,7 @@ class PostViewModel @Inject constructor(private val postRepository: PostReposito
         }
     }
 
-    fun setRequestBodyData(
+    fun setUploadRequestBodyData(
         content: String,
         latitude: String,
         longitude: String,
@@ -123,6 +121,30 @@ class PostViewModel @Inject constructor(private val postRepository: PostReposito
         val textHashMap = HashMap<String, RequestBody>()
         textHashMap["content"] = contentRequestBody
         if (latitude != "-1.0") {
+            textHashMap["latitude"] = latitudeRequestBody
+            textHashMap["longitude"] = longitudeRequestBody
+            textHashMap["location"] = locationRequestBody
+        }
+        return textHashMap
+    }
+
+    fun setModifyRequestBodyData(
+        content: String,
+        contentId: String,
+        latitude: String,
+        longitude: String,
+        location: String
+    ): HashMap<String, RequestBody> {
+        val contentRequestBody = content.toRequestBody("text/plain".toMediaTypeOrNull())
+        val contentIdRequestBody = contentId.toRequestBody("text/plain".toMediaTypeOrNull())
+        val latitudeRequestBody = latitude.toRequestBody("text/plain".toMediaTypeOrNull())
+        val longitudeRequestBody = longitude.toRequestBody("text/plain".toMediaTypeOrNull())
+        val locationRequestBody = location.toRequestBody("text/plain".toMediaTypeOrNull())
+
+        val textHashMap = HashMap<String, RequestBody>()
+        textHashMap["content"] = contentRequestBody
+        textHashMap["contentId"] = contentIdRequestBody
+        if (location != "어디를 방문하셨나요?") {
             textHashMap["latitude"] = latitudeRequestBody
             textHashMap["longitude"] = longitudeRequestBody
             textHashMap["location"] = locationRequestBody

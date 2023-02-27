@@ -240,7 +240,7 @@ class UploadPostActivity : BaseActivity<ActivityUploadPostBinding>(R.layout.acti
 
     private fun uploadFeed() {
         postViewModel.setLoadingState(true)
-        val textHasMap = postViewModel.setRequestBodyData(
+        val textHasMap = postViewModel.setUploadRequestBodyData(
             binding.etvNote.text.toString(),
             postViewModel.selectedLatitude.value!!,
             postViewModel.selectedLongitude.value!!,
@@ -255,13 +255,13 @@ class UploadPostActivity : BaseActivity<ActivityUploadPostBinding>(R.layout.acti
 
     private fun modifyFeed() {
         postViewModel.setLoadingState(true)
-        val textHasMap = postViewModel.setRequestBodyData(
+        val textHasMap = postViewModel.setModifyRequestBodyData(
             binding.etvNote.text.toString(),
+            intent.getIntExtra("contentId", -1).toLong().toString(),
             postViewModel.selectedLatitude.value!!,
             postViewModel.selectedLongitude.value!!,
             binding.tvAddPlace.text.toString(),
         )
-        val contentId = intent.getIntExtra("contentId", -1).toLong()
         val imgFileList = mutableListOf<MultipartBody.Part>()
         Thread {
             kotlin.run {
@@ -280,7 +280,7 @@ class UploadPostActivity : BaseActivity<ActivityUploadPostBinding>(R.layout.acti
                     )
                 }
             }
-            postViewModel.modifyFeed(contentId, textHasMap, imgFileList)
+            postViewModel.modifyFeed(textHasMap, imgFileList)
         }.start()
     }
 
