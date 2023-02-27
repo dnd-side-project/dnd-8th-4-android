@@ -41,7 +41,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         super.onResume()
         binding.vm = homeViewModel
 
-        homeViewModel.setLoading()
         homeViewModel.getSignGroup()
         homeViewModel.setPageNumber(1)
     }
@@ -100,20 +99,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             else dismissLoadingDialog()
         }
 
-        homeViewModel.isExistGroup.observe(viewLifecycleOwner) {
-            if (!it) homeViewModel.setUnLoading()
-        }
-
         // 그룹 리스트가 바뀌는 경우) 1. 스와이프 2. 홈 탭
         homeViewModel.groupList.observe(viewLifecycleOwner) {
             initSelectedGroup()
             groupRecyclerViewAdapter.submitList(it.toMutableList())
-            homeViewModel.setUnLoading()
         }
 
         homeViewModel.postList.observe(viewLifecycleOwner) {
             postRecyclerViewAdapter.submitList(it.toMutableList())
-            homeViewModel.setUnLoading()
         }
 
         homeViewModel.isNoAccess.observe(viewLifecycleOwner) {
@@ -134,7 +127,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                     Handler(Looper.getMainLooper())
                         .postDelayed({
                             binding.activityGroup.layoutSwipeRefresh.isRefreshing = false
-                            homeViewModel.setLoading()
                             homeViewModel.setPageNumber(1)
                             homeViewModel.getSignGroup()
                         }, 1000)
@@ -152,7 +144,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         binding.activityGroup.ivAllGroup.setOnClickListener {
             if (groupRecyclerViewAdapter.selectedItemImage != binding.activityGroup.ivAllGroup) {
                 initSelectedGroup()
-                homeViewModel.setLoading()
                 homeViewModel.setPageNumber(1)
                 homeViewModel.isSelectGroupId.value = -1
                 homeViewModel.getGroupPost()
@@ -164,7 +155,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                     1
                 )
             ) {
-                homeViewModel.setLoading()
                 homeViewModel.setUpPageNumber()
 
                 if (homeViewModel.isSelectGroupId.value!! != 0) {
@@ -268,7 +258,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     }
 
     private fun setEmotion(contentId: Int, position: Int, emotionStatus: RequestEmotionStatus) {
-        homeViewModel.setLoading()
         homeViewModel.setUpdateEmotion(contentId, position, emotionStatus)
     }
 }

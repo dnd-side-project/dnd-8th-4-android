@@ -24,11 +24,13 @@ class GroupInformationViewModel @Inject constructor(private val groupRepository:
     val isLoading: LiveData<Boolean> = _isLoading
 
     fun getGroupInformation() {
+        _isLoading.value = true
         viewModelScope.launch {
             kotlin.runCatching {
                 groupRepository.getGroupInformation(isSelectGroupId.value!!.toInt())
             }.onSuccess {
                 _groupList.value = it.data
+                _isLoading.value = false
             }.onFailure {
                 Timber.tag("error").d(it.message.toString())
             }
@@ -45,13 +47,5 @@ class GroupInformationViewModel @Inject constructor(private val groupRepository:
                 Timber.tag("error").d(it.message.toString())
             }
         }
-    }
-
-    fun setLoading() {
-        _isLoading.value = true
-    }
-
-    fun setUnLoading() {
-        _isLoading.value = false
     }
 }

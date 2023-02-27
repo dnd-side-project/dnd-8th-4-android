@@ -53,18 +53,22 @@ class GroupViewModel @Inject constructor(private val groupRepository: GroupRepos
 
     // 등록된 그룹 조회
     fun getSignGroup() {
+        _isLoading.value = true
         viewModelScope.launch {
             kotlin.runCatching {
                 groupRepository.signGroup()
             }.onSuccess {
-                _groupList.value = it.data.groupInfoList
+                if (it.data.existGroup) {
+                    _groupList.value = it.data.groupInfoList
 
-                groupIdList = mutableListOf()
-                for (i in it.data.groupInfoList.indices) {
-                    groupIdList.add(it.data.groupInfoList[i].id)
+                    groupIdList = mutableListOf()
+                    for (i in it.data.groupInfoList.indices) {
+                        groupIdList.add(it.data.groupInfoList[i].id)
+                    }
+
+                    _groupAllIdList.value = groupIdList.joinToString()
                 }
-
-                _groupAllIdList.value = groupIdList.joinToString()
+                _isLoading.value = false
             }.onFailure {
                 Timber.tag("error").d(it.message.toString())
             }
@@ -83,13 +87,5 @@ class GroupViewModel @Inject constructor(private val groupRepository: GroupRepos
                 Timber.tag("error").d(it.message.toString())
             }
         }
-    }
-
-    fun setLoading() {
-        _isLoading.value = true
-    }
-
-    fun setUnLoading() {
-        _isLoading.value = false
     }
 }

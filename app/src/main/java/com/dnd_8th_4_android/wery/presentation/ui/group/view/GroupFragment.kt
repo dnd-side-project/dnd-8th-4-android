@@ -23,7 +23,6 @@ class GroupFragment : BaseFragment<FragmentGroupBinding>(R.layout.fragment_group
     override fun initStartView() {
         binding.vm = viewModel
 
-        viewModel.setLoading()
         viewModel.getBookmarkList()
         viewModel.getSignGroup()
 
@@ -56,13 +55,11 @@ class GroupFragment : BaseFragment<FragmentGroupBinding>(R.layout.fragment_group
 
         viewModel.bookmarkList.observe(viewLifecycleOwner) {
             groupRecyclerViewAdapter.submitList(it)
-            viewModel.setUnLoading()
         }
 
         viewModel.groupList.observe(viewLifecycleOwner) {
             groupListViewAdapter.submitList(it)
             binding.tvGroupListCount.text = it.size.toString()
-            viewModel.setUnLoading()
         }
     }
 

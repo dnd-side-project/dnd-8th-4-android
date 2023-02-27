@@ -9,9 +9,8 @@
         android:layout_width="312dp"
         android:layout_height="58dp"
         android:orientation="horizontal"
-        android:gravity="center"
-        android:paddingVertical="8dp"
-        android:paddingHorizontal="12dp"
+        android:gravity="center_horizontal"
+        android:paddingTop="11dp"
         android:background="@drawable/img_popup_window">
 
         <ImageView

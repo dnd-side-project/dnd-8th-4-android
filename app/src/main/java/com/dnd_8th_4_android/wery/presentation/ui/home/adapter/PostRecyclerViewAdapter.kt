@@ -120,7 +120,7 @@ class PostRecyclerViewAdapter :
                 binding.tvCommentCount.isVisible = false
             }
 
-            if (LocalDate.now().toString() == item.createAt.substring(IntRange(0, 10))) {
+            if (LocalDate.now().toString() == item.createAt.substring(IntRange(0, 9))) {
                 binding.tvTime.text = item.createAt.substring(IntRange(11, 15)).replace("-", ".")
             } else {
                 binding.tvTime.text = item.createAt.substring(IntRange(2, 9)).replace("-", ".")
