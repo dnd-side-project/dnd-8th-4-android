@@ -39,6 +39,7 @@ class MissionDataSourceImpl @Inject constructor(private val missionService: Miss
             response.body()?.let { return Result.success(it) }
         }
         return Result.failure(IllegalStateException(response.message()))
+    }
         
     override suspend fun missionCertify(body: RequestMissionCertifyData): ResponseMissionCertifyData {
         return missionService.missionCertify(body)
