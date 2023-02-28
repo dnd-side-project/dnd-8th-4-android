@@ -18,9 +18,10 @@ import com.dnd_8th_4_android.wery.presentation.ui.post.place.view.SearchPlaceAct
 import com.dnd_8th_4_android.wery.presentation.ui.post.upload.view.SelectGroupBottomDialog
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
-
+@AndroidEntryPoint
 class CreateMissionActivity :
     BaseActivity<ActivityCreateMissionBinding>(R.layout.activity_create_mission) {
 
@@ -31,7 +32,12 @@ class CreateMissionActivity :
             if (it.resultCode == Activity.RESULT_OK) {
                 val selectedPlace = it.data?.getStringExtra("selectedPlace")
                     ?: getString(R.string.create_mission_place_hint)
+
+                val lat = it.data?.getDoubleExtra("selectedX", 0.0)!!
+                val long = it.data?.getDoubleExtra("selectedY", 0.0)!!
+
                 viewModel.setSelectedPlace(selectedPlace)
+                viewModel.setLocationXY(lat, long)
             }
         }
 
@@ -81,13 +87,25 @@ class CreateMissionActivity :
                 !viewModel.selectedGroup.value.equals(resources.getString(R.string.create_mission_select_group))
             viewModel.missionGroupState.value = stateGroup
         }
+
+        viewModel.selectedGroup.value = getString(R.string.writing_select_group)
+        binding.layoutSelectGroup.setOnClickListener {
+            viewModel.selectedGroupState.value = true
+            viewModel.getGroupList()
+            SelectGroupBottomDialog(viewModel, "m").show(supportFragmentManager, null)
+        }
     }
 
     private fun initAfterBinding() {
         binding.missionTabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                if (tab!!.text!!.contains("있음")) binding.layoutDate.visibility = View.VISIBLE
-                else binding.layoutDate.visibility = View.GONE
+                if (tab!!.text!!.contains("있음")) {
+                    binding.layoutDate.visibility = View.VISIBLE
+                    viewModel.setExistPeriod(true)
+                } else {
+                    binding.layoutDate.visibility = View.GONE
+                    viewModel.setExistPeriod(false)
+                }
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {}
@@ -99,11 +117,32 @@ class CreateMissionActivity :
         binding.layoutDate.setOnClickListener {
             val cal = Calendar.getInstance()
             val data = DatePickerDialog.OnDateSetListener { view, year, month, day ->
-                viewModel.setSelectedDate(year,month + 1,day)
+                viewModel.setSelectedDate(year, month + 1, day)
             }
-            DatePickerDialog(this, data, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH)).show()
+            DatePickerDialog(
+                this,
+                data,
+                cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH),
+                cal.get(Calendar.DAY_OF_MONTH)
+            ).show()
         }
-        selectGroupListener()
+        binding.colorRadioGroup.setOnCheckedChangeListener { group, checkedId ->
+            when (checkedId) {
+                R.id.radio_blue -> viewModel.setMissionColor(0)
+                R.id.radio_pink -> viewModel.setMissionColor(1)
+                R.id.radio_green -> viewModel.setMissionColor(2)
+            }
+        }
+
+        binding.ivClose.setOnClickListener {
+            finish()
+        }
+        binding.tvRegister.setOnClickListener {
+            val data = viewModel.getRequestBodyData()
+            viewModel.postMission(data)
+            finish()
+        }
     }
 
     private fun setTxtError(etv: EditText, tv: TextView, lenCnt: Int, ivClose: ImageView) {
@@ -136,13 +175,4 @@ class CreateMissionActivity :
             etv.text.clear()
         }
     }
-
-    private fun selectGroupListener() {
-        viewModel.selectedGroup.value = getString(R.string.create_mission_select_group)
-        binding.layoutSelectGroup.setOnClickListener {
-            viewModel.selectedGroupState.value = true
-            SelectGroupBottomDialog(viewModel, "m").show(supportFragmentManager, null)
-        }
-    }
-
 }
