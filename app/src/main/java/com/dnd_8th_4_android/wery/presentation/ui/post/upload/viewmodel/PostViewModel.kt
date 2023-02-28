@@ -69,7 +69,6 @@ class PostViewModel @Inject constructor(private val postRepository: PostReposito
         selectedPlace.value = data.data.location ?: "어디를 방문하셨나요?"
         noteTxt.value = data.data.content
         _photoUrlList.value = data.data.collect
-        Log.d("kite", data.data.collect.toString())
     }
 
     fun getGroupList() {

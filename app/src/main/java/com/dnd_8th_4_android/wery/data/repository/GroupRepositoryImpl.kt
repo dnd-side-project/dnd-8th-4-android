@@ -8,6 +8,8 @@ import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseEmotionData
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseGroupData
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponsePostData
 import com.dnd_8th_4_android.wery.domain.repository.GroupRepository
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import javax.inject.Inject
 
 class GroupRepositoryImpl @Inject constructor(private val groupDataSource: GroupDataSource) :
@@ -55,4 +57,19 @@ class GroupRepositoryImpl @Inject constructor(private val groupDataSource: Group
     override suspend fun groupInvite(body: RequestGroupInviteData): BaseResponse {
         return groupDataSource.groupInvite(body)
     }
+
+    override suspend fun createGroup(
+        data: HashMap<String, RequestBody>,
+        image: MultipartBody.Part?
+    ): Result<BaseResponse> {
+        return groupDataSource.createGroup(data, image)
+    }
+
+    override suspend fun modifyGroup(
+        data: HashMap<String, RequestBody>,
+        image: MultipartBody.Part?
+    ): Result<BaseResponse> {
+        return groupDataSource.modifyGroup(data, image)
+    }
+
 }

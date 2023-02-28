@@ -52,7 +52,7 @@
                     android:textColor="@color/black"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="@string/create_group" />
+                    android:text="@string/create_group" />
 
             </LinearLayout>
 

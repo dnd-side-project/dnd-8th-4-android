@@ -10,6 +10,7 @@ import com.dnd_8th_4_android.wery.domain.model.DialogInfo
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseActivity
 import com.dnd_8th_4_android.wery.presentation.ui.group.adapter.GroupInformationRecyclerViewAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.group.adapter.GroupListRecyclerViewAdapter
+import com.dnd_8th_4_android.wery.presentation.ui.group.create.view.CreateGroupActivity
 import com.dnd_8th_4_android.wery.presentation.ui.group.viewmodel.GroupInformationViewModel
 import com.dnd_8th_4_android.wery.presentation.util.DialogFragmentUtil
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,6 +33,7 @@ class GroupInformationActivity :
 
         initStartView()
         initDataBinding()
+        initAfterBinding()
     }
 
     private fun initDataBinding() {
@@ -82,6 +84,17 @@ class GroupInformationActivity :
                 finish()
             }
             dialog.show(supportFragmentManager, dialog.tag)
+        }
+    }
+
+    private fun initAfterBinding() {
+        binding.ivBack.setOnClickListener {
+            finish()
+        }
+        binding.ivConfiguration.setOnClickListener {
+            val intent = Intent(this, CreateGroupActivity::class.java)
+            intent.putExtra("groupId", viewModel.isSelectGroupId.value?.toInt())
+            startActivity(intent)
         }
     }
 }
