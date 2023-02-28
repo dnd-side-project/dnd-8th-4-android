@@ -1,11 +1,13 @@
 package com.dnd_8th_4_android.wery.presentation.ui.group.create.viewmodel
 
 import android.net.Uri
+import android.util.Log
 import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.dnd_8th_4_android.wery.data.remote.model.group.ResponseGroupInformationData
 import com.dnd_8th_4_android.wery.domain.repository.GroupRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -21,12 +23,17 @@ class CreateGroupViewModel @Inject constructor(private val groupRepository: Grou
 
     var groupNameTxt = MutableLiveData<String>()
     var groupIntroduceTxt = MutableLiveData<String>()
+    var groupImgString = MutableLiveData<String>()
 
     private val _groupImg: MutableLiveData<Uri> = MutableLiveData("".toUri())
     val groupImg: LiveData<Uri> = _groupImg
 
     private val _isLoading: MutableLiveData<Boolean> = MutableLiveData()
     val isLoading: LiveData<Boolean> = _isLoading
+
+    private val _groupInformationData: MutableLiveData<ResponseGroupInformationData> =
+        MutableLiveData()
+    val groupInformationData: LiveData<ResponseGroupInformationData> = _groupInformationData
 
     fun postCreateGroup(data: HashMap<String, RequestBody>, image: MultipartBody.Part?) {
         if (image == null) {
@@ -43,6 +50,19 @@ class CreateGroupViewModel @Inject constructor(private val groupRepository: Grou
             }
         }
     }
+
+    fun getGroupInformation(groupId: Int) {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                groupRepository.getGroupInformation(groupId)
+            }.onSuccess {
+                groupNameTxt.value = it.data.groupName
+                groupIntroduceTxt.value = it.data.groupNote
+                groupImgString.value = it.data.groupImageUrl
+            }
+        }
+    }
+
 
     fun setGroupRequestBodyData(
         groupName: String,

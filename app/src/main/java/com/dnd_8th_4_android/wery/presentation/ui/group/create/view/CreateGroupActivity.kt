@@ -57,6 +57,18 @@ class CreateGroupActivity :
             }
         }
 
+    private fun isFromInformationView() {
+        if (intent.hasExtra("groupId")) {
+            createGroupViewModel.getGroupInformation(intent.getIntExtra("groupId", 0))
+            createGroupViewModel.groupImgString.observe(this) {
+                if (it.isNotEmpty()) {
+                    Glide.with(this).load(createGroupViewModel.groupImgString.value)
+                        .into(binding.ivGroupImg)
+                }
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -67,6 +79,7 @@ class CreateGroupActivity :
 
     private fun initStartView() {
         binding.viewModel = createGroupViewModel
+        isFromInformationView()
     }
 
     private fun initDataBinding() {
