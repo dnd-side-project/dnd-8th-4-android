@@ -270,5 +270,6 @@
     <string name="mypage_mission_recently">최신순</string>
     <string name="item_mypage_mission_flow">~</string>
     <string name="mypage_bookmark_title">북마크한 글</string>
+    <string name="mypage_post_title">작성한 글</string>
 
 </resources>
