@@ -26,7 +26,7 @@ class MissionProgressActivity :
 
     override fun onResume() {
         super.onResume()
-        viewModel.getSearchPost()
+        viewModel.getMyMissionList()
     }
 
     private fun initStartView() {

@@ -1,16 +1,21 @@
 package com.dnd_8th_4_android.wery.presentation.ui.mission.mymission.adapter
 
+import android.app.Activity
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.dnd_8th_4_android.wery.data.remote.model.mission.ResponseMissionCard
+import com.dnd_8th_4_android.wery.data.remote.model.mission.ResponseMainMissionCard
 import com.dnd_8th_4_android.wery.databinding.ItemMissionCardBinding
+import com.dnd_8th_4_android.wery.presentation.ui.mission.view.MissionDetailActivity
 import com.dnd_8th_4_android.wery.presentation.util.dpToPx
+import dagger.hilt.android.qualifiers.ApplicationContext
 
 class MissionCardAdapter() :
-    ListAdapter<ResponseMissionCard, MissionCardAdapter.MissionCardViewAdapter>(
+    ListAdapter<ResponseMainMissionCard.ResultMissionCard, MissionCardAdapter.MissionCardViewAdapter>(
         missionCardDiffUtil
     ) {
 
@@ -32,22 +37,28 @@ class MissionCardAdapter() :
     ) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun onBind(data: ResponseMissionCard) {
+        fun onBind(data: ResponseMainMissionCard.ResultMissionCard) {
+            binding.ivGroupImg.clipToOutline = true
             binding.data = data
+            binding.root.setOnClickListener {
+                val intent = Intent(it.context, MissionDetailActivity::class.java)
+                intent.putExtra("missionId",data.missionId)
+                (it.context).startActivity(intent)
+            }
         }
     }
 
     companion object {
-        private val missionCardDiffUtil = object : DiffUtil.ItemCallback<ResponseMissionCard>() {
+        private val missionCardDiffUtil = object : DiffUtil.ItemCallback<ResponseMainMissionCard.ResultMissionCard>() {
             override fun areItemsTheSame(
-                oldItem: ResponseMissionCard,
-                newItem: ResponseMissionCard
+                oldItem: ResponseMainMissionCard.ResultMissionCard,
+                newItem: ResponseMainMissionCard.ResultMissionCard
             ): Boolean =
                 oldItem == newItem
 
             override fun areContentsTheSame(
-                oldItem: ResponseMissionCard,
-                newItem: ResponseMissionCard
+                oldItem: ResponseMainMissionCard.ResultMissionCard,
+                newItem: ResponseMainMissionCard.ResultMissionCard
             ): Boolean =
                 oldItem == newItem
         }
