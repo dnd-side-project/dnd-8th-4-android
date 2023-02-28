@@ -74,4 +74,10 @@ object RepositoryModule {
     fun provideAlertRepository(alertDataSource: AlertDataSource): AlertRepository {
         return AlertRepositoryImpl(alertDataSource)
     }
+
+    @Provides
+    @Singleton
+    fun provideMissionRepository(missionDataSource: MissionDataSource): MissionRepository {
+        return MissionRepositoryImpl(missionDataSource)
+    }
 }

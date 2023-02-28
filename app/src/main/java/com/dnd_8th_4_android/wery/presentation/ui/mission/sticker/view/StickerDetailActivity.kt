@@ -5,7 +5,9 @@ import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.databinding.ActivityStickerDetailBinding
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseActivity
 import com.dnd_8th_4_android.wery.presentation.ui.mission.sticker.adapter.StickerDetailAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class StickerDetailActivity :
     BaseActivity<ActivityStickerDetailBinding>(R.layout.activity_sticker_detail) {
     private lateinit var stickerDetailAdapter: StickerDetailAdapter

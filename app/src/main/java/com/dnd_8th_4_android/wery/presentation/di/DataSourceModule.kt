@@ -73,4 +73,10 @@ object DataSourceModule {
     fun provideAlertDataSource(alertService: AlertService): AlertDataSource {
         return AlertDataSourceImpl(alertService)
     }
+
+    @Provides
+    @Singleton
+    fun provideMissionDataSource(missionService: MissionService): MissionDataSource {
+        return MissionDataSourceImpl(missionService)
+    }
 }
