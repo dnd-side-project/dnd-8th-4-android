@@ -14,12 +14,11 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_mission_exist"
             android:layout_width="match_parent"
-            android:layout_height="188dp"
+            android:layout_height="wrap_content"
             android:clipToPadding="false"
             android:orientation="horizontal"
             android:paddingHorizontal="16dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toTopOf="@id/mission_exist_card_view"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
