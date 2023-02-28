@@ -43,7 +43,7 @@ class GroupFragment : BaseFragment<FragmentGroupBinding>(R.layout.fragment_group
             else dismissLoadingDialog()
         }
 
-        viewModel.isExistGroup.observe(viewLifecycleOwner) { isExistGroup ->
+        viewModel.isExistBookmarkGroup.observe(viewLifecycleOwner) { isExistGroup ->
             if (isExistGroup) {
                 groupRecyclerViewAdapter = GroupBookmarkRecyclerViewAdapter()
                 binding.activityGroupBookmark.rvGroupBookmarkList.apply {

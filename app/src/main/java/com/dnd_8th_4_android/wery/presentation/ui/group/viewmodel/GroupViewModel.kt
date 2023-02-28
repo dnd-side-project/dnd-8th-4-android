@@ -16,8 +16,11 @@ import javax.inject.Inject
 class GroupViewModel @Inject constructor(private val groupRepository: GroupRepository) :
     ViewModel() {
 
-    private val _isExistGroup = MutableLiveData<Boolean>()
+    private val _isExistGroup = MutableLiveData(true)
     val isExistGroup: LiveData<Boolean> = _isExistGroup
+
+    private val _isExistBookmarkGroup = MutableLiveData(true)
+    val isExistBookmarkGroup: LiveData<Boolean> = _isExistBookmarkGroup
 
     private val _bookmarkList = MutableLiveData<MutableList<ResponseBookmarkData.Data>>()
     val bookmarkList: LiveData<MutableList<ResponseBookmarkData.Data>> = _bookmarkList
@@ -40,10 +43,10 @@ class GroupViewModel @Inject constructor(private val groupRepository: GroupRepos
                 groupRepository.getBookmarkList()
             }.onSuccess {
                 if (it.data.isNotEmpty()) {
-                    _isExistGroup.value = true
+                    _isExistBookmarkGroup.value = true
                     _bookmarkList.value = it.data
                 } else {
-                    _isExistGroup.value = false
+                    _isExistBookmarkGroup.value = false
                 }
             }.onFailure {
                 Timber.tag("error").d(it.message.toString())
@@ -58,6 +61,8 @@ class GroupViewModel @Inject constructor(private val groupRepository: GroupRepos
             kotlin.runCatching {
                 groupRepository.signGroup()
             }.onSuccess {
+                _isExistGroup.value = it.data.existGroup
+
                 if (it.data.existGroup) {
                     _groupList.value = it.data.groupInfoList
 

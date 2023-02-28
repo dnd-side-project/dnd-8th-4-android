@@ -83,9 +83,20 @@
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <include
+                android:id="@+id/activity_no_group"
+                layout="@layout/activity_no_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="?android:attr/actionBarSize"
+                android:visibility="@{!vm.isExistGroup() ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layout_group_top" />
+
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:visibility="@{vm.isExistGroup() ? View.VISIBLE : View.GONE}"
                 app:layout_constraintTop_toBottomOf="@id/layout_group_top">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -116,7 +127,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="28dp"
-                            android:visibility="@{!vm.isExistGroup() ? View.VISIBLE : View.GONE}"
+                            android:visibility="@{!vm.isExistBookmarkGroup() ? View.VISIBLE : View.GONE}"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -125,7 +136,7 @@
                             layout="@layout/activity_group_bookmark"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:visibility="@{vm.isExistGroup() ? View.VISIBLE : View.GONE}"
+                            android:visibility="@{vm.isExistBookmarkGroup() ? View.VISIBLE : View.GONE}"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
