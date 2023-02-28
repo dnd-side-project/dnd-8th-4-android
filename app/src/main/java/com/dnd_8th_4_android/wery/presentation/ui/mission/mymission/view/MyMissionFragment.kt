@@ -6,6 +6,7 @@ import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.databinding.FragmentMyMissionBinding
 import com.dnd_8th_4_android.wery.domain.model.RecommendMission
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseFragment
+import com.dnd_8th_4_android.wery.presentation.ui.mission.create.CreateMissionActivity
 import com.dnd_8th_4_android.wery.presentation.ui.mission.mymission.adapter.MissionCardAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.mission.mymission.adapter.RecommendMissionAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.mission.mymission.viewmodel.MyMissionViewModel
@@ -34,6 +35,9 @@ class MyMissionFragment : BaseFragment<FragmentMyMissionBinding>(R.layout.fragme
     override fun initAfterBinding() {
         binding.includeMissionExist.layoutProgressMission.setOnClickListener {
             startActivity(Intent(requireContext(), MissionProgressActivity::class.java))
+        }
+        binding.btnFloatingAction.setOnClickListener {
+            startActivity(Intent(requireContext(), CreateMissionActivity::class.java))
         }
     }
 
