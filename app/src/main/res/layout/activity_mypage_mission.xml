@@ -30,7 +30,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/tv_mission_mission"
+                android:id="@+id/tv_mission_title"
                 style="@style/TextView.Title.16.Sb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -43,7 +43,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
-            android:id="@+id/tv_progress_mission"
+            android:id="@+id/tv_mission"
             style="@style/TextView.Title.16.Sb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -61,9 +61,9 @@
             android:layout_height="0dp"
             android:layout_marginStart="4dp"
             android:textColor="@color/color_f47aff"
-            app:layout_constraintBottom_toBottomOf="@id/tv_progress_mission"
-            app:layout_constraintStart_toEndOf="@id/tv_progress_mission"
-            app:layout_constraintTop_toTopOf="@id/tv_progress_mission"
+            app:layout_constraintBottom_toBottomOf="@id/tv_mission"
+            app:layout_constraintStart_toEndOf="@id/tv_mission"
+            app:layout_constraintTop_toTopOf="@id/tv_mission"
             tools:text="0" />
 
         <TextView
@@ -73,12 +73,12 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:text="@string/mypage_mission_recently"
-            app:layout_constraintBottom_toBottomOf="@id/iv_remain_icon"
+            app:layout_constraintBottom_toBottomOf="@id/iv_filter"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/iv_remain_icon" />
+            app:layout_constraintTop_toTopOf="@id/iv_filter" />
 
         <ImageView
-            android:id="@+id/iv_remain_icon"
+            android:id="@+id/iv_filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"

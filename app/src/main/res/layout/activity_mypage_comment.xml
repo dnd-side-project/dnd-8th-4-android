@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_bookmark_top"
+        android:id="@+id/layout_comment_top"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,11 +24,11 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tv_bookmark_title"
+            android:id="@+id/tv_comment_title"
             style="@style/TextView.Title.16.Sb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/mypage_bookmark_title"
+            android:text="@string/mypage_comment_title"
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -41,7 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/gray100"
-        app:layout_constraintTop_toBottomOf="@id/layout_bookmark_top" />
+        app:layout_constraintTop_toBottomOf="@id/layout_comment_top" />
 
     <TextView
         android:id="@+id/tv_post"
@@ -89,7 +89,7 @@
         app:layout_constraintTop_toTopOf="@id/iv_filter" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_bookmark"
+        android:id="@+id/rv_comment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginHorizontal="16dp"
