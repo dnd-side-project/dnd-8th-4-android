@@ -257,4 +257,20 @@
     <string name="alert_invite_accept_message">성공적으로 가입되었어요!</string>
     <string name="alert_invite_deny_message">초대를 거절했습니다.</string>
 
+    <!-- MyPageFragment -->
+    <string name="mypage_mission">완료한 미션</string>
+    <string name="mypage_bookmark">북마크한 글</string>
+    <string name="mypage_post">작성한 글</string>
+    <string name="mypage_comment">댓글 단 글</string>
+    <string name="mypage_notice">공지사항</string>
+
+    <!-- MyPageActivity -->
+    <string name="mypage_mission_title">완료한 미션</string>
+    <string name="mypage_mission_content">내 미션</string>
+    <string name="mypage_mission_recently">최신순</string>
+    <string name="item_mypage_mission_flow">~</string>
+    <string name="mypage_bookmark_title">북마크한 글</string>
+    <string name="mypage_post_title">작성한 글</string>
+    <string name="mypage_comment_title">댓글 쓴 글</string>
+
 </resources>

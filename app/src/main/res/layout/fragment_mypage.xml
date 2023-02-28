@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -10,9 +12,233 @@
         android:layout_height="match_parent">
 
         <TextView
+            style="@style/TextView.Title.16.Sb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="마이페이지"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_configuration"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/iv_configuration" />
+
+        <ImageView
+            android:id="@+id/iv_configuration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="11dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/ic_configuration"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/view_line_one"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="11dp"
+            android:background="@color/gray100"
+            app:layout_constraintTop_toBottomOf="@id/iv_configuration" />
+
+        <LinearLayout
+            android:id="@+id/layout_my_image"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/shape_oval_gray100"
             android:gravity="center"
-            android:text="myPage" />
+            android:padding="1dp"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_profile"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/iv_profile">
+
+            <ImageView
+                android:id="@+id/iv_my_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/shape_oval_gray100"
+                android:src="@drawable/img_no_group" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_my_name"
+            style="@style/TextView.Title.16.Sb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@id/layout_my_image"
+            app:layout_constraintStart_toEndOf="@id/layout_my_image"
+            app:layout_constraintTop_toTopOf="@id/layout_my_image"
+            tools:text="여신현우" />
+
+        <ImageView
+            android:id="@+id/iv_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingVertical="38dp"
+            android:paddingEnd="17dp"
+            android:src="@drawable/ic_next_gray700"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view_line_one" />
+
+        <View
+            android:id="@+id/view_line_two"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:background="@color/gray100"
+            app:layout_constraintTop_toBottomOf="@+id/iv_profile" />
+
+        <TextView
+            style="@style/TextView.Body.14.M"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="25dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="28dp"
+            android:text="@string/mypage_mission"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_mission"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/iv_mission" />
+
+        <ImageView
+            android:id="@+id/iv_mission"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingVertical="23dp"
+            android:paddingEnd="16dp"
+            android:src="@drawable/ic_next"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view_line_two" />
+
+        <View
+            android:id="@+id/view_line_three"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray100"
+            app:layout_constraintTop_toBottomOf="@id/iv_mission" />
+
+        <TextView
+            style="@style/TextView.Body.14.M"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="25dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="28dp"
+            android:text="@string/mypage_bookmark"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_bookmark"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/iv_bookmark" />
+
+        <ImageView
+            android:id="@+id/iv_bookmark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingVertical="23dp"
+            android:paddingEnd="16dp"
+            android:src="@drawable/ic_next"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view_line_three" />
+
+        <View
+            android:id="@+id/view_line_four"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray100"
+            app:layout_constraintTop_toBottomOf="@id/iv_bookmark" />
+
+        <TextView
+            style="@style/TextView.Body.14.M"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="25dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="28dp"
+            android:text="@string/mypage_post"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_post"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/iv_post" />
+
+        <ImageView
+            android:id="@+id/iv_post"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingVertical="23dp"
+            android:paddingEnd="16dp"
+            android:src="@drawable/ic_next"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view_line_four" />
+
+        <View
+            android:id="@+id/view_line_five"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray100"
+            app:layout_constraintTop_toBottomOf="@id/iv_post" />
+
+        <TextView
+            style="@style/TextView.Body.14.M"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="25dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="28dp"
+            android:text="@string/mypage_comment"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_comment"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/iv_comment" />
+
+        <ImageView
+            android:id="@+id/iv_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingVertical="23dp"
+            android:paddingEnd="16dp"
+            android:src="@drawable/ic_next"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view_line_five" />
+
+        <View
+            android:id="@+id/view_line_six"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray100"
+            app:layout_constraintTop_toBottomOf="@id/iv_comment" />
+
+        <TextView
+            style="@style/TextView.Body.14.M"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="25dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="28dp"
+            android:text="@string/mypage_notice"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_notice"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/iv_notice" />
+
+        <ImageView
+            android:id="@+id/iv_notice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingVertical="23dp"
+            android:paddingEnd="16dp"
+            android:src="@drawable/ic_next"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view_line_six" />
+
+        <View
+            android:id="@+id/view_line_seven"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray100"
+            app:layout_constraintTop_toBottomOf="@id/iv_notice" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

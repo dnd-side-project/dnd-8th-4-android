@@ -30,7 +30,7 @@
         tools:layout="@layout/fragment_mission" />
     <fragment
         android:id="@+id/myPageFragment"
-        android:name="com.dnd_8th_4_android.wery.presentation.ui.mypage.MyPageFragment"
+        android:name="com.dnd_8th_4_android.wery.presentation.ui.mypage.view.MyPageFragment"
         android:label="MyPageFragment"
         tools:layout="@layout/fragment_mypage" />
     <fragment
