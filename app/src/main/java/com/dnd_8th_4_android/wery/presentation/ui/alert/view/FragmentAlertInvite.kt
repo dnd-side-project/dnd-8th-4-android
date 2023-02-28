@@ -16,6 +16,8 @@ class FragmentAlertInvite :
     private lateinit var alertInviteRecyclerViewAdapter: AlertInviteRecyclerViewAdapter
 
     override fun initStartView() {
+        binding.vm = viewModel
+
         viewModel.getInvite()
 
         alertInviteRecyclerViewAdapter = AlertInviteRecyclerViewAdapter()
@@ -45,8 +47,16 @@ class FragmentAlertInvite :
         }
 
         viewModel.isToastMessage.observe(viewLifecycleOwner) {
-            if(it) Toast.makeText(requireContext(), R.string.alert_invite_accept_message, Toast.LENGTH_SHORT).show()
-            else Toast.makeText(requireContext(), R.string.alert_invite_deny_message, Toast.LENGTH_SHORT).show()
+            if (it) Toast.makeText(
+                requireContext(),
+                R.string.alert_invite_accept_message,
+                Toast.LENGTH_SHORT
+            ).show()
+            else Toast.makeText(
+                requireContext(),
+                R.string.alert_invite_deny_message,
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 

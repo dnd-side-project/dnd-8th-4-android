@@ -15,8 +15,13 @@ import javax.inject.Inject
 class AlertInviteViewModel @Inject constructor(private val alertRepository: AlertRepository) :
     ViewModel() {
 
-    private val _inviteList = MutableLiveData<MutableList<ResponseAlertInviteData.Data.NotificationInfoList>>()
-    val inviteList: LiveData<MutableList<ResponseAlertInviteData.Data.NotificationInfoList>> = _inviteList
+    private val _isExistInvite = MutableLiveData<Boolean>(true)
+    val isExistInvite: LiveData<Boolean> = _isExistInvite
+
+    private val _inviteList =
+        MutableLiveData<MutableList<ResponseAlertInviteData.Data.NotificationInfoList>>()
+    val inviteList: LiveData<MutableList<ResponseAlertInviteData.Data.NotificationInfoList>> =
+        _inviteList
 
     private val _isToastMessage: MutableLiveData<Boolean> = MutableLiveData()
     val isToastMessage: LiveData<Boolean> = _isToastMessage
@@ -30,7 +35,12 @@ class AlertInviteViewModel @Inject constructor(private val alertRepository: Aler
             kotlin.runCatching {
                 alertRepository.getInvite()
             }.onSuccess {
-                _inviteList.value = it.data.notificationInfoList
+                if (it.data.notificationInfoList.isNotEmpty()) {
+                    _isExistInvite.value = true
+                    _inviteList.value = it.data.notificationInfoList
+                } else {
+                    _isExistInvite.value = false
+                }
                 _isLoading.value = false
             }.onFailure {
                 Timber.tag("error").d(it.message.toString())
@@ -43,7 +53,7 @@ class AlertInviteViewModel @Inject constructor(private val alertRepository: Aler
             kotlin.runCatching {
                 alertRepository.setAccept(groupId, notificationId)
             }.onSuccess {
-                if(it.code == 0) {
+                if (it.code == 0) {
                     _isToastMessage.value = true
                     getInvite()
                 }
