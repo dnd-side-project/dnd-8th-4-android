@@ -1,5 +1,6 @@
 package com.dnd_8th_4_android.wery.presentation.ui.mission.mymission.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,16 +16,18 @@ import javax.inject.Inject
 class MyMissionViewModel @Inject constructor(private val missionRepository: MissionRepository) :
     ViewModel() {
 
+    var groupExistState = MutableLiveData<Boolean>()
+
     private val _progressMainMissionList =
         MutableLiveData<List<ResponseMainMissionCard.ResultMissionCard>>()
     val progressMainMissionList: LiveData<List<ResponseMainMissionCard.ResultMissionCard>> = _progressMainMissionList
-
     fun getMyMissionList() {
         viewModelScope.launch {
             kotlin.runCatching {
                 missionRepository.getMainMissionList()
             }.onSuccess {
                 _progressMainMissionList.value = it.data
+                groupExistState.value = it.data.isNotEmpty()
             }.onFailure {
                 Timber.tag("error").d(it.message.toString())
             }

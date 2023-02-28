@@ -5,6 +5,12 @@
 
     <data>
 
+        <import type="android.view.View" />
+
+        <variable
+            name="vm"
+            type="com.dnd_8th_4_android.wery.presentation.ui.mission.mymission.viewmodel.MyMissionViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -37,6 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_marginStart="4dp"
+                android:visibility="@{vm.groupExistState == true ? View.VISIBLE : View.GONE, default = gone}"
                 android:textColor="@color/color_f47aff"
                 app:layout_constraintBottom_toBottomOf="@id/tv_progress_mission"
                 app:layout_constraintStart_toEndOf="@id/tv_progress_mission"
@@ -44,10 +51,12 @@
                 tools:text="0" />
 
             <LinearLayout
+                android:id="@+id/layout_noExist"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:orientation="vertical"
+                android:visibility="@{vm.groupExistState == false ? View.VISIBLE : View.GONE, default = gone}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -57,15 +66,26 @@
                     android:id="@+id/include_mission_no_exist"
                     layout="@layout/item_mission_no_exist"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:visibility="gone" />
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_exist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical"
+                android:visibility="@{vm.groupExistState == true ? View.VISIBLE : View.GONE, default = gone}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_progress_mission">
 
                 <include
                     android:id="@+id/include_mission_exist"
                     layout="@layout/item_mission_exist"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:visibility="visible" />
+                    android:layout_height="match_parent" />
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -93,7 +113,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="20dp"
-                android:text="@string/mission_how_about_this"
+                tools:text="@string/mission_this_week_recommend_mission"
+                android:text="@{vm.groupExistState == false ? @string/mission_how_about_this : @string/mission_this_week_recommend_mission}"
                 android:textColor="@color/black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

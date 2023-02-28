@@ -19,6 +19,7 @@ class MyMissionFragment : BaseFragment<FragmentMyMissionBinding>(R.layout.fragme
     private val viewModel: MyMissionViewModel by viewModels()
 
     override fun initStartView() {
+        binding.vm = viewModel
         initMissionCardAdapter()
         initRecommendMissionAdapter()
     }
@@ -44,9 +45,9 @@ class MyMissionFragment : BaseFragment<FragmentMyMissionBinding>(R.layout.fragme
     private fun initRecommendMissionAdapter() {
         recommendMissionAdapter = RecommendMissionAdapter()
         recommendMissionAdapter.itemList = mutableListOf<RecommendMission>(
-            RecommendMission("서울숲 전시회 가서 교양 쌓기 \uD83C\uDFA8","2022.02.04","2022.04.12"),
-            RecommendMission("스키장 가서 스키 마스터 되기 ⛷️","2022.02.04","2022.04.12"),
-            RecommendMission("서울숲 전시회 가서 교양 쌓기 \uD83C\uDFA8","2022.02.04","2022.04.12"),
+            RecommendMission("서울숲 전시회 가서 교양 쌓기 \uD83C\uDFA8", "2023.02.22", "2022.02.29"),
+            RecommendMission("스키장 가서 스키 마스터 되기 ⛷️", "2023.02.22", "2022.02.29"),
+            RecommendMission("한강에서 돗자리 깔고 치맥 하기 \uD83C\uDF7A", "2023.02.22", "2022.02.29"),
         )
         binding.rvRecommendMission.adapter = recommendMissionAdapter
     }
