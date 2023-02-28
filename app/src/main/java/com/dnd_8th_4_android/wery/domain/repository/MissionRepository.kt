@@ -24,4 +24,9 @@ interface MissionRepository {
     ): BaseResponse
 
     suspend fun getMyGroupList(): Result<ResponseGroupList>
+
+    suspend fun missionCertify(
+        body: RequestMissionCertifyData
+    ): ResponseMissionCertifyData
+
 }

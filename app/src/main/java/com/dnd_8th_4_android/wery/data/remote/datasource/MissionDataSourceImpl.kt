@@ -4,6 +4,7 @@ import com.dnd_8th_4_android.wery.data.api.MissionService
 import com.dnd_8th_4_android.wery.data.remote.model.BaseResponse
 import com.dnd_8th_4_android.wery.data.remote.model.mission.*
 import com.dnd_8th_4_android.wery.data.remote.model.post.ResponseGroupList
+
 import javax.inject.Inject
 
 class MissionDataSourceImpl @Inject constructor(private val missionService: MissionService): MissionDataSource {
@@ -19,6 +20,7 @@ class MissionDataSourceImpl @Inject constructor(private val missionService: Miss
     override suspend fun getMainMissionList(): ResponseMainMissionCard {
         return missionService.getMainMissionCardList()
     }
+
     override suspend fun getMissionDetail(missionId: Int): ResponseMissionDetailData {
         return missionService.getMissionDetail(missionId)
     }
@@ -37,5 +39,8 @@ class MissionDataSourceImpl @Inject constructor(private val missionService: Miss
             response.body()?.let { return Result.success(it) }
         }
         return Result.failure(IllegalStateException(response.message()))
+        
+    override suspend fun missionCertify(body: RequestMissionCertifyData): ResponseMissionCertifyData {
+        return missionService.missionCertify(body)
     }
 }

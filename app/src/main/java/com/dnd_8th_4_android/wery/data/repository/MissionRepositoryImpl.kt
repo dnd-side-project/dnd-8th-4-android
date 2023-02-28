@@ -28,12 +28,16 @@ class MissionRepositoryImpl @Inject constructor(private val missionDataSource: M
     override suspend fun missionDelete(missionId: Int): BaseResponse {
         return missionDataSource.missionDelete(missionId)
     }
-
+   
     override suspend fun createMission(body: RequestCreateMissionData): BaseResponse {
         return missionDataSource.createMission(body)
     }
 
     override suspend fun getMyGroupList(): Result<ResponseGroupList> {
        return missionDataSource.getGroupList()
+     }
+     
+    override suspend fun missionCertify(body: RequestMissionCertifyData): ResponseMissionCertifyData {
+        return missionDataSource.missionCertify(body)
     }
 }
