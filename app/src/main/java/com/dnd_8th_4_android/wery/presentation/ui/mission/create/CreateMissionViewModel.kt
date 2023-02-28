@@ -36,14 +36,23 @@ class CreateMissionViewModel @Inject constructor(private val missionRepository: 
     private var _selectedPlaceTxt = MutableLiveData<String>()
     val selectedPlaceTxt: LiveData<String> = _selectedPlaceTxt
 
+    private var _selectedLatitude = MutableLiveData<Double>()
+    val selectedLatitude: LiveData<Double> = _selectedLatitude
+
+    private var _selectedLongitude = MutableLiveData<Double>()
+    val selectedLongitude: LiveData<Double> = _selectedLongitude
+
     private var _starDateTxt = MutableLiveData<String>()
     val starDateTxt: LiveData<String> = _starDateTxt
 
     private var _endDateTxt = MutableLiveData<String>()
     val endDateTxt: LiveData<String> = _endDateTxt
 
-    private val _isLoading: MutableLiveData<Boolean> = MutableLiveData()
-    val isLoading: LiveData<Boolean> = _isLoading
+    private var _existPeriod = MutableLiveData<Boolean>(true)
+    val existPeriod: LiveData<Boolean> = _existPeriod
+
+    private var _missionColor = MutableLiveData<Int>()
+    val missionColor: LiveData<Int> = _missionColor
 
     fun setSelectedPlace(stringValue: String) {
         _selectedPlaceTxt.value = stringValue
@@ -77,30 +86,42 @@ class CreateMissionViewModel @Inject constructor(private val missionRepository: 
         viewModelScope.launch {
             kotlin.runCatching {
                 missionRepository.createMission(body)
-            }.onSuccess {
-                _isLoading.value = false
-            }.onFailure {
-                _isLoading.value = false
             }
         }
     }
 
     fun getRequestBodyData(): RequestCreateMissionData {
+        val mStart = if (!existPeriod.value!!) null else _starDateTxt.value
+        val mEnd = if (!existPeriod.value!!) null else _endDateTxt.value
+
         return RequestCreateMissionData(
             missionName = missionNameTxt.value!!,
             missionNote = null,
-            groupId = 0,
-            existPeriod = false,
-            missionStartDate = null,
-            missionEndDate = null,
+            groupId = groupId.value!!.toInt(),
+            existPeriod = existPeriod.value!!,
+            missionStartDate = mStart,
+            missionEndDate = mEnd,
             missionLocationName = _selectedPlaceTxt.value!!,
-            latitude = 0.2,
-            longitude = 0.0,
-            missionColor = 0
+            latitude = _selectedLatitude.value!!,
+            longitude = _selectedLongitude.value!!,
+            missionColor = _missionColor.value!!
         )
     }
 
     fun setGroupId(idValue: Long) {
         _groupId.value = idValue
+    }
+
+    fun setExistPeriod(existValue: Boolean) {
+        _existPeriod.value = existValue
+    }
+
+    fun setMissionColor(colorVal: Int) {
+        _missionColor.value = colorVal
+    }
+
+    fun setLocationXY(latitude:Double, longitude:Double) {
+        _selectedLatitude.value = latitude
+        _selectedLongitude.value = longitude
     }
 }

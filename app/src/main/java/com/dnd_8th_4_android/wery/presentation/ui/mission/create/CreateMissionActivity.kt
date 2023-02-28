@@ -32,7 +32,12 @@ class CreateMissionActivity :
             if (it.resultCode == Activity.RESULT_OK) {
                 val selectedPlace = it.data?.getStringExtra("selectedPlace")
                     ?: getString(R.string.create_mission_place_hint)
+
+                val lat = it.data?.getDoubleExtra("selectedX", 0.0)!!
+                val long = it.data?.getDoubleExtra("selectedY", 0.0)!!
+
                 viewModel.setSelectedPlace(selectedPlace)
+                viewModel.setLocationXY(lat, long)
             }
         }
 
@@ -89,21 +94,18 @@ class CreateMissionActivity :
             viewModel.getGroupList()
             SelectGroupBottomDialog(viewModel, "m").show(supportFragmentManager, null)
         }
-
-        viewModel.isLoading.observe(this) {
-            if (it) showLoadingDialog(this)
-            else {
-                dismissLoadingDialog()
-                finish()
-            }
-        }
     }
 
     private fun initAfterBinding() {
         binding.missionTabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                if (tab!!.text!!.contains("있음")) binding.layoutDate.visibility = View.VISIBLE
-                else binding.layoutDate.visibility = View.GONE
+                if (tab!!.text!!.contains("있음")) {
+                    binding.layoutDate.visibility = View.VISIBLE
+                    viewModel.setExistPeriod(true)
+                } else {
+                    binding.layoutDate.visibility = View.GONE
+                    viewModel.setExistPeriod(false)
+                }
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {}
@@ -125,12 +127,21 @@ class CreateMissionActivity :
                 cal.get(Calendar.DAY_OF_MONTH)
             ).show()
         }
+        binding.colorRadioGroup.setOnCheckedChangeListener { group, checkedId ->
+            when (checkedId) {
+                R.id.radio_blue -> viewModel.setMissionColor(0)
+                R.id.radio_pink -> viewModel.setMissionColor(1)
+                R.id.radio_green -> viewModel.setMissionColor(2)
+            }
+        }
+
         binding.ivClose.setOnClickListener {
             finish()
         }
         binding.tvRegister.setOnClickListener {
-            viewModel.getRequestBodyData()
-            //viewModel.postMission()
+            val data = viewModel.getRequestBodyData()
+            viewModel.postMission(data)
+            finish()
         }
     }
 
