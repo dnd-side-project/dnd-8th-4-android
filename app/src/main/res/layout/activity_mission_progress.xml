@@ -4,6 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <variable
+            name="vm"
+            type="com.dnd_8th_4_android.wery.presentation.ui.mission.mymission.viewmodel.MissionProgressViewModel" />
 
     </data>
 
@@ -60,7 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_marginStart="4dp"
-            android:text="0"
+            tools:text="0"
             android:textColor="@color/color_f47aff"
             app:layout_constraintBottom_toBottomOf="@id/tv_progress_mission"
             app:layout_constraintStart_toEndOf="@id/tv_progress_mission"

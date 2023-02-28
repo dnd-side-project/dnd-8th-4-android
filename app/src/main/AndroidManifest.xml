@@ -70,6 +70,7 @@
             android:exported="true" />
         <activity android:name=".presentation.ui.alert.view.AlertPopupActivity"
             android:exported="true" />
+        <activity android:name=".presentation.ui.mission.view.MissionDetailActivity"/>
     </application>
 
 </manifest>

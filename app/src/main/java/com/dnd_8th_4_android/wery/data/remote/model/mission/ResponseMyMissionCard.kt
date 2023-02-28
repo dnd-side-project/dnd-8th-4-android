@@ -9,7 +9,7 @@ data class ResponseMyMissionList(
 ) : BaseResponse()
 
 data class ResponseMyMissionCard(
-    val missionId: Long? = 0,
+    val missionId: Int? = 0,
     @SerializedName("missionName") val missionTitle: String,
     val groupName: String,
     val groupImageUrl: String,
