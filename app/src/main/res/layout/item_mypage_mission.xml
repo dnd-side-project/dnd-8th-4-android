@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.dnd_8th_4_android.wery.data.remote.model.mission.ResponseMyMissionCard" />
+
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="0dp"
+        app:strokeColor="@color/gray200"
+        app:strokeWidth="1dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_mission_title"
+                style="@style/TextView.Title.14.Sb"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="20dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="홍대 기범 생카 가서 예절샷 찍기" />
+
+            <TextView
+                android:id="@+id/tv_mission_start"
+                style="@style/TextView.Caption.12.R"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/gray500"
+                app:layout_constraintStart_toStartOf="@+id/tv_mission_title"
+                app:layout_constraintTop_toBottomOf="@+id/tv_mission_title"
+                tools:text="23.02.22" />
+
+            <TextView
+                android:id="@+id/tv_mission_flow"
+                style="@style/TextView.Caption.12.R"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="1dp"
+                android:text="~"
+                android:textColor="@color/gray500"
+                app:layout_constraintStart_toEndOf="@+id/tv_mission_start"
+                app:layout_constraintTop_toTopOf="@+id/tv_mission_start" />
+
+            <TextView
+                android:id="@+id/tv_mission_end"
+                style="@style/TextView.Caption.12.R"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="1dp"
+                android:textColor="@color/gray500"
+                app:layout_constraintStart_toEndOf="@+id/tv_mission_flow"
+                app:layout_constraintTop_toTopOf="@+id/tv_mission_flow"
+                tools:text="23.02.22" />
+
+            <ImageView
+                android:id="@+id/iv_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingVertical="28dp"
+                android:paddingEnd="21dp"
+                android:src="@drawable/ic_next"
+                app:layout_constraintBottom_toTopOf="@id/view_line"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/view_line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gray200"
+                app:layout_constraintTop_toBottomOf="@id/iv_detail" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="10dp"
+                android:paddingStart="16dp"
+                android:background="@color/gray50"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view_line">
+
+                <LinearLayout
+                    android:id="@+id/layout_group_image"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+
+                    android:foreground="@drawable/shape_gray200_radius_12"
+                    android:gravity="center"
+                    android:padding="1dp">
+
+                    <ImageView
+                        android:id="@+id/iv_group_image"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/shape_gray200_radius_12"
+                        android:src="@drawable/img_no_group" />
+                </LinearLayout>
+
+                <TextView
+                    style="@style/TextView.Caption.12.M"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:textColor="@color/gray700"
+                    app:layout_constraintBottom_toBottomOf="@+id/layout_group_image"
+                    app:layout_constraintStart_toEndOf="@+id/layout_group_image"
+                    app:layout_constraintTop_toTopOf="@+id/layout_group_image"
+                    tools:text="몬베베와 샤월들" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>
