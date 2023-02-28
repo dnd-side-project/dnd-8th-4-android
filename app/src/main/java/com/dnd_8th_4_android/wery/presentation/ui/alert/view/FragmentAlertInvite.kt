@@ -19,8 +19,13 @@ class FragmentAlertInvite :
         viewModel.getInvite()
 
         alertInviteRecyclerViewAdapter = AlertInviteRecyclerViewAdapter()
-        alertInviteRecyclerViewAdapter.setOnAcceptClickListener { groupId, notificationId ->
-            viewModel.setAccept(groupId, notificationId)
+        alertInviteRecyclerViewAdapter.apply {
+            setOnAcceptClickListener { groupId, notificationId ->
+                viewModel.setAccept(groupId, notificationId)
+            }
+            setOnDenyClickListener { groupId, notificationId ->
+                viewModel.setDeny(groupId, notificationId)
+            }
         }
 
         binding.rvInvite.apply {
@@ -40,9 +45,8 @@ class FragmentAlertInvite :
         }
 
         viewModel.isToastMessage.observe(viewLifecycleOwner) {
-            if(it) {
-                Toast.makeText(requireContext(), R.string.alert_invite_accept_message, Toast.LENGTH_SHORT).show()
-            }
+            if(it) Toast.makeText(requireContext(), R.string.alert_invite_accept_message, Toast.LENGTH_SHORT).show()
+            else Toast.makeText(requireContext(), R.string.alert_invite_deny_message, Toast.LENGTH_SHORT).show()
         }
     }
 

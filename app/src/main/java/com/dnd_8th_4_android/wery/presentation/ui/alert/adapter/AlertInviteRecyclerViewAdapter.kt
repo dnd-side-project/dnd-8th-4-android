@@ -16,6 +16,7 @@ class AlertInviteRecyclerViewAdapter :
     ) {
     private lateinit var binding: ItemAlertInviteBinding
     private lateinit var onAcceptClickListener: OnAcceptClickListener
+    private lateinit var onDenyClickListener: OnDenyClickListener
 
     inner class ViewHolder(private val binding: ItemAlertInviteBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -39,6 +40,10 @@ class AlertInviteRecyclerViewAdapter :
             binding.btnGroupParticipate.setOnClickListener {
                 onAcceptClickListener.onClicked(item.groupId, item.notificationId)
             }
+
+            binding.btnGroupDeny.setOnClickListener {
+                onDenyClickListener.onClicked(item.groupId, item.notificationId)
+            }
         }
     }
 
@@ -60,6 +65,18 @@ class AlertInviteRecyclerViewAdapter :
     }
 
     interface OnAcceptClickListener {
+        fun onClicked(groupId: Int, notificationId: Int)
+    }
+
+    fun setOnDenyClickListener(listener: (Int, Int) -> Unit) {
+        onDenyClickListener = object : OnDenyClickListener {
+            override fun onClicked(groupId: Int, notificationId: Int) {
+                listener(groupId, notificationId)
+            }
+        }
+    }
+
+    interface OnDenyClickListener {
         fun onClicked(groupId: Int, notificationId: Int)
     }
 

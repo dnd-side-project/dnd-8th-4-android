@@ -15,4 +15,10 @@ interface AlertService {
         @Query("groupId") groupId: Int,
         @Query("notificationId") notificationId: Int,
     ): BaseResponse
+
+    @GET("/group/invite/reject")
+    suspend fun setDeny(
+        @Query("groupId") groupId: Int,
+        @Query("notificationId") notificationId: Int,
+    ): BaseResponse
 }

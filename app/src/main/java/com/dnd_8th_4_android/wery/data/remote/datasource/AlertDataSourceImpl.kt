@@ -14,4 +14,8 @@ class AlertDataSourceImpl @Inject constructor(private val alertService: AlertSer
     override suspend fun setAccept(groupId: Int, notificationId: Int): BaseResponse {
         return alertService.setAccept(groupId, notificationId)
     }
+
+    override suspend fun setDeny(groupId: Int, notificationId: Int): BaseResponse {
+        return alertService.setDeny(groupId, notificationId)
+    }
 }

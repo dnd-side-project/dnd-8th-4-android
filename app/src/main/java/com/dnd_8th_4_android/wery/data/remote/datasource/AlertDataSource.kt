@@ -11,4 +11,9 @@ interface AlertDataSource {
         groupId: Int,
         notificationId: Int,
     ): BaseResponse
+
+    suspend fun setDeny(
+        groupId: Int,
+        notificationId: Int,
+    ): BaseResponse
 }

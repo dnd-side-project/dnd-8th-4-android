@@ -52,4 +52,19 @@ class AlertInviteViewModel @Inject constructor(private val alertRepository: Aler
             }
         }
     }
+
+    fun setDeny(groupId: Int, notificationId: Int) {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                alertRepository.setDeny(groupId, notificationId)
+            }.onSuccess {
+                if (it.code == 0) {
+                    _isToastMessage.value = false
+                    getInvite()
+                }
+            }.onFailure {
+                Timber.tag("error").d(it.message.toString())
+            }
+        }
+    }
 }
