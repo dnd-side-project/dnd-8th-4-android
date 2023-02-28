@@ -2,6 +2,7 @@ package com.dnd_8th_4_android.wery.domain.repository
 
 import com.dnd_8th_4_android.wery.data.remote.model.BaseResponse
 import com.dnd_8th_4_android.wery.data.remote.model.mission.*
+import com.dnd_8th_4_android.wery.data.remote.model.post.ResponseGroupList
 
 interface MissionRepository {
 
@@ -21,4 +22,6 @@ interface MissionRepository {
     suspend fun createMission(
         body:RequestCreateMissionData
     ): BaseResponse
+
+    suspend fun getMyGroupList(): Result<ResponseGroupList>
 }

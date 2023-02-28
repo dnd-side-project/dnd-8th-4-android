@@ -1,5 +1,6 @@
 package com.dnd_8th_4_android.wery.presentation.ui.post.upload.view
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.data.remote.model.post.ResponseGroupList
@@ -19,10 +20,19 @@ class SelectGroupBottomDialog(
 
     override fun initAfterBinding() {
         selectGroupAdapter = SelectGroupAdapter { data -> getSelectedGroup(data) }
-        (viewModel as PostViewModel).groupListData.observe(this) {
-            selectGroupAdapter.itemList = it
-            binding.tvGroupCnt.text = it.size.toString()
+
+        if (fromViewType == "w") {
+            (viewModel as PostViewModel).groupListData.observe(this) {
+                selectGroupAdapter.itemList = it
+                binding.tvGroupCnt.text = it.size.toString()
+            }
+        } else {
+            (viewModel as CreateMissionViewModel).groupListData.observe(this) {
+                selectGroupAdapter.itemList = it
+                binding.tvGroupCnt.text = it.size.toString()
+            }
         }
+
         binding.rvGroupList.adapter = selectGroupAdapter
     }
 
@@ -34,7 +44,7 @@ class SelectGroupBottomDialog(
             }
             "m" -> {
                 (viewModel as CreateMissionViewModel).selectedGroup.value = data.groupName
-                // viewModel.setGroupId(data.id)
+                viewModel.setGroupId(data.id)
             }
         }
         dismiss()

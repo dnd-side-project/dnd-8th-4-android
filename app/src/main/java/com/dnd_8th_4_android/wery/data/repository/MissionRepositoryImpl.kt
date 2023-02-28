@@ -3,6 +3,7 @@ package com.dnd_8th_4_android.wery.data.repository
 import com.dnd_8th_4_android.wery.data.remote.datasource.MissionDataSource
 import com.dnd_8th_4_android.wery.data.remote.model.BaseResponse
 import com.dnd_8th_4_android.wery.data.remote.model.mission.*
+import com.dnd_8th_4_android.wery.data.remote.model.post.ResponseGroupList
 import com.dnd_8th_4_android.wery.domain.repository.MissionRepository
 import javax.inject.Inject
 
@@ -30,5 +31,9 @@ class MissionRepositoryImpl @Inject constructor(private val missionDataSource: M
 
     override suspend fun createMission(body: RequestCreateMissionData): BaseResponse {
         return missionDataSource.createMission(body)
+    }
+
+    override suspend fun getMyGroupList(): Result<ResponseGroupList> {
+       return missionDataSource.getGroupList()
     }
 }
