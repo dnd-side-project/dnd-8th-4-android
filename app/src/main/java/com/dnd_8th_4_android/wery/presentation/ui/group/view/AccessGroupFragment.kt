@@ -6,6 +6,7 @@ import android.view.WindowManager
 import android.widget.PopupWindow
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.data.remote.model.home.RequestEmotionStatus
@@ -68,7 +69,7 @@ class AccessGroupFragment :
 
     override fun initDataBinding() {
         viewModel.isLoading.observe(viewLifecycleOwner) {
-            if (it) showLoadingDialog(requireContext())
+            if (it) showLoadingDialog()
             else dismissLoadingDialog()
         }
 
@@ -118,6 +119,10 @@ class AccessGroupFragment :
     }
 
     override fun initAfterBinding() {
+        binding.ivBack.setOnClickListener {
+            findNavController().navigate(R.id.action_accessGroupFragment_to_groupFragment)
+        }
+
         val groupImage = requireArguments().getString(GroupListRecyclerViewAdapter.GROUP_IMAGE)
         if (groupImage != "") {
             Glide.with(binding.ivGroupImage.context)

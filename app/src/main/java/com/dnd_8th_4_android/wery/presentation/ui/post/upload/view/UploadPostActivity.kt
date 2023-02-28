@@ -188,7 +188,7 @@ class UploadPostActivity : BaseActivity<ActivityUploadPostBinding>(R.layout.acti
 
     private fun setLoadingDialog() {
         postViewModel.isLoading.observe(this) {
-            if (it) showLoadingDialog(this)
+            if (it) showLoadingDialog()
             else {
                 dismissLoadingDialog()
                 finish()

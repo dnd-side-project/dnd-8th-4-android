@@ -2,6 +2,7 @@ package com.dnd_8th_4_android.wery.presentation.util
 
 import android.app.Dialog
 import android.content.Context
+import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.Window
@@ -16,7 +17,7 @@ class LoadingDialog(context: Context) : Dialog(context) {
         setContentView(binding.root)
         setCanceledOnTouchOutside(false)
         setCancelable(false)
-        window!!.setBackgroundDrawable(ColorDrawable())
+        window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         window!!.setDimAmount(0.2f)
     }
 

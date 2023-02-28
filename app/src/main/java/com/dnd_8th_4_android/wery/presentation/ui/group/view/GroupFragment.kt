@@ -40,7 +40,7 @@ class GroupFragment : BaseFragment<FragmentGroupBinding>(R.layout.fragment_group
 
     override fun initDataBinding() {
         viewModel.isLoading.observe(viewLifecycleOwner) {
-            if (it) showLoadingDialog(requireContext())
+            if (it) showLoadingDialog()
             else dismissLoadingDialog()
         }
 

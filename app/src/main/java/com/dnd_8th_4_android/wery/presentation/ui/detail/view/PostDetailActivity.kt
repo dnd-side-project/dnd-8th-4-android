@@ -98,7 +98,7 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
 
     private fun initDataBinding() {
         viewModel.isLoading.observe(this) {
-            if (it) showLoadingDialog(this)
+            if (it) showLoadingDialog()
             else dismissLoadingDialog()
         }
 

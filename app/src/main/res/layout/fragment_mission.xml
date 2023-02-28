@@ -43,7 +43,7 @@
             app:layout_constraintTop_toBottomOf="@id/layout_mission_top"
             app:tabIndicatorColor="@color/black"
             app:tabIndicatorFullWidth="true"
-            app:tabIndicatorHeight="2dp"
+            app:tabIndicatorHeight="3dp"
             app:tabSelectedTextColor="@color/black"
             app:tabTextAppearance="@style/TextView.Body.14.M"
             app:tabTextColor="@color/gray500">

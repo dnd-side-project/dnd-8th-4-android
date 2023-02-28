@@ -56,6 +56,10 @@ class SignUpNicknameFragment :
         val hintList = requireContext().resources.getStringArray(R.array.nickname_hint).toList()
         binding.etNickname.hint = hintList.shuffled().take(1).joinToString()
 
+        binding.ivBack.setOnClickListener {
+            findNavController().navigate(R.id.action_signUpNicknameFragment_to_signUpPasswordFragment)
+        }
+
         binding.btnNext.setOnClickListener {
             signUpNicknameViewModel.signUp(RequestSignUpData(
                 name = signViewModel.signUpName.value.toString(),

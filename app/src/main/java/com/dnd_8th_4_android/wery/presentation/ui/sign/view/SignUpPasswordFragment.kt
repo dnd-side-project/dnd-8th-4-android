@@ -51,6 +51,10 @@ class SignUpPasswordFragment :
             changeInputType()
         }
 
+        binding.ivBack.setOnClickListener {
+            findNavController().navigate(R.id.action_signUpPasswordFragment_to_signUpEmailFragment)
+        }
+
         binding.btnNext.setOnClickListener {
             if (signUpPasswordViewModel.textCount.value in 8..12) {
                 val edtPassword = binding.etPassword.text.toString()

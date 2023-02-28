@@ -94,7 +94,7 @@ class CreateGroupActivity :
 
     private fun setLoadingDialog() {
         createGroupViewModel.isLoading.observe(this) {
-            if (it) showLoadingDialog(this)
+            if (it) showLoadingDialog()
             else {
                 dismissLoadingDialog()
                 finish()

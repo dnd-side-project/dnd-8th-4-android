@@ -21,6 +21,10 @@ class AlertPopupActivity : BaseActivity<ActivityAlertPopupBinding>(R.layout.acti
     private fun initAfterBinding() {
         getInviteTab()
 
+        binding.ivBack.setOnClickListener {
+            finish()
+        }
+
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(p0: TabLayout.Tab?) {
                 if (p0?.position == 0) getInviteTab()

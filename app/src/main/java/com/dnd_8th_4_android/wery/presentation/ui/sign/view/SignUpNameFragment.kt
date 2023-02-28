@@ -27,6 +27,10 @@ class SignUpNameFragment :
     }
 
     override fun initAfterBinding() {
+        binding.ivBack.setOnClickListener {
+            findNavController().navigate(R.id.action_signUpNameFragment_to_signUpUseAgreementFragment)
+        }
+
         binding.btnNext.setOnClickListener {
             val edtPassword = binding.etName.text.toString()
             val pattern = Pattern.compile("^[가-힣]*\$")

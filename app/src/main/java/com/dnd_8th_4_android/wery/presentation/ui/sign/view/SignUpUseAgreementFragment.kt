@@ -22,6 +22,10 @@ class SignUpUseAgreementFragment :
     }
 
     override fun initAfterBinding() {
+        binding.ivBack.setOnClickListener {
+            findNavController().navigate(R.id.action_signUpUseAgreementFragment_to_signInFragment)
+        }
+
         binding.cbAllAgree.setOnCheckedChangeListener { _, checked ->
             if (checked) {
                 selectAll()

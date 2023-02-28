@@ -41,6 +41,10 @@ class UserSearchActivity :
     }
 
     private fun initStartView() {
+        binding.ivClose.setOnClickListener {
+            finish()
+        }
+
         binding.etSearch.requestFocus()
         Handler(Looper.getMainLooper())
             .postDelayed({

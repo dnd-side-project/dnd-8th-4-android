@@ -46,6 +46,10 @@ class SearchPostActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity
     private fun initStartView() {
         groupAllList = intent.getStringExtra(HomeFragment.GROUP_ALL_LIST)!!
 
+        binding.ivBack.setOnClickListener {
+            finish()
+        }
+
         binding.etSearch.requestFocus()
         Handler(Looper.getMainLooper())
             .postDelayed({

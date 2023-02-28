@@ -36,6 +36,10 @@ class SignUpEmailFragment :
     }
 
     override fun initAfterBinding() {
+        binding.ivBack.setOnClickListener {
+            findNavController().navigate(R.id.action_signUpEmailFragment_to_signUpNameFragment)
+        }
+
         binding.btnNext.setOnClickListener {
             val email = binding.etEmail.text.toString()
             if (Patterns.EMAIL_ADDRESS.matcher(email).matches()) {

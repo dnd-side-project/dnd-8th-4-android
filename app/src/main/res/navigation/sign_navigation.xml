@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_signUpUseAgreementFragment_to_signUpNameFragment"
             app:destination="@id/signUpNameFragment" />
+        <action
+            android:id="@+id/action_signUpUseAgreementFragment_to_signInFragment"
+            app:destination="@id/signInFragment" />
     </fragment>
     <fragment
         android:id="@+id/signUpNameFragment"
@@ -31,6 +34,9 @@
         <action
             android:id="@+id/action_signUpNameFragment_to_signUpEmailFragment"
             app:destination="@id/signUpEmailFragment" />
+        <action
+            android:id="@+id/action_signUpNameFragment_to_signUpUseAgreementFragment"
+            app:destination="@id/signUpUseAgreementFragment" />
     </fragment>
     <fragment
         android:id="@+id/signUpEmailFragment"
@@ -40,6 +46,9 @@
         <action
             android:id="@+id/action_signUpEmailFragment_to_signUpPasswordFragment"
             app:destination="@id/signUpPasswordFragment" />
+        <action
+            android:id="@+id/action_signUpEmailFragment_to_signUpNameFragment"
+            app:destination="@id/signUpNameFragment" />
     </fragment>
     <fragment
         android:id="@+id/signUpPasswordFragment"
@@ -49,6 +58,9 @@
         <action
             android:id="@+id/action_signUpPasswordFragment_to_signUpNicknameFragment"
             app:destination="@id/signUpNicknameFragment" />
+        <action
+            android:id="@+id/action_signUpPasswordFragment_to_signUpEmailFragment"
+            app:destination="@id/signUpEmailFragment" />
     </fragment>
     <fragment
         android:id="@+id/signUpNicknameFragment"
@@ -58,6 +70,9 @@
         <action
             android:id="@+id/action_signUpNicknameFragment_to_signUpWelcomeFragment"
             app:destination="@id/signUpWelcomeFragment" />
+        <action
+            android:id="@+id/action_signUpNicknameFragment_to_signUpPasswordFragment"
+            app:destination="@id/signUpPasswordFragment" />
     </fragment>
     <fragment
         android:id="@+id/signUpWelcomeFragment"

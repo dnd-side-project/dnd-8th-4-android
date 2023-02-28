@@ -1,6 +1,7 @@
 package com.dnd_8th_4_android.wery.presentation.ui.group.adapter
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.findNavController
@@ -33,7 +34,7 @@ class GroupListRecyclerViewAdapter :
             }
 
             binding.layer.setOnClickListener {
-                goToAccessGroup(item.id.toString(), item.image, item.isStarGroup)
+                goToAccessGroup(item.id.toString(), item.name, item.image, item.isStarGroup)
             }
         }
     }
@@ -47,9 +48,9 @@ class GroupListRecyclerViewAdapter :
         holder.bind(currentList[position])
     }
 
-    private fun goToAccessGroup(groupId: String, groupImage: String, isStartGroup: Boolean) {
+    private fun goToAccessGroup(groupId: String, groupName: String, groupImage: String, isStartGroup: Boolean) {
         val bundle = Bundle()
-        bundle.putString(GROUP_NAME, binding.tvGroupName.text.toString())
+        bundle.putString(GROUP_NAME, groupName)
         bundle.putString(GROUP_NUMBER, binding.tvGroupNumber.text.toString())
         bundle.putString(GROUP_Id, groupId)
         bundle.putString(GROUP_IMAGE, groupImage)

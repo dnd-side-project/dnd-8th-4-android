@@ -52,5 +52,9 @@
         android:id="@+id/accessGroupFragment"
         android:name="com.dnd_8th_4_android.wery.presentation.ui.group.view.AccessGroupFragment"
         android:label="AccessGroupFragment"
-        tools:layout="@layout/fragment_access_group"/>
+        tools:layout="@layout/fragment_access_group">
+        <action
+            android:id="@+id/action_accessGroupFragment_to_groupFragment"
+            app:destination="@id/groupFragment" />
+    </fragment>
 </navigation>

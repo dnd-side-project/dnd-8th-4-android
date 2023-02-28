@@ -38,7 +38,7 @@ class GroupInformationActivity :
 
     private fun initDataBinding() {
         viewModel.isLoading.observe(this) {
-            if (it) showLoadingDialog(this)
+            if (it) showLoadingDialog()
             else dismissLoadingDialog()
         }
 
@@ -62,6 +62,10 @@ class GroupInformationActivity :
             adapter = groupInformationRecyclerViewAdapter
             itemAnimator = null
             isNestedScrollingEnabled = false
+        }
+
+        binding.ivBack.setOnClickListener {
+            finish()
         }
 
         binding.ivSearchInvite.setOnClickListener {

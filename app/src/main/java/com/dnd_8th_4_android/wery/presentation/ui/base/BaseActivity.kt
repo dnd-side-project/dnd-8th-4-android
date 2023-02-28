@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Lifecycle
@@ -17,7 +18,9 @@ import timber.log.Timber
 abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutRes: Int) :
     AppCompatActivity() {
     protected lateinit var binding: T
-    lateinit var mLoadingDialog: LoadingDialog
+    private val mLoadingDialog: LoadingDialog by lazy {
+        LoadingDialog(this)
+    }
 
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,14 +38,12 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutRes: Int) 
         overridePendingTransition(0, 0)
     }
 
-    fun showLoadingDialog(context: Context) {
-        mLoadingDialog = LoadingDialog(context)
+    fun showLoadingDialog() {
         mLoadingDialog.show()
     }
+
     fun dismissLoadingDialog() {
-        if (mLoadingDialog.isShowing) {
-            mLoadingDialog.dismiss()
-        }
+        mLoadingDialog.dismiss()
     }
 
     protected inner class LifeCycleEventLogger(private val className: String) : LifecycleObserver {

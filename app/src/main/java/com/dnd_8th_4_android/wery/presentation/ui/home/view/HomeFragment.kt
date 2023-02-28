@@ -42,6 +42,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     override fun onResume() {
         super.onResume()
         binding.vm = homeViewModel
+        homeViewModel.setLoading()
 
         homeViewModel.getSignGroup()
         homeViewModel.setPageNumber(1)
@@ -97,7 +98,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     override fun initDataBinding() {
         homeViewModel.isLoading.observe(viewLifecycleOwner) {
-            if (it) showLoadingDialog(requireContext())
+            if (it) showLoadingDialog()
             else dismissLoadingDialog()
         }
 

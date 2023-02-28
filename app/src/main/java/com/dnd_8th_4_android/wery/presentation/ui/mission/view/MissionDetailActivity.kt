@@ -121,6 +121,10 @@ class MissionDetailActivity :
     }
 
     private fun initAfterBinding() {
+        binding.ivClose.setOnClickListener {
+            finish()
+        }
+
         binding.layoutMissionDelete.setOnClickListener {
             val dialog = DialogFragmentUtil(
                 DialogInfo(

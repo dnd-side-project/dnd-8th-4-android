@@ -67,7 +67,6 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
 
     // 그룹 게시글 조회
     fun getGroupPost() {
-        _isLoading.value = true
         viewModelScope.launch {
             kotlin.runCatching {
                 if (isSelectGroupId.value == -1) {
@@ -128,5 +127,9 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
 
     fun setUpPageNumber() {
         _pageNumber.value = _pageNumber.value!! + 1
+    }
+
+    fun setLoading() {
+        _isLoading.value = true
     }
 }

@@ -1,6 +1,5 @@
 package com.dnd_8th_4_android.wery.presentation.ui.base
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,7 +16,9 @@ import timber.log.Timber
 abstract class BaseFragment<T : ViewDataBinding>(@LayoutRes val layout: Int) : Fragment() {
     private var _binding: T? = null
     protected val binding get() = _binding ?: error("View를 참조하기 위해 binding이 초기화되지 않았습니다.")
-    lateinit var mLoadingDialog: LoadingDialog
+    private val mLoadingDialog: LoadingDialog by lazy {
+        LoadingDialog(requireContext())
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,15 +48,12 @@ abstract class BaseFragment<T : ViewDataBinding>(@LayoutRes val layout: Int) : F
 
     abstract fun initAfterBinding()
 
-    fun showLoadingDialog(context: Context) {
-        mLoadingDialog = LoadingDialog(context)
+    fun showLoadingDialog() {
         mLoadingDialog.show()
     }
 
     fun dismissLoadingDialog() {
-        if (mLoadingDialog.isShowing) {
-            mLoadingDialog.dismiss()
-        }
+        mLoadingDialog.dismiss()
     }
 
     protected inner class LifeCycleEventLogger(private val className: String) : LifecycleObserver {
