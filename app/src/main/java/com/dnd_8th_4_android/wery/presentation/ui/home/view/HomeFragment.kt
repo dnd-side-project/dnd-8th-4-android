@@ -11,9 +11,11 @@ import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.viewModels
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.data.remote.model.home.RequestEmotionStatus
+import com.dnd_8th_4_android.wery.databinding.ActivityAlertPopupBinding
 import com.dnd_8th_4_android.wery.databinding.ActivityPopupWindowBinding
 import com.dnd_8th_4_android.wery.databinding.FragmentHomeBinding
 import com.dnd_8th_4_android.wery.domain.model.PopupWindowType
+import com.dnd_8th_4_android.wery.presentation.ui.alert.view.AlertPopupActivity
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseFragment
 import com.dnd_8th_4_android.wery.presentation.ui.home.adapter.GroupRecyclerViewAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.home.adapter.PostRecyclerViewAdapter
@@ -164,6 +166,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 }
             }
         })
+
+        binding.ivNotification.setOnClickListener {
+            startActivity(Intent(requireContext(), AlertPopupActivity::class.java))
+        }
 
         binding.btnFloatingAction.setOnClickListener {
             startActivity(Intent(requireContext(), UploadPostActivity::class.java))

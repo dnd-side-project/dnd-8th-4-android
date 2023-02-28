@@ -7,7 +7,9 @@ import com.dnd_8th_4_android.wery.presentation.ui.base.BaseActivity
 import com.dnd_8th_4_android.wery.presentation.ui.mission.mymission.view.MyMissionFragment
 import com.dnd_8th_4_android.wery.presentation.ui.mission.sticker.view.StickerFragment
 import com.google.android.material.tabs.TabLayout
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AlertPopupActivity : BaseActivity<ActivityAlertPopupBinding>(R.layout.activity_alert_popup) {
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -68,4 +68,10 @@ object RepositoryModule {
     fun providePostRepository(postDataSource: PostDataSource): PostRepository {
         return PostRepositoryImpl(postDataSource)
     }
+
+    @Provides
+    @Singleton
+    fun provideAlertRepository(alertDataSource: AlertDataSource): AlertRepository {
+        return AlertRepositoryImpl(alertDataSource)
+    }
 }

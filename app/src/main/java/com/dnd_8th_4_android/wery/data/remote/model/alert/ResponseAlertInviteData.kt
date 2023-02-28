@@ -2,7 +2,7 @@ package com.dnd_8th_4_android.wery.data.remote.model.alert
 
 import com.dnd_8th_4_android.wery.data.remote.model.BaseResponse
 
-data class RequestAlertInviteData(
+data class ResponseAlertInviteData(
     val data: Data,
 ) : BaseResponse() {
     data class Data(

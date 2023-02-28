@@ -73,11 +73,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:backgroundTint="@color/color_f47aff"
+            android:backgroundTint="@color/selector_button_f47aff"
             android:paddingHorizontal="12dp"
             android:paddingVertical="8dp"
             android:text="@string/alert_invite_participate"
-            android:textColor="@color/white"
+            android:textColor="@color/selector_txt_white"
             app:layout_constraintStart_toStartOf="@id/tv_time"
             app:layout_constraintTop_toBottomOf="@id/tv_time" />
 
@@ -87,11 +87,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:backgroundTint="@color/black"
+            android:backgroundTint="@color/selector_button"
             android:paddingHorizontal="12dp"
             android:paddingVertical="8dp"
             android:text="@string/alert_invite_deny"
-            android:textColor="@color/white"
+            android:textColor="@color/selector_txt_white"
             app:layout_constraintStart_toEndOf="@id/btn_group_participate"
             app:layout_constraintTop_toTopOf="@+id/btn_group_participate" />
     </androidx.constraintlayout.widget.ConstraintLayout>
