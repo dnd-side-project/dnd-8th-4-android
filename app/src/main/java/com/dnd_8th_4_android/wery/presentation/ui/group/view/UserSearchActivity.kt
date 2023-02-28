@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.inputmethod.EditorInfo
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.core.widget.doBeforeTextChanged
@@ -63,7 +64,8 @@ class UserSearchActivity :
                     binding.tvInvite.isEnabled = true
                     binding.tvInvite.setOnClickListener {
                         viewModel.groupInvite(userId)
-                        binding.tvInvite.isEnabled = false
+                        finish()
+                        Toast.makeText(this, R.string.search_user_invite_toast_message, Toast.LENGTH_SHORT).show()
                     }
                 }
 

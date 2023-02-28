@@ -244,4 +244,6 @@
     <string name="search_user_invite_title">초대하기</string>
     <string name="search_user_invite_button">초대</string>
     <string name="search_user_invite_hint">함께할 친구의 닉네임을 검색해 보세요.</string>
+    <string name="search_user_invite_toast_message">초대장 전송 완료!</string>
+
 </resources>
