@@ -135,6 +135,7 @@
     <string name="mission_empty_title">인증할 미션이 없어요</string>
     <string name="mission_empty_content">친구와 함께 가고 싶은 장소를 작성해 보세요!</string>
     <string name="mission_how_about_this">이런 미션은 어때요? 👀</string>
+    <string name="mission_this_week_recommend_mission">이번 주 추천 미션이에요 😉</string>
     <string name="mission_add_mission">미션 추가하기</string>
 
     <!-- CreateMissionActivity -->

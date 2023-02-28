@@ -5,10 +5,10 @@
     android:orientation="vertical">
 
     <ImageView
-        android:layout_width="84dp"
-        android:layout_height="84dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="@color/gray500" />
+        android:src="@drawable/img_no_group" />
 
     <TextView
         android:layout_width="match_parent"

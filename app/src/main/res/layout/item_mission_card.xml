@@ -7,7 +7,7 @@
 
         <variable
             name="data"
-            type="com.dnd_8th_4_android.wery.data.remote.model.mission.ResponseMissionCard" />
+            type="com.dnd_8th_4_android.wery.data.remote.model.mission.ResponseMainMissionCard.ResultMissionCard" />
 
     </data>
 
@@ -76,6 +76,7 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_mission_content">
 
                 <ImageView
+                    android:id="@+id/iv_group_img"
                     imageBindFitXY="@{data.groupImageUrl}"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
@@ -100,7 +101,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:layout_marginBottom="16dp"
                 android:background="@drawable/shape_black_radius_8"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
