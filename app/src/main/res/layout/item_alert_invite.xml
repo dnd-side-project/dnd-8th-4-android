@@ -29,6 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/shape_radius_16_gray100"
+                android:scaleType="fitXY"
                 android:src="@drawable/img_no_group" />
         </LinearLayout>
 
@@ -49,7 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="8dp"
             android:textColor="@color/black"
             app:layout_constraintStart_toEndOf="@id/layout_group_image"
             app:layout_constraintTop_toBottomOf="@id/tv_group_name"

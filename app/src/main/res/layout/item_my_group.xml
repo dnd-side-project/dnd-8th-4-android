@@ -29,6 +29,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/selector_btn_group"
+                android:scaleType="fitXY"
                 android:src="@drawable/img_no_group" />
         </LinearLayout>
 
