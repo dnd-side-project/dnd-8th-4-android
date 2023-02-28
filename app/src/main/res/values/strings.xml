@@ -217,6 +217,7 @@
     <string name="mission_detail_write">인증글 쓰기</string>
     <string name="mission_detail_period">%1$s ~ %2$s</string>
     <string name="mission_detail_no_period">%1$s ~ ing</string>
+    <string name="mission_toast_message">위치 인증 완료!</string>
 
     <!-- NoMissionActivity -->
     <string name="no_mission_title">미션을 추가해 보세요</string>

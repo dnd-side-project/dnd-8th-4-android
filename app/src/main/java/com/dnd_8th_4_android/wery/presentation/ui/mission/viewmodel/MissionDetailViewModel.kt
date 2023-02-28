@@ -20,6 +20,9 @@ class MissionDetailViewModel @Inject constructor(private val missionRepository: 
 
     val isMissionId = MutableLiveData<Int>()
 
+    var myCurrentLatitude = MutableLiveData<Double>()
+    var myCurrentLongitude = MutableLiveData<Double>()
+
     fun getMissionDetail() {
         viewModelScope.launch {
             kotlin.runCatching {
