@@ -1,6 +1,7 @@
 package com.dnd_8th_4_android.wery.data.remote.datasource
 
 import com.dnd_8th_4_android.wery.data.api.MissionService
+import com.dnd_8th_4_android.wery.data.remote.model.mission.ResponseMissionDetailData
 import com.dnd_8th_4_android.wery.data.remote.model.mission.ResponseMyMissionList
 import com.dnd_8th_4_android.wery.data.remote.model.mission.ResponseSticker
 import javax.inject.Inject
@@ -13,5 +14,9 @@ class MissionDataSourceImpl @Inject constructor(private val missionService: Miss
 
     override suspend fun getMyMissionList(): ResponseMyMissionList {
         return missionService.getMyMissionList()
+    }
+
+    override suspend fun getMissionDetail(missionId: Int): ResponseMissionDetailData {
+        return missionService.getMissionDetail(missionId)
     }
 }

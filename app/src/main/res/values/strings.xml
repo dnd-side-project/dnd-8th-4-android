@@ -213,7 +213,10 @@
     <string name="mission_detail_made_by">님이 만든 미션</string>
     <string name="mission_detail_due">기간</string>
     <string name="mission_detail_in_group">참여 중인 그룹</string>
+    <string name="mission_detail_certify">인증하기</string>
     <string name="mission_detail_write">인증글 쓰기</string>
+    <string name="mission_detail_period">%1$s ~ %2$s</string>
+    <string name="mission_detail_no_period">%1$s ~ ing</string>
 
     <!-- NoMissionActivity -->
     <string name="no_mission_title">미션을 추가해 보세요</string>
