@@ -17,6 +17,7 @@ import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.core.widget.addTextChangedListener
 import com.bumptech.glide.Glide
 import com.dnd_8th_4_android.wery.R
@@ -25,7 +26,10 @@ import com.dnd_8th_4_android.wery.domain.model.DialogInfo
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseActivity
 import com.dnd_8th_4_android.wery.presentation.ui.group.create.viewmodel.CreateGroupViewModel
 import com.dnd_8th_4_android.wery.presentation.util.DialogFragmentUtil
+import com.dnd_8th_4_android.wery.presentation.util.MultiPartFileUtil
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CreateGroupActivity :
     BaseActivity<ActivityCreateGroupBinding>(R.layout.activity_create_group) {
 
@@ -45,8 +49,10 @@ class CreateGroupActivity :
 
                 if (clipData == null) {
                     Glide.with(this).load(it?.data?.data!!).into(binding.ivGroupImg)
+                    createGroupViewModel.setImageUri(it.data?.data!!)
                 } else {
                     Glide.with(this).load(clipData.getItemAt(0).uri).into(binding.ivGroupImg)
+                    createGroupViewModel.setImageUri(clipData.getItemAt(0).uri)
                 }
             }
         }
@@ -66,6 +72,17 @@ class CreateGroupActivity :
     private fun initDataBinding() {
         setGroupNameUi()
         setGroupIntroUi()
+        setLoadingDialog()
+    }
+
+    private fun setLoadingDialog() {
+        createGroupViewModel.isLoading.observe(this) {
+            if (it) showLoadingDialog(this)
+            else {
+                dismissLoadingDialog()
+                finish()
+            }
+        }
     }
 
     // 권한 체크 함수
@@ -130,6 +147,21 @@ class CreateGroupActivity :
 
         binding.ivClose.setOnClickListener {
             finish()
+        }
+
+        binding.tvDone.setOnClickListener {
+            val data = createGroupViewModel.setGroupRequestBodyData(
+                createGroupViewModel.groupNameTxt.value.toString(),
+                createGroupViewModel.groupIntroduceTxt.value.toString()
+            )
+            val uri = createGroupViewModel.groupImg.value
+            val image =
+                if (uri == "".toUri()) null else MultiPartFileUtil(this, "image").uriToFile(uri)
+            createGroupViewModel.setLoadingState(true)
+            createGroupViewModel.postCreateGroup(
+                data = data,
+                image = image
+            )
         }
     }
 
@@ -203,7 +235,7 @@ class CreateGroupActivity :
     }
 
     private fun removePhoto() {
-        // TODO 추후 서버 통신을 위해 이미지 값 null 로 설정할 것
         Glide.with(this).load(R.drawable.img_group_default).into(binding.ivGroupImg)
+        createGroupViewModel.setImageUri("".toUri())
     }
 }

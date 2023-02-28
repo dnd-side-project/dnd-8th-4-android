@@ -6,6 +6,9 @@ import com.dnd_8th_4_android.wery.data.remote.model.home.RequestEmotionStatus
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseEmotionData
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseGroupData
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponsePostData
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import retrofit2.Response
 import retrofit2.http.*
 
 interface GroupService {
@@ -57,4 +60,11 @@ interface GroupService {
     suspend fun groupInvite(
         @Body body: RequestGroupInviteData
     ): BaseResponse
+
+    @Multipart
+    @POST("/group/create")
+    suspend fun createGroup(
+        @PartMap data: HashMap<String, RequestBody>,
+        @Part image: MultipartBody.Part?
+    ): Response<BaseResponse>
 }

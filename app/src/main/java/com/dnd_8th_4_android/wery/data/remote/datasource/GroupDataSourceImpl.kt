@@ -7,6 +7,8 @@ import com.dnd_8th_4_android.wery.data.remote.model.home.RequestEmotionStatus
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseEmotionData
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseGroupData
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponsePostData
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import javax.inject.Inject
 
 class GroupDataSourceImpl @Inject constructor(private val groupService: GroupService) :
@@ -53,5 +55,16 @@ class GroupDataSourceImpl @Inject constructor(private val groupService: GroupSer
 
     override suspend fun groupInvite(body: RequestGroupInviteData): BaseResponse {
         return groupService.groupInvite(body)
+    }
+
+    override suspend fun createGroup(
+        data: HashMap<String, RequestBody>,
+        image: MultipartBody.Part?
+    ): Result<BaseResponse> {
+        val response = groupService.createGroup(data, image)
+        if (response.isSuccessful) {
+            response.body()?.let { return Result.success(it) }
+        }
+        return Result.failure(IllegalStateException(response.message()))
     }
 }

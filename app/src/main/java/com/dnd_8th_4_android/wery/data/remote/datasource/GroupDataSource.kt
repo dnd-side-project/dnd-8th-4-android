@@ -6,6 +6,8 @@ import com.dnd_8th_4_android.wery.data.remote.model.home.RequestEmotionStatus
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseEmotionData
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseGroupData
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponsePostData
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 
 interface GroupDataSource {
 
@@ -46,4 +48,9 @@ interface GroupDataSource {
     suspend fun groupInvite(
         body: RequestGroupInviteData
     ): BaseResponse
+
+    suspend fun createGroup(
+        data: HashMap<String, RequestBody>,
+        image: MultipartBody.Part?
+    ): Result<BaseResponse>
 }
