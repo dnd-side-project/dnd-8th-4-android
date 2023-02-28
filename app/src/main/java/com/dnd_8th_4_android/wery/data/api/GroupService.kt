@@ -67,4 +67,11 @@ interface GroupService {
         @PartMap data: HashMap<String, RequestBody>,
         @Part image: MultipartBody.Part?
     ): Response<BaseResponse>
+
+    @Multipart
+    @PATCH("/group/update")
+    suspend fun modifyGroup(
+        @PartMap data: HashMap<String, RequestBody>,
+        @Part image: MultipartBody.Part?
+    ): Response<BaseResponse>
 }

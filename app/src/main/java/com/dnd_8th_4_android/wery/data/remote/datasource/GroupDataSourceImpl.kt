@@ -67,4 +67,15 @@ class GroupDataSourceImpl @Inject constructor(private val groupService: GroupSer
         }
         return Result.failure(IllegalStateException(response.message()))
     }
+
+    override suspend fun modifyGroup(
+        data: HashMap<String, RequestBody>,
+        image: MultipartBody.Part?
+    ): Result<BaseResponse> {
+        val response = groupService.modifyGroup(data, image)
+        if (response.isSuccessful) {
+            response.body()?.let { return Result.success(it) }
+        }
+        return Result.failure(IllegalStateException(response.message()))
+    }
 }

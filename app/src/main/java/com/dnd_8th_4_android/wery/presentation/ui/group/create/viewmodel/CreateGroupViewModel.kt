@@ -1,7 +1,6 @@
 package com.dnd_8th_4_android.wery.presentation.ui.group.create.viewmodel
 
 import android.net.Uri
-import android.util.Log
 import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -23,7 +22,10 @@ class CreateGroupViewModel @Inject constructor(private val groupRepository: Grou
 
     var groupNameTxt = MutableLiveData<String>()
     var groupIntroduceTxt = MutableLiveData<String>()
-    var groupImgString = MutableLiveData<String>()
+    var groupImgString = MutableLiveData<String>("")
+
+    private val _groupId = MutableLiveData<Int>()
+    val groupId: LiveData<Int> = _groupId
 
     private val _groupImg: MutableLiveData<Uri> = MutableLiveData("".toUri())
     val groupImg: LiveData<Uri> = _groupImg
@@ -45,6 +47,24 @@ class CreateGroupViewModel @Inject constructor(private val groupRepository: Grou
         } else {
             viewModelScope.launch {
                 groupRepository.createGroup(data, image).onSuccess {
+                    _isLoading.value = false
+                }.onFailure { _isLoading.value = false }
+            }
+        }
+    }
+
+    fun patchModifyGroup(data: HashMap<String, RequestBody>, image: MultipartBody.Part?) {
+        val groupIdRequestBody = _groupId.value.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        data["groupId"] = groupIdRequestBody
+        if (image == null) {
+            viewModelScope.launch {
+                groupRepository.modifyGroup(data, null).onSuccess {
+                    _isLoading.value = false
+                }.onFailure { _isLoading.value = false }
+            }
+        } else {
+            viewModelScope.launch {
+                groupRepository.modifyGroup(data, image).onSuccess {
                     _isLoading.value = false
                 }.onFailure { _isLoading.value = false }
             }
@@ -76,6 +96,10 @@ class CreateGroupViewModel @Inject constructor(private val groupRepository: Grou
         textHashMap["groupNote"] = groupNoteRequestBody!!
 
         return textHashMap
+    }
+
+    fun setGroupId(idValue: Int) {
+        _groupId.value = idValue
     }
 
     fun setImageUri(image: Uri) {

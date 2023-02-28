@@ -10,6 +10,7 @@ import android.provider.Settings
 import android.text.Spannable
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
+import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
@@ -28,6 +29,7 @@ import com.dnd_8th_4_android.wery.presentation.ui.group.create.viewmodel.CreateG
 import com.dnd_8th_4_android.wery.presentation.util.DialogFragmentUtil
 import com.dnd_8th_4_android.wery.presentation.util.MultiPartFileUtil
 import dagger.hilt.android.AndroidEntryPoint
+import okhttp3.MultipartBody
 
 @AndroidEntryPoint
 class CreateGroupActivity :
@@ -59,7 +61,9 @@ class CreateGroupActivity :
 
     private fun isFromInformationView() {
         if (intent.hasExtra("groupId")) {
-            createGroupViewModel.getGroupInformation(intent.getIntExtra("groupId", 0))
+            val groupId = intent.getIntExtra("groupId", 0)
+            createGroupViewModel.getGroupInformation(groupId)
+            createGroupViewModel.setGroupId(groupId)
             createGroupViewModel.groupImgString.observe(this) {
                 if (it.isNotEmpty()) {
                     Glide.with(this).load(createGroupViewModel.groupImgString.value)
@@ -163,18 +167,33 @@ class CreateGroupActivity :
         }
 
         binding.tvDone.setOnClickListener {
+            createGroupViewModel.setLoadingState(true)
             val data = createGroupViewModel.setGroupRequestBodyData(
                 createGroupViewModel.groupNameTxt.value.toString(),
                 createGroupViewModel.groupIntroduceTxt.value.toString()
             )
-            val uri = createGroupViewModel.groupImg.value
-            val image =
-                if (uri == "".toUri()) null else MultiPartFileUtil(this, "image").uriToFile(uri)
-            createGroupViewModel.setLoadingState(true)
-            createGroupViewModel.postCreateGroup(
-                data = data,
-                image = image
-            )
+            val galleryUri = createGroupViewModel.groupImg.value
+            val httpUri = createGroupViewModel.groupImgString.value
+            if (intent.hasExtra("groupId")) {
+                Thread {
+                    kotlin.run {
+                        var image:MultipartBody.Part? = null
+                        if (galleryUri != "".toUri()) {
+                            image = if (galleryUri == "".toUri()) null else MultiPartFileUtil(this, "image").uriToFile(galleryUri)
+                        } else {
+                            if (httpUri!!.contains("https")) image = MultiPartFileUtil(this,"image").httpsToFile(httpUri)
+                        }
+                        createGroupViewModel.patchModifyGroup(data, image)
+                    }
+                }.start()
+            } else {
+                val image = if (galleryUri == "".toUri()) null else MultiPartFileUtil(this, "image").uriToFile(galleryUri)
+                createGroupViewModel.setLoadingState(true)
+                createGroupViewModel.postCreateGroup(
+                    data = data,
+                    image = image
+                )
+            }
         }
     }
 
@@ -250,5 +269,6 @@ class CreateGroupActivity :
     private fun removePhoto() {
         Glide.with(this).load(R.drawable.img_group_default).into(binding.ivGroupImg)
         createGroupViewModel.setImageUri("".toUri())
+        createGroupViewModel.groupImgString.value = ""
     }
 }

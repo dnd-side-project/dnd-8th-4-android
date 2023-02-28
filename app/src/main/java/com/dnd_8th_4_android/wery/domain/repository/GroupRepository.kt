@@ -53,4 +53,9 @@ interface GroupRepository {
         data: HashMap<String, RequestBody>,
         image: MultipartBody.Part?
     ): Result<BaseResponse>
+
+    suspend fun modifyGroup(
+        data: HashMap<String, RequestBody>,
+        image: MultipartBody.Part?
+    ): Result<BaseResponse>
 }

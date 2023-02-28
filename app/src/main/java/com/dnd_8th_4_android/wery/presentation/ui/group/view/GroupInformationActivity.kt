@@ -2,7 +2,6 @@ package com.dnd_8th_4_android.wery.presentation.ui.group.view
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import com.bumptech.glide.Glide
 import com.dnd_8th_4_android.wery.R

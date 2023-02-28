@@ -65,4 +65,11 @@ class GroupRepositoryImpl @Inject constructor(private val groupDataSource: Group
         return groupDataSource.createGroup(data, image)
     }
 
+    override suspend fun modifyGroup(
+        data: HashMap<String, RequestBody>,
+        image: MultipartBody.Part?
+    ): Result<BaseResponse> {
+        return groupDataSource.modifyGroup(data, image)
+    }
+
 }
