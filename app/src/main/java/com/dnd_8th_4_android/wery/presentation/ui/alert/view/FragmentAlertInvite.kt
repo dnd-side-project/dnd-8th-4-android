@@ -1,5 +1,6 @@
 package com.dnd_8th_4_android.wery.presentation.ui.alert.view
 
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.databinding.FragmentAlertInviteBinding
@@ -18,6 +19,10 @@ class FragmentAlertInvite :
         viewModel.getInvite()
 
         alertInviteRecyclerViewAdapter = AlertInviteRecyclerViewAdapter()
+        alertInviteRecyclerViewAdapter.setOnAcceptClickListener { groupId, notificationId ->
+            viewModel.setAccept(groupId, notificationId)
+        }
+
         binding.rvInvite.apply {
             adapter = alertInviteRecyclerViewAdapter
             itemAnimator = null
@@ -25,8 +30,19 @@ class FragmentAlertInvite :
     }
 
     override fun initDataBinding() {
+        viewModel.isLoading.observe(viewLifecycleOwner) {
+            if (it) showLoadingDialog(requireContext())
+            else dismissLoadingDialog()
+        }
+
         viewModel.inviteList.observe(viewLifecycleOwner) {
             alertInviteRecyclerViewAdapter.submitList(it)
+        }
+
+        viewModel.isToastMessage.observe(viewLifecycleOwner) {
+            if(it) {
+                Toast.makeText(requireContext(), R.string.alert_invite_accept_message, Toast.LENGTH_SHORT).show()
+            }
         }
     }
 

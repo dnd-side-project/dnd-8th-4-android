@@ -254,5 +254,6 @@
     <string name="alert_notification_no_message">도착한 알림이 없어요</string>
     <string name="alert_invite_participate">참여하기</string>
     <string name="alert_invite_deny">거절하기</string>
+    <string name="alert_invite_accept_message">성공적으로 가입되었어요!</string>
 
 </resources>

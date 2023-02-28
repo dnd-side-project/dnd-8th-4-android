@@ -8,14 +8,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.dnd_8th_4_android.wery.data.remote.model.alert.ResponseAlertInviteData
 import com.dnd_8th_4_android.wery.databinding.ItemAlertInviteBinding
+import com.dnd_8th_4_android.wery.presentation.ui.detail.adapter.PostDetailStickerRecyclerViewAdapter
 
 class AlertInviteRecyclerViewAdapter :
     ListAdapter<ResponseAlertInviteData.Data.NotificationInfoList, AlertInviteRecyclerViewAdapter.ViewHolder>(
         diffUtil
     ) {
     private lateinit var binding: ItemAlertInviteBinding
+    private lateinit var onAcceptClickListener: OnAcceptClickListener
 
-    class ViewHolder(private val binding: ItemAlertInviteBinding) :
+    inner class ViewHolder(private val binding: ItemAlertInviteBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ResponseAlertInviteData.Data.NotificationInfoList) {
             binding.ivGroupImage.clipToOutline = true
@@ -33,6 +35,10 @@ class AlertInviteRecyclerViewAdapter :
                 binding.btnGroupParticipate.isEnabled = true
                 binding.btnGroupDeny.isEnabled = true
             }
+
+            binding.btnGroupParticipate.setOnClickListener {
+                onAcceptClickListener.onClicked(item.groupId, item.notificationId)
+            }
         }
     }
 
@@ -43,6 +49,18 @@ class AlertInviteRecyclerViewAdapter :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(currentList[position])
+    }
+
+    fun setOnAcceptClickListener(listener: (Int, Int) -> Unit) {
+        onAcceptClickListener = object : OnAcceptClickListener {
+            override fun onClicked(groupId: Int, notificationId: Int) {
+                listener(groupId, notificationId)
+            }
+        }
+    }
+
+    interface OnAcceptClickListener {
+        fun onClicked(groupId: Int, notificationId: Int)
     }
 
     companion object {
