@@ -6,6 +6,7 @@ import android.content.Intent
 import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
@@ -26,7 +27,7 @@ class MissionDetailActivity :
     BaseActivity<ActivityMissionDetailBinding>(R.layout.activity_mission_detail) {
     private val viewModel: MissionDetailViewModel by viewModels()
 
-    private val isMissionCertify = false
+    private val isMissionCertify = true
     private lateinit var mapView: MapView
 
     companion object {

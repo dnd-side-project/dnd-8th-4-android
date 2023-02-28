@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
@@ -127,6 +128,7 @@ class UploadPostActivity : BaseActivity<ActivityUploadPostBinding>(R.layout.acti
         isFromModify()
         binding.viewModel = postViewModel
         setRvAdapter()
+        selectGroupListener()
 
         val groupName = intent.getStringExtra(MissionDetailActivity.GROUP_NAME)
         val groupId = intent.getLongExtra(MissionDetailActivity.GROUP_ID, 0L)
@@ -134,6 +136,7 @@ class UploadPostActivity : BaseActivity<ActivityUploadPostBinding>(R.layout.acti
         val latitude = intent.getDoubleExtra(MissionDetailActivity.LATITUDE, 0.0)
         val longitude = intent.getDoubleExtra(MissionDetailActivity.LONGITUDE, 0.0)
 
+        if (groupName != "") binding.layoutSelectGroup.isEnabled = true
         postViewModel.selectedGroup.value = groupName
         postViewModel.setGroupId(groupId)
         postViewModel.selectedLatitude.value = latitude.toString()
@@ -157,7 +160,6 @@ class UploadPostActivity : BaseActivity<ActivityUploadPostBinding>(R.layout.acti
 
     private fun initAfterBinding() {
         setPhotoAddListener()
-        selectGroupListener()
         registerListener()
         addPlaceListener()
         closeListener()
