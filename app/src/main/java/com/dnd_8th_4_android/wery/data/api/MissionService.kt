@@ -2,11 +2,11 @@ package com.dnd_8th_4_android.wery.data.api
 
 import com.dnd_8th_4_android.wery.data.remote.model.mission.ResponseMainMissionCard
 import com.dnd_8th_4_android.wery.data.remote.model.BaseResponse
-import com.dnd_8th_4_android.wery.data.remote.model.mission.ResponseMissionDetailData
-import com.dnd_8th_4_android.wery.data.remote.model.mission.ResponseMyMissionList
-import com.dnd_8th_4_android.wery.data.remote.model.mission.ResponseSticker
+import com.dnd_8th_4_android.wery.data.remote.model.mission.*
+import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Query
 
 interface MissionService {
@@ -29,4 +29,9 @@ interface MissionService {
     suspend fun missionDelete(
         @Query("missionId") missionId: Int,
     ): BaseResponse
+
+    @POST("/mission/check/location")
+    suspend fun missionCertify(
+        @Body body: RequestMissionCertifyData
+    ): ResponseMissionCertifyData
 }

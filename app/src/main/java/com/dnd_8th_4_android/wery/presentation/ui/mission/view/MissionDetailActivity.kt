@@ -25,7 +25,8 @@ import net.daum.mf.map.api.MapView
 class MissionDetailActivity :
     BaseActivity<ActivityMissionDetailBinding>(R.layout.activity_mission_detail) {
     private val viewModel: MissionDetailViewModel by viewModels()
-    private val isMissionCertify = true
+
+    private val isMissionCertify = false
     private lateinit var mapView: MapView
 
     companion object {
@@ -97,16 +98,18 @@ class MissionDetailActivity :
                     }
                 } else {
                     getMyCurrentLocation()
-
-                    if (viewModel.myCurrentLatitude.value == it.latitude && viewModel.myCurrentLongitude.value == it.longitude) {
-                        showToast(R.string.mission_detail_toast_message_success.toString())
-                        finish()
-                        MissionProgressActivity().finish()
-                    } else {
-                        // TODO 인증 실패 시
-                        showToast(R.string.mission_detail_toast_message_failure.toString())
-                    }
+                    viewModel.missionCertify(it.groupId)
                 }
+            }
+        }
+
+        viewModel.isCertify.observe(this) {
+            if (it) {
+                showToast(resources.getString(R.string.mission_detail_toast_message_success))
+                finish()
+                MissionProgressActivity().finish()
+            } else {
+                showToast(resources.getString(R.string.mission_detail_toast_message_failure))
             }
         }
     }
@@ -128,7 +131,7 @@ class MissionDetailActivity :
                 )
             ) {
                 viewModel.missionDelete()
-                showToast(R.string.mission_detail_toast_message_delete.toString())
+                showToast(resources.getString(R.string.mission_detail_toast_message_delete))
                 finish()
                 MissionProgressActivity().finish()
             }
