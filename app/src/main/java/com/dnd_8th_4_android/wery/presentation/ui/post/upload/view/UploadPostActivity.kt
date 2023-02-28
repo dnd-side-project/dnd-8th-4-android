@@ -15,6 +15,7 @@ import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.databinding.ActivityUploadPostBinding
 import com.dnd_8th_4_android.wery.domain.model.DialogInfo
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseActivity
+import com.dnd_8th_4_android.wery.presentation.ui.mission.view.MissionDetailActivity
 import com.dnd_8th_4_android.wery.presentation.ui.post.place.view.SearchPlaceActivity
 import com.dnd_8th_4_android.wery.presentation.ui.post.upload.adapter.UploadPhotoAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.post.upload.viewmodel.PostViewModel
@@ -126,6 +127,19 @@ class UploadPostActivity : BaseActivity<ActivityUploadPostBinding>(R.layout.acti
         isFromModify()
         binding.viewModel = postViewModel
         setRvAdapter()
+
+        val groupName = intent.getStringExtra(MissionDetailActivity.GROUP_NAME)
+        val groupId = intent.getLongExtra(MissionDetailActivity.GROUP_ID, 0L)
+        val placeName = intent.getStringExtra(MissionDetailActivity.PLACE_NAME)
+        val latitude = intent.getDoubleExtra(MissionDetailActivity.LATITUDE, 0.0)
+        val longitude = intent.getDoubleExtra(MissionDetailActivity.LONGITUDE, 0.0)
+
+        postViewModel.selectedGroup.value = groupName
+        postViewModel.setGroupId(groupId)
+        postViewModel.selectedLatitude.value = latitude.toString()
+        postViewModel.selectedLongitude.value = longitude.toString()
+
+        binding.tvAddPlace.text = placeName
     }
 
     private fun isFromModify() {
