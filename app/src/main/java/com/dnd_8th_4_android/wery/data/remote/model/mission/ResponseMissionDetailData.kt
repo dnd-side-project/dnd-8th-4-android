@@ -18,8 +18,8 @@ data class ResponseMissionDetailData(
         val missionEndDate: String,
 //        val missionStatus: String,
         val missionLocationName: String,
-        val latitude: Float,
-        val longitude: Float,
+        val latitude: Double,
+        val longitude: Double,
 //        val userAssignMissionInfoList: UserAssignMissionInfoList
     ) {
         data class UserAssignMissionInfoList(

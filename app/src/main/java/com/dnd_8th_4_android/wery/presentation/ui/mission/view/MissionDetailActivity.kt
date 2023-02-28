@@ -12,9 +12,11 @@ import com.bumptech.glide.Glide
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.data.local.AuthLocalDataSource
 import com.dnd_8th_4_android.wery.databinding.ActivityMissionDetailBinding
+import com.dnd_8th_4_android.wery.domain.model.DialogInfo
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseActivity
 import com.dnd_8th_4_android.wery.presentation.ui.mission.mymission.view.MissionProgressActivity
 import com.dnd_8th_4_android.wery.presentation.ui.mission.viewmodel.MissionDetailViewModel
+import com.dnd_8th_4_android.wery.presentation.util.DialogFragmentUtil
 import dagger.hilt.android.AndroidEntryPoint
 import net.daum.mf.map.api.MapView
 
@@ -71,6 +73,25 @@ class MissionDetailActivity :
 //                binding.btnMissionDetail.text = resources.getString(R.string.mission_detail_write)
 //            }
 //            isMissionCertify = it.userAssignMissionInfoList.locationCheck
+
+            binding.btnMissionDetail.setOnClickListener { _ ->
+                if (isMissionCertify) {
+                    // TODO 인증글 쓰기 : 데이터 전달
+                    finish()
+                    MissionProgressActivity().finish()
+                } else {
+                    getMyCurrentLocation()
+
+                    if (viewModel.myCurrentLatitude.value == it.latitude && viewModel.myCurrentLongitude.value == it.longitude) {
+                        showToast(R.string.mission_detail_toast_message_success.toString())
+                        finish()
+                        MissionProgressActivity().finish()
+                    } else {
+                        // TODO 인증 실패 시
+                        showToast(R.string.mission_detail_toast_message_failure.toString())
+                    }
+                }
+            }
         }
     }
 
@@ -81,13 +102,21 @@ class MissionDetailActivity :
     }
 
     private fun initAfterBinding() {
-        if (isMissionCertify) {
-            //
-        } else {
-            getMyCurrentLocation()
-            showToast(R.string.mission_toast_message.toString())
-            finish()
-            MissionProgressActivity().finish()
+        binding.layoutMissionDelete.setOnClickListener {
+            val dialog = DialogFragmentUtil(
+                DialogInfo(
+                    resources.getString(R.string.mission_detail_dialog_title),
+                    resources.getString(R.string.mission_detail_dialog_content),
+                    "취소",
+                    resources.getString(R.string.mission_detail_dialog_confirm)
+                )
+            ) {
+                viewModel.missionDelete()
+                showToast(R.string.mission_detail_toast_message_delete.toString())
+                finish()
+                MissionProgressActivity().finish()
+            }
+            dialog.show(supportFragmentManager, dialog.tag)
         }
     }
 

@@ -34,4 +34,16 @@ class MissionDetailViewModel @Inject constructor(private val missionRepository: 
             }
         }
     }
+
+    fun missionDelete() {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                missionRepository.missionDelete(isMissionId.value!!)
+            }.onSuccess {
+
+            }.onFailure {
+                Timber.tag("error").d(it.message.toString())
+            }
+        }
+    }
 }

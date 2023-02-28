@@ -217,7 +217,12 @@
     <string name="mission_detail_write">인증글 쓰기</string>
     <string name="mission_detail_period">%1$s ~ %2$s</string>
     <string name="mission_detail_no_period">%1$s ~ ing</string>
-    <string name="mission_toast_message">위치 인증 완료!</string>
+    <string name="mission_detail_toast_message_success">위치 인증 완료!</string>
+    <string name="mission_detail_toast_message_failure">위치 인증 실패!</string>
+    <string name="mission_detail_dialog_title">미션을 삭제하시겠어요?</string>
+    <string name="mission_detail_dialog_content">이 동작은 취소할 수 없으며 해당 미션의 위치 인증을 포함한 나의 활동 내역이 삭제됩니다.</string>
+    <string name="mission_detail_dialog_confirm">삭제</string>
+    <string name="mission_detail_toast_message_delete">성공적으로 삭제되었어요!</string>
 
     <!-- NoMissionActivity -->
     <string name="no_mission_title">미션을 추가해 보세요</string>
