@@ -1,10 +1,7 @@
 package com.dnd_8th_4_android.wery.domain.repository
 
-import com.dnd_8th_4_android.wery.data.remote.model.mission.ResponseMainMissionCard
 import com.dnd_8th_4_android.wery.data.remote.model.BaseResponse
-import com.dnd_8th_4_android.wery.data.remote.model.mission.ResponseMissionDetailData
-import com.dnd_8th_4_android.wery.data.remote.model.mission.ResponseMyMissionList
-import com.dnd_8th_4_android.wery.data.remote.model.mission.ResponseSticker
+import com.dnd_8th_4_android.wery.data.remote.model.mission.*
 
 interface MissionRepository {
 
@@ -19,5 +16,9 @@ interface MissionRepository {
 
     suspend fun missionDelete(
         missionId: Int,
+    ): BaseResponse
+
+    suspend fun createMission(
+        body:RequestCreateMissionData
     ): BaseResponse
 }
