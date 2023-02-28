@@ -69,4 +69,10 @@ object ApiModule {
     fun providePostService(retrofit: Retrofit): PostService {
         return retrofit.create(PostService::class.java)
     }
+
+    @Provides
+    @Singleton
+    fun provideAlertService(retrofit: Retrofit): AlertService {
+        return retrofit.create(AlertService::class.java)
+    }
 }

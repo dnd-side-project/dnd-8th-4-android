@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.fragment.app.viewModels
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.databinding.FragmentGroupBinding
+import com.dnd_8th_4_android.wery.presentation.ui.alert.view.AlertPopupActivity
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseFragment
 import com.dnd_8th_4_android.wery.presentation.ui.group.adapter.GroupBookmarkRecyclerViewAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.group.adapter.GroupListRecyclerViewAdapter
@@ -69,6 +70,10 @@ class GroupFragment : BaseFragment<FragmentGroupBinding>(R.layout.fragment_group
                 putExtra(HomeFragment.GROUP_ALL_LIST, viewModel.groupAllIdList.value)
                 startActivity(this)
             }
+        }
+
+        binding.ivNotification.setOnClickListener {
+            startActivity(Intent(requireContext(), AlertPopupActivity::class.java))
         }
 
         binding.btnFloatingAction.setOnClickListener {

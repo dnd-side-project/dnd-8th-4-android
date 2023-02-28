@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="17dp">
+
+        <LinearLayout
+            android:id="@+id/layout_group_image"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:foreground="@drawable/shape_radius_16_gray100"
+            android:gravity="center"
+            android:padding="1dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/iv_group_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/shape_radius_16_gray100"
+                android:src="@drawable/img_no_group" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_group_name"
+            style="@style/TextView.Caption.12.M"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:textColor="@color/gray700"
+            app:layout_constraintStart_toEndOf="@id/layout_group_image"
+            app:layout_constraintTop_toTopOf="@id/layout_group_image"
+            tools:text="몬베베와 샤월들" />
+
+        <TextView
+            android:id="@+id/tv_group_content"
+            style="@style/TextView.Caption.12.M"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toEndOf="@id/layout_group_image"
+            app:layout_constraintTop_toBottomOf="@id/tv_group_name"
+            tools:text="초대장이 도착했어요. 그룹에 참여해 보세요!" />
+
+        <TextView
+            android:id="@+id/tv_time"
+            style="@style/TextView.Caption.12.R"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/gray500"
+            app:layout_constraintStart_toEndOf="@id/layout_group_image"
+            app:layout_constraintTop_toBottomOf="@id/tv_group_content"
+            tools:text="23.02.19" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_group_participate"
+            style="@style/MaterialButton.4.12.Sb"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@color/selector_button_f47aff"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="8dp"
+            android:text="@string/alert_invite_participate"
+            android:textColor="@color/selector_txt_white"
+            app:layout_constraintStart_toStartOf="@id/tv_time"
+            app:layout_constraintTop_toBottomOf="@id/tv_time" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_group_deny"
+            style="@style/MaterialButton.4.12.Sb"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:backgroundTint="@color/selector_button"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="8dp"
+            android:text="@string/alert_invite_deny"
+            android:textColor="@color/selector_txt_white"
+            app:layout_constraintStart_toEndOf="@id/btn_group_participate"
+            app:layout_constraintTop_toTopOf="@+id/btn_group_participate" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

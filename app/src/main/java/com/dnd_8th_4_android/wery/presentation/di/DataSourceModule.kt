@@ -67,4 +67,10 @@ object DataSourceModule {
     fun providePostDataSource(postService: PostService): PostDataSource {
         return PostDataSourceImpl(postService)
     }
+
+    @Provides
+    @Singleton
+    fun provideAlertDataSource(alertService: AlertService): AlertDataSource {
+        return AlertDataSourceImpl(alertService)
+    }
 }
