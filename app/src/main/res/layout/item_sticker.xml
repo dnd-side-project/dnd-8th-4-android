@@ -9,7 +9,7 @@
 
         <variable
             name="data"
-            type="com.dnd_8th_4_android.wery.data.remote.model.mission.ResponseSticker" />
+            type="com.dnd_8th_4_android.wery.data.remote.model.mission.ResponseSticker.Data.AcquisitionStickerInfo" />
 
     </data>
 
@@ -87,8 +87,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:text="@{data.stickerDue}"
-                tools:text="@string/sticker_infinite"
+                android:text="@string/sticker_infinite"
                 android:textColor="@color/gray700" />
         </LinearLayout>
 

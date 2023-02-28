@@ -166,6 +166,8 @@
     <string name="sticker_dialog_content">레벨 %d를 달성해 스티커를 획득했어요.\n받은 스티커는 미션/스티커에서 확인할 수 있어요.</string>
     <string name="sticker_info">스티커 정보</string>
     <string name="sticker_due">사용기간 무제한</string>
+    <string name="sticker_my_mission_level_one">Lv. 1</string>
+    <string name="sticker_my_mission_level_two">Lv. 2</string>
 
     <!-- bottomSheetFragment -->
     <string name="bottom_sheet_bookmark">북마크 하기</string>
@@ -272,5 +274,6 @@
     <string name="mypage_bookmark_title">북마크한 글</string>
     <string name="mypage_post_title">작성한 글</string>
     <string name="mypage_comment_title">댓글 쓴 글</string>
+
 
 </resources>

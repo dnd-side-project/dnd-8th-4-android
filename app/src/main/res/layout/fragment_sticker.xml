@@ -107,7 +107,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="23dp"
                         android:layout_marginEnd="16dp"
-                        android:progress="25"
                         android:progressDrawable="@drawable/progress_drawable"
                         app:layout_constraintBottom_toBottomOf="@+id/iv_middle"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -118,7 +117,7 @@
                         android:id="@+id/iv_start"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/img_sticker_temp_selected"
+                        android:src="@drawable/selector_sticker_temp_one"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -128,17 +127,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
+                        android:text="@string/sticker_my_mission_level_one"
                         android:textColor="@color/gray600"
                         app:layout_constraintEnd_toEndOf="@id/iv_start"
                         app:layout_constraintStart_toStartOf="@id/iv_start"
-                        app:layout_constraintTop_toBottomOf="@id/iv_start"
-                        tools:text="Lv. 1" />
+                        app:layout_constraintTop_toBottomOf="@id/iv_start" />
 
                     <ImageView
                         android:id="@+id/iv_middle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/img_sticker_temp_default"
+                        android:src="@drawable/selector_sticker_temp_two"
                         app:layout_constraintEnd_toStartOf="@id/iv_end"
                         app:layout_constraintStart_toEndOf="@id/iv_start"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -147,7 +146,7 @@
                         android:id="@+id/iv_end"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/img_sticker_temp_default"
+                        android:src="@drawable/selector_sticker_temp_three"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -157,11 +156,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:textColor="@color/black"
+                        android:text="@string/sticker_my_mission_level_two"
+                        android:textColor="@color/gray600"
                         app:layout_constraintEnd_toEndOf="@id/iv_end"
                         app:layout_constraintStart_toStartOf="@id/iv_end"
-                        app:layout_constraintTop_toBottomOf="@id/iv_end"
-                        tools:text="Lv. 2" />
+                        app:layout_constraintTop_toBottomOf="@id/iv_end" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -204,13 +203,13 @@
             android:id="@+id/rv_sticker"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            tools:listitem="@layout/item_sticker"
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_earn_sticker" />
+            app:layout_constraintTop_toBottomOf="@id/tv_earn_sticker"
+            tools:listitem="@layout/item_sticker" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

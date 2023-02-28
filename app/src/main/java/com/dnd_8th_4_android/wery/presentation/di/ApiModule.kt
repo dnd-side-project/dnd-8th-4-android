@@ -75,4 +75,10 @@ object ApiModule {
     fun provideAlertService(retrofit: Retrofit): AlertService {
         return retrofit.create(AlertService::class.java)
     }
+
+    @Provides
+    @Singleton
+    fun provideMissionService(retrofit: Retrofit): MissionService {
+        return retrofit.create(MissionService::class.java)
+    }
 }

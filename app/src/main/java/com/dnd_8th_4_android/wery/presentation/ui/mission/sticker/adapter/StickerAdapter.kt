@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dnd_8th_4_android.wery.data.remote.model.mission.ResponseSticker
 import com.dnd_8th_4_android.wery.databinding.ItemStickerBinding
 
-class StickerAdapter(private val onItemClick: (ResponseSticker) -> Unit) :
-    ListAdapter<ResponseSticker, StickerAdapter.StickerViewHolder>(
+class StickerAdapter(private val onItemClick: (ResponseSticker.Data.AcquisitionStickerInfo) -> Unit) :
+    ListAdapter<ResponseSticker.Data.AcquisitionStickerInfo, StickerAdapter.StickerViewHolder>(
         stickerDiffUtil
     ) {
 
@@ -27,10 +27,10 @@ class StickerAdapter(private val onItemClick: (ResponseSticker) -> Unit) :
 
     class StickerViewHolder(
         val binding: ItemStickerBinding,
-        val onItemClick: (ResponseSticker) -> Unit
+        val onItemClick: (ResponseSticker.Data.AcquisitionStickerInfo) -> Unit,
     ) :
         RecyclerView.ViewHolder(binding.root) {
-        private var stickerData: ResponseSticker? = null
+        private var stickerData: ResponseSticker.Data.AcquisitionStickerInfo? = null
 
         init {
             binding.root.setOnClickListener {
@@ -40,25 +40,23 @@ class StickerAdapter(private val onItemClick: (ResponseSticker) -> Unit) :
             }
         }
 
-        fun onBind(data: ResponseSticker) {
+        fun onBind(data: ResponseSticker.Data.AcquisitionStickerInfo) {
             stickerData = data
             binding.data = data
         }
     }
 
     companion object {
-        private val stickerDiffUtil = object : DiffUtil.ItemCallback<ResponseSticker>() {
+        private val stickerDiffUtil = object : DiffUtil.ItemCallback<ResponseSticker.Data.AcquisitionStickerInfo>() {
             override fun areItemsTheSame(
-                oldItem: ResponseSticker,
-                newItem: ResponseSticker
-            ): Boolean =
-                oldItem.stickerName == newItem.stickerName
+                oldItem: ResponseSticker.Data.AcquisitionStickerInfo,
+                newItem: ResponseSticker.Data.AcquisitionStickerInfo,
+            ): Boolean = oldItem == newItem
 
             override fun areContentsTheSame(
-                oldItem: ResponseSticker,
-                newItem: ResponseSticker
-            ): Boolean =
-                oldItem == newItem
+                oldItem: ResponseSticker.Data.AcquisitionStickerInfo,
+                newItem: ResponseSticker.Data.AcquisitionStickerInfo,
+            ): Boolean = oldItem == newItem
         }
     }
 }
