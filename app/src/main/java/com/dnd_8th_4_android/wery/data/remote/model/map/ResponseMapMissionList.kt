@@ -7,8 +7,14 @@ data class ResponseMapMissionList(
     val data: List<ResultMapMission>
 ) : BaseResponse() {
     data class ResultMapMission(
-        val x: Double,
-        val y: Double,
+        val missionId: Int,
+        val missionName: String,
+        val groupId: Int,
+        val missionLocationName: String,
+        val latitude: Double,
+        val longitude: Double,
+        val missionColor: Int
     )
 }
+
 

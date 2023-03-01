@@ -51,7 +51,7 @@ class CreateMissionViewModel @Inject constructor(private val missionRepository: 
     private var _existPeriod = MutableLiveData<Boolean>(true)
     val existPeriod: LiveData<Boolean> = _existPeriod
 
-    private var _missionColor = MutableLiveData<Int>()
+    private var _missionColor = MutableLiveData<Int>(0)
     val missionColor: LiveData<Int> = _missionColor
 
     private val _isLoading: MutableLiveData<Boolean> = MutableLiveData()
