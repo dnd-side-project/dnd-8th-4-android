@@ -84,7 +84,7 @@ class AccessGroupMissionRecyclerViewAdapter :
 
             binding.btnCertify.setOnClickListener {
                 if (item.userAssignMissionInfo.locationCheck) {
-                    onWriteClickListener.onClicked()
+                    onWriteClickListener.onClicked(item)
                 } else {
                     onCertifyClickListener.onClicked(item.missionId)
                 }
@@ -113,16 +113,16 @@ class AccessGroupMissionRecyclerViewAdapter :
         fun onClicked(missionId: Int)
     }
 
-    fun setOnWriteClickListener(listener: () -> Unit) {
+    fun setOnWriteClickListener(listener: (ResponseGroupMissionData.Data) -> Unit) {
         onWriteClickListener = object : OnWriteClickListener {
-            override fun onClicked() {
-                listener()
+            override fun onClicked(data:ResponseGroupMissionData.Data) {
+                listener(data)
             }
         }
     }
 
     interface OnWriteClickListener {
-        fun onClicked()
+        fun onClicked(data:ResponseGroupMissionData.Data)
     }
 
     companion object {

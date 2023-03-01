@@ -9,7 +9,6 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.PopupWindow
 import android.widget.ScrollView
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.viewModels
@@ -26,7 +25,8 @@ import com.dnd_8th_4_android.wery.presentation.ui.group.adapter.GroupListRecycle
 import com.dnd_8th_4_android.wery.presentation.ui.group.viewmodel.AccessGroupViewModel
 import com.dnd_8th_4_android.wery.presentation.ui.home.adapter.PostRecyclerViewAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.home.view.HomeFragment
-import com.dnd_8th_4_android.wery.presentation.ui.mission.mymission.view.MissionProgressActivity
+import com.dnd_8th_4_android.wery.presentation.ui.mission.view.MissionDetailActivity
+import com.dnd_8th_4_android.wery.presentation.ui.post.upload.view.UploadPostActivity
 import com.dnd_8th_4_android.wery.presentation.ui.search.view.SearchPostActivity
 import com.dnd_8th_4_android.wery.presentation.util.PopupBottomDialog
 import dagger.hilt.android.AndroidEntryPoint
@@ -118,7 +118,13 @@ class AccessGroupFragment :
                         viewModel.missionCertify(missionId)
                     }
                     setOnWriteClickListener {
-
+                        val intent = Intent(requireContext(), UploadPostActivity::class.java)
+                        intent.putExtra(MissionDetailActivity.GROUP_ID, it.groupId)
+                        intent.putExtra(MissionDetailActivity.GROUP_NAME, it.groupName)
+                        intent.putExtra(MissionDetailActivity.PLACE_NAME, it.missionLocationName)
+                        intent.putExtra(MissionDetailActivity.LATITUDE, it.latitude)
+                        intent.putExtra(MissionDetailActivity.LONGITUDE, it.longitude)
+                        startActivity(intent)
                     }
                 }
 
