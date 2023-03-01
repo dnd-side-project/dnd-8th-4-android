@@ -26,6 +26,7 @@ import com.dnd_8th_4_android.wery.databinding.FragmentMapBinding
 import com.dnd_8th_4_android.wery.domain.model.DialogInfo
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseFragment
 import com.dnd_8th_4_android.wery.presentation.ui.map.adapter.MapFeedAdapter
+import com.dnd_8th_4_android.wery.presentation.ui.mission.view.MissionDetailActivity
 import com.dnd_8th_4_android.wery.presentation.ui.post.place.view.SearchPlaceActivity
 import com.dnd_8th_4_android.wery.presentation.ui.post.upload.view.UploadPostActivity
 import com.dnd_8th_4_android.wery.presentation.util.DialogFragmentUtil
@@ -234,6 +235,12 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map){
             }
             binding.includeLayoutMission.ivGroupImg.clipToOutline = true
             binding.includeLayoutMission.data = it.data
+
+            val intent = Intent(requireContext(), MissionDetailActivity::class.java)
+            intent.putExtra("missionId", it.data.groupId)
+            binding.includeLayoutMission.root.setOnClickListener {
+                startActivity(intent)
+            }
         }
 
         mapViewModel.isBottomDialogShowing.observe(viewLifecycleOwner) {
