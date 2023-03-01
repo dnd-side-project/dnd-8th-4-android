@@ -33,8 +33,8 @@ class CreateMissionActivity :
                 val selectedPlace = it.data?.getStringExtra("selectedPlace")
                     ?: getString(R.string.create_mission_place_hint)
 
-                val lat = it.data?.getDoubleExtra("selectedX", 0.0)!!
-                val long = it.data?.getDoubleExtra("selectedY", 0.0)!!
+                val long = it.data?.getDoubleExtra("selectedX", 0.0)!!
+                val lat = it.data?.getDoubleExtra("selectedY", 0.0)!!
 
                 viewModel.setSelectedPlace(selectedPlace)
                 viewModel.setLocationXY(lat, long)
