@@ -7,6 +7,8 @@ import com.dnd_8th_4_android.wery.data.remote.model.home.RequestEmotionStatus
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseEmotionData
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseGroupData
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponsePostData
+import com.dnd_8th_4_android.wery.data.remote.model.mission.RequestMissionCertifyData
+import com.dnd_8th_4_android.wery.data.remote.model.mission.ResponseMissionCertifyData
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import javax.inject.Inject
@@ -77,5 +79,9 @@ class GroupDataSourceImpl @Inject constructor(private val groupService: GroupSer
             response.body()?.let { return Result.success(it) }
         }
         return Result.failure(IllegalStateException(response.message()))
+    }
+
+    override suspend fun missionCertify(body: RequestMissionCertifyData): ResponseMissionCertifyData {
+        return groupService.missionCertify(body)
     }
 }

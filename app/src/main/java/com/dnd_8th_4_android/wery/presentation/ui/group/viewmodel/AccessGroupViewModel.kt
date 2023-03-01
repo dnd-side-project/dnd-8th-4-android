@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.dnd_8th_4_android.wery.data.remote.model.group.ResponseGroupMissionData
 import com.dnd_8th_4_android.wery.data.remote.model.home.RequestEmotionStatus
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponsePostData
+import com.dnd_8th_4_android.wery.data.remote.model.mission.RequestMissionCertifyData
 import com.dnd_8th_4_android.wery.domain.repository.GroupRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -39,6 +40,12 @@ class AccessGroupViewModel @Inject constructor(private val groupRepository: Grou
 
     private val _isNoData = MutableLiveData(false)
     val isNoData: LiveData<Boolean> = _isNoData
+
+    var myCurrentLatitude = MutableLiveData<Double>()
+    var myCurrentLongitude = MutableLiveData<Double>()
+
+    private val _isCertify = MutableLiveData<Boolean>()
+    val isCertify: LiveData<Boolean> = _isCertify
 
     // 그룹 게시글 조회
     fun getGroupPost() {
@@ -106,6 +113,25 @@ class AccessGroupViewModel @Inject constructor(private val groupRepository: Grou
                 groupRepository.setBookmark(isSelectGroupId.value!!.toInt())
             }.onSuccess {
                 _isSelectedBookmark.value = it.data.groupStarYn == "ADD"
+            }.onFailure {
+                Timber.tag("error").d(it.message.toString())
+            }
+        }
+    }
+
+    fun missionCertify(missionId: Int) {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                groupRepository.missionCertify(
+                    RequestMissionCertifyData(
+                        missionId,
+                        isSelectGroupId.value!!.toInt(),
+                        myCurrentLatitude.value!!,
+                        myCurrentLongitude.value!!
+                    )
+                )
+            }.onSuccess {
+                _isCertify.value = it.data.locationCheck
             }.onFailure {
                 Timber.tag("error").d(it.message.toString())
             }

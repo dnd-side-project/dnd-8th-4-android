@@ -1,10 +1,15 @@
 package com.dnd_8th_4_android.wery.presentation.ui.group.view
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.location.Location
+import android.location.LocationManager
 import android.view.View
 import android.view.WindowManager
 import android.widget.PopupWindow
 import android.widget.ScrollView
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.viewModels
@@ -21,9 +26,11 @@ import com.dnd_8th_4_android.wery.presentation.ui.group.adapter.GroupListRecycle
 import com.dnd_8th_4_android.wery.presentation.ui.group.viewmodel.AccessGroupViewModel
 import com.dnd_8th_4_android.wery.presentation.ui.home.adapter.PostRecyclerViewAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.home.view.HomeFragment
+import com.dnd_8th_4_android.wery.presentation.ui.mission.mymission.view.MissionProgressActivity
 import com.dnd_8th_4_android.wery.presentation.ui.search.view.SearchPostActivity
 import com.dnd_8th_4_android.wery.presentation.util.PopupBottomDialog
 import dagger.hilt.android.AndroidEntryPoint
+import net.daum.mf.map.api.MapView
 
 @AndroidEntryPoint
 class AccessGroupFragment :
@@ -32,6 +39,8 @@ class AccessGroupFragment :
     private lateinit var accessGroupMissionRecyclerViewAdapter: AccessGroupMissionRecyclerViewAdapter
     private lateinit var postRecyclerViewAdapter: PostRecyclerViewAdapter
     private var activityPopupWindowBinding: ActivityPopupWindowBinding? = null
+
+    private lateinit var mapView: MapView
 
     override fun onResume() {
         super.onResume()
@@ -103,6 +112,16 @@ class AccessGroupFragment :
                 binding.layoutYesMission.vpYesMission.offscreenPageLimit = 1
 
                 accessGroupMissionRecyclerViewAdapter = AccessGroupMissionRecyclerViewAdapter()
+                accessGroupMissionRecyclerViewAdapter.apply {
+                    setOnCertifyClickListener { missionId ->
+                        getMyCurrentLocation()
+                        viewModel.missionCertify(missionId)
+                    }
+                    setOnWriteClickListener {
+
+                    }
+                }
+
                 binding.layoutYesMission.vpYesMission.adapter =
                     accessGroupMissionRecyclerViewAdapter
                 binding.layoutYesMission.vpIndicator.attachTo(binding.layoutYesMission.vpYesMission)
@@ -184,6 +203,38 @@ class AccessGroupFragment :
                 viewModel.getGroupPost()
             }
         })
+
+        viewModel.isCertify.observe(viewLifecycleOwner) {
+            if (it) {
+                showToast(resources.getString(R.string.mission_detail_toast_message_success))
+                viewModel.getMission()
+            } else {
+                showToast(resources.getString(R.string.mission_detail_toast_message_failure))
+            }
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun getMyCurrentLocation() {
+        // 트랙킹 모드 ON
+        mapView = MapView(requireActivity())
+        mapView.currentLocationTrackingMode =
+            MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving
+
+        // gps가 켜져있는지 확인
+        val lm: LocationManager =
+            requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val myCurrentLocation: Location? =
+            lm.getLastKnownLocation(LocationManager.GPS_PROVIDER) ?: lm.getLastKnownLocation(
+                LocationManager.NETWORK_PROVIDER
+            )
+        //위도 , 경도
+        viewModel.myCurrentLatitude.value = myCurrentLocation?.latitude ?: 0.0
+        viewModel.myCurrentLongitude.value = myCurrentLocation?.longitude ?: 0.0
+
+        // 맵의 중심좌표 구하기
+        mapView.currentLocationTrackingMode =
+            MapView.CurrentLocationTrackingMode.TrackingModeOff // 트랙킹 모드 OFF
     }
 
     private fun getGradePopUp(view: View, position: Int, contentId: Int) {

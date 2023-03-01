@@ -6,6 +6,8 @@ import com.dnd_8th_4_android.wery.data.remote.model.home.RequestEmotionStatus
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseEmotionData
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseGroupData
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponsePostData
+import com.dnd_8th_4_android.wery.data.remote.model.mission.RequestMissionCertifyData
+import com.dnd_8th_4_android.wery.data.remote.model.mission.ResponseMissionCertifyData
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -74,4 +76,9 @@ interface GroupService {
         @PartMap data: HashMap<String, RequestBody>,
         @Part image: MultipartBody.Part?
     ): Response<BaseResponse>
+
+    @POST("/mission/check/location")
+    suspend fun missionCertify(
+        @Body body: RequestMissionCertifyData
+    ): ResponseMissionCertifyData
 }

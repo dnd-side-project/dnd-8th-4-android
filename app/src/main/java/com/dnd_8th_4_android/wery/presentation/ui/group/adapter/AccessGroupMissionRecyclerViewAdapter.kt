@@ -12,12 +12,16 @@ import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.data.remote.model.group.ResponseGroupMissionData
 import com.dnd_8th_4_android.wery.databinding.ItemYesMissionBinding
 import com.dnd_8th_4_android.wery.domain.model.MissionColor
+import com.dnd_8th_4_android.wery.presentation.ui.home.adapter.PostRecyclerViewAdapter
 
 class AccessGroupMissionRecyclerViewAdapter :
     ListAdapter<ResponseGroupMissionData.Data, AccessGroupMissionRecyclerViewAdapter.ViewHolder>(
         diffUtil
     ) {
     private lateinit var binding: ItemYesMissionBinding
+
+    private lateinit var onCertifyClickListener: OnCertifyClickListener
+    private lateinit var onWriteClickListener: OnWriteClickListener
 
     inner class ViewHolder(private val binding: ItemYesMissionBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -77,6 +81,14 @@ class AccessGroupMissionRecyclerViewAdapter :
                 binding.btnCertify.text =
                     binding.root.resources.getString(R.string.yes_mission_certify)
             }
+
+            binding.btnCertify.setOnClickListener {
+                if (item.userAssignMissionInfo.locationCheck) {
+                    onWriteClickListener.onClicked()
+                } else {
+                    onCertifyClickListener.onClicked(item.missionId)
+                }
+            }
         }
     }
 
@@ -87,6 +99,30 @@ class AccessGroupMissionRecyclerViewAdapter :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(currentList[position])
+    }
+
+    fun setOnCertifyClickListener(listener: (Int) -> Unit) {
+        onCertifyClickListener = object : OnCertifyClickListener {
+            override fun onClicked(missionId: Int) {
+                listener(missionId)
+            }
+        }
+    }
+
+    interface OnCertifyClickListener {
+        fun onClicked(missionId: Int)
+    }
+
+    fun setOnWriteClickListener(listener: () -> Unit) {
+        onWriteClickListener = object : OnWriteClickListener {
+            override fun onClicked() {
+                listener()
+            }
+        }
+    }
+
+    interface OnWriteClickListener {
+        fun onClicked()
     }
 
     companion object {

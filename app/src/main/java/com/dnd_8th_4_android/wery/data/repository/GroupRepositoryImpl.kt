@@ -7,6 +7,8 @@ import com.dnd_8th_4_android.wery.data.remote.model.home.RequestEmotionStatus
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseEmotionData
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseGroupData
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponsePostData
+import com.dnd_8th_4_android.wery.data.remote.model.mission.RequestMissionCertifyData
+import com.dnd_8th_4_android.wery.data.remote.model.mission.ResponseMissionCertifyData
 import com.dnd_8th_4_android.wery.domain.repository.GroupRepository
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -72,4 +74,7 @@ class GroupRepositoryImpl @Inject constructor(private val groupDataSource: Group
         return groupDataSource.modifyGroup(data, image)
     }
 
+    override suspend fun missionCertify(body: RequestMissionCertifyData): ResponseMissionCertifyData {
+        return groupDataSource.missionCertify(body)
+    }
 }

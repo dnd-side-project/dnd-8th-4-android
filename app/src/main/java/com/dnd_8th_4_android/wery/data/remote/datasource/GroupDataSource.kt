@@ -6,6 +6,8 @@ import com.dnd_8th_4_android.wery.data.remote.model.home.RequestEmotionStatus
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseEmotionData
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseGroupData
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponsePostData
+import com.dnd_8th_4_android.wery.data.remote.model.mission.RequestMissionCertifyData
+import com.dnd_8th_4_android.wery.data.remote.model.mission.ResponseMissionCertifyData
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 
@@ -58,4 +60,8 @@ interface GroupDataSource {
         data: HashMap<String, RequestBody>,
         image: MultipartBody.Part?
     ): Result<BaseResponse>
+
+    suspend fun missionCertify(
+        body: RequestMissionCertifyData,
+    ): ResponseMissionCertifyData
 }
