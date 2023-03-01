@@ -13,7 +13,7 @@ data class ResponseMainMissionCard(
         @SerializedName("missionNote") val missionContent: String,
         val groupName: String,
         val groupImageUrl: String,
-        val missionStartDate: String,
+        var missionStartDate: String,
         val missionEndDate: String,
         val missionStatus: String,
         val missionDday: Int

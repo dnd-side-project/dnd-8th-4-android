@@ -31,7 +31,7 @@
                 android:background="@drawable/shape_33black_radius_4"
                 android:paddingHorizontal="8dp"
                 android:paddingVertical="4dp"
-                android:text="@{data.missionDday == -1 ? `D-ing`: `D-`+data.missionDday}"
+                android:text="@{data.missionDday == 365 ? `D-ing`: `D-`+data.missionDday}"
                 android:textColor="@color/white"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

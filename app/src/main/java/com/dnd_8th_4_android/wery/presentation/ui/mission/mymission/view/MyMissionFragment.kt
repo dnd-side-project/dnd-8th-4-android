@@ -1,6 +1,7 @@
 package com.dnd_8th_4_android.wery.presentation.ui.mission.mymission.view
 
 import android.content.Intent
+import android.view.View
 import androidx.fragment.app.viewModels
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.databinding.FragmentMyMissionBinding
@@ -29,6 +30,11 @@ class MyMissionFragment : BaseFragment<FragmentMyMissionBinding>(R.layout.fragme
         viewModel.progressMainMissionList.observe(viewLifecycleOwner) {
             missionCardAdapter.submitList(it)
             binding.tvMissionCnt.text = it.size.toString()
+            viewModel.setGroupExistState(it.isNotEmpty())
+        }
+        viewModel.groupExistState.observe(viewLifecycleOwner) {
+            if (it == true) binding.layoutExist.visibility = View.VISIBLE
+            else binding.layoutNoExist.visibility = View.VISIBLE
         }
     }
 

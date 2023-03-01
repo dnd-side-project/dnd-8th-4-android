@@ -1,10 +1,8 @@
 package com.dnd_8th_4_android.wery.presentation.ui.mission.mymission.adapter
 
-import android.app.Activity
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -12,7 +10,6 @@ import com.dnd_8th_4_android.wery.data.remote.model.mission.ResponseMainMissionC
 import com.dnd_8th_4_android.wery.databinding.ItemMissionCardBinding
 import com.dnd_8th_4_android.wery.presentation.ui.mission.view.MissionDetailActivity
 import com.dnd_8th_4_android.wery.presentation.util.dpToPx
-import dagger.hilt.android.qualifiers.ApplicationContext
 
 class MissionCardAdapter() :
     ListAdapter<ResponseMainMissionCard.ResultMissionCard, MissionCardAdapter.MissionCardViewAdapter>(

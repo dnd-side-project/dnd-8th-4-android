@@ -36,6 +36,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/rv_mission_exist"
             app:strokeColor="@color/gray300"
+            app:cardElevation="0dp"
             app:strokeWidth="1dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
