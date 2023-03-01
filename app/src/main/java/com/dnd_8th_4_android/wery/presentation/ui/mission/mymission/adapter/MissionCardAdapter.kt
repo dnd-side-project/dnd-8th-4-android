@@ -40,6 +40,7 @@ class MissionCardAdapter() :
             binding.root.setOnClickListener {
                 val intent = Intent(it.context, MissionDetailActivity::class.java)
                 intent.putExtra("missionId",data.missionId.toInt())
+                intent.putExtra("groupId",data.groupId)
                 (it.context).startActivity(intent)
             }
         }

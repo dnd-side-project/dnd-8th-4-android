@@ -12,6 +12,7 @@ data class ResponseMyMissionCard(
     val missionId: Int? = 0,
     @SerializedName("missionName") val missionTitle: String,
     val groupName: String,
+    val groupId: Int,
     val groupImageUrl: String,
     val missionStartDate: String,
     val missionEndDate: String,

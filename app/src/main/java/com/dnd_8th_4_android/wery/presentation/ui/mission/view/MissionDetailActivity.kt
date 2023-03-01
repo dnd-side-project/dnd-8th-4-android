@@ -1,12 +1,15 @@
 package com.dnd_8th_4_android.wery.presentation.ui.mission.view
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.location.Location
 import android.location.LocationManager
+import android.net.Uri
 import android.os.Bundle
-import android.util.Log
+import android.provider.Settings
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
@@ -20,15 +23,13 @@ import com.dnd_8th_4_android.wery.presentation.ui.mission.viewmodel.MissionDetai
 import com.dnd_8th_4_android.wery.presentation.ui.post.upload.view.UploadPostActivity
 import com.dnd_8th_4_android.wery.presentation.util.DialogFragmentUtil
 import dagger.hilt.android.AndroidEntryPoint
-import net.daum.mf.map.api.MapView
 
 @AndroidEntryPoint
 class MissionDetailActivity :
     BaseActivity<ActivityMissionDetailBinding>(R.layout.activity_mission_detail) {
     private val viewModel: MissionDetailViewModel by viewModels()
 
-    private val isMissionCertify = true
-    private lateinit var mapView: MapView
+    private val isMissionCertify = false
 
     companion object {
         const val GROUP_ID = "groupId"
@@ -36,6 +37,44 @@ class MissionDetailActivity :
         const val PLACE_NAME = "placeName"
         const val LATITUDE = "latitude"
         const val LONGITUDE = "longitude"
+    }
+
+    private val locationPermissionRequest = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        when {
+            permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false) -> {
+                getMyCurrentLocation()
+            }
+            permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {
+                getMyCurrentLocation()
+            }
+            else -> {
+                // 권한 거부
+                permissionDialog()
+            }
+        }
+    }
+
+    private fun permissionDialog() {
+        fun doPositiveClick() {
+            startActivity(
+                Intent(
+                    Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                    Uri.fromParts("package", this.packageName, null)
+                )
+            )
+        }
+
+        val dialog = DialogFragmentUtil(
+            DialogInfo(
+                "위치 접근 권한",
+                "위치 접근 권한이 필요합니다.\n확인을 누르면 설정화면으로 이동합니다.",
+                "닫기",
+                "확인"
+            )
+        ) { doPositiveClick() }
+        dialog.show(this.supportFragmentManager, dialog.tag)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -98,8 +137,12 @@ class MissionDetailActivity :
                         startActivity(this)
                     }
                 } else {
-                    getMyCurrentLocation()
-                    viewModel.missionCertify(it.groupId)
+                    locationPermissionRequest.launch(
+                        arrayOf(
+                            Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION
+                        )
+                    )
                 }
             }
         }
@@ -146,11 +189,6 @@ class MissionDetailActivity :
 
     @SuppressLint("MissingPermission")
     private fun getMyCurrentLocation() {
-        // 트랙킹 모드 ON
-        mapView = MapView(this)
-        mapView.currentLocationTrackingMode =
-            MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving
-
         // gps가 켜져있는지 확인
         val lm: LocationManager =
             getSystemService(Context.LOCATION_SERVICE) as LocationManager
@@ -162,8 +200,11 @@ class MissionDetailActivity :
         viewModel.myCurrentLatitude.value = myCurrentLocation?.latitude ?: 0.0
         viewModel.myCurrentLongitude.value = myCurrentLocation?.longitude ?: 0.0
 
-        // 맵의 중심좌표 구하기
-        mapView.currentLocationTrackingMode =
-            MapView.CurrentLocationTrackingMode.TrackingModeOff // 트랙킹 모드 OFF
+        // 미션 인증
+        missionCertify()
+    }
+
+    private fun missionCertify() {
+        viewModel.missionCertify(intent.getIntExtra(GROUP_ID,0))
     }
 }

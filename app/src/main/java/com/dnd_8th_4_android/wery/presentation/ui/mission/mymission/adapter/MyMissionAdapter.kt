@@ -45,6 +45,7 @@ class MyMissionAdapter() :
             binding.root.setOnClickListener {
                 val intent = Intent(it.context, MissionDetailActivity::class.java)
                 intent.putExtra("missionId", data.missionId)
+                intent.putExtra("groupId",data.groupId)
                 (it.context as Activity).startActivity(intent)
             }
         }

@@ -9,6 +9,7 @@ data class ResponseMainMissionCard(
     data class ResultMissionCard(
         val missionId: Long,
         val missionColor: Int,
+        val groupId:Int,
         @SerializedName("missionName") val missionTitle: String,
         @SerializedName("missionNote") val missionContent: String,
         val groupName: String,
