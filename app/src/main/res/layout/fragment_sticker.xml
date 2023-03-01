@@ -11,205 +11,223 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/tv_mission_state"
-            style="@style/TextView.Title.16.Sb"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="20dp"
-            android:text="@string/sticker_my_mission_progress"
-            android:textColor="@color/black"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never">
 
-        <TextView
-            android:id="@+id/tv_sticker_info"
-            style="@style/TextView.Caption.12.R"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:text="@string/sticker_info_default"
-            app:layout_constraintEnd_toEndOf="@id/tv_mission_state"
-            app:layout_constraintStart_toStartOf="@id/tv_mission_state"
-            app:layout_constraintTop_toBottomOf="@id/tv_mission_state" />
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/sticker_card_view"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            app:cardBackgroundColor="@color/gray50"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="0dp"
-            app:layout_constraintBottom_toTopOf="@id/view_sticker"
-            app:layout_constraintEnd_toEndOf="@id/tv_sticker_info"
-            app:layout_constraintStart_toStartOf="@id/tv_sticker_info"
-            app:layout_constraintTop_toBottomOf="@id/tv_sticker_info"
-            app:strokeColor="@color/gray200">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/layout_speech_bubble"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="26dp"
-                    android:orientation="vertical"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
                     <TextView
-                        android:id="@+id/tv_speech_bubble"
-                        style="@style/TextView.Caption.10.R"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/tv_mission_state"
+                        style="@style/TextView.Title.16.Sb"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/shape_black_radius_4"
-                        android:paddingHorizontal="10dp"
-                        android:paddingVertical="8dp"
-                        android:text="@string/sticker_speech_bubble"
-                        android:textColor="@color/white"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginTop="20dp"
+                        android:text="@string/sticker_my_mission_progress"
+                        android:textColor="@color/black"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <ImageView
-                        android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/tv_sticker_info"
+                        style="@style/TextView.Caption.12.R"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="-5dp"
-                        android:layout_marginEnd="15dp"
-                        android:src="@drawable/ic_speech_down"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_speech_bubble" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                        android:layout_marginTop="12dp"
+                        android:text="@string/sticker_info_default"
+                        app:layout_constraintEnd_toEndOf="@id/tv_mission_state"
+                        app:layout_constraintStart_toStartOf="@id/tv_mission_state"
+                        app:layout_constraintTop_toBottomOf="@id/tv_mission_state" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/layout_progress_bar"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="26dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="28dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/layout_speech_bubble">
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/sticker_card_view"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        app:cardBackgroundColor="@color/gray50"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="0dp"
+                        app:layout_constraintBottom_toTopOf="@id/view_sticker"
+                        app:layout_constraintEnd_toEndOf="@id/tv_sticker_info"
+                        app:layout_constraintStart_toStartOf="@id/tv_sticker_info"
+                        app:layout_constraintTop_toBottomOf="@id/tv_sticker_info"
+                        app:strokeColor="@color/gray200">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/layout_speech_bubble"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginTop="16dp"
+                                android:layout_marginEnd="26dp"
+                                android:orientation="vertical"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent">
+
+                                <TextView
+                                    android:id="@+id/tv_speech_bubble"
+                                    style="@style/TextView.Caption.10.R"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/shape_black_radius_4"
+                                    android:paddingHorizontal="10dp"
+                                    android:paddingVertical="8dp"
+                                    android:text="@string/sticker_speech_bubble"
+                                    android:textColor="@color/white"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="-5dp"
+                                    android:layout_marginEnd="15dp"
+                                    android:src="@drawable/ic_speech_down"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@id/tv_speech_bubble" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/layout_progress_bar"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="26dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginBottom="28dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/layout_speech_bubble">
 
 
-                    <ProgressBar
-                        android:id="@+id/sticker_progressBar"
-                        style="?android:attr/progressBarStyleHorizontal"
+                                <ProgressBar
+                                    android:id="@+id/sticker_progressBar"
+                                    style="?android:attr/progressBarStyleHorizontal"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="23dp"
+                                    android:layout_marginEnd="16dp"
+                                    android:progressDrawable="@drawable/progress_drawable"
+                                    app:layout_constraintBottom_toBottomOf="@+id/iv_middle"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <ImageView
+                                    android:id="@+id/iv_start"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/selector_sticker_temp_one"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <TextView
+                                    android:id="@+id/tv_start_level"
+                                    style="@style/TextView.Title.14.Sb"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
+                                    android:text="@string/sticker_my_mission_level_one"
+                                    android:textColor="@color/gray600"
+                                    app:layout_constraintEnd_toEndOf="@id/iv_start"
+                                    app:layout_constraintStart_toStartOf="@id/iv_start"
+                                    app:layout_constraintTop_toBottomOf="@id/iv_start" />
+
+                                <ImageView
+                                    android:id="@+id/iv_middle"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/selector_sticker_temp_two"
+                                    app:layout_constraintEnd_toStartOf="@id/iv_end"
+                                    app:layout_constraintStart_toEndOf="@id/iv_start"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <ImageView
+                                    android:id="@+id/iv_end"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/selector_sticker_temp_three"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <TextView
+                                    android:id="@+id/tv_end_level"
+                                    style="@style/TextView.Title.14.Sb"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
+                                    android:text="@string/sticker_my_mission_level_two"
+                                    android:textColor="@color/gray600"
+                                    app:layout_constraintEnd_toEndOf="@id/iv_end"
+                                    app:layout_constraintStart_toStartOf="@id/iv_end"
+                                    app:layout_constraintTop_toBottomOf="@id/iv_end" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <View
+                        android:id="@+id/view_sticker"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="23dp"
-                        android:layout_marginEnd="16dp"
-                        android:progressDrawable="@drawable/progress_drawable"
-                        app:layout_constraintBottom_toBottomOf="@+id/iv_middle"
+                        android:layout_height="8dp"
+                        android:layout_marginTop="28dp"
+                        android:background="@color/gray100"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toBottomOf="@id/sticker_card_view" />
 
-                    <ImageView
-                        android:id="@+id/iv_start"
+                    <TextView
+                        android:id="@+id/tv_earn_sticker"
+                        style="@style/TextView.Title.16.Sb"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/selector_sticker_temp_one"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="20dp"
+                        android:text="@string/sticker_earn_sticker"
+                        android:textColor="@color/black"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toBottomOf="@id/view_sticker" />
 
                     <TextView
-                        android:id="@+id/tv_start_level"
-                        style="@style/TextView.Title.14.Sb"
+                        android:id="@+id/tv_sticker_cnt"
+                        style="@style/TextView.Title.16.Sb"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="@string/sticker_my_mission_level_one"
-                        android:textColor="@color/gray600"
-                        app:layout_constraintEnd_toEndOf="@id/iv_start"
-                        app:layout_constraintStart_toStartOf="@id/iv_start"
-                        app:layout_constraintTop_toBottomOf="@id/iv_start" />
+                        android:layout_height="0dp"
+                        android:layout_marginStart="4dp"
+                        android:textColor="@color/color_f47aff"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_earn_sticker"
+                        app:layout_constraintStart_toEndOf="@id/tv_earn_sticker"
+                        app:layout_constraintTop_toTopOf="@id/tv_earn_sticker"
+                        tools:text="0" />
 
-                    <ImageView
-                        android:id="@+id/iv_middle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/selector_sticker_temp_two"
-                        app:layout_constraintEnd_toStartOf="@id/iv_end"
-                        app:layout_constraintStart_toEndOf="@id/iv_start"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <ImageView
-                        android:id="@+id/iv_end"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/selector_sticker_temp_three"
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_sticker"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:nestedScrollingEnabled="false"
+                        android:orientation="vertical"
+                        android:overScrollMode="never"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/tv_end_level"
-                        style="@style/TextView.Title.14.Sb"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="@string/sticker_my_mission_level_two"
-                        android:textColor="@color/gray600"
-                        app:layout_constraintEnd_toEndOf="@id/iv_end"
-                        app:layout_constraintStart_toStartOf="@id/iv_end"
-                        app:layout_constraintTop_toBottomOf="@id/iv_end" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_earn_sticker"
+                        tools:listitem="@layout/item_sticker" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <View
-            android:id="@+id/view_sticker"
-            android:layout_width="match_parent"
-            android:layout_height="8dp"
-            android:layout_marginTop="28dp"
-            android:background="@color/gray100"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/sticker_card_view" />
-
-        <TextView
-            android:id="@+id/tv_earn_sticker"
-            style="@style/TextView.Title.16.Sb"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="20dp"
-            android:text="@string/sticker_earn_sticker"
-            android:textColor="@color/black"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/view_sticker" />
-
-        <TextView
-            android:id="@+id/tv_sticker_cnt"
-            style="@style/TextView.Title.16.Sb"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginStart="4dp"
-            android:textColor="@color/color_f47aff"
-            app:layout_constraintBottom_toBottomOf="@id/tv_earn_sticker"
-            app:layout_constraintStart_toEndOf="@id/tv_earn_sticker"
-            app:layout_constraintTop_toTopOf="@id/tv_earn_sticker"
-            tools:text="0" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_sticker"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:orientation="vertical"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_earn_sticker"
-            tools:listitem="@layout/item_sticker" />
-
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
