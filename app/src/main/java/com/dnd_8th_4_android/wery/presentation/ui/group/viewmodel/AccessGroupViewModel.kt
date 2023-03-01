@@ -43,9 +43,13 @@ class AccessGroupViewModel @Inject constructor(private val groupRepository: Grou
 
     var myCurrentLatitude = MutableLiveData<Double>()
     var myCurrentLongitude = MutableLiveData<Double>()
+    var missionId = MutableLiveData<Int>()
 
     private val _isCertify = MutableLiveData<Boolean>()
     val isCertify: LiveData<Boolean> = _isCertify
+
+    private val _isMissionDday = MutableLiveData<Boolean>()
+    val isMissionDday: LiveData<Boolean> = _isMissionDday
 
     // 그룹 게시글 조회
     fun getGroupPost() {
@@ -131,7 +135,8 @@ class AccessGroupViewModel @Inject constructor(private val groupRepository: Grou
                     )
                 )
             }.onSuccess {
-                _isCertify.value = it.data.locationCheck
+                if (it.code != 2503) _isCertify.value = it.data.locationCheck
+                if (it.code == 2503)  _isMissionDday.value = true
             }.onFailure {
                 Timber.tag("error").d(it.message.toString())
             }

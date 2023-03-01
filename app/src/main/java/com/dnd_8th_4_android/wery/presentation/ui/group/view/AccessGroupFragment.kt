@@ -1,14 +1,19 @@
 package com.dnd_8th_4_android.wery.presentation.ui.group.view
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.location.Location
 import android.location.LocationManager
+import android.net.Uri
+import android.provider.Settings
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.PopupWindow
 import android.widget.ScrollView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.viewModels
@@ -18,6 +23,7 @@ import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.data.remote.model.home.RequestEmotionStatus
 import com.dnd_8th_4_android.wery.databinding.ActivityPopupWindowBinding
 import com.dnd_8th_4_android.wery.databinding.FragmentAccessGroupBinding
+import com.dnd_8th_4_android.wery.domain.model.DialogInfo
 import com.dnd_8th_4_android.wery.domain.model.PopupWindowType
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseFragment
 import com.dnd_8th_4_android.wery.presentation.ui.group.adapter.AccessGroupMissionRecyclerViewAdapter
@@ -28,9 +34,9 @@ import com.dnd_8th_4_android.wery.presentation.ui.home.view.HomeFragment
 import com.dnd_8th_4_android.wery.presentation.ui.mission.view.MissionDetailActivity
 import com.dnd_8th_4_android.wery.presentation.ui.post.upload.view.UploadPostActivity
 import com.dnd_8th_4_android.wery.presentation.ui.search.view.SearchPostActivity
+import com.dnd_8th_4_android.wery.presentation.util.DialogFragmentUtil
 import com.dnd_8th_4_android.wery.presentation.util.PopupBottomDialog
 import dagger.hilt.android.AndroidEntryPoint
-import net.daum.mf.map.api.MapView
 
 @AndroidEntryPoint
 class AccessGroupFragment :
@@ -40,7 +46,43 @@ class AccessGroupFragment :
     private lateinit var postRecyclerViewAdapter: PostRecyclerViewAdapter
     private var activityPopupWindowBinding: ActivityPopupWindowBinding? = null
 
-    private lateinit var mapView: MapView
+    private val locationPermissionRequest = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        when {
+            permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false) -> {
+                getMyCurrentLocation()
+            }
+            permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {
+                getMyCurrentLocation()
+            }
+            else -> {
+                // 권한 거부
+                permissionDialog()
+            }
+        }
+    }
+
+    private fun permissionDialog() {
+        fun doPositiveClick() {
+            startActivity(
+                Intent(
+                    Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                    Uri.fromParts("package", context?.packageName, null)
+                )
+            )
+        }
+
+        val dialog = DialogFragmentUtil(
+            DialogInfo(
+                "위치 접근 권한",
+                "위치 접근 권한이 필요합니다.\n확인을 누르면 설정화면으로 이동합니다.",
+                "닫기",
+                "확인"
+            )
+        ) { doPositiveClick() }
+        dialog.show(requireActivity().supportFragmentManager, dialog.tag)
+    }
 
     override fun onResume() {
         super.onResume()
@@ -114,8 +156,13 @@ class AccessGroupFragment :
                 accessGroupMissionRecyclerViewAdapter = AccessGroupMissionRecyclerViewAdapter()
                 accessGroupMissionRecyclerViewAdapter.apply {
                     setOnCertifyClickListener { missionId ->
-                        getMyCurrentLocation()
-                        viewModel.missionCertify(missionId)
+                        locationPermissionRequest.launch(
+                            arrayOf(
+                                Manifest.permission.ACCESS_FINE_LOCATION,
+                                Manifest.permission.ACCESS_COARSE_LOCATION
+                            )
+                        )
+                        viewModel.missionId.value = missionId
                     }
                     setOnWriteClickListener {
                         val intent = Intent(requireContext(), UploadPostActivity::class.java)
@@ -218,15 +265,16 @@ class AccessGroupFragment :
                 showToast(resources.getString(R.string.mission_detail_toast_message_failure))
             }
         }
+
+        viewModel.isMissionDday.observe(viewLifecycleOwner) {
+            if (it) {
+                showToast(resources.getString(R.string.mission_detail_toast_not_mission_dday))
+            }
+        }
     }
 
     @SuppressLint("MissingPermission")
     private fun getMyCurrentLocation() {
-        // 트랙킹 모드 ON
-        mapView = MapView(requireActivity())
-        mapView.currentLocationTrackingMode =
-            MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving
-
         // gps가 켜져있는지 확인
         val lm: LocationManager =
             requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
@@ -238,9 +286,8 @@ class AccessGroupFragment :
         viewModel.myCurrentLatitude.value = myCurrentLocation?.latitude ?: 0.0
         viewModel.myCurrentLongitude.value = myCurrentLocation?.longitude ?: 0.0
 
-        // 맵의 중심좌표 구하기
-        mapView.currentLocationTrackingMode =
-            MapView.CurrentLocationTrackingMode.TrackingModeOff // 트랙킹 모드 OFF
+        val missionId = viewModel.missionId.value!!
+        viewModel.missionCertify(missionId)
     }
 
     private fun getGradePopUp(view: View, position: Int, contentId: Int) {

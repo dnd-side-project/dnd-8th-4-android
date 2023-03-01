@@ -30,7 +30,7 @@ class AccessGroupMissionRecyclerViewAdapter :
             binding.ivFire.isVisible = item.missionDday in -1..3
 
             if (item.existPeriod) {
-                binding.tvRemainDay.text = if (item.missionDday != -1) {
+                binding.tvRemainDay.text = if (item.missionDday != 365) {
                     binding.root.resources.getString(R.string.access_group_day, item.missionDday)
                 } else {
                     binding.root.resources.getString(R.string.access_group_d_day)
@@ -39,9 +39,11 @@ class AccessGroupMissionRecyclerViewAdapter :
                 binding.root.resources.getString(R.string.access_group_day_ing)
             }
 
+            if (item.missionDday == 365) binding.tvRemainDay.text = binding.root.resources.getString(R.string.access_group_day_ing)
+
             binding.tvMissionContent.text = item.missionTitle
             binding.tvStartDay.text = item.missionStartDate.substring(IntRange(2, 9))
-            binding.tvEndDay.text = item.missionEndDate.substring(IntRange(2, 9))
+            binding.tvEndDay.text = if (item.missionEndDate != "ing") item.missionEndDate.substring(IntRange(2, 9)) else "ing"
 
             binding.layoutMission.backgroundTintList = when (item.missionColor) {
                 MissionColor.BLUE.colorNumber -> {
