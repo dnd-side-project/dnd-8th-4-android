@@ -12,7 +12,6 @@ import android.location.LocationManager
 import android.net.Uri
 import android.provider.Settings
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
@@ -31,7 +30,6 @@ import com.dnd_8th_4_android.wery.presentation.ui.post.place.view.SearchPlaceAct
 import com.dnd_8th_4_android.wery.presentation.ui.post.upload.view.UploadPostActivity
 import com.dnd_8th_4_android.wery.presentation.util.DialogFragmentUtil
 import dagger.hilt.android.AndroidEntryPoint
-import net.daum.android.map.MapViewEventListener
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
@@ -224,6 +222,18 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map){
 
         mapViewModel.missionList.observe(viewLifecycleOwner) {
             showMissionMarkerList(it)
+        }
+
+        mapViewModel.missionCardData.observe(viewLifecycleOwner) {
+            binding.includeLayoutMission.apply {
+                when (it.data.missionColor) {
+                    0 -> layoutMissionCard.setBackgroundResource(R.drawable.shape_blue_radius_8)
+                    1 -> layoutMissionCard.setBackgroundResource(R.drawable.shape_pink_radius_8)
+                    2 -> layoutMissionCard.setBackgroundResource(R.drawable.shape_green_radius_8)
+                }
+            }
+            binding.includeLayoutMission.ivGroupImg.clipToOutline = true
+            binding.includeLayoutMission.data = it.data
         }
 
         mapViewModel.isBottomDialogShowing.observe(viewLifecycleOwner) {
@@ -455,6 +465,9 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map){
         binding.vpFeedDialog.adapter = mapFeedAdapter
     }
 
+    private fun getMissionCardData(missionId: Int) {
+        mapViewModel.getMissionCardData(missionId)
+    }
 
     inner class MarkerEventListener() :
         MapView.POIItemEventListener {
@@ -476,6 +489,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map){
                         "${poiItem.mapPoint}: 미션 마커 클릭",
                         Toast.LENGTH_SHORT
                     ).show()
+                    getMissionCardData(poiItem.itemName.toInt())
                     binding.standardBottomSheetMission.visibility = View.VISIBLE
                 }
 

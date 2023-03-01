@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dnd_8th_4_android.wery.data.remote.model.map.RequestMapMissionList
+import com.dnd_8th_4_android.wery.data.remote.model.map.ResponseMapMissionData
 import com.dnd_8th_4_android.wery.data.remote.model.map.ResponseMapMissionList.ResultMapMission
 import com.dnd_8th_4_android.wery.data.remote.model.post.ResponseSearchPlace
 import com.dnd_8th_4_android.wery.domain.repository.MapRepository
@@ -38,6 +39,9 @@ class MapViewModel @Inject constructor(private val mapRepository: MapRepository)
     private val _missionList = MutableLiveData<List<ResultMapMission>>()
     val missionList: LiveData<List<ResultMapMission>> = _missionList
 
+    private val _missionCardData = MutableLiveData<ResponseMapMissionData>()
+    val missionCardData: LiveData<ResponseMapMissionData> = _missionCardData
+
     private val _isBottomDialogShowing = MutableLiveData<Boolean>()
     val isBottomDialogShowing: LiveData<Boolean> = _isBottomDialogShowing
 
@@ -54,6 +58,23 @@ class MapViewModel @Inject constructor(private val mapRepository: MapRepository)
                 mapRepository.getMapMissionList(body)
             }.onSuccess {
                 _missionList.value = it.data
+                _isLoading.value = false
+                Log.d("kite",it.data.toString())
+            }.onFailure {
+                Timber.tag("kite").d(it.message.toString())
+                Log.d("kite",it.message.toString())
+                _isLoading.value = false
+            }
+        }
+    }
+
+    fun getMissionCardData(missionId:Int) {
+        _isLoading.value = true
+        viewModelScope.launch {
+            kotlin.runCatching {
+                mapRepository.getMissionData(missionId)
+            }.onSuccess {
+                _missionCardData.value = it
                 _isLoading.value = false
                 Log.d("kite",it.data.toString())
             }.onFailure {

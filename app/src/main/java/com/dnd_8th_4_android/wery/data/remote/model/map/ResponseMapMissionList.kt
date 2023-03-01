@@ -13,7 +13,7 @@ data class ResponseMapMissionList(
         val missionLocationName: String,
         val latitude: Double,
         val longitude: Double,
-        val missionColor: Int
+        val missionColor: Int,
     )
 }
 
