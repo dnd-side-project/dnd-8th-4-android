@@ -80,4 +80,10 @@ object RepositoryModule {
     fun provideMissionRepository(missionDataSource: MissionDataSource): MissionRepository {
         return MissionRepositoryImpl(missionDataSource)
     }
+
+    @Provides
+    @Singleton
+    fun provideMapRepository(mapDataSource: MapDataSource): MapRepository {
+        return MapRepositoryImpl(mapDataSource)
+    }
 }
