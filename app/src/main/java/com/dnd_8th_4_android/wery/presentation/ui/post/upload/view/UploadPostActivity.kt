@@ -136,8 +136,10 @@ class UploadPostActivity : BaseActivity<ActivityUploadPostBinding>(R.layout.acti
         val latitude = intent.getDoubleExtra(MissionDetailActivity.LATITUDE, 0.0)
         val longitude = intent.getDoubleExtra(MissionDetailActivity.LONGITUDE, 0.0)
 
-        if (groupName != "") binding.layoutSelectGroup.isEnabled = true
-        postViewModel.selectedGroup.value = groupName
+        if (intent.hasExtra(MissionDetailActivity.GROUP_NAME)) {
+            binding.layoutSelectGroup.isEnabled = false
+            postViewModel.selectedGroup.value = groupName
+        }
         postViewModel.setGroupId(groupId)
         postViewModel.selectedLatitude.value = latitude.toString()
         postViewModel.selectedLongitude.value = longitude.toString()
