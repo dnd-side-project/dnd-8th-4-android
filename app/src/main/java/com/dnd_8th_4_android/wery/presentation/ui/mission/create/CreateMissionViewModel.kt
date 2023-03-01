@@ -54,6 +54,9 @@ class CreateMissionViewModel @Inject constructor(private val missionRepository: 
     private var _missionColor = MutableLiveData<Int>()
     val missionColor: LiveData<Int> = _missionColor
 
+    private val _isLoading: MutableLiveData<Boolean> = MutableLiveData()
+    val isLoading: LiveData<Boolean> = _isLoading
+
     fun setSelectedPlace(stringValue: String) {
         _selectedPlaceTxt.value = stringValue
     }
@@ -86,6 +89,10 @@ class CreateMissionViewModel @Inject constructor(private val missionRepository: 
         viewModelScope.launch {
             kotlin.runCatching {
                 missionRepository.createMission(body)
+            }.onSuccess {
+                _isLoading.value = false
+            }.onFailure {
+                _isLoading.value = false
             }
         }
     }
@@ -123,5 +130,9 @@ class CreateMissionViewModel @Inject constructor(private val missionRepository: 
     fun setLocationXY(latitude:Double, longitude:Double) {
         _selectedLatitude.value = latitude
         _selectedLongitude.value = longitude
+    }
+
+    fun setLoadingDialog(state:Boolean) {
+        _isLoading.value = state
     }
 }

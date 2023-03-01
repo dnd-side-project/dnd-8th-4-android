@@ -88,6 +88,14 @@ class CreateMissionActivity :
             viewModel.missionGroupState.value = stateGroup
         }
 
+        viewModel.isLoading.observe(this) {
+            if (it) showLoadingDialog()
+            else {
+                dismissLoadingDialog()
+                finish()
+            }
+        }
+
         viewModel.selectedGroup.value = getString(R.string.writing_select_group)
         binding.layoutSelectGroup.setOnClickListener {
             viewModel.selectedGroupState.value = true
@@ -141,7 +149,7 @@ class CreateMissionActivity :
         binding.tvRegister.setOnClickListener {
             val data = viewModel.getRequestBodyData()
             viewModel.postMission(data)
-            finish()
+            viewModel.setLoadingDialog(true)
         }
     }
 
