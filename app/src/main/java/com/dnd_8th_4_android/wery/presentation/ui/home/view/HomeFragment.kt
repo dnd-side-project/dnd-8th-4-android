@@ -7,11 +7,11 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.PopupWindow
 import android.widget.ScrollView
+import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.viewModels
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.data.remote.model.home.RequestEmotionStatus
-import com.dnd_8th_4_android.wery.databinding.ActivityAlertPopupBinding
 import com.dnd_8th_4_android.wery.databinding.ActivityPopupWindowBinding
 import com.dnd_8th_4_android.wery.databinding.FragmentHomeBinding
 import com.dnd_8th_4_android.wery.domain.model.PopupWindowType
@@ -20,9 +20,9 @@ import com.dnd_8th_4_android.wery.presentation.ui.base.BaseFragment
 import com.dnd_8th_4_android.wery.presentation.ui.home.adapter.GroupRecyclerViewAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.home.adapter.PostRecyclerViewAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.home.viewmodel.HomeViewModel
+import com.dnd_8th_4_android.wery.presentation.ui.post.upload.view.UploadPostActivity
 import com.dnd_8th_4_android.wery.presentation.ui.search.view.SearchPostActivity
 import com.dnd_8th_4_android.wery.presentation.ui.sign.view.SignActivity
-import com.dnd_8th_4_android.wery.presentation.ui.post.upload.view.UploadPostActivity
 import com.dnd_8th_4_android.wery.presentation.util.PopupBottomDialog
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,7 +42,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     override fun onResume() {
         super.onResume()
         binding.vm = homeViewModel
-        homeViewModel.setLoading()
 
         homeViewModel.getSignGroup()
         homeViewModel.setPageNumber(1)
@@ -102,6 +101,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             else dismissLoadingDialog()
         }
 
+        homeViewModel.isExistGroup.observe(viewLifecycleOwner) {
+            binding.activityNoGroup.isVisible = !it
+        }
+
         // 그룹 리스트가 바뀌는 경우) 1. 스와이프 2. 홈 탭
         homeViewModel.groupList.observe(viewLifecycleOwner) {
             initSelectedGroup()
@@ -109,7 +112,18 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         }
 
         homeViewModel.postList.observe(viewLifecycleOwner) {
-            postRecyclerViewAdapter.submitList(it.toMutableList())
+            if (it.content.isNotEmpty()) {
+                binding.activityGroup.layoutNoPost.isVisible = false
+                binding.activityGroup.layoutFinalPost.isVisible = true
+            } else {
+                binding.activityGroup.layoutNoPost.isVisible = true
+                binding.activityGroup.layoutFinalPost.isVisible = false
+            }
+            postRecyclerViewAdapter.submitList(it.content.toMutableList())
+        }
+
+        homeViewModel.pageNumber.observe(viewLifecycleOwner) {
+            binding.activityGroup.scrollView.fullScroll(ScrollView.FOCUS_UP)
         }
 
         homeViewModel.isNoAccess.observe(viewLifecycleOwner) {

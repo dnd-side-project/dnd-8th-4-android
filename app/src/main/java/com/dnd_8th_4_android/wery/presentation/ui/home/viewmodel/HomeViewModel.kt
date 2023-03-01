@@ -1,6 +1,5 @@
 package com.dnd_8th_4_android.wery.presentation.ui.home.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -19,8 +18,8 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
     private val _groupList = MutableLiveData<MutableList<ResponseGroupData.Data.GroupInfo>>()
     val groupList: LiveData<MutableList<ResponseGroupData.Data.GroupInfo>> = _groupList
 
-    private val _postList = MutableLiveData<MutableList<ResponsePostData.Data.Content>>()
-    val postList: LiveData<MutableList<ResponsePostData.Data.Content>> = _postList
+    private val _postList = MutableLiveData<ResponsePostData.Data>()
+    val postList: LiveData<ResponsePostData.Data> = _postList
 
     private val _isExistGroup = MutableLiveData<Boolean>(true)
     val isExistGroup: LiveData<Boolean> = _isExistGroup
@@ -34,13 +33,16 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
     val isLoading: LiveData<Boolean> = _isLoading
 
     val isSelectGroupId = MutableLiveData(-1)
+
     private val _pageNumber = MutableLiveData(0)
+    val pageNumber: LiveData<Int> = _pageNumber
 
     private val _isNoData = MutableLiveData(false)
     val isNoData: LiveData<Boolean> = _isNoData
 
     // 등록된 그룹 조회
     fun getSignGroup() {
+        _isLoading.value = true
         viewModelScope.launch {
             kotlin.runCatching {
                 homeRepository.signGroup()
@@ -72,24 +74,15 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
                 if (isSelectGroupId.value == -1) {
                     homeRepository.allGroupPost(groupAllIdList.joinToString(), _pageNumber.value!!)
                 } else {
-                    homeRepository.allGroupPost(isSelectGroupId.value.toString(), _pageNumber.value!!)
+                    homeRepository.allGroupPost(
+                        isSelectGroupId.value.toString(),
+                        _pageNumber.value!!
+                    )
                 }
             }.onSuccess {
-                if (_pageNumber.value == 1) {
-                    _postList.value = it.data.content
-                } else {
-                    val postList = _postList.value!!.map { currentList ->
-                        currentList.copy()
-                    } as MutableList<ResponsePostData.Data.Content>
-
-                    postList.addAll(it.data.content)
-
-                    _postList.value = postList
-                    postList.clear()
-                }
+                _postList.value = it.data
                 _isNoData.value = it.data.content.size != _pageNumber.value!! * 10
                 _isLoading.value = false
-                Log.e("태그", _postList.value.toString())
             }.onFailure {
                 Timber.tag("error").d(it.message.toString())
             }
@@ -109,7 +102,7 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
                 if (it.data != null) {
                     getGroupPost()
                 } else {
-                    if (_postList.value!![position].emotionStatus != emotionStatus.emotionStatus) {
+                    if (_postList.value!!.content[position].emotionStatus != emotionStatus.emotionStatus) {
                         setUpdateEmotion(contentId, position, emotionStatus)
                     } else {
                         getGroupPost()
@@ -127,9 +120,5 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
 
     fun setUpPageNumber() {
         _pageNumber.value = _pageNumber.value!! + 1
-    }
-
-    fun setLoading() {
-        _isLoading.value = true
     }
 }

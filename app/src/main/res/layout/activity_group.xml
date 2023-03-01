@@ -15,6 +15,7 @@
             android:id="@+id/scroll_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:fillViewport="true"
             android:paddingBottom="?android:attr/actionBarSize">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -97,6 +98,32 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/view_line" />
 
+                <LinearLayout
+                    android:id="@+id/layout_no_post"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@color/gray50"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingBottom="?android:attr/actionBarSize"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_recent_post">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/img_alert_invite" />
+
+                    <TextView
+                        style="@style/TextView.Title.14.Sb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/home_no_post"
+                        android:textColor="@color/gray900" />
+                </LinearLayout>
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_myGroup_post"
                     dividerColor="@{@color/gray100}"
@@ -109,6 +136,7 @@
                     app:layout_constraintTop_toBottomOf="@id/tv_recent_post" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_final_post"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:layout_marginBottom="?android:attr/actionBarSize"

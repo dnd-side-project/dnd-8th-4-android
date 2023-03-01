@@ -20,13 +20,16 @@ class AccessGroupViewModel @Inject constructor(private val groupRepository: Grou
     private val _isExistMission = MutableLiveData<Boolean>()
     val isExistMission: LiveData<Boolean> = _isExistMission
 
-    private val _postList = MutableLiveData<MutableList<ResponsePostData.Data.Content>>()
-    val postList: LiveData<MutableList<ResponsePostData.Data.Content>> = _postList
+    private val _postList = MutableLiveData<ResponsePostData.Data>()
+    val postList: LiveData<ResponsePostData.Data> = _postList
 
     val isSelectGroupId = MutableLiveData("")
 
     private val _missionList = MutableLiveData<MutableList<ResponseGroupMissionData.Data>>()
     val missionList: LiveData<MutableList<ResponseGroupMissionData.Data>> = _missionList
+
+    private val _pageNumber = MutableLiveData(0)
+    val pageNumber: LiveData<Int> = _pageNumber
 
     private val _isLoading: MutableLiveData<Boolean> = MutableLiveData()
     val isLoading: LiveData<Boolean> = _isLoading
@@ -34,15 +37,19 @@ class AccessGroupViewModel @Inject constructor(private val groupRepository: Grou
     private val _isSelectedBookmark = MutableLiveData<Boolean>()
     val isSelectedBookmark: LiveData<Boolean> = _isSelectedBookmark
 
+    private val _isNoData = MutableLiveData(false)
+    val isNoData: LiveData<Boolean> = _isNoData
+
     // 그룹 게시글 조회
     fun getGroupPost() {
         _isLoading.value = true
         viewModelScope.launch {
             kotlin.runCatching {
-                groupRepository.allGroupPost(isSelectGroupId.value!!.toInt(), 1)
+                groupRepository.allGroupPost(isSelectGroupId.value!!.toInt(), _pageNumber.value!!)
             }.onSuccess {
-                _postList.value = it.data.content
+                _postList.value = it.data
                 _isLoading.value = false
+                _isNoData.value = it.data.content.size != _pageNumber.value!! * 10
             }.onFailure {
                 Timber.tag("error").d(it.message.toString())
             }
@@ -62,7 +69,7 @@ class AccessGroupViewModel @Inject constructor(private val groupRepository: Grou
                 if (it.data != null) {
                     getGroupPost()
                 } else {
-                    if (_postList.value!![position].emotionStatus != emotionStatus.emotionStatus) {
+                    if (_postList.value!!.content[position].emotionStatus != emotionStatus.emotionStatus) {
                         setUpdateEmotion(contentId, position, emotionStatus)
                     } else {
                         getGroupPost()
@@ -107,5 +114,13 @@ class AccessGroupViewModel @Inject constructor(private val groupRepository: Grou
 
     fun initBookmark(value: Boolean) {
         _isSelectedBookmark.value = value
+    }
+
+    fun setPageNumber(pageNumber: Int) {
+        _pageNumber.value = pageNumber
+    }
+
+    fun setUpPageNumber() {
+        _pageNumber.value = _pageNumber.value!! + 1
     }
 }

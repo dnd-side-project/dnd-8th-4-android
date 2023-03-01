@@ -4,7 +4,9 @@ import android.content.Intent
 import android.view.View
 import android.view.WindowManager
 import android.widget.PopupWindow
+import android.widget.ScrollView
 import androidx.core.view.isVisible
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -37,6 +39,7 @@ class AccessGroupFragment :
 
         viewModel.isSelectGroupId.value =
             requireArguments().getString(GroupListRecyclerViewAdapter.GROUP_Id)
+        viewModel.setPageNumber(1)
         viewModel.initBookmark(requireArguments().getBoolean(GroupListRecyclerViewAdapter.GROUP_BOOKMARK))
         viewModel.getGroupPost()
         viewModel.getMission()
@@ -109,12 +112,24 @@ class AccessGroupFragment :
         }
 
         viewModel.postList.observe(viewLifecycleOwner) {
-            postRecyclerViewAdapter.submitList(it)
+            if (it.content.isNotEmpty()) {
+                binding.layoutNoPost.isVisible = false
+                binding.layoutFinalPost.isVisible = true
+            } else {
+                binding.layoutNoPost.isVisible = true
+                binding.layoutFinalPost.isVisible = false
+            }
+
+            postRecyclerViewAdapter.submitList(it.content)
         }
 
         viewModel.missionList.observe(viewLifecycleOwner) {
             accessGroupMissionRecyclerViewAdapter.submitList(it)
             binding.tvMissionIngCount.text = it.size.toString()
+        }
+
+        viewModel.pageNumber.observe(viewLifecycleOwner) {
+            binding.scrollView.fullScroll(ScrollView.FOCUS_UP)
         }
     }
 
@@ -159,6 +174,16 @@ class AccessGroupFragment :
                 startActivity(this)
             }
         }
+
+        binding.scrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, _, _, _, _ ->
+            if (viewModel.isLoading.value == false && viewModel.isNoData.value != true && !v.canScrollVertically(
+                    1
+                )
+            ) {
+                viewModel.setUpPageNumber()
+                viewModel.getGroupPost()
+            }
+        })
     }
 
     private fun getGradePopUp(view: View, position: Int, contentId: Int) {

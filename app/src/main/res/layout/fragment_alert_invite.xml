@@ -15,22 +15,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="@{!vm.isExistInvite() ? View.VISIBLE : View.GONE}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/gray50"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="@{!vm.isExistInvite() ? View.VISIBLE : View.GONE}">
 
             <ImageView
                 android:id="@+id/iv_alert_invite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/img_alert_invite"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:src="@drawable/img_alert_invite" />
 
             <TextView
                 style="@style/TextView.Title.14.Sb"
@@ -38,11 +35,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/alert_invite_no_message"
-                android:textColor="@color/gray900"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/iv_alert_invite" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                android:textColor="@color/gray900" />
+        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_invite"

@@ -7,7 +7,7 @@ data class ResponsePostData(
     val data: Data,
 ) : BaseResponse() {
     data class Data(
-        val content: MutableList<Content>,
+        var content: MutableList<Content>,
     ) {
         data class Content(
             val id: Int,

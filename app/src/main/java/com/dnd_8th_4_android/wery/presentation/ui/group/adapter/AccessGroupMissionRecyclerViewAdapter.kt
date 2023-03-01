@@ -41,27 +41,42 @@ class AccessGroupMissionRecyclerViewAdapter :
 
             binding.layoutMission.backgroundTintList = when (item.missionColor) {
                 MissionColor.BLUE.colorNumber -> {
-                     ColorStateList.valueOf(ContextCompat.getColor(binding.root.context, MissionColor.BLUE.color))
+                    ColorStateList.valueOf(
+                        ContextCompat.getColor(
+                            binding.root.context,
+                            MissionColor.BLUE.color
+                        )
+                    )
                 }
                 MissionColor.PINK.colorNumber -> {
-                    ColorStateList.valueOf(ContextCompat.getColor(binding.root.context, MissionColor.PINK.color))
+                    ColorStateList.valueOf(
+                        ContextCompat.getColor(
+                            binding.root.context,
+                            MissionColor.PINK.color
+                        )
+                    )
                 }
                 else -> {
-                    ColorStateList.valueOf(ContextCompat.getColor(binding.root.context, MissionColor.GREEN.color))
+                    ColorStateList.valueOf(
+                        ContextCompat.getColor(
+                            binding.root.context,
+                            MissionColor.GREEN.color
+                        )
+                    )
                 }
             }
 
-//            if (item.userAssignMissionInfoList[0].locationCheck) {
-//                binding.btnCertify.icon =
-//                    ContextCompat.getDrawable(binding.root.context, R.drawable.ic_check_write)
-//                binding.btnCertify.text =
-//                    binding.root.resources.getString(R.string.yes_mission_certify_write)
-//            } else {
-//                binding.btnCertify.icon =
-//                    ContextCompat.getDrawable(binding.root.context, R.drawable.ic_check)
-//                binding.btnCertify.text =
-//                    binding.root.resources.getString(R.string.yes_mission_certify)
-//            }
+            if (item.userAssignMissionInfo.locationCheck) {
+                binding.btnCertify.icon =
+                    ContextCompat.getDrawable(binding.root.context, R.drawable.ic_check_write)
+                binding.btnCertify.text =
+                    binding.root.resources.getString(R.string.yes_mission_certify_write)
+            } else {
+                binding.btnCertify.icon =
+                    ContextCompat.getDrawable(binding.root.context, R.drawable.ic_check)
+                binding.btnCertify.text =
+                    binding.root.resources.getString(R.string.yes_mission_certify)
+            }
         }
     }
 

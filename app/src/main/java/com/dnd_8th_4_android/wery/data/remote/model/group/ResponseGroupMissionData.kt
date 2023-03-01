@@ -17,9 +17,9 @@ data class ResponseGroupMissionData(
         val missionEndDate: String,
         val missionStatus: String,
         val missionDday: Int,
-//        val userAssignMissionInfoList: MutableList<UserAssignMissionInfoList>,
+        val userAssignMissionInfo: UserAssignMissionInfo,
     ) {
-        data class UserAssignMissionInfoList(
+        data class UserAssignMissionInfo(
             val locationCheck: Boolean,
             val contentCheck: Boolean,
             val isComplete: Boolean,
