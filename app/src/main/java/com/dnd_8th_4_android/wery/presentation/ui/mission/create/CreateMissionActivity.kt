@@ -50,6 +50,9 @@ class CreateMissionActivity :
 
     private fun initStartView() {
         binding.vm = viewModel
+        if (intent.hasExtra("missionTitle")){
+            viewModel.missionNameTxt.value = intent.getStringExtra("missionTitle")
+        }
         binding.missionTabLayout.apply {
             addTab(this.newTab().setText(resources.getString(R.string.create_mission_due_exist)))
             addTab(this.newTab().setText(resources.getString(R.string.create_mission_due_no_exist)))

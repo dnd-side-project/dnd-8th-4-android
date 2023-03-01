@@ -1,10 +1,13 @@
 package com.dnd_8th_4_android.wery.presentation.ui.mission.mymission.adapter
 
+import android.app.Activity
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.dnd_8th_4_android.wery.databinding.ItemMissionRecommendBinding
 import com.dnd_8th_4_android.wery.domain.model.RecommendMission
+import com.dnd_8th_4_android.wery.presentation.ui.mission.create.CreateMissionActivity
 import com.dnd_8th_4_android.wery.presentation.util.dpToPx
 
 class RecommendMissionAdapter :
@@ -30,6 +33,11 @@ class RecommendMissionAdapter :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: RecommendMission) {
             binding.data = data
+            binding.root.setOnClickListener {
+                val intent = Intent(it.context, CreateMissionActivity::class.java)
+                intent.putExtra("missionTitle", data.missionTitle)
+                (it.context).startActivity(intent)
+            }
         }
     }
 }
