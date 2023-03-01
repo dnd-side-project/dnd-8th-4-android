@@ -22,7 +22,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.data.remote.model.map.ResponseMapFeed
-import com.dnd_8th_4_android.wery.data.remote.model.map.ResponseMapMission
+import com.dnd_8th_4_android.wery.data.remote.model.map.ResponseMapMissionList
 import com.dnd_8th_4_android.wery.data.remote.model.post.ResponseSearchPlace
 import com.dnd_8th_4_android.wery.databinding.FragmentMapBinding
 import com.dnd_8th_4_android.wery.databinding.ItemMarkerFeedBinding
@@ -207,7 +207,14 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
             if (it) {
                 mapView.setMapViewEventListener(object : MapView.MapViewEventListener {
                     override fun onMapViewInitialized(p0: MapView?) {}
-                    override fun onMapViewCenterPointMoved(p0: MapView?, p1: MapPoint?) {}
+                    override fun onMapViewCenterPointMoved(p0: MapView?, p1: MapPoint?) {
+
+
+
+
+
+
+                    }
                     override fun onMapViewZoomLevelChanged(p0: MapView?, p1: Int) {}
 
                     override fun onMapViewSingleTapped(p0: MapView?, p1: MapPoint?) {
@@ -280,10 +287,10 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
             "https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg",
         )
 
-        val feedList = mutableListOf<ResponseMapMission>()
+        val feedList = mutableListOf<ResponseMapMissionList.ResultMapMission>()
         feedList.apply {
-            add(ResponseMapMission(33.450936, 126.569477))
-            add(ResponseMapMission(33.450879, 126.569940))
+            add(ResponseMapMissionList.ResultMapMission(33.450936, 126.569477))
+            add(ResponseMapMissionList.ResultMapMission(33.450879, 126.569940))
         }
 
         val feedMarkerArr = arrayListOf<MapPOIItem>()
@@ -326,11 +333,11 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
     // TODO 서버 통신 후 미션 들의 위치 좌표 값을 가져온다
     // 미션 리스트 띄우기
     private fun showMissionMarkerList() {
-        val missionList = mutableListOf<ResponseMapMission>()
+        val missionList = mutableListOf<ResponseMapMissionList.ResultMapMission>()
         missionList.apply {
-            add(ResponseMapMission(33.450936, 126.569477))
-            add(ResponseMapMission(33.450879, 126.569940))
-            add(ResponseMapMission(33.450705, 126.570738))
+            add(ResponseMapMissionList.ResultMapMission(33.450936, 126.569477))
+            add(ResponseMapMissionList.ResultMapMission(33.450879, 126.569940))
+            add(ResponseMapMissionList.ResultMapMission(33.450705, 126.570738))
         }
 
         val missionMarkerArr = arrayListOf<MapPOIItem>()

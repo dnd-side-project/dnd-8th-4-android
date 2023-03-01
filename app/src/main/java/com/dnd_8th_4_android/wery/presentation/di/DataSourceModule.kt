@@ -79,4 +79,10 @@ object DataSourceModule {
     fun provideMissionDataSource(missionService: MissionService): MissionDataSource {
         return MissionDataSourceImpl(missionService)
     }
+
+    @Provides
+    @Singleton
+    fun provideMapDataSource(mapService: MapService): MapDataSource {
+        return MapDataSourceImpl(mapService)
+    }
 }

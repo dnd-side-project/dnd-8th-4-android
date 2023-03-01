@@ -1,13 +1,11 @@
 package com.dnd_8th_4_android.wery.presentation.di
 
-import androidx.constraintlayout.widget.Group
 import com.dnd_8th_4_android.wery.data.api.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
-import retrofit2.create
 import javax.inject.Singleton
 
 @Module
@@ -80,5 +78,11 @@ object ApiModule {
     @Singleton
     fun provideMissionService(retrofit: Retrofit): MissionService {
         return retrofit.create(MissionService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideMapService(retrofit: Retrofit): MapService {
+        return retrofit.create(MapService::class.java)
     }
 }
