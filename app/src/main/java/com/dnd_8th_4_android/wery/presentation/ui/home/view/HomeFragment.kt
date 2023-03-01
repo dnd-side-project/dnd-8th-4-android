@@ -3,6 +3,7 @@ package com.dnd_8th_4_android.wery.presentation.ui.home.view
 import android.content.Intent
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.PopupWindow
@@ -17,6 +18,7 @@ import com.dnd_8th_4_android.wery.databinding.FragmentHomeBinding
 import com.dnd_8th_4_android.wery.domain.model.PopupWindowType
 import com.dnd_8th_4_android.wery.presentation.ui.alert.view.AlertPopupActivity
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseFragment
+import com.dnd_8th_4_android.wery.presentation.ui.group.create.view.CreateGroupActivity
 import com.dnd_8th_4_android.wery.presentation.ui.home.adapter.GroupRecyclerViewAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.home.adapter.PostRecyclerViewAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.home.viewmodel.HomeViewModel
@@ -188,6 +190,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
         binding.btnFloatingAction.setOnClickListener {
             startActivity(Intent(requireContext(), UploadPostActivity::class.java))
+        }
+
+        binding.btnGroupCreate.setOnClickListener {
+            startActivity(Intent(requireContext(), CreateGroupActivity::class.java))
+        }
+
+        binding.btnGroupInvite.setOnClickListener {
+            startActivity(Intent(requireContext(), AlertPopupActivity::class.java))
         }
     }
 
