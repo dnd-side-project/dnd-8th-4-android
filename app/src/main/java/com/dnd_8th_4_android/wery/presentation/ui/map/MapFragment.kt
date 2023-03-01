@@ -31,17 +31,19 @@ import com.dnd_8th_4_android.wery.presentation.ui.post.place.view.SearchPlaceAct
 import com.dnd_8th_4_android.wery.presentation.ui.post.upload.view.UploadPostActivity
 import com.dnd_8th_4_android.wery.presentation.util.DialogFragmentUtil
 import dagger.hilt.android.AndroidEntryPoint
+import net.daum.android.map.MapViewEventListener
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
 
 @AndroidEntryPoint
-class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
+class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map){
 
-    private lateinit var mapView: MapView
     private lateinit var eventListener: MarkerEventListener
 
     private val mapViewModel: MapViewModel by viewModels()
+
+    private val mapView: MapView by lazy {  MapView(requireActivity()) }
 
     private val locationPermissionRequest = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
@@ -79,11 +81,22 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
                     )
                 )
 
+                mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(mapViewModel.searchResult.value!!.y,mapViewModel.searchResult.value!!.x),false)
                 /** 검색한 장소가 존재할 때
-                 * 검색결과의 x,y 위치를 지도 마커로 찍어준다  */
+                 * 검색결과의 x,y 위치를 지도 마커로 찍어준다
+                 * 그 이후 해당 좌표를 중점으로 '피드'와 '미션'을 받아온다*/
                 searchPinMarker()
             }
         }
+
+    private fun getSelectedPOItems() {
+        if (mapViewModel.filterType.value == 0) {
+
+       } else {
+            setMapBoundsPoint()
+            mapViewModel.getMissionList(mapViewModel.getCurrentMapBounds())
+        }
+    }
 
     private fun searchPinMarker() {
         val marker = MapPOIItem()
@@ -100,11 +113,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
             isCustomImageAutoscale = false
         }
 
-        mapView.setMapCenterPointAndZoomLevel(
-            MapPoint.mapPointWithGeoCoord(
-                mapViewModel.searchResult.value!!.y, mapViewModel.searchResult.value!!.x
-            ), 5, false
-        )
         mapView.addPOIItem(marker)
     }
 
@@ -144,7 +152,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
      * */
     @SuppressLint("ClickableViewAccessibility")
     private fun initMapView() {
-        mapView = MapView(requireActivity())
         binding.layoutMapView.addView(mapView)
         mapView.setOnTouchListener { v, event ->
             val action = event.action
@@ -182,7 +189,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
             MapPoint.mapPointWithGeoCoord(
                 mapViewModel.myCurrentLatitude.value!!,
                 mapViewModel.myCurrentLongitude.value!!
-            ), 5, false
+            ), 3, false
         ) // 맵의 중심좌표 구하기
         mapView.currentLocationTrackingMode =
             MapView.CurrentLocationTrackingMode.TrackingModeOff // 트랙킹 모드 OFF
@@ -196,6 +203,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
             else dismissLoadingDialog()
         }
 
+        /** [검색결과] 검색 이후 feed 인지 mission 인지 여부에 따라
+         * 서버 통신 다르게 요청*/
         mapViewModel.searchPlaceTxt.observe(viewLifecycleOwner) {
             binding.tvSearchHint.text = it
             setDialogEventPop()
@@ -236,15 +245,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
         }
     }
 
-    private fun callFeed() {
-        if (mapViewModel.filterType.value == 0) {
-
-        } else {
-            setMapBoundsPoint()
-            mapViewModel.getMissionList(mapViewModel.getCurrentMapBounds())
-        }
-    }
-
     private fun setDialogEventPop() {
         if (mapViewModel.filterType.value == 0) { // 피드
             // 피드 visible
@@ -267,13 +267,13 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map) {
 
         binding.ivFilterFeed.setOnClickListener {
             mapViewModel.setFilterType(0)
-            mapView.removeAllPOIItems()
+            //mapView.removeAllPOIItems()
             // showFeedMarkerList()
         }
 
         binding.ivFilterMission.setOnClickListener {
             mapViewModel.setFilterType(1)
-            mapView.removeAllPOIItems()
+            //mapView.removeAllPOIItems()
             setMapBoundsPoint()
             mapViewModel.getMissionList(mapViewModel.getCurrentMapBounds())
         }
