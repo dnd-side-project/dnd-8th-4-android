@@ -42,7 +42,6 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
 
     // 등록된 그룹 조회
     fun getSignGroup() {
-        _isLoading.value = true
         viewModelScope.launch {
             kotlin.runCatching {
                 homeRepository.signGroup()
@@ -69,6 +68,7 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
 
     // 그룹 게시글 조회
     fun getGroupPost() {
+        _isLoading.value = true
         viewModelScope.launch {
             kotlin.runCatching {
                 if (isSelectGroupId.value == -1) {

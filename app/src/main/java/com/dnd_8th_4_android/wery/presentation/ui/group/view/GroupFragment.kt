@@ -79,5 +79,13 @@ class GroupFragment : BaseFragment<FragmentGroupBinding>(R.layout.fragment_group
         binding.btnFloatingAction.setOnClickListener {
             startActivity(Intent(requireContext(), CreateGroupActivity::class.java))
         }
+
+        binding.btnGroupCreate.setOnClickListener {
+            startActivity(Intent(requireContext(), CreateGroupActivity::class.java))
+        }
+
+        binding.btnGroupInvite.setOnClickListener {
+            startActivity(Intent(requireContext(), AlertPopupActivity::class.java))
+        }
     }
 }
