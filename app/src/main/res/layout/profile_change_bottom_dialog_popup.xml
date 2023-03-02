@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bottom_sheet_dialog_24"
+        android:orientation="vertical"
+        android:paddingBottom="12dp">
+
+        <View
+            android:id="@+id/view_line"
+            android:layout_width="44dp"
+            android:layout_height="4dp"
+            android:layout_gravity="center"
+            android:layout_marginVertical="16dp"
+            android:background="@drawable/shape_e0e2e5_radius_4" />
+
+        <LinearLayout
+            android:id="@+id/layout_album"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingVertical="14dp"
+            android:paddingStart="16dp">
+
+            <ImageView
+                android:id="@+id/iv_album"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_album" />
+
+            <TextView
+                android:id="@+id/tv_album"
+                style="@style/TextView.Body.16.R"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:text="@string/profile_change_bottom_album"
+                android:textColor="@color/black" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_remove"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingVertical="14dp"
+            android:paddingStart="16dp">
+
+            <ImageView
+                android:id="@+id/iv_remove"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_remove" />
+
+            <TextView
+                android:id="@+id/tv_remove"
+                style="@style/TextView.Body.16.R"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:text="@string/profile_change_bottom_remove"
+                android:textColor="@color/color_eb0555" />
+        </LinearLayout>
+    </LinearLayout>
+</layout>

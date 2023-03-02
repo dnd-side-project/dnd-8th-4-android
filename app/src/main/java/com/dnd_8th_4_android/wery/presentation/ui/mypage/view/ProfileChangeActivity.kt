@@ -1,16 +1,23 @@
 package com.dnd_8th_4_android.wery.presentation.ui.mypage.view
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.databinding.ActivityProfileChangeBinding
+import com.dnd_8th_4_android.wery.domain.model.DialogInfo
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseActivity
+import com.dnd_8th_4_android.wery.presentation.ui.group.adapter.GroupListRecyclerViewAdapter
+import com.dnd_8th_4_android.wery.presentation.ui.group.view.InvitePopupBottomDialog
+import com.dnd_8th_4_android.wery.presentation.ui.group.view.UserSearchActivity
 import com.dnd_8th_4_android.wery.presentation.ui.mypage.view.MyPageFragment.Companion.USER_IMAGE
 import com.dnd_8th_4_android.wery.presentation.ui.mypage.view.MyPageFragment.Companion.USER_NAME
 import com.dnd_8th_4_android.wery.presentation.ui.mypage.viewmodel.ProfileChangeViewModel
+import com.dnd_8th_4_android.wery.presentation.util.DialogFragmentUtil
 
 class ProfileChangeActivity :
     BaseActivity<ActivityProfileChangeBinding>(R.layout.activity_profile_change) {
@@ -62,14 +69,31 @@ class ProfileChangeActivity :
             }
         }
 
+        binding.ivAlbumImage.setOnClickListener {
+            val bottomSheet = ProfileChangePopupBottomDialog()
+            bottomSheet.show(supportFragmentManager, bottomSheet.tag)
+        }
+
         binding.ivEdtDelete.setOnClickListener {
             binding.etNickname.text.clear()
         }
 
         binding.tvSuccess.setOnClickListener {
             if (viewModel.isEnabled.value == true) {
-                // 다이얼로그 추가
+                // 수정 API
             }
+        }
+
+        binding.ivClose.setOnClickListener {
+            val dialog = DialogFragmentUtil(
+                DialogInfo(
+                    "프로필 수정을 종료하시겠어요?",
+                    "수정 종료 시 수정 중인 정보는 저장되지 않아요.",
+                    "취소",
+                    "수정 종료"
+                )
+            ) { finish() }
+            dialog.show(supportFragmentManager, dialog.tag)
         }
     }
 }
