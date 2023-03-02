@@ -8,6 +8,7 @@ class ResponseMissionFeed(
     data class ResultStickerState(
         val isGetNewSticker: Boolean,
         val currMainLevel: Int,
-        val getNewStickerGroupId: Int? = -1
+        val getNewStickerGroupId: Int? = -1,
+        val getNewStickerGroupName: String? = ""
     )
 }

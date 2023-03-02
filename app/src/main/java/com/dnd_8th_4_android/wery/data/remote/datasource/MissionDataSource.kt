@@ -34,9 +34,4 @@ interface MissionDataSource {
     suspend fun missionDetail(
         stickerGroupId: Int
     ): ResponseStickerDetail
-
-    suspend fun uploadMissionFeed(
-        data: HashMap<String, RequestBody>,
-        images: MutableList<MultipartBody.Part>?
-    ): ResponseMissionFeed
 }

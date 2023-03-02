@@ -51,10 +51,4 @@ class MissionDataSourceImpl @Inject constructor(private val missionService: Miss
         return missionService.missionDetail(stickerGroupId)
     }
 
-    override suspend fun uploadMissionFeed(
-        data: HashMap<String, RequestBody>,
-        images: MutableList<MultipartBody.Part>?
-    ): ResponseMissionFeed {
-        return missionService.postMissionFeed(data, images)
-    }
 }

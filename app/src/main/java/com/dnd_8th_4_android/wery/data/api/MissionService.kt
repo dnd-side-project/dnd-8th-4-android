@@ -46,11 +46,4 @@ interface MissionService {
     suspend fun missionDetail(
         @Query("stickerGroupId") stickerGroupId: Int
     ): ResponseStickerDetail
-
-    @Multipart
-    @POST("/mission/check/content")
-    suspend fun postMissionFeed(
-        @PartMap data: HashMap<String, RequestBody>,
-        @Part images: MutableList<MultipartBody.Part>?
-    ): ResponseMissionFeed
 }

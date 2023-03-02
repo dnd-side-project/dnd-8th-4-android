@@ -2,6 +2,7 @@ package com.dnd_8th_4_android.wery.data.remote.datasource
 
 import com.dnd_8th_4_android.wery.data.api.PostService
 import com.dnd_8th_4_android.wery.data.remote.model.BaseResponse
+import com.dnd_8th_4_android.wery.data.remote.model.mission.ResponseMissionFeed
 import com.dnd_8th_4_android.wery.data.remote.model.post.ResponseGroupList
 import com.dnd_8th_4_android.wery.data.remote.model.post.ResponsePostData
 import okhttp3.MultipartBody
@@ -49,4 +50,10 @@ class PostDataSourceImpl @Inject constructor(private val postService: PostServic
         return Result.failure(IllegalStateException(response.message()))
     }
 
+    override suspend fun uploadMissionFeed(
+        data: HashMap<String, RequestBody>,
+        images: MutableList<MultipartBody.Part>?
+    ): ResponseMissionFeed {
+        return postService.postMissionFeed(data, images)
+    }
 }

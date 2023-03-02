@@ -1,10 +1,10 @@
 package com.dnd_8th_4_android.wery.presentation.ui.post.upload.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.dnd_8th_4_android.wery.data.remote.model.mission.ResponseMissionFeed
 import com.dnd_8th_4_android.wery.data.remote.model.post.ResponseGroupList
 import com.dnd_8th_4_android.wery.data.remote.model.post.ResponsePostData
 import com.dnd_8th_4_android.wery.domain.repository.PostRepository
@@ -44,6 +44,9 @@ class PostViewModel @Inject constructor(private val postRepository: PostReposito
 
     private val _photoUrlList = MutableLiveData<List<ResponsePostData.ResultPost.Collect>>()
     var photoUrlList: LiveData<List<ResponsePostData.ResultPost.Collect>> = _photoUrlList
+
+    private val _missionStickerData = MutableLiveData<ResponseMissionFeed>()
+    var missionStickerData: LiveData<ResponseMissionFeed> = _missionStickerData
 
     fun setPhotoCnt(cntValue: Int) {
         _photoCnt.value = cntValue
@@ -86,6 +89,24 @@ class PostViewModel @Inject constructor(private val postRepository: PostReposito
     ) {
         viewModelScope.launch {
             postRepository.uploadFeed(groupId, data, multipartFile).onSuccess {
+                _isLoading.value = false
+            }.onFailure {
+                _isLoading.value = false
+            }
+        }
+    }
+
+    fun uploadMissionFeed(
+        missionId: Int,
+        data: HashMap<String, RequestBody>,
+        images: MutableList<MultipartBody.Part>?
+    ) {
+        data["missionId"] = missionId.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        _isLoading.value = true
+        viewModelScope.launch {
+            kotlin.runCatching {
+                postRepository.uploadMissionFeed(data, images)
+            }.onSuccess {
                 _isLoading.value = false
             }.onFailure {
                 _isLoading.value = false

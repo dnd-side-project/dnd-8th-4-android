@@ -17,7 +17,13 @@ data class ResponseMainMissionCard(
         var missionStartDate: String,
         val missionEndDate: String,
         val missionStatus: String,
-        val missionDday: Int
-    )
+        val missionDday: Int,
+        val userAssignMissionInfo: UserAssignMissionInfo
+    ){
+        data class UserAssignMissionInfo(
+            val locationCheck: Boolean,
+            val contentCheck: Boolean,
+        )
+    }
 }
 
