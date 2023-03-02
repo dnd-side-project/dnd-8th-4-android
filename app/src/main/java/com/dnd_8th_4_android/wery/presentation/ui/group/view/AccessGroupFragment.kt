@@ -183,6 +183,7 @@ class AccessGroupFragment :
 
         viewModel.postList.observe(viewLifecycleOwner) {
             binding.layoutNoPost.isVisible = it.content.isEmpty()
+            binding.layoutFinal.isVisible = it.content.isNotEmpty()
             binding.tvFinalPageNumber.text = it.totalPages.toString()
 
             postRecyclerViewAdapter.submitList(it.content)
