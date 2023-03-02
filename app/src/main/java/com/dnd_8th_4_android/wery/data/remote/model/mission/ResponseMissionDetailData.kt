@@ -10,6 +10,8 @@ data class ResponseMissionDetailData(
         val missionName: String,
         val missionNote: String,
         val createUserId: Int,
+        val createUserName: String,
+        val createUserProfileImageUrl: String,
         val groupId: Int,
         val groupName: String,
         val groupImageUrl: String,
@@ -18,11 +20,12 @@ data class ResponseMissionDetailData(
         val missionEndDate: String,
 //        val missionStatus: String,
         val missionLocationName: String,
+        val missionLocationAddress: String?,
         val latitude: Double,
         val longitude: Double,
-//        val userAssignMissionInfoList: UserAssignMissionInfoList
+        val userAssignMissionInfo: UserAssignMissionInfo
     ) {
-        data class UserAssignMissionInfoList(
+        data class UserAssignMissionInfo(
             val locationCheck: Boolean,
             val contentCheck: Boolean,
         )

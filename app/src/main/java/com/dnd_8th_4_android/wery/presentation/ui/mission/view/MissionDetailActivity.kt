@@ -29,8 +29,6 @@ class MissionDetailActivity :
     BaseActivity<ActivityMissionDetailBinding>(R.layout.activity_mission_detail) {
     private val viewModel: MissionDetailViewModel by viewModels()
 
-    private val isMissionCertify = false
-
     companion object {
         const val GROUP_ID = "groupId"
         const val GROUP_NAME = "groupName"
@@ -93,12 +91,15 @@ class MissionDetailActivity :
             binding.tvMissionName.text = it.missionName
 
             binding.ivFriendImage.clipToOutline = true
-//            Glide.with(this).load(it.작성자프로필)
-//                .into(binding.ivFriendImage)
+            Glide.with(this).load(it.createUserProfileImageUrl)
+                .into(binding.ivFriendImage)
 
-//            binding.tvWriterName.text = it.작성자명
+            binding.tvWriterName.text = it.createUserName
             binding.tvMissionPlaceName.text = it.missionLocationName
-//            binding.tvMissionPlaceAdress.text = it.미션주소
+
+            if(it.missionLocationAddress != null) {
+                binding.tvMissionPlaceAdress.text = it.missionLocationAddress
+            }
 
             binding.tvMissionDue.text = if (it.existPeriod) {
                 resources.getString(
@@ -116,16 +117,15 @@ class MissionDetailActivity :
             Glide.with(this).load(it.groupImageUrl)
                 .into(binding.ivGroupImage)
 
-            // TODO
-//            if (it.userAssignMissionInfoList.locationCheck) {
-//                binding.btnMissionDetail.text = resources.getString(R.string.mission_detail_certify)
-//            } else {
-//                binding.btnMissionDetail.text = resources.getString(R.string.mission_detail_write)
-//            }
-//            isMissionCertify = it.userAssignMissionInfoList.locationCheck
+
+            if (!it.userAssignMissionInfo.locationCheck) {
+                binding.btnMissionDetail.text = resources.getString(R.string.mission_detail_certify)
+            } else {
+                binding.btnMissionDetail.text = resources.getString(R.string.mission_detail_write)
+            }
 
             binding.btnMissionDetail.setOnClickListener { _ ->
-                if (isMissionCertify) {
+                if (it.userAssignMissionInfo.locationCheck) {
                     finish()
                     MissionProgressActivity().finish()
                     Intent(this, UploadPostActivity::class.java).apply {
