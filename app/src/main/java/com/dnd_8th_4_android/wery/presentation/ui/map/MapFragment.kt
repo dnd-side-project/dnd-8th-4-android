@@ -12,17 +12,22 @@ import android.location.LocationManager
 import android.net.Uri
 import android.provider.Settings
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.data.remote.model.map.ResponseMapFeed
+import com.dnd_8th_4_android.wery.data.remote.model.map.ResponseMapFeedList
 import com.dnd_8th_4_android.wery.data.remote.model.map.ResponseMapMissionList
 import com.dnd_8th_4_android.wery.data.remote.model.post.ResponseSearchPlace
 import com.dnd_8th_4_android.wery.databinding.FragmentMapBinding
+import com.dnd_8th_4_android.wery.databinding.ItemMarkerFeedBinding
 import com.dnd_8th_4_android.wery.domain.model.DialogInfo
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseFragment
 import com.dnd_8th_4_android.wery.presentation.ui.map.adapter.MapFeedAdapter
@@ -99,8 +104,9 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
 
     private fun getSelectedPOItems() {
         if (mapViewModel.filterType.value == 0) {
-
-       } else {
+            setXY()
+            mapViewModel.getFeedList()
+        } else {
             setMapBoundsPoint()
             mapViewModel.getMissionList(mapViewModel.getCurrentMapBounds())
         }
@@ -232,6 +238,10 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
             }
         }
 
+        mapViewModel.feedList.observe(viewLifecycleOwner) {
+            showFeedMarkerList(it)
+        }
+
         mapViewModel.missionList.observe(viewLifecycleOwner) {
             showMissionMarkerList(it)
         }
@@ -276,7 +286,11 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
         }
 
         binding.ivFilterFeed.setOnClickListener {
-            if (mapViewModel.filterType.value != 0) mapViewModel.setFilterType(0)
+            if (mapViewModel.filterType.value != 0) {
+                mapViewModel.setFilterType(0)
+                setXY()
+                mapViewModel.getFeedList()
+            }
             //mapView.removeAllPOIItems()
             // showFeedMarkerList()
         }
@@ -307,61 +321,55 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
         }
     }
 
-    /* private fun showFeedMarkerList() {
+    /**
+     * 받아온 x,y 좌표값으로 피드 리스트를 받아온다
+     * contentId를 itemName으로 넘겨서
+     * 마커를 선택했을 시 서버통신 param으로 contentId를 넘겨준다
+     * */
+    private fun showFeedMarkerList(feedList: List<ResponseMapFeedList.ResultMapFeedData>) {
+        val feedMarkerArr = arrayListOf<MapPOIItem>()
 
-         val imgList = mutableListOf(
-             "https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg",
-             "https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg",
-         )
+        for (i in feedList.indices) {
+            val view = ItemMarkerFeedBinding.inflate(layoutInflater)
+            view.ivMapGroupImg.clipToOutline = true
 
-         val feedList = mutableListOf<ResponseMapMissionList.ResultMapMission>()
-         feedList.apply {
-             add(ResponseMapMissionList.ResultMapMission(33.450936, 126.569477))
-             add(ResponseMapMissionList.ResultMapMission(33.450879, 126.569940))
-         }
+            var imageUrl = ""
+            if (feedList[i].collect.isNotEmpty()) imageUrl =
+                feedList[i].collect[0].imageUrl else imageUrl = ""
+            Glide.with(requireContext()).load(imageUrl)
+                .transform(CenterCrop(), RoundedCorners(12)).override(60, 60)
+                .into(view.ivMapGroupImg).waitForLayout()
 
-         val feedMarkerArr = arrayListOf<MapPOIItem>()
+            val myCustomImageBitmap = createBitMapFromView(view.root)
+            view.layoutGroupPhoto.foreground =
+                ContextCompat.getDrawable(requireContext(), R.drawable.shape_radius_12_f47aff_2)
+            val mySelectedCustomImageBitmap = createBitMapFromView(view.root)
 
-         for (i in feedList.indices) {
-             val view = ItemMarkerFeedBinding.inflate(layoutInflater)
-             view.ivMapGroupImg.clipToOutline = true
-             Glide.with(requireContext()).load(imgList[i])
-                 .transform(CenterCrop(), RoundedCorners(12)).override(60, 60)
-                 .into(view.ivMapGroupImg).waitForLayout()
-
-             val myCustomImageBitmap = createBitMapFromView(view.root)
-
-             view.layoutGroupPhoto.foreground = resources.getDrawable(R.drawable.shape_radius_12_f47aff_2, null)
-
-             val mySelectedCustomImageBitmap = createBitMapFromView(view.root)
-
-             val feedMarker = MapPOIItem()
-             feedMarker.apply {
-                 itemName = ""
-                 isShowCalloutBalloonOnTouch = false
-                 mapPoint = MapPoint.mapPointWithGeoCoord(feedList[i].x, feedList[i].y)
-                 markerType = MapPOIItem.MarkerType.CustomImage
-                 customImageBitmap = myCustomImageBitmap
-                 selectedMarkerType = MapPOIItem.MarkerType.CustomImage
-                 customSelectedImageBitmap = mySelectedCustomImageBitmap
-                 isCustomImageAutoscale = false
+            val feedMarker = MapPOIItem()
+            feedMarker.apply {
+                itemName = feedList[i].id.toString()
+                isShowCalloutBalloonOnTouch = false
+                mapPoint =
+                    MapPoint.mapPointWithGeoCoord(feedList[i].latitude, feedList[i].longitude)
+                markerType = MapPOIItem.MarkerType.CustomImage
+                customImageBitmap = myCustomImageBitmap
+                selectedMarkerType = MapPOIItem.MarkerType.CustomImage
+                customSelectedImageBitmap = mySelectedCustomImageBitmap
+                isCustomImageAutoscale = false
              }
-
-
              feedMarkerArr.add(feedMarker)
-
          }
 
          val convertToArrayItem =
              feedMarkerArr.toArray(arrayOfNulls<MapPOIItem>(feedMarkerArr.size))
          mapView.addPOIItems(convertToArrayItem)
-     }*/
+    }
 
 
     /**
-     * 받아온 4가지 좌표값으로 피드 리스트를 받아온다
+     * 받아온 4가지 좌표값으로 미션 리스트를 받아온다
      * groupId를 itemName으로 넘겨서
-     * 마커를 선택했을 시 서버통신으로 groupId를 넘겨준다
+     * 마커를 선택했을 시 서버통신 param으로 groupId를 넘겨준다
      * */
     private fun showMissionMarkerList(missionList: List<ResponseMapMissionList.ResultMapMission>) {
         val missionMarkerArr = arrayListOf<MapPOIItem>()
@@ -414,6 +422,12 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
             mapView.mapPointBounds.topRight.mapPointGeoCoord.latitude // 우하단 lat
         mapViewModel.endLongitude.value =
             mapView.mapPointBounds.topRight.mapPointGeoCoord.longitude // 우하단 long
+    }
+
+    // x, y 좌표 세팅하기
+    private fun setXY() {
+        mapViewModel.myCurrentLatitude.value = mapView.mapCenterPoint.mapPointGeoCoord.latitude
+        mapViewModel.myCurrentLongitude.value = mapView.mapCenterPoint.mapPointGeoCoord.longitude
     }
 
     private fun createBitMapFromView(view: View): Bitmap {
@@ -517,9 +531,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
     }
 
     override fun onMapViewInitialized(p0: MapView?) {}
-
     override fun onMapViewCenterPointMoved(p0: MapView?, p1: MapPoint?) {}
-
     override fun onMapViewZoomLevelChanged(p0: MapView?, p1: Int) {}
     override fun onMapViewSingleTapped(p0: MapView?, p1: MapPoint?) {}
     override fun onMapViewDoubleTapped(p0: MapView?, p1: MapPoint?) {}
@@ -528,10 +540,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
     override fun onMapViewDragEnded(p0: MapView?, p1: MapPoint?) {}
 
     override fun onMapViewMoveFinished(p0: MapView?, p1: MapPoint?) {
-        Log.d(
-            "kite",
-            "onMapViewMoveFinished" + p0!!.mapCenterPoint.mapPointGeoCoord.latitude.toString()
-        )
         setDialogEventPop()
         getSelectedPOItems()
     }

@@ -11,7 +11,7 @@ interface MapRepository {
         missionId: Int
     ): ResponseMapMissionData
 
-    suspend fun getFeedList(
+    suspend fun getMapFeedList(
         x: Double,
         y: Double
     ): ResponseMapFeedList

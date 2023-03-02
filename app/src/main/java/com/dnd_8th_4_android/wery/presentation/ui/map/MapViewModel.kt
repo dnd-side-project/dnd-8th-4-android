@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dnd_8th_4_android.wery.data.remote.model.map.RequestMapMissionList
+import com.dnd_8th_4_android.wery.data.remote.model.map.ResponseMapFeedList
 import com.dnd_8th_4_android.wery.data.remote.model.map.ResponseMapMissionData
 import com.dnd_8th_4_android.wery.data.remote.model.map.ResponseMapMissionList.ResultMapMission
 import com.dnd_8th_4_android.wery.data.remote.model.post.ResponseSearchPlace
@@ -31,8 +32,9 @@ class MapViewModel @Inject constructor(private val mapRepository: MapRepository)
     private val _filterType = MutableLiveData<Int>(0)
     val filterType: LiveData<Int> = _filterType
 
-    private val _feedList = MutableLiveData<MutableList<ResultMapMission>>()
-    val feedList: LiveData<MutableList<ResultMapMission>> = _feedList
+    private val _feedList =
+        MutableLiveData<List<ResponseMapFeedList.ResultMapFeedData>>()
+    val feedList: LiveData<List<ResponseMapFeedList.ResultMapFeedData>> = _feedList
 
     private val _missionList = MutableLiveData<List<ResultMapMission>>()
     val missionList: LiveData<List<ResultMapMission>> = _missionList
@@ -48,6 +50,16 @@ class MapViewModel @Inject constructor(private val mapRepository: MapRepository)
 
     private val _isLoading: MutableLiveData<Boolean> = MutableLiveData()
     val isLoading: LiveData<Boolean> = _isLoading
+
+    fun getFeedList() {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                mapRepository.getMapFeedList(myCurrentLatitude.value!!,myCurrentLongitude.value!!)
+            }.onSuccess {
+                _feedList.value = it.data
+            }
+        }
+    }
 
     fun getMissionList(body: RequestMapMissionList) {
         viewModelScope.launch {
