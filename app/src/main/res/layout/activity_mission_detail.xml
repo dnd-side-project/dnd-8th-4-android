@@ -327,7 +327,7 @@
             android:layout_marginBottom="24dp"
             android:backgroundTint="@color/black"
             android:padding="16dp"
-            android:text="@string/mission_detail_write"
+            tools:text="@string/mission_detail_write"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

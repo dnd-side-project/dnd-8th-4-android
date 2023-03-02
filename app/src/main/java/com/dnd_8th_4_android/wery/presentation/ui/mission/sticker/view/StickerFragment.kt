@@ -81,14 +81,7 @@ class StickerFragment : BaseFragment<FragmentStickerBinding>(R.layout.fragment_s
         }
     }
 
-    override fun initAfterBinding() {
-//        StickerInfoBottomDialog("위어리의 알유 위어리", 2) {
-//            moveToStickerDetail(null)
-//        }.show(
-//            parentFragmentManager,
-//            null
-//        )
-    }
+    override fun initAfterBinding() {}
 
     private fun moveToStickerDetail(stickerGroupId: Int) {
         Intent(requireContext(), StickerDetailActivity::class.java).apply {

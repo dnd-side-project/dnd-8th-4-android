@@ -3,13 +3,10 @@ package com.dnd_8th_4_android.wery.data.api
 import com.dnd_8th_4_android.wery.data.remote.model.BaseResponse
 import com.dnd_8th_4_android.wery.data.remote.model.mission.*
 import com.dnd_8th_4_android.wery.data.remote.model.post.ResponseGroupList
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.*
-import retrofit2.http.Body
-import retrofit2.http.DELETE
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
 
 interface MissionService {
 
@@ -39,7 +36,7 @@ interface MissionService {
 
     @GET("/group/list/my")
     suspend fun getMyGroupList(): Response<ResponseGroupList>
-    
+
     @POST("/mission/check/location")
     suspend fun missionCertify(
         @Body body: RequestMissionCertifyData

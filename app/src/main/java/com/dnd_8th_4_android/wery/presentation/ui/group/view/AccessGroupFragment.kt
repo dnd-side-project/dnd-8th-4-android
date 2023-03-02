@@ -169,6 +169,7 @@ class AccessGroupFragment :
                         intent.putExtra(MissionDetailActivity.PLACE_NAME, it.missionLocationName)
                         intent.putExtra(MissionDetailActivity.LATITUDE, it.latitude)
                         intent.putExtra(MissionDetailActivity.LONGITUDE, it.longitude)
+                        intent.putExtra(MissionDetailActivity.MISSION_ID, it.missionId)
                         startActivity(intent)
                     }
                 }

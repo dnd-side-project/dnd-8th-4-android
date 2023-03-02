@@ -18,7 +18,7 @@ data class ResponseMissionDetailData(
         val existPeriod: Boolean,
         val missionStartDate: String,
         val missionEndDate: String,
-//        val missionStatus: String,
+        val missionStatus: String,
         val missionLocationName: String,
         val missionLocationAddress: String?,
         val latitude: Double,

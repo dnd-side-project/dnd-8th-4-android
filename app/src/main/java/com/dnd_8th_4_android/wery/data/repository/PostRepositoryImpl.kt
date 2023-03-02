@@ -2,6 +2,7 @@ package com.dnd_8th_4_android.wery.data.repository
 
 import com.dnd_8th_4_android.wery.data.remote.datasource.PostDataSource
 import com.dnd_8th_4_android.wery.data.remote.model.BaseResponse
+import com.dnd_8th_4_android.wery.data.remote.model.mission.ResponseMissionFeed
 import com.dnd_8th_4_android.wery.data.remote.model.post.ResponseGroupList
 import com.dnd_8th_4_android.wery.data.remote.model.post.ResponsePostData
 import com.dnd_8th_4_android.wery.domain.repository.PostRepository
@@ -33,5 +34,12 @@ class PostRepositoryImpl @Inject constructor(private val postDataSource: PostDat
         multipartFile: MutableList<MultipartBody.Part>
     ): Result<BaseResponse> {
         return postDataSource.modifyFeed(data,multipartFile)
+    }
+
+    override suspend fun uploadMissionFeed(
+        data: HashMap<String, RequestBody>,
+        images: MutableList<MultipartBody.Part>?
+    ): ResponseMissionFeed {
+        return postDataSource.uploadMissionFeed(data, images)
     }
 }
