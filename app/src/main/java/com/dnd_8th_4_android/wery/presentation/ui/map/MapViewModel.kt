@@ -1,10 +1,12 @@
 package com.dnd_8th_4_android.wery.presentation.ui.map
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dnd_8th_4_android.wery.data.remote.model.map.RequestMapMissionList
+import com.dnd_8th_4_android.wery.data.remote.model.map.ResponseMapFeedData
 import com.dnd_8th_4_android.wery.data.remote.model.map.ResponseMapFeedList
 import com.dnd_8th_4_android.wery.data.remote.model.map.ResponseMapMissionData
 import com.dnd_8th_4_android.wery.data.remote.model.map.ResponseMapMissionList.ResultMapMission
@@ -38,6 +40,9 @@ class MapViewModel @Inject constructor(private val mapRepository: MapRepository)
 
     private val _missionList = MutableLiveData<List<ResultMapMission>>()
     val missionList: LiveData<List<ResultMapMission>> = _missionList
+
+    private val _feedListData = MutableLiveData<ResponseMapFeedData>()
+    val feedListData: LiveData<ResponseMapFeedData> = _feedListData
 
     private val _missionCardData = MutableLiveData<ResponseMapMissionData>()
     val missionCardData: LiveData<ResponseMapMissionData> = _missionCardData
@@ -77,6 +82,16 @@ class MapViewModel @Inject constructor(private val mapRepository: MapRepository)
                 mapRepository.getMissionData(missionId)
             }.onSuccess {
                 _missionCardData.value = it
+            }
+        }
+    }
+
+    fun getFeedData(contentId:Int) {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                mapRepository.getFeedData(contentId)
+            }.onSuccess {
+                _feedListData.value = it
             }
         }
     }

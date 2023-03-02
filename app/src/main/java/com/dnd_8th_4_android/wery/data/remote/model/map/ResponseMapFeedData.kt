@@ -8,18 +8,12 @@ data class ResponseMapFeedData(
     data class ResultMapFeedData(
         val content: String,
         val contentId: Int,
-        val contentImageList: List<ContentImage>,
-        val contentImageListSize: Int,
+        val contentImageSize: Int,
+        val contentImageUrl: String,
         val createAt: String,
         val groupId: Int,
         val groupName: String,
+        val groupImage: String,
         val location: String
     )
 }
-
-data class ContentImage(
-    val contentId: Int,
-    val id: Int,
-    val imageName: String,
-    val imageUrl: String
-)

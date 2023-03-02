@@ -22,7 +22,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.dnd_8th_4_android.wery.R
-import com.dnd_8th_4_android.wery.data.remote.model.map.ResponseMapFeed
 import com.dnd_8th_4_android.wery.data.remote.model.map.ResponseMapFeedList
 import com.dnd_8th_4_android.wery.data.remote.model.map.ResponseMapMissionList
 import com.dnd_8th_4_android.wery.data.remote.model.post.ResponseSearchPlace
@@ -246,6 +245,12 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
             showMissionMarkerList(it)
         }
 
+        mapViewModel.feedListData.observe(viewLifecycleOwner) {
+            val mapFeedAdapter = MapFeedAdapter()
+            mapFeedAdapter.itemList = it.data
+            binding.vpFeedDialog.adapter = mapFeedAdapter
+        }
+
         mapViewModel.missionCardData.observe(viewLifecycleOwner) {
             binding.includeLayoutMission.apply {
                 when (it.data.missionColor) {
@@ -460,24 +465,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
 
     }
 
-    // TODO 추후 서버통신을 통해 데이터를 받아올 예정
-    private fun getFeedVpData() {
-        val mapFeedAdapter = MapFeedAdapter()
-        mapFeedAdapter.itemList.add(
-            ResponseMapFeed(
-                "안산 포터블 커피",
-                "오늘 지예랑 새로 생긴 카페 갔지롱 인절미 라떼가 진짜 맛있더라 \uD83E\uDD7A 세상엔 왜 이렇게 맛있는 게 많은 걸까 다음엔 너희랑도 가고 싶어",
-                "안산 뉴진스", "", "", 4, "2023.02.19"
-            )
-        )
-        mapFeedAdapter.itemList.add(
-            ResponseMapFeed(
-                "안산 포터블 커피",
-                "오늘 지예랑 새로 생긴 카페 갔지롱 인절미 라떼가 진짜 맛있더라 \uD83E\uDD7A 세상엔 왜 이렇게 맛있는 게 많은 걸까 다음엔 너희랑도 가고 싶어",
-                "안산 뉴진스", "", "", 4, "2023.02.19"
-            )
-        )
-        binding.vpFeedDialog.adapter = mapFeedAdapter
+    private fun getFeedVpData(contentId: Int) {
+        mapViewModel.getFeedData(contentId)
     }
 
     private fun getMissionCardData(missionId: Int) {
@@ -491,23 +480,12 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
             // 마커 클릭 시
             if (!poiItem!!.isShowCalloutBalloonOnTouch) {
                 if (mapViewModel.filterType.value == 0) { // 피드 마커 일 때
-                    Toast.makeText(
-                        requireContext(),
-                        "${poiItem.mapPoint}: 피드 마커 클릭",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    getFeedVpData()
+                    getFeedVpData(poiItem.itemName.toInt())
                     binding.vpFeedDialog.visibility = View.VISIBLE
                 } else { // 미션 마커 일 때
-                    Toast.makeText(
-                        requireContext(),
-                        "${poiItem.mapPoint}: 미션 마커 클릭",
-                        Toast.LENGTH_SHORT
-                    ).show()
                     getMissionCardData(poiItem.itemName.toInt())
                     binding.standardBottomSheetMission.visibility = View.VISIBLE
                 }
-
                 mapViewModel.setBottomDialogShowingState(true)
                 binding.btnFloatingAction.visibility = View.GONE
             }
