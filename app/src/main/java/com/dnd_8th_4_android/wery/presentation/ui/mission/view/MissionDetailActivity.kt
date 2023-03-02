@@ -31,6 +31,7 @@ class MissionDetailActivity :
 
     companion object {
         const val GROUP_ID = "groupId"
+        const val MISSION_ID = "missionId"
         const val GROUP_NAME = "groupName"
         const val PLACE_NAME = "placeName"
         const val LATITUDE = "latitude"
@@ -134,6 +135,7 @@ class MissionDetailActivity :
                         putExtra(PLACE_NAME, it.missionLocationName)
                         putExtra(LATITUDE, it.latitude)
                         putExtra(LONGITUDE, it.longitude)
+                        putExtra(MISSION_ID, it.missionId)
                         startActivity(this)
                     }
                 } else {
