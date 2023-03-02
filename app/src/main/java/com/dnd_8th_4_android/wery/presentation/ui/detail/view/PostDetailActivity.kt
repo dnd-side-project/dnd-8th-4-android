@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.text.InputFilter
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.PopupWindow
@@ -15,7 +14,7 @@ import androidx.core.widget.NestedScrollView
 import com.bumptech.glide.Glide
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.data.remote.model.detail.RequestPostDetailCommentNote
-import com.dnd_8th_4_android.wery.data.remote.model.detail.ResponsePostDetailStickerData
+import com.dnd_8th_4_android.wery.data.remote.model.detail.RequestPostDetailStickerId
 import com.dnd_8th_4_android.wery.data.remote.model.home.RequestEmotionStatus
 import com.dnd_8th_4_android.wery.databinding.ActivityPopupWindowBinding
 import com.dnd_8th_4_android.wery.databinding.ActivityPostDetailBinding
@@ -131,11 +130,11 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
         }
 
         viewModel.stickerList.observe(this) {
-            Log.e("태그", it.toString())
             postDetailStickerRecyclerViewAdapter = PostDetailStickerRecyclerViewAdapter(it)
-            postDetailStickerRecyclerViewAdapter.setStickerClickListener { sticker ->
-                // TODO 스티커 등록
+            postDetailStickerRecyclerViewAdapter.setStickerClickListener { stickerId ->
+                viewModel.setUpdateSticker(contentId, RequestPostDetailStickerId(stickerId))
                 viewModel.setSelected()
+//                binding.rvComment.smoothScrollToPosition(0)
             }
             binding.rvSticker.adapter = postDetailStickerRecyclerViewAdapter
         }

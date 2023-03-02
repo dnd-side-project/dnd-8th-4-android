@@ -32,6 +32,13 @@ class DetailDataSourceImpl @Inject constructor(private val detailService: Detail
         return detailService.sendContent(contentId, body)
     }
 
+    override suspend fun sendSticker(
+        contentId: Int,
+        body: RequestPostDetailStickerId,
+    ): BaseResponse {
+        return detailService.sendSticker(contentId, body)
+    }
+
     override suspend fun getSticker(): ResponsePostDetailStickerData {
         return detailService.getSticker()
     }

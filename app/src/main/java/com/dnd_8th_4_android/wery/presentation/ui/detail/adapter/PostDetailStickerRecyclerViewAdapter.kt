@@ -25,7 +25,7 @@ class PostDetailStickerRecyclerViewAdapter(private val list: MutableList<Respons
                 override fun onSingleClick(view: View?) {}
 
                 override fun onDoubleClick(view: View?) {
-                    stickerClickListener.onClicked(item.stickerId)
+                    stickerClickListener.onClicked(item.stickerId.toLong())
                 }
             }))
         }
@@ -43,15 +43,15 @@ class PostDetailStickerRecyclerViewAdapter(private val list: MutableList<Respons
         holder.bind(list[position])
     }
 
-    fun setStickerClickListener(listener: (Int) -> Unit) {
+    fun setStickerClickListener(listener: (Long) -> Unit) {
         stickerClickListener = object : StickerClickListener {
-            override fun onClicked(sticker: Int) {
+            override fun onClicked(sticker: Long) {
                 listener(sticker)
             }
         }
     }
 
     interface StickerClickListener {
-        fun onClicked(sticker: Int)
+        fun onClicked(sticker: Long)
     }
 }

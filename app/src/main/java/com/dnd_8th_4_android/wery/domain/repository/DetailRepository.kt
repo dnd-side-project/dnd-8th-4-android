@@ -30,5 +30,10 @@ interface DetailRepository {
         body: RequestPostDetailCommentNote
     ): BaseResponse
 
+    suspend fun sendSticker(
+        contentId: Int,
+        body: RequestPostDetailStickerId,
+    ): BaseResponse
+
     suspend fun getSticker(): ResponsePostDetailStickerData
 }

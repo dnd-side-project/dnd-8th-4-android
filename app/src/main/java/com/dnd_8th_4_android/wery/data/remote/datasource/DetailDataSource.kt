@@ -27,7 +27,12 @@ interface DetailDataSource {
 
     suspend fun sendContent(
         contentId: Int,
-        body: RequestPostDetailCommentNote
+        body: RequestPostDetailCommentNote,
+    ): BaseResponse
+
+    suspend fun sendSticker(
+        contentId: Int,
+        body: RequestPostDetailStickerId,
     ): BaseResponse
 
     suspend fun getSticker(): ResponsePostDetailStickerData

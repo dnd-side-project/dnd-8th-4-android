@@ -2,7 +2,6 @@ package com.dnd_8th_4_android.wery.presentation.ui.detail.viewmodel
 
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -29,14 +28,18 @@ class PostDetailViewModel @Inject constructor(
     private val _emotionCount = MutableLiveData<Int>()
     val emotionCount: LiveData<Int> = _emotionCount
 
-    private val _commentList = MutableLiveData<MutableList<ResponsePostDetailCommentData.Data.Content>>()
-    val commentList: LiveData<MutableList<ResponsePostDetailCommentData.Data.Content>> = _commentList
+    private val _commentList =
+        MutableLiveData<MutableList<ResponsePostDetailCommentData.Data.Content>>()
+    val commentList: LiveData<MutableList<ResponsePostDetailCommentData.Data.Content>> =
+        _commentList
 
     private val _commentCount = MutableLiveData<Int>()
     val commentCount: LiveData<Int> = _commentCount
 
-    private val _stickerList = MutableLiveData<MutableList<ResponsePostDetailStickerData.Data.StickerInfoList>>()
-    val stickerList: LiveData<MutableList<ResponsePostDetailStickerData.Data.StickerInfoList>> = _stickerList
+    private val _stickerList =
+        MutableLiveData<MutableList<ResponsePostDetailStickerData.Data.StickerInfoList>>()
+    val stickerList: LiveData<MutableList<ResponsePostDetailStickerData.Data.StickerInfoList>> =
+        _stickerList
 
     private val _isSelected = MutableLiveData(false)
     val isSelected: LiveData<Boolean> = _isSelected
@@ -148,6 +151,22 @@ class PostDetailViewModel @Inject constructor(
         }
     }
 
+    // 스티커 작성
+    fun setUpdateSticker(
+        contentId: Int,
+        stickerId: RequestPostDetailStickerId,
+    ) {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                detailRepository.sendSticker(contentId, stickerId)
+            }.onSuccess {
+                getComment(contentId)
+            }.onFailure {
+                Timber.tag("error").d(it.message.toString())
+            }
+        }
+    }
+
     // 스티커
     fun getSticker() {
         viewModelScope.launch {
@@ -157,7 +176,6 @@ class PostDetailViewModel @Inject constructor(
                 _stickerList.value = it.data[0].stickerInfoList
             }.onFailure {
                 Timber.tag("error").d(it.message.toString())
-                Log.e("태그", it.message.toString())
             }
         }
     }

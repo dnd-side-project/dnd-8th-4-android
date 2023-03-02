@@ -36,6 +36,12 @@ interface DetailService {
         @Body body: RequestPostDetailCommentNote,
     ): BaseResponse
 
+    @POST("/content/{contentId}/comment")
+    suspend fun sendSticker(
+        @Path("contentId") contentId: Int,
+        @Body body: RequestPostDetailStickerId,
+    ): BaseResponse
+
     @GET("/sticker/list/my/all")
     suspend fun getSticker(): ResponsePostDetailStickerData
 }
