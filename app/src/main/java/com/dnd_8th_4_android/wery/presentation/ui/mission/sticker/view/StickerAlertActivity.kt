@@ -1,16 +1,22 @@
 package com.dnd_8th_4_android.wery.presentation.ui.mission.sticker.view
 
 import android.content.Intent
+import android.graphics.Typeface
 import android.os.Bundle
 import android.text.Spannable
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
+import android.view.WindowManager
+import android.widget.TextView
 import androidx.activity.viewModels
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.databinding.ActivityAlertStickerBinding
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseActivity
 import com.dnd_8th_4_android.wery.presentation.ui.mission.sticker.viewmodel.StickerDetailViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class StickerAlertActivity :
     BaseActivity<ActivityAlertStickerBinding>(R.layout.activity_alert_sticker) {
 
@@ -38,10 +44,6 @@ class StickerAlertActivity :
     }
 
     private fun initAfterBinding() {
-        (binding.tvContent.text as Spannable).setSpan(
-            ForegroundColorSpan(resources.getColor(R.color.color_f47aff, null)), 0, 3,
-            Spanned.SPAN_EXCLUSIVE_INCLUSIVE
-        )
         binding.btnShowSticker.setOnClickListener {
             Intent(this, StickerDetailActivity::class.java).apply {
                 putExtra(STICKER_GROUP_ID, intent.getIntExtra(STICKER_GROUP_ID, 1))

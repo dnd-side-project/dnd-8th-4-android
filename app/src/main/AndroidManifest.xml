@@ -82,7 +82,7 @@
             android:exported="true" />
         <activity
             android:name=".presentation.ui.mission.sticker.view.StickerAlertActivity"
-            android:theme="@style/TransparentTheme" />
+            android:theme="@style/TransparentTheme"/>
     </application>
 
 </manifest>
