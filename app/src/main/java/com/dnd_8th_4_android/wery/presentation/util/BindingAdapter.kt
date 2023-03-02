@@ -14,6 +14,7 @@ object BindingAdapter {
     @JvmStatic
     @BindingAdapter("imageBindFitXY")
     fun setImageFit(imageView: ImageView, imageUrl: String?) {
+        imageView.clipToOutline = true
         Glide.with(imageView.context)
             .load(imageUrl)
             .fitCenter()

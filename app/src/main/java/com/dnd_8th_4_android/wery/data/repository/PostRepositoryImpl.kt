@@ -38,8 +38,8 @@ class PostRepositoryImpl @Inject constructor(private val postDataSource: PostDat
 
     override suspend fun uploadMissionFeed(
         data: HashMap<String, RequestBody>,
-        images: MutableList<MultipartBody.Part>?
+        multipartFiles: MutableList<MultipartBody.Part>?
     ): ResponseMissionFeed {
-        return postDataSource.uploadMissionFeed(data, images)
+        return postDataSource.uploadMissionFeed(data, multipartFiles)
     }
 }
