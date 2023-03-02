@@ -1,6 +1,5 @@
 package com.dnd_8th_4_android.wery.presentation.ui.map
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,7 +11,6 @@ import com.dnd_8th_4_android.wery.data.remote.model.post.ResponseSearchPlace
 import com.dnd_8th_4_android.wery.domain.repository.MapRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -52,35 +50,21 @@ class MapViewModel @Inject constructor(private val mapRepository: MapRepository)
     val isLoading: LiveData<Boolean> = _isLoading
 
     fun getMissionList(body: RequestMapMissionList) {
-        _isLoading.value = true
         viewModelScope.launch {
             kotlin.runCatching {
                 mapRepository.getMapMissionList(body)
             }.onSuccess {
                 _missionList.value = it.data
-                _isLoading.value = false
-                Log.d("kite",it.data.toString())
-            }.onFailure {
-                Timber.tag("kite").d(it.message.toString())
-                Log.d("kite",it.message.toString())
-                _isLoading.value = false
             }
         }
     }
 
     fun getMissionCardData(missionId:Int) {
-        _isLoading.value = true
         viewModelScope.launch {
             kotlin.runCatching {
                 mapRepository.getMissionData(missionId)
             }.onSuccess {
                 _missionCardData.value = it
-                _isLoading.value = false
-                Log.d("kite",it.data.toString())
-            }.onFailure {
-                Timber.tag("kite").d(it.message.toString())
-                Log.d("kite",it.message.toString())
-                _isLoading.value = false
             }
         }
     }

@@ -13,8 +13,6 @@ import android.net.Uri
 import android.provider.Settings
 import android.util.DisplayMetrics
 import android.util.Log
-import android.view.DragEvent
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
@@ -83,10 +81,18 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
                     )
                 )
 
-                mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(mapViewModel.searchResult.value!!.y,mapViewModel.searchResult.value!!.x),true)
+                mapView.setMapCenterPointAndZoomLevel(
+                    MapPoint.mapPointWithGeoCoord(
+                        mapViewModel.searchResult.value!!.y,
+                        mapViewModel.searchResult.value!!.x
+                    ),
+                    5, true
+                )
                 /** 검색한 장소가 존재할 때
+                 * 이전에 띄워둔 모든 마커를 제거해주고
                  * 검색결과의 x,y 위치를 지도 마커로 찍어준다
                  * 그 이후 해당 좌표를 중점으로 '피드'와 '미션'을 받아온다*/
+                mapView.removeAllPOIItems()
                 searchPinMarker()
             }
         }
@@ -165,8 +171,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
         mapView.setMapViewEventListener(this)
 
 
-
-
         getMyCurrentLocation()
         //showFeedMarkerList()
         //showFeedMarkerList()
@@ -195,7 +199,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
             MapPoint.mapPointWithGeoCoord(
                 mapViewModel.myCurrentLatitude.value!!,
                 mapViewModel.myCurrentLongitude.value!!
-            ), 3, false
+            ), 5, false
         ) // 맵의 중심좌표 구하기
         mapView.currentLocationTrackingMode =
             MapView.CurrentLocationTrackingMode.TrackingModeOff // 트랙킹 모드 OFF
@@ -204,10 +208,10 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
     override fun initDataBinding() {
         mapViewModel.searchPlaceTxt.value = resources.getString(R.string.map_search_hint)
 
-        mapViewModel.isLoading.observe(viewLifecycleOwner) {
-            if (it) showLoadingDialog()
-            else dismissLoadingDialog()
-        }
+        //mapViewModel.isLoading.observe(viewLifecycleOwner) {
+        //    if (it) showLoadingDialog()
+        //    else dismissLoadingDialog()
+        //}
 
         /** [검색결과] 검색 이후 feed 인지 mission 인지 여부에 따라
          * 서버 통신 다르게 요청*/
@@ -254,11 +258,11 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
     private fun setDialogEventPop() {
         if (mapViewModel.filterType.value == 0) { // 피드
             // 피드 visible
-            Toast.makeText(requireContext(), "피드 마커 해제", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "피드 다이얼로그 해제", Toast.LENGTH_SHORT).show()
             binding.vpFeedDialog.visibility = View.GONE
         } else { // 미션
             binding.standardBottomSheetMission.visibility = View.GONE
-            Toast.makeText(requireContext(), "미션 마커 해제", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "미션 다이얼로그 해제", Toast.LENGTH_SHORT).show()
         }
         mapViewModel.setBottomDialogShowingState(false)
         binding.btnFloatingAction.visibility = View.VISIBLE
@@ -272,16 +276,18 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
         }
 
         binding.ivFilterFeed.setOnClickListener {
-            mapViewModel.setFilterType(0)
+            if (mapViewModel.filterType.value != 0) mapViewModel.setFilterType(0)
             //mapView.removeAllPOIItems()
             // showFeedMarkerList()
         }
 
         binding.ivFilterMission.setOnClickListener {
-            mapViewModel.setFilterType(1)
+            if (mapViewModel.filterType.value != 1) {
+                mapViewModel.setFilterType(1)
+                setMapBoundsPoint()
+                mapViewModel.getMissionList(mapViewModel.getCurrentMapBounds())
+            }
             //mapView.removeAllPOIItems()
-            setMapBoundsPoint()
-            mapViewModel.getMissionList(mapViewModel.getCurrentMapBounds())
         }
 
         binding.tvSearchHint.setOnClickListener {
@@ -367,7 +373,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
             when (missionList[i].missionColor) {
                 0 -> {
                     myCustomImageResourceId = R.drawable.img_pin_mission_blue_default
-                    myCustomSelectedImageResourceId = R.drawable.img_pin_mission_pin_select
+                    myCustomSelectedImageResourceId = R.drawable.img_pin_mission_blue_select
                 }
                 1 -> {
                     myCustomImageResourceId = R.drawable.img_pin_mission_pink_default
@@ -375,7 +381,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
                 }
                 2 -> {
                     myCustomImageResourceId = R.drawable.img_pin_mission_green_default
-                    myCustomSelectedImageResourceId = R.drawable.img_pin_mission_pin_select
+                    myCustomSelectedImageResourceId = R.drawable.img_pin_mission_green_select
                 }
             }
 
@@ -511,41 +517,24 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
         }
     }
 
-    override fun onMapViewInitialized(p0: MapView?) {
-        Log.d("kite","onMapViewInitialized"+p0!!.mapCenterPoint.mapPointGeoCoord.latitude.toString())
-    }
+    override fun onMapViewInitialized(p0: MapView?) {}
 
-    override fun onMapViewCenterPointMoved(p0: MapView?, p1: MapPoint?) {
-        Log.d("kite","onMapViewCenterPointMoved"+p0!!.mapCenterPoint.mapPointGeoCoord.latitude.toString())
-    }
+    override fun onMapViewCenterPointMoved(p0: MapView?, p1: MapPoint?) {}
 
-    override fun onMapViewZoomLevelChanged(p0: MapView?, p1: Int) {
-    }
-
-    override fun onMapViewSingleTapped(p0: MapView?, p1: MapPoint?) {
-
-    }
-
-    override fun onMapViewDoubleTapped(p0: MapView?, p1: MapPoint?) {
-
-    }
-
-    override fun onMapViewLongPressed(p0: MapView?, p1: MapPoint?) {
-
-    }
-
-    override fun onMapViewDragStarted(p0: MapView?, p1: MapPoint?) {
-    }
-
-    override fun onMapViewDragEnded(p0: MapView?, p1: MapPoint?) {
-        Log.d("kite","onMapViewDragEnded"+p0!!.mapCenterPoint.mapPointGeoCoord.latitude.toString())
-
-    }
+    override fun onMapViewZoomLevelChanged(p0: MapView?, p1: Int) {}
+    override fun onMapViewSingleTapped(p0: MapView?, p1: MapPoint?) {}
+    override fun onMapViewDoubleTapped(p0: MapView?, p1: MapPoint?) {}
+    override fun onMapViewLongPressed(p0: MapView?, p1: MapPoint?) {}
+    override fun onMapViewDragStarted(p0: MapView?, p1: MapPoint?) {}
+    override fun onMapViewDragEnded(p0: MapView?, p1: MapPoint?) {}
 
     override fun onMapViewMoveFinished(p0: MapView?, p1: MapPoint?) {
-        Log.d("kite","onMapViewMoveFinished"+p0!!.mapCenterPoint.mapPointGeoCoord.latitude.toString())
-        setMapBoundsPoint()
-        mapViewModel.getMissionList(mapViewModel.getCurrentMapBounds())
+        Log.d(
+            "kite",
+            "onMapViewMoveFinished" + p0!!.mapCenterPoint.mapPointGeoCoord.latitude.toString()
+        )
+        setDialogEventPop()
+        getSelectedPOItems()
     }
 
 }
