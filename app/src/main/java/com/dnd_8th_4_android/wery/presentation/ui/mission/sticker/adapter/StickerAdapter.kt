@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dnd_8th_4_android.wery.data.remote.model.mission.ResponseSticker
 import com.dnd_8th_4_android.wery.databinding.ItemStickerBinding
 
-class StickerAdapter(private val onItemClick: (ResponseSticker.Data.AcquisitionStickerInfo) -> Unit) :
+class StickerAdapter(private val onItemClick: (Int) -> Unit) :
     ListAdapter<ResponseSticker.Data.AcquisitionStickerInfo, StickerAdapter.StickerViewHolder>(
         stickerDiffUtil
     ) {
@@ -27,7 +27,7 @@ class StickerAdapter(private val onItemClick: (ResponseSticker.Data.AcquisitionS
 
     class StickerViewHolder(
         val binding: ItemStickerBinding,
-        val onItemClick: (ResponseSticker.Data.AcquisitionStickerInfo) -> Unit,
+        val onItemClick: (Int) -> Unit,
     ) :
         RecyclerView.ViewHolder(binding.root) {
         private var stickerData: ResponseSticker.Data.AcquisitionStickerInfo? = null
@@ -35,7 +35,7 @@ class StickerAdapter(private val onItemClick: (ResponseSticker.Data.AcquisitionS
         init {
             binding.root.setOnClickListener {
                 stickerData?.let {
-                    if (it.isStickerLocked) onItemClick(it)
+                    if (it.isStickerLocked) onItemClick(it.stickerId)
                 }
             }
         }

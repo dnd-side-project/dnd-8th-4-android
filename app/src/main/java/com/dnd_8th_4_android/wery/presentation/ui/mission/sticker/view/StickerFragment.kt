@@ -15,6 +15,10 @@ class StickerFragment : BaseFragment<FragmentStickerBinding>(R.layout.fragment_s
     private val viewModel: StickerViewModel by viewModels()
     private lateinit var stickerAdapter: StickerAdapter
 
+    companion object {
+        const val STICKER_GROUP_ID = "sticker_group_id"
+    }
+
     override fun initStartView() {
         viewModel.getMissionStatus()
 
@@ -26,39 +30,65 @@ class StickerFragment : BaseFragment<FragmentStickerBinding>(R.layout.fragment_s
         viewModel.missionStatusList.observe(viewLifecycleOwner) {
             stickerAdapter.submitList(it.acquisitionStickerInfo)
 
-//            binding.stickerProgressBar.progress =
-//                ((it.currMissionInfo.subLevel - it.currMissionInfo.remainToUpMainLevel) / it.currMissionInfo.subLevel) * 100
+            binding.tvStartLevel.text =
+                resources.getString(R.string.sticker_main_level, it.currMissionInfo.mainLevel)
+            binding.tvEndLevel.text =
+                resources.getString(R.string.sticker_main_level, it.currMissionInfo.mainLevel + 1)
 
-            when (it.currMissionInfo.mainLevel) {
-                1 -> {
-                    binding.ivStart.isSelected = true
+            binding.stickerProgressBar.progress = it.currMissionInfo.progressBarRange
+
+            when (it.currMissionInfo.subLevel) {
+                0.5F -> {
                     binding.tvStartLevel.setTextColor(requireContext().getColor(R.color.black))
                 }
-                2 -> {
+
+                1F -> {
+                    binding.tvStartLevel.setTextColor(requireContext().getColor(R.color.black))
+                    binding.ivStart.isSelected = true
+                }
+                1.5F -> {
+                    binding.tvStartLevel.setTextColor(requireContext().getColor(R.color.black))
+                    binding.ivStart.isSelected = true
+                }
+
+                2F -> {
+                    binding.tvStartLevel.setTextColor(requireContext().getColor(R.color.black))
                     binding.ivStart.isSelected = true
                     binding.ivMiddle.isSelected = true
-                    binding.tvStartLevel.setTextColor(requireContext().getColor(R.color.black))
                 }
-                3 -> {
+                2.5F -> {
+                    binding.tvStartLevel.setTextColor(requireContext().getColor(R.color.black))
+                    binding.ivStart.isSelected = true
+                    binding.ivMiddle.isSelected = true
+                }
+
+                3F -> {
+                    binding.tvStartLevel.setTextColor(requireContext().getColor(R.color.black))
+                    binding.tvEndLevel.setTextColor(requireContext().getColor(R.color.black))
                     binding.ivStart.isSelected = true
                     binding.ivMiddle.isSelected = true
                     binding.ivEnd.isSelected = true
-                    binding.tvStartLevel.setTextColor(requireContext().getColor(R.color.black))
-                    binding.tvEndLevel.setTextColor(requireContext().getColor(R.color.black))
                 }
             }
-
-            binding.tvStickerCnt.text = it.acquisitionStickerInfo.size.toString()
+            binding.tvStickerCnt.text = it.acquisitionStickerInfo.count { stickerCount ->
+                stickerCount.isStickerLocked
+            }.toString()
         }
     }
 
     override fun initAfterBinding() {
-        // TODO 서버에서 들어오는 값에 따라 분기처리
-        // StickerInfoBottomDialog("위어리의 알유 위어리", 2){moveToStickerDetail(null)}.show(parentFragmentManager, null)
+//        StickerInfoBottomDialog("위어리의 알유 위어리", 2) {
+//            moveToStickerDetail(null)
+//        }.show(
+//            parentFragmentManager,
+//            null
+//        )
     }
 
-    private fun moveToStickerDetail(data: ResponseSticker.Data.AcquisitionStickerInfo) {
-        val intent = Intent(requireContext(), StickerDetailActivity::class.java)
-        startActivity(intent)
+    private fun moveToStickerDetail(stickerGroupId: Int) {
+        Intent(requireContext(), StickerDetailActivity::class.java).apply {
+            putExtra(STICKER_GROUP_ID, stickerGroupId)
+            startActivity(this)
+        }
     }
 }

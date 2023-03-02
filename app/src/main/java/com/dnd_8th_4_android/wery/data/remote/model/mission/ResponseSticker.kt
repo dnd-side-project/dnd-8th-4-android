@@ -11,17 +11,17 @@ data class ResponseSticker(
         val acquisitionStickerInfo: MutableList<AcquisitionStickerInfo>,
     ) {
         data class CurrMissionInfo(
-            val subLevel: Int,
+            val subLevel: Float,
             val mainLevel: Int,
-            val remainToUpMainLevel: Int,
+            val progressBarRange: Int,
         )
 
         data class AcquisitionStickerInfo(
-            val stickerId: Int,
-            val stickerName: String,
-            val stickerLevel: Int,
-            @SerializedName("stickerUrl") val stickerImgUrl: String,
-            @SerializedName("isAcquisitionSticker") val isStickerLocked: Boolean,
+            @SerializedName("stickerGroupId") val stickerId: Int,
+            @SerializedName("stickerGroupName") val stickerName: String,
+            @SerializedName("stickerGroupLevel") val stickerLevel: Int,
+            @SerializedName("stickerGroupThumbnailUrl") val stickerImgUrl: String,
+            @SerializedName("isAcquisitionStickerGroup") val isStickerLocked: Boolean,
         )
     }
 }

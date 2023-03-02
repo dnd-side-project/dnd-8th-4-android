@@ -30,6 +30,4 @@ class StickerDetailActivity :
     private fun initBackEvent() {
         binding.ivBack.setOnClickListener { finish() }
     }
-
-
 }

@@ -170,6 +170,7 @@
     <string name="sticker_due">사용기간 무제한</string>
     <string name="sticker_my_mission_level_one">Lv. 1</string>
     <string name="sticker_my_mission_level_two">Lv. 2</string>
+    <string name="sticker_main_level">Lv. %d</string>
 
     <!-- bottomSheetFragment -->
     <string name="bottom_sheet_bookmark">북마크 하기</string>
