@@ -52,8 +52,8 @@ class PostDataSourceImpl @Inject constructor(private val postService: PostServic
 
     override suspend fun uploadMissionFeed(
         data: HashMap<String, RequestBody>,
-        images: MutableList<MultipartBody.Part>?
+        multipartFiles: MutableList<MultipartBody.Part>?
     ): ResponseMissionFeed {
-        return postService.postMissionFeed(data, images)
+        return postService.postMissionFeed(data, multipartFiles)
     }
 }

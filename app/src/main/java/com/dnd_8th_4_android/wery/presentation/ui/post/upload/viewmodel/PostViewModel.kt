@@ -107,6 +107,7 @@ class PostViewModel @Inject constructor(private val postRepository: PostReposito
             kotlin.runCatching {
                 postRepository.uploadMissionFeed(data, images)
             }.onSuccess {
+                _missionStickerData.value = it
                 _isLoading.value = false
             }.onFailure {
                 _isLoading.value = false

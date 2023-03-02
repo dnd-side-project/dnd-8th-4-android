@@ -15,9 +15,7 @@ import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.databinding.ActivityUploadPostBinding
 import com.dnd_8th_4_android.wery.domain.model.DialogInfo
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseActivity
-import com.dnd_8th_4_android.wery.presentation.ui.mission.sticker.view.StickerDetailActivity
-import com.dnd_8th_4_android.wery.presentation.ui.mission.sticker.view.StickerFragment
-import com.dnd_8th_4_android.wery.presentation.ui.mission.sticker.view.StickerInfoBottomDialog
+import com.dnd_8th_4_android.wery.presentation.ui.mission.sticker.view.StickerAlertActivity
 import com.dnd_8th_4_android.wery.presentation.ui.mission.view.MissionDetailActivity
 import com.dnd_8th_4_android.wery.presentation.ui.post.place.view.SearchPlaceActivity
 import com.dnd_8th_4_android.wery.presentation.ui.post.upload.adapter.UploadPhotoAdapter
@@ -166,23 +164,11 @@ class UploadPostActivity : BaseActivity<ActivityUploadPostBinding>(R.layout.acti
     private fun checkStickerAfterUploadMissionFeed() {
         postViewModel.missionStickerData.observe(this) {
             if (it.data.isGetNewSticker) {
-                finish()
-            } else {
-                finish()
-                StickerInfoBottomDialog("으흐흑", 2) {
-                    moveToStickerDetail(1)
-                }.show(
-                    supportFragmentManager,
-                    null
-                )
+                Intent(this, StickerAlertActivity::class.java).apply {
+                    putExtra(StickerAlertActivity.STICKER_GROUP_ID, it.data.getNewStickerGroupId)
+                    startActivity(this)
+                }
             }
-        }
-    }
-
-    private fun moveToStickerDetail(stickerGroupId: Int) {
-        Intent(this, StickerDetailActivity::class.java).apply {
-            putExtra(StickerFragment.STICKER_GROUP_ID, stickerGroupId)
-            startActivity(this)
         }
     }
 
@@ -339,7 +325,7 @@ class UploadPostActivity : BaseActivity<ActivityUploadPostBinding>(R.layout.acti
         )
         val imgFileList = mutableListOf<MultipartBody.Part>()
         for (imgUrl in uploadPhotoAdapter.currentList) {
-            imgFileList.add(MultiPartFileUtil(this, "images").uriToFile(imgUrl.toUri()))
+            imgFileList.add(MultiPartFileUtil(this, "multipartFiles").uriToFile(imgUrl.toUri()))
         }
         postViewModel.uploadMissionFeed(intent.getIntExtra("missionId", 0), textHasMap, imgFileList)
     }

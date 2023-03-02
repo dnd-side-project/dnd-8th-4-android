@@ -38,6 +38,6 @@ interface PostService {
     @POST("/mission/check/content")
     suspend fun postMissionFeed(
         @PartMap data: HashMap<String, RequestBody>,
-        @Part images: MutableList<MultipartBody.Part>?
+        @Part multipartFiles: MutableList<MultipartBody.Part>?
     ): ResponseMissionFeed
 }

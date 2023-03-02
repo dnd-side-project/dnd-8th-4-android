@@ -26,6 +26,6 @@ interface PostDataSource {
 
     suspend fun uploadMissionFeed(
         data: HashMap<String, RequestBody>,
-        images: MutableList<MultipartBody.Part>?
+        multipartFiles: MutableList<MultipartBody.Part>?
     ): ResponseMissionFeed
 }

@@ -78,6 +78,7 @@ class SearchPlaceActivity :
         intent.putExtra("selectedPlace", data.place_name)
         intent.putExtra("selectedX",data.x)
         intent.putExtra("selectedY",data.y)
+        intent.putExtra("LocationAddress",data.road_address_name)
         setResult(RESULT_OK, intent)
         finish()
     }
