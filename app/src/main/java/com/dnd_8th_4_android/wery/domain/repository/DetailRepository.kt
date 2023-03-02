@@ -1,10 +1,7 @@
 package com.dnd_8th_4_android.wery.domain.repository
 
 import com.dnd_8th_4_android.wery.data.remote.model.BaseResponse
-import com.dnd_8th_4_android.wery.data.remote.model.detail.RequestPostDetailCommentNote
-import com.dnd_8th_4_android.wery.data.remote.model.detail.ResponsePostDetailCommentData
-import com.dnd_8th_4_android.wery.data.remote.model.detail.ResponsePostDetailData
-import com.dnd_8th_4_android.wery.data.remote.model.detail.ResponsePostDetailEmotionData
+import com.dnd_8th_4_android.wery.data.remote.model.detail.*
 import com.dnd_8th_4_android.wery.data.remote.model.home.RequestEmotionStatus
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseEmotionData
 
@@ -32,4 +29,6 @@ interface DetailRepository {
         contentId: Int,
         body: RequestPostDetailCommentNote
     ): BaseResponse
+
+    suspend fun getSticker(): ResponsePostDetailStickerData
 }

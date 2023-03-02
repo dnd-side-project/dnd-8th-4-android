@@ -2,10 +2,7 @@ package com.dnd_8th_4_android.wery.data.repository
 
 import com.dnd_8th_4_android.wery.data.remote.datasource.DetailDataSource
 import com.dnd_8th_4_android.wery.data.remote.model.BaseResponse
-import com.dnd_8th_4_android.wery.data.remote.model.detail.RequestPostDetailCommentNote
-import com.dnd_8th_4_android.wery.data.remote.model.detail.ResponsePostDetailCommentData
-import com.dnd_8th_4_android.wery.data.remote.model.detail.ResponsePostDetailData
-import com.dnd_8th_4_android.wery.data.remote.model.detail.ResponsePostDetailEmotionData
+import com.dnd_8th_4_android.wery.data.remote.model.detail.*
 import com.dnd_8th_4_android.wery.data.remote.model.home.RequestEmotionStatus
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseEmotionData
 import com.dnd_8th_4_android.wery.domain.repository.DetailRepository
@@ -35,5 +32,9 @@ class DetailRepositoryImpl @Inject constructor(private val detailDataSource: Det
         body: RequestPostDetailCommentNote,
     ): BaseResponse {
         return detailDataSource.sendContent(contentId, body)
+    }
+
+    override suspend fun getSticker(): ResponsePostDetailStickerData {
+        return detailDataSource.getSticker()
     }
 }

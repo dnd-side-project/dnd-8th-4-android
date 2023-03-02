@@ -10,9 +10,9 @@ data class ResponsePostDetailCommentData(
         val content: MutableList<Content>,
     ) {
         data class Content(
-            val profileImageUrl: String?,
+            val profileImageUrl: String,
             @SerializedName("username") val name: String,
-            val sticker: Int?,
+            @SerializedName("stickerImageUrl") val sticker: String?,
             @SerializedName("commentNote") val comment: String,
             @SerializedName("createdAt") val time: String,
 //        val likesExists: Boolean

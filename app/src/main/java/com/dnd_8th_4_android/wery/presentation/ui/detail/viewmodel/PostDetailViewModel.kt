@@ -7,10 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dnd_8th_4_android.wery.data.remote.model.detail.RequestPostDetailCommentNote
-import com.dnd_8th_4_android.wery.data.remote.model.detail.ResponsePostDetailCommentData
-import com.dnd_8th_4_android.wery.data.remote.model.detail.ResponsePostDetailData
-import com.dnd_8th_4_android.wery.data.remote.model.detail.ResponsePostDetailEmotionData
+import com.dnd_8th_4_android.wery.data.remote.model.detail.*
 import com.dnd_8th_4_android.wery.data.remote.model.home.RequestEmotionStatus
 import com.dnd_8th_4_android.wery.domain.repository.DetailRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -37,6 +34,9 @@ class PostDetailViewModel @Inject constructor(
 
     private val _commentCount = MutableLiveData<Int>()
     val commentCount: LiveData<Int> = _commentCount
+
+    private val _stickerList = MutableLiveData<MutableList<ResponsePostDetailStickerData.Data.StickerInfoList>>()
+    val stickerList: LiveData<MutableList<ResponsePostDetailStickerData.Data.StickerInfoList>> = _stickerList
 
     private val _isSelected = MutableLiveData(false)
     val isSelected: LiveData<Boolean> = _isSelected
@@ -144,6 +144,20 @@ class PostDetailViewModel @Inject constructor(
                 getComment(contentId)
             }.onFailure {
                 Timber.tag("error").d(it.message.toString())
+            }
+        }
+    }
+
+    // 스티커
+    fun getSticker() {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                detailRepository.getSticker()
+            }.onSuccess {
+                _stickerList.value = it.data[0].stickerInfoList
+            }.onFailure {
+                Timber.tag("error").d(it.message.toString())
+                Log.e("태그", it.message.toString())
             }
         }
     }

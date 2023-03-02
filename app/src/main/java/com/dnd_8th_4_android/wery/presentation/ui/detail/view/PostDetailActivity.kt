@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.text.InputFilter
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.PopupWindow
@@ -42,8 +43,6 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
     private lateinit var postDetailEmotionRecyclerViewAdapter: PostDetailEmotionRecyclerViewAdapter
     private lateinit var postDetailCommentRecyclerViewAdapter: PostDetailCommentRecyclerViewAdapter
     private lateinit var postDetailStickerRecyclerViewAdapter: PostDetailStickerRecyclerViewAdapter
-
-    private lateinit var stickerList: ResponsePostDetailStickerData.Data
 
     private var userId = 0
     private var contentId = 0
@@ -88,12 +87,7 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
         viewModel.getComment(contentId)
 
         // 스티커
-        postDetailStickerRecyclerViewAdapter = PostDetailStickerRecyclerViewAdapter(stickerList)
-        postDetailStickerRecyclerViewAdapter.setStickerClickListener { sticker ->
-            // TODO 스티커 등록
-            viewModel.setSelected()
-        }
-        binding.rvSticker.adapter = postDetailStickerRecyclerViewAdapter
+        viewModel.getSticker()
     }
 
     private fun initDataBinding() {
@@ -134,6 +128,16 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
             } else {
                 View.GONE
             }
+        }
+
+        viewModel.stickerList.observe(this) {
+            Log.e("태그", it.toString())
+            postDetailStickerRecyclerViewAdapter = PostDetailStickerRecyclerViewAdapter(it)
+            postDetailStickerRecyclerViewAdapter.setStickerClickListener { sticker ->
+                // TODO 스티커 등록
+                viewModel.setSelected()
+            }
+            binding.rvSticker.adapter = postDetailStickerRecyclerViewAdapter
         }
 
         viewModel.isSelected.observe(this) {
@@ -251,16 +255,6 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
         viewModel.getPostDetail(contentId)
 
         viewModel.setPageNumber(1)
-
-        stickerList = ResponsePostDetailStickerData.Data(
-            listOf(
-                R.drawable.img_no_group,
-                R.drawable.img_crying_face,
-                R.drawable.img_checkbox_checked,
-                R.drawable.img_checkbox_default,
-                R.drawable.img_photo_delete,
-            )
-        )
     }
 
     private fun getGradePopUp() {

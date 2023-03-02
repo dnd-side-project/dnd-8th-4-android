@@ -8,7 +8,7 @@ data class ResponsePostDetailCommentImageData(
     data class Data(
         val friendImage: String?,
         val name: String,
-        val sticker: Int?,
+        val sticker: String?,
         val time: String
     )
 }

@@ -10,22 +10,22 @@ import com.dnd_8th_4_android.wery.databinding.ItemPostDetailStickerBinding
 import com.pedromassango.doubleclick.DoubleClick
 import com.pedromassango.doubleclick.DoubleClickListener
 
-class PostDetailStickerRecyclerViewAdapter(private val list: ResponsePostDetailStickerData.Data) :
+class PostDetailStickerRecyclerViewAdapter(private val list: MutableList<ResponsePostDetailStickerData.Data.StickerInfoList>) :
     RecyclerView.Adapter<PostDetailStickerRecyclerViewAdapter.ViewHolder>() {
     private lateinit var binding: ItemPostDetailStickerBinding
     private lateinit var stickerClickListener: StickerClickListener
 
     inner class ViewHolder(private val binding: ItemPostDetailStickerBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Int) {
-            Glide.with(binding.ivSticker.context).load(item)
+        fun bind(item: ResponsePostDetailStickerData.Data.StickerInfoList) {
+            Glide.with(binding.ivSticker.context).load(item.stickerImageUrl)
                 .into(binding.ivSticker)
 
             binding.ivSticker.setOnClickListener(DoubleClick(object : DoubleClickListener {
                 override fun onSingleClick(view: View?) {}
 
                 override fun onDoubleClick(view: View?) {
-                    stickerClickListener.onClicked(item)
+                    stickerClickListener.onClicked(item.stickerId)
                 }
             }))
         }
@@ -37,10 +37,10 @@ class PostDetailStickerRecyclerViewAdapter(private val list: ResponsePostDetailS
         return ViewHolder(binding)
     }
 
-    override fun getItemCount() = list.stickerList.size
+    override fun getItemCount() = list.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(list.stickerList[position])
+        holder.bind(list[position])
     }
 
     fun setStickerClickListener(listener: (Int) -> Unit) {
