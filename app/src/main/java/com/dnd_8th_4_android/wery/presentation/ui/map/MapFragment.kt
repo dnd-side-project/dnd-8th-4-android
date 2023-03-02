@@ -400,8 +400,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
             missionMarkerArr.add(missionMarker)
         }
 
-        val convertToArrayItem =
-            missionMarkerArr.toArray(arrayOfNulls<MapPOIItem>(missionMarkerArr.size))
+        val convertToArrayItem = missionMarkerArr.toArray(arrayOfNulls<MapPOIItem>(missionMarkerArr.size))
         mapView.addPOIItems(convertToArrayItem)
     }
 
