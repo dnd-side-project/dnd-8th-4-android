@@ -15,7 +15,7 @@
             style="@style/TextView.Title.16.Sb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="마이페이지"
+            android:text="@string/mypage_title"
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="@+id/iv_configuration"
             app:layout_constraintEnd_toEndOf="parent"

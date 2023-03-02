@@ -279,6 +279,7 @@
     <string name="alert_invite_deny_message">초대를 거절했습니다.</string>
 
     <!-- MyPageFragment -->
+    <string name="mypage_title">마이페이지</string>
     <string name="mypage_mission">완료한 미션</string>
     <string name="mypage_bookmark">북마크한 글</string>
     <string name="mypage_post">작성한 글</string>
@@ -294,6 +295,12 @@
     <string name="mypage_post_title">작성한 글</string>
     <string name="mypage_comment_title">댓글 쓴 글</string>
 
+    <!-- ProfileChangeActivity -->
+    <string name="profile_change_title">프로필 수정</string>
+    <string name="profile_change_nickname">별명</string>
+    <string name="profile_change_success">완료</string>
+    <string name="profile_change_bottom_album">앨범에서 선택</string>
+    <string name="profile_change_bottom_remove">프로필 사진 삭제</string>
 
 
 </resources>
