@@ -26,6 +26,7 @@ class CreateMissionViewModel @Inject constructor(private val missionRepository: 
     var missionGroupState = MutableLiveData<Boolean>(false)
     var missionNameState = MutableLiveData<Boolean>(false)
     var missionPlaceState = MutableLiveData<Boolean>(false)
+    var missionAddress = MutableLiveData<String>()
 
     private val _groupId: MutableLiveData<Long> = MutableLiveData()
     val groupId: LiveData<Long> = _groupId
@@ -57,8 +58,9 @@ class CreateMissionViewModel @Inject constructor(private val missionRepository: 
     private val _isLoading: MutableLiveData<Boolean> = MutableLiveData()
     val isLoading: LiveData<Boolean> = _isLoading
 
-    fun setSelectedPlace(stringValue: String) {
-        _selectedPlaceTxt.value = stringValue
+    fun setSelectedPlace(placeValue: String, addressValue:String) {
+        _selectedPlaceTxt.value = placeValue
+        missionAddress.value = addressValue
     }
 
     fun getGroupList() {
@@ -109,6 +111,7 @@ class CreateMissionViewModel @Inject constructor(private val missionRepository: 
             missionStartDate = mStart,
             missionEndDate = mEnd,
             missionLocationName = _selectedPlaceTxt.value!!,
+            missionLocationAddress = missionAddress.value!!,
             latitude = _selectedLatitude.value!!,
             longitude = _selectedLongitude.value!!,
             missionColor = _missionColor.value!!

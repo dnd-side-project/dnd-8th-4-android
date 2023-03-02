@@ -35,8 +35,11 @@ class CreateMissionActivity :
 
                 val long = it.data?.getDoubleExtra("selectedX", 0.0)!!
                 val lat = it.data?.getDoubleExtra("selectedY", 0.0)!!
-
-                viewModel.setSelectedPlace(selectedPlace)
+                var locationAddress = ""
+                if (it.data?.hasExtra("LocationAddress") == true) {
+                    locationAddress = it.data?.getStringExtra("LocationAddress")!!
+                }
+                viewModel.setSelectedPlace(selectedPlace, locationAddress)
                 viewModel.setLocationXY(lat, long)
             }
         }
@@ -57,7 +60,7 @@ class CreateMissionActivity :
             addTab(this.newTab().setText(resources.getString(R.string.create_mission_due_exist)))
             addTab(this.newTab().setText(resources.getString(R.string.create_mission_due_no_exist)))
         }
-        viewModel.setSelectedPlace(resources.getString(R.string.create_mission_place_hint))
+        viewModel.setSelectedPlace(resources.getString(R.string.create_mission_place_hint),"")
         viewModel.setTodayDate()
     }
 
