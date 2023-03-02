@@ -34,12 +34,6 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
 
     val isSelectGroupId = MutableLiveData(-1)
 
-    private val _pageNumber = MutableLiveData(0)
-    val pageNumber: LiveData<Int> = _pageNumber
-
-    private val _isNoData = MutableLiveData(false)
-    val isNoData: LiveData<Boolean> = _isNoData
-
     // 등록된 그룹 조회
     fun getSignGroup() {
         viewModelScope.launch {
@@ -72,16 +66,15 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
         viewModelScope.launch {
             kotlin.runCatching {
                 if (isSelectGroupId.value == -1) {
-                    homeRepository.allGroupPost(groupAllIdList.joinToString(), _pageNumber.value!!)
+                    homeRepository.allGroupPost(groupAllIdList.joinToString(), 1)
                 } else {
                     homeRepository.allGroupPost(
                         isSelectGroupId.value.toString(),
-                        _pageNumber.value!!
+                        1
                     )
                 }
             }.onSuccess {
                 _postList.value = it.data
-                _isNoData.value = it.data.content.size != _pageNumber.value!! * 10
                 _isLoading.value = false
             }.onFailure {
                 Timber.tag("error").d(it.message.toString())
@@ -112,13 +105,5 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
                 Timber.tag("error").d(it.message.toString())
             }
         }
-    }
-
-    fun setPageNumber(pageNumber: Int) {
-        _pageNumber.value = pageNumber
-    }
-
-    fun setUpPageNumber() {
-        _pageNumber.value = _pageNumber.value!! + 1
     }
 }

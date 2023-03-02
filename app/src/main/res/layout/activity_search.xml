@@ -69,6 +69,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <View
+            android:id="@+id/view_line"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/gray100"
@@ -77,9 +78,11 @@
         <ImageView
             android:id="@+id/iv_search"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:background="@color/gray50"
-            android:src="@drawable/img_search" />
+            android:src="@drawable/img_search"
+            app:layout_constraintTop_toBottomOf="@id/view_line"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_search"

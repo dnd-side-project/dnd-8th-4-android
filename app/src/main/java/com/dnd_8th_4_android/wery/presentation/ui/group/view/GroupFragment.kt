@@ -1,7 +1,9 @@
 package com.dnd_8th_4_android.wery.presentation.ui.group.view
 
 import android.content.Intent
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModel
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.databinding.FragmentGroupBinding
 import com.dnd_8th_4_android.wery.presentation.ui.alert.view.AlertPopupActivity
@@ -42,6 +44,10 @@ class GroupFragment : BaseFragment<FragmentGroupBinding>(R.layout.fragment_group
         viewModel.isLoading.observe(viewLifecycleOwner) {
             if (it) showLoadingDialog()
             else dismissLoadingDialog()
+        }
+
+        viewModel.isExistGroup.observe(viewLifecycleOwner) {
+            binding.activityNoGroup.isVisible = !it
         }
 
         viewModel.isExistBookmarkGroup.observe(viewLifecycleOwner) { isExistGroup ->

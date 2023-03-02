@@ -46,7 +46,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         binding.vm = homeViewModel
 
         homeViewModel.getSignGroup()
-        homeViewModel.setPageNumber(1)
     }
 
     override fun initStartView() {
@@ -91,7 +90,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             Handler(Looper.getMainLooper())
                 .postDelayed({
                     binding.activityGroup.layoutSwipeRefresh.isRefreshing = false
-                    homeViewModel.setPageNumber(1)
                     homeViewModel.getSignGroup()
                 }, 1000)
         }
@@ -124,10 +122,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             postRecyclerViewAdapter.submitList(it.content.toMutableList())
         }
 
-        homeViewModel.pageNumber.observe(viewLifecycleOwner) {
-            binding.activityGroup.scrollView.fullScroll(ScrollView.FOCUS_UP)
-        }
-
         homeViewModel.isNoAccess.observe(viewLifecycleOwner) {
             requireActivity().finish()
             startActivity(Intent(requireActivity(), SignActivity::class.java))
@@ -146,7 +140,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                     Handler(Looper.getMainLooper())
                         .postDelayed({
                             binding.activityGroup.layoutSwipeRefresh.isRefreshing = false
-                            homeViewModel.setPageNumber(1)
                             homeViewModel.getSignGroup()
                         }, 1000)
                 }
@@ -163,26 +156,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         binding.activityGroup.ivAllGroup.setOnClickListener {
             if (groupRecyclerViewAdapter.selectedItemImage != binding.activityGroup.ivAllGroup) {
                 initSelectedGroup()
-                homeViewModel.setPageNumber(1)
                 homeViewModel.isSelectGroupId.value = -1
                 homeViewModel.getGroupPost()
             }
         }
-
-        binding.activityGroup.scrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, _, _, _, _ ->
-            if (homeViewModel.isLoading.value == false && homeViewModel.isNoData.value != true && !v.canScrollVertically(
-                    1
-                )
-            ) {
-                homeViewModel.setUpPageNumber()
-
-                if (homeViewModel.isSelectGroupId.value!! != 0) {
-                    homeViewModel.getGroupPost()
-                } else {
-                    homeViewModel.getGroupPost()
-                }
-            }
-        })
 
         binding.ivNotification.setOnClickListener {
             startActivity(Intent(requireContext(), AlertPopupActivity::class.java))

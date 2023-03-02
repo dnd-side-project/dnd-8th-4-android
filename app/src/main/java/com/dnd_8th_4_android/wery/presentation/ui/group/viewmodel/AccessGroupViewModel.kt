@@ -60,7 +60,7 @@ class AccessGroupViewModel @Inject constructor(private val groupRepository: Grou
             }.onSuccess {
                 _postList.value = it.data
                 _isLoading.value = false
-                _isNoData.value = it.data.content.size != _pageNumber.value!! * 10
+                _isNoData.value = it.data.last
             }.onFailure {
                 Timber.tag("error").d(it.message.toString())
             }
@@ -149,6 +149,11 @@ class AccessGroupViewModel @Inject constructor(private val groupRepository: Grou
 
     fun setPageNumber(pageNumber: Int) {
         _pageNumber.value = pageNumber
+
+    }
+
+    fun setDownPageNumber() {
+        _pageNumber.value = _pageNumber.value!! - 1
     }
 
     fun setUpPageNumber() {

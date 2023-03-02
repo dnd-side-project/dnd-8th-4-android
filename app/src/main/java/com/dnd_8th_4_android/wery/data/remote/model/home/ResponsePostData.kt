@@ -8,6 +8,8 @@ data class ResponsePostData(
 ) : BaseResponse() {
     data class Data(
         var content: MutableList<Content>,
+        val totalPages: Int,
+        val last: Boolean,
     ) {
         data class Content(
             val id: Int,

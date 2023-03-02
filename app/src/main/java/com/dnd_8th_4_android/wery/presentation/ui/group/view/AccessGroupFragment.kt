@@ -184,13 +184,8 @@ class AccessGroupFragment :
         }
 
         viewModel.postList.observe(viewLifecycleOwner) {
-            if (it.content.isNotEmpty()) {
-                binding.layoutNoPost.isVisible = false
-                binding.layoutFinalPost.isVisible = true
-            } else {
-                binding.layoutNoPost.isVisible = true
-                binding.layoutFinalPost.isVisible = false
-            }
+            binding.layoutNoPost.isVisible = it.content.isEmpty()
+            binding.tvFinalPageNumber.text = it.totalPages.toString()
 
             postRecyclerViewAdapter.submitList(it.content)
         }
@@ -201,6 +196,7 @@ class AccessGroupFragment :
         }
 
         viewModel.pageNumber.observe(viewLifecycleOwner) {
+            binding.tvPageNumber.text = it.toString()
             binding.scrollView.fullScroll(ScrollView.FOCUS_UP)
         }
     }
@@ -247,15 +243,19 @@ class AccessGroupFragment :
             }
         }
 
-        binding.scrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, _, _, _, _ ->
-            if (viewModel.isLoading.value == false && viewModel.isNoData.value != true && !v.canScrollVertically(
-                    1
-                )
-            ) {
+        binding.btnPrevious.setOnClickListener {
+            if (viewModel.pageNumber.value != 1) {
+                viewModel.setDownPageNumber()
+                viewModel.getGroupPost()
+            }
+        }
+
+        binding.btnAfter.setOnClickListener {
+            if (viewModel.isNoData.value != true) {
                 viewModel.setUpPageNumber()
                 viewModel.getGroupPost()
             }
-        })
+        }
 
         viewModel.isCertify.observe(viewLifecycleOwner) {
             if (it) {

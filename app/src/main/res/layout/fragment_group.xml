@@ -90,7 +90,7 @@
                 android:visibility="gone"
                 android:layout_marginBottom="?android:attr/actionBarSize"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/layout_home_top">
+                app:layout_constraintTop_toBottomOf="@id/layout_group_top">
 
                 <ImageView
                     android:id="@+id/iv_noGroup"
@@ -293,7 +293,7 @@
                         dividerHeight="@{@dimen/group_list_item_divider_height}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="?android:attr/actionBarSize"
+                        android:layout_marginBottom="136dp"
                         android:orientation="vertical"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintBottom_toBottomOf="parent"

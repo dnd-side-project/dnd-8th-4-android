@@ -36,8 +36,10 @@ class PopupBottomDialog(
         viewModel.isSelectedBookmark.observe(viewLifecycleOwner) {
             if (it) {
                 binding.tvBookmark.text = resources.getString(R.string.bottom_sheet_bookmark_cancel)
+                showToast(resources.getString(R.string.bottom_sheet_on_bookmark_toast))
             } else {
                 binding.tvBookmark.text = resources.getString(R.string.bottom_sheet_bookmark)
+                showToast(resources.getString(R.string.bottom_sheet_off_bookmark_toast))
             }
             binding.ivBookmark.isSelected = it
         }
@@ -46,10 +48,15 @@ class PopupBottomDialog(
             viewModel.setBookmark(contentId)
         }
 
+        binding.layoutClip.setOnClickListener {
+            showToast(resources.getString(R.string.bottom_sheet_clip_toast))
+        }
+
         binding.layoutDelete.setOnClickListener {
             val postRemoveDialog = PostRemoveDialog()
             postRemoveDialog.setOnPostDeleteListener {
                 viewModel.setPostDelete(contentId)
+                showToast(resources.getString(R.string.bottom_sheet_remove_toast))
                 dialog!!.dismiss()
             }
             postRemoveDialog.show(childFragmentManager, null)
