@@ -26,7 +26,7 @@ import com.dnd_8th_4_android.wery.presentation.ui.detail.adapter.PostDetailImage
 import com.dnd_8th_4_android.wery.presentation.ui.detail.adapter.PostDetailStickerRecyclerViewAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.detail.viewmodel.PostDetailViewModel
 import com.dnd_8th_4_android.wery.presentation.ui.home.adapter.PostRecyclerViewAdapter
-import com.dnd_8th_4_android.wery.presentation.util.PopupBottomDialog
+import com.dnd_8th_4_android.wery.presentation.util.PostPopupBottomDialog
 import com.dnd_8th_4_android.wery.presentation.util.hideKeyboard
 import com.dnd_8th_4_android.wery.presentation.util.showKeyboard
 import dagger.hilt.android.AndroidEntryPoint
@@ -163,7 +163,7 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
         }
 
         binding.ivPopup.setOnClickListener {
-            val bottomSheet = PopupBottomDialog(
+            val bottomSheet = PostPopupBottomDialog(
                 contentId,
                 userId,
                 bookmarkAddStatus

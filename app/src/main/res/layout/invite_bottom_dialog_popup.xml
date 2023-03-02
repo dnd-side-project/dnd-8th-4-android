@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bottom_sheet_dialog_24"
+        android:orientation="vertical"
+        android:paddingBottom="12dp">
+
+        <View
+            android:id="@+id/view_line"
+            android:layout_width="44dp"
+            android:layout_height="4dp"
+            android:layout_gravity="center"
+            android:layout_marginVertical="16dp"
+            android:background="@drawable/shape_e0e2e5_radius_4" />
+
+        <TextView
+            style="@style/TextView.Title.16.Sb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="20dp"
+            android:layout_marginStart="16dp"
+            android:text="@string/bottom_sheet_invite_title"
+            android:textColor="@color/black" />
+
+        <LinearLayout
+            android:id="@+id/layout_clip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingVertical="14dp"
+            android:paddingStart="16dp">
+
+            <ImageView
+                android:id="@+id/iv_clip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_clip_circle" />
+
+            <TextView
+                android:id="@+id/tv_bookmark"
+                style="@style/TextView.Body.16.R"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:text="@string/bottom_sheet_clip"
+                android:textColor="@color/black" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_invite"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingVertical="14dp"
+            android:paddingStart="16dp">
+
+            <ImageView
+                android:id="@+id/iv_invite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_invite_circle" />
+
+            <TextView
+                android:id="@+id/tv_invite"
+                style="@style/TextView.Body.16.R"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:text="@string/bottom_sheet_invite_toast"
+                android:textColor="@color/black" />
+        </LinearLayout>
+    </LinearLayout>
+</layout>

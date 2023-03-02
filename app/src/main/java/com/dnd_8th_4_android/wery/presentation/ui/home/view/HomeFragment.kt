@@ -3,13 +3,11 @@ package com.dnd_8th_4_android.wery.presentation.ui.home.view
 import android.content.Intent
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.PopupWindow
 import android.widget.ScrollView
 import androidx.core.view.isVisible
-import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.viewModels
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.data.remote.model.home.RequestEmotionStatus
@@ -25,7 +23,7 @@ import com.dnd_8th_4_android.wery.presentation.ui.home.viewmodel.HomeViewModel
 import com.dnd_8th_4_android.wery.presentation.ui.post.upload.view.UploadPostActivity
 import com.dnd_8th_4_android.wery.presentation.ui.search.view.SearchPostActivity
 import com.dnd_8th_4_android.wery.presentation.ui.sign.view.SignActivity
-import com.dnd_8th_4_android.wery.presentation.util.PopupBottomDialog
+import com.dnd_8th_4_android.wery.presentation.util.PostPopupBottomDialog
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -73,7 +71,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
         postRecyclerViewAdapter.apply {
             setPopupBottomClickListener { contentId, postMine, isSelected ->
-                val bottomSheet = PopupBottomDialog(contentId, postMine, isSelected)
+                val bottomSheet = PostPopupBottomDialog(contentId, postMine, isSelected)
                 bottomSheet.setOnBookmarkListener {
                     homeViewModel.getGroupPost()
                 }

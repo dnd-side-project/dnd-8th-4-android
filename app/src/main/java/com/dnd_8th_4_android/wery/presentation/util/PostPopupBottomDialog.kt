@@ -5,19 +5,19 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.data.local.AuthLocalDataSource
-import com.dnd_8th_4_android.wery.databinding.BottomDialogPopupBinding
+import com.dnd_8th_4_android.wery.databinding.PostBottomDialogPopupBinding
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseBottomDialogFragment
 import com.dnd_8th_4_android.wery.presentation.ui.post.upload.view.UploadPostActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class PopupBottomDialog(
+class PostPopupBottomDialog(
     private val contentId: Int,
     private val postMine: Int,
     private val selected: Boolean,
 ) :
-    BaseBottomDialogFragment<BottomDialogPopupBinding>(R.layout.bottom_dialog_popup) {
-    private val viewModel: PopupBottomViewModel by viewModels()
+    BaseBottomDialogFragment<PostBottomDialogPopupBinding>(R.layout.post_bottom_dialog_popup) {
+    private val viewModel: PostPopupBottomViewModel by viewModels()
     private lateinit var onBookmarkListener: OnBookMarkListener
 
     override fun initAfterBinding() {
@@ -36,16 +36,20 @@ class PopupBottomDialog(
         viewModel.isSelectedBookmark.observe(viewLifecycleOwner) {
             if (it) {
                 binding.tvBookmark.text = resources.getString(R.string.bottom_sheet_bookmark_cancel)
-                showToast(resources.getString(R.string.bottom_sheet_on_bookmark_toast))
             } else {
                 binding.tvBookmark.text = resources.getString(R.string.bottom_sheet_bookmark)
-                showToast(resources.getString(R.string.bottom_sheet_off_bookmark_toast))
             }
             binding.ivBookmark.isSelected = it
         }
 
         binding.layoutBookmark.setOnClickListener {
             viewModel.setBookmark(contentId)
+
+            if (viewModel.isSelectedBookmark.value == true) {
+                showToast(resources.getString(R.string.bottom_sheet_off_bookmark_toast))
+            } else {
+                showToast(resources.getString(R.string.bottom_sheet_on_bookmark_toast))
+            }
         }
 
         binding.layoutClip.setOnClickListener {

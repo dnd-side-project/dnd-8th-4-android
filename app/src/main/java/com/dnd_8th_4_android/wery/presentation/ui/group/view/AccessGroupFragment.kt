@@ -8,14 +8,12 @@ import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
 import android.provider.Settings
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.PopupWindow
 import android.widget.ScrollView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
-import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -35,7 +33,7 @@ import com.dnd_8th_4_android.wery.presentation.ui.mission.view.MissionDetailActi
 import com.dnd_8th_4_android.wery.presentation.ui.post.upload.view.UploadPostActivity
 import com.dnd_8th_4_android.wery.presentation.ui.search.view.SearchPostActivity
 import com.dnd_8th_4_android.wery.presentation.util.DialogFragmentUtil
-import com.dnd_8th_4_android.wery.presentation.util.PopupBottomDialog
+import com.dnd_8th_4_android.wery.presentation.util.PostPopupBottomDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -102,7 +100,7 @@ class AccessGroupFragment :
         postRecyclerViewAdapter = PostRecyclerViewAdapter()
         postRecyclerViewAdapter.apply {
             setPopupBottomClickListener { contentId, postMine, isSelected ->
-                val bottomSheet = PopupBottomDialog(contentId, postMine, isSelected)
+                val bottomSheet = PostPopupBottomDialog(contentId, postMine, isSelected)
                 bottomSheet.setOnBookmarkListener {
                     viewModel.getGroupPost()
                 }
@@ -237,10 +235,14 @@ class AccessGroupFragment :
         }
 
         binding.btnInviteSearch.setOnClickListener {
-            Intent(requireContext(), UserSearchActivity::class.java).apply {
-                putExtra(GroupListRecyclerViewAdapter.GROUP_Id, viewModel.isSelectGroupId.value)
-                startActivity(this)
+            val bottomSheet = InvitePopupBottomDialog()
+            bottomSheet.setOnInviteListener {
+                Intent(requireContext(), UserSearchActivity::class.java).apply {
+                    putExtra(GroupListRecyclerViewAdapter.GROUP_Id, viewModel.isSelectGroupId.value)
+                    startActivity(this)
+                }
             }
+            bottomSheet.show(childFragmentManager, bottomSheet.tag)
         }
 
         binding.btnPrevious.setOnClickListener {

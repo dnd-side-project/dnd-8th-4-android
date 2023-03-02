@@ -181,6 +181,8 @@
     <string name="bottom_sheet_on_bookmark_toast">북마크 완료!</string>
     <string name="bottom_sheet_off_bookmark_toast">북마크가 해제되었어요!</string>
     <string name="bottom_sheet_remove_toast">성공적으로 삭제되었어요!</string>
+    <string name="bottom_sheet_invite_title">함께 할 친구를 초대해 보세요</string>
+    <string name="bottom_sheet_invite_toast">앱에서 초대하기</string>
 
     <!-- dialogFragmentRemove -->
     <string name="post_cancel">취소</string>

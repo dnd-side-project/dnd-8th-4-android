@@ -11,7 +11,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class PopupBottomViewModel @Inject constructor(private val popupBottomRepository: PopupBottomRepository) :
+class PostPopupBottomViewModel @Inject constructor(private val popupBottomRepository: PopupBottomRepository) :
     ViewModel() {
 
     private val _isSelectedBookmark = MutableLiveData<Boolean>()
