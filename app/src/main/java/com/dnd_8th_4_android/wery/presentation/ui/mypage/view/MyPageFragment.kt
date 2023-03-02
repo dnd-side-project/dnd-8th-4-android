@@ -18,9 +18,12 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
         const val USER_NAME = "user_name"
     }
 
-    override fun initStartView() {
+    override fun onResume() {
+        super.onResume()
         viewModel.getMyInfo()
+    }
 
+    override fun initStartView() {
         binding.ivMyImage.clipToOutline = true
     }
 
@@ -41,5 +44,5 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
         }
     }
 
-    override fun initAfterBinding() { }
+    override fun initAfterBinding() {}
 }

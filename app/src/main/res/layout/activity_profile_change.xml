@@ -42,7 +42,7 @@
             style="@style/TextView.Body.14.M"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:enabled="false"
+            android:enabled="@{vm.isEnabled}"
             android:paddingVertical="16dp"
             android:paddingEnd="20dp"
             android:text="@string/profile_change_success"
