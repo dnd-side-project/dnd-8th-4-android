@@ -29,4 +29,7 @@ interface MissionRepository {
         body: RequestMissionCertifyData
     ): ResponseMissionCertifyData
 
+    suspend fun missionDetail(
+        stickerGroupId: Int
+    ): ResponseStickerDetail
 }

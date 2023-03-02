@@ -3,7 +3,6 @@ package com.dnd_8th_4_android.wery.presentation.ui.mission.sticker.view
 import android.content.Intent
 import androidx.fragment.app.viewModels
 import com.dnd_8th_4_android.wery.R
-import com.dnd_8th_4_android.wery.data.remote.model.mission.ResponseSticker
 import com.dnd_8th_4_android.wery.databinding.FragmentStickerBinding
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseFragment
 import com.dnd_8th_4_android.wery.presentation.ui.mission.sticker.adapter.StickerAdapter
@@ -27,7 +26,13 @@ class StickerFragment : BaseFragment<FragmentStickerBinding>(R.layout.fragment_s
     }
 
     override fun initDataBinding() {
+        viewModel.isLoading.observe(viewLifecycleOwner) {
+            if (it) showLoadingDialog()
+            else dismissLoadingDialog()
+        }
+
         viewModel.missionStatusList.observe(viewLifecycleOwner) {
+
             stickerAdapter.submitList(it.acquisitionStickerInfo)
 
             binding.tvStartLevel.text =

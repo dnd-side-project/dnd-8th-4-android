@@ -3,6 +3,7 @@ package com.dnd_8th_4_android.wery.data.remote.datasource
 import com.dnd_8th_4_android.wery.data.remote.model.BaseResponse
 import com.dnd_8th_4_android.wery.data.remote.model.mission.*
 import com.dnd_8th_4_android.wery.data.remote.model.post.ResponseGroupList
+import retrofit2.http.Query
 
 interface MissionDataSource {
 
@@ -28,4 +29,8 @@ interface MissionDataSource {
     suspend fun missionCertify(
         body: RequestMissionCertifyData,
     ): ResponseMissionCertifyData
+
+    suspend fun missionDetail(
+        stickerGroupId: Int
+    ): ResponseStickerDetail
 }

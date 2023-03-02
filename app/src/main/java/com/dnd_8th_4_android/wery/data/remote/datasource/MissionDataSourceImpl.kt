@@ -44,4 +44,8 @@ class MissionDataSourceImpl @Inject constructor(private val missionService: Miss
     override suspend fun missionCertify(body: RequestMissionCertifyData): ResponseMissionCertifyData {
         return missionService.missionCertify(body)
     }
+
+    override suspend fun missionDetail(stickerGroupId: Int): ResponseStickerDetail {
+        return missionService.missionDetail(stickerGroupId)
+    }
 }

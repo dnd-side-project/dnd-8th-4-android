@@ -40,4 +40,8 @@ class MissionRepositoryImpl @Inject constructor(private val missionDataSource: M
     override suspend fun missionCertify(body: RequestMissionCertifyData): ResponseMissionCertifyData {
         return missionDataSource.missionCertify(body)
     }
+
+    override suspend fun missionDetail(stickerGroupId: Int): ResponseStickerDetail {
+        return missionDataSource.missionDetail(stickerGroupId)
+    }
 }

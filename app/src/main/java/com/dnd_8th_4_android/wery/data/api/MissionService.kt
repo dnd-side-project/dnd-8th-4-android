@@ -44,4 +44,9 @@ interface MissionService {
     suspend fun missionCertify(
         @Body body: RequestMissionCertifyData
     ): ResponseMissionCertifyData
+
+    @GET("/sticker/list/my")
+    suspend fun missionDetail(
+        @Query("stickerGroupId") stickerGroupId: Int
+    ): ResponseStickerDetail
 }
