@@ -86,4 +86,10 @@ object RepositoryModule {
     fun provideMapRepository(mapDataSource: MapDataSource): MapRepository {
         return MapRepositoryImpl(mapDataSource)
     }
+
+    @Provides
+    @Singleton
+    fun provideMyPageRepository(myPageDataSource: MyPageDataSource): MyPageRepository {
+        return MyPageRepositoryImpl(myPageDataSource)
+    }
 }
