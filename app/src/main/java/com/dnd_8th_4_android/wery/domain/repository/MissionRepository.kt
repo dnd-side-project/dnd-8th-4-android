@@ -3,6 +3,8 @@ package com.dnd_8th_4_android.wery.domain.repository
 import com.dnd_8th_4_android.wery.data.remote.model.BaseResponse
 import com.dnd_8th_4_android.wery.data.remote.model.mission.*
 import com.dnd_8th_4_android.wery.data.remote.model.post.ResponseGroupList
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 
 interface MissionRepository {
 
@@ -32,4 +34,9 @@ interface MissionRepository {
     suspend fun missionDetail(
         stickerGroupId: Int
     ): ResponseStickerDetail
+
+    suspend fun uploadMissionFeed(
+        data: HashMap<String, RequestBody>,
+        images: MutableList<MultipartBody.Part>
+    ): ResponseMissionFeed
 }

@@ -5,6 +5,8 @@ import com.dnd_8th_4_android.wery.data.remote.model.BaseResponse
 import com.dnd_8th_4_android.wery.data.remote.model.mission.*
 import com.dnd_8th_4_android.wery.data.remote.model.post.ResponseGroupList
 import com.dnd_8th_4_android.wery.domain.repository.MissionRepository
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import javax.inject.Inject
 
 class MissionRepositoryImpl @Inject constructor(private val missionDataSource: MissionDataSource): MissionRepository {
@@ -34,14 +36,21 @@ class MissionRepositoryImpl @Inject constructor(private val missionDataSource: M
     }
 
     override suspend fun getMyGroupList(): Result<ResponseGroupList> {
-       return missionDataSource.getGroupList()
-     }
-     
+        return missionDataSource.getGroupList()
+    }
+
     override suspend fun missionCertify(body: RequestMissionCertifyData): ResponseMissionCertifyData {
         return missionDataSource.missionCertify(body)
     }
 
     override suspend fun missionDetail(stickerGroupId: Int): ResponseStickerDetail {
         return missionDataSource.missionDetail(stickerGroupId)
+    }
+
+    override suspend fun uploadMissionFeed(
+        data: HashMap<String, RequestBody>,
+        images: MutableList<MultipartBody.Part>
+    ): ResponseMissionFeed {
+        return missionDataSource.uploadMissionFeed(data, images)
     }
 }
