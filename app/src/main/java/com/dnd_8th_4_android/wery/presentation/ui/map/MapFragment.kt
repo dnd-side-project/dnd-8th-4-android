@@ -12,6 +12,8 @@ import android.location.LocationManager
 import android.net.Uri
 import android.provider.Settings
 import android.util.DisplayMetrics
+import android.util.Log
+import android.view.DragEvent
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
@@ -34,9 +36,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
+import net.daum.mf.map.api.MapView.MapViewEventListener
 
 @AndroidEntryPoint
-class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map){
+class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), MapViewEventListener{
 
     private lateinit var eventListener: MarkerEventListener
 
@@ -80,7 +83,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map){
                     )
                 )
 
-                mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(mapViewModel.searchResult.value!!.y,mapViewModel.searchResult.value!!.x),false)
+                mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(mapViewModel.searchResult.value!!.y,mapViewModel.searchResult.value!!.x),true)
                 /** 검색한 장소가 존재할 때
                  * 검색결과의 x,y 위치를 지도 마커로 찍어준다
                  * 그 이후 해당 좌표를 중점으로 '피드'와 '미션'을 받아온다*/
@@ -152,13 +155,17 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map){
     @SuppressLint("ClickableViewAccessibility")
     private fun initMapView() {
         binding.layoutMapView.addView(mapView)
-        mapView.setOnTouchListener { v, event ->
+        /*mapView.setOnTouchListener { v, event ->
             val action = event.action
             if (action == MotionEvent.ACTION_MOVE) return@setOnTouchListener true
             false
-        }
+        }*/
         eventListener = MarkerEventListener()
         mapView.setPOIItemEventListener(eventListener)
+        mapView.setMapViewEventListener(this)
+
+
+
 
         getMyCurrentLocation()
         //showFeedMarkerList()
@@ -240,24 +247,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map){
             intent.putExtra("missionId", it.data.groupId)
             binding.includeLayoutMission.root.setOnClickListener {
                 startActivity(intent)
-            }
-        }
-
-        mapViewModel.isBottomDialogShowing.observe(viewLifecycleOwner) {
-            if (it) {
-                mapView.setMapViewEventListener(object : MapView.MapViewEventListener {
-                    override fun onMapViewInitialized(p0: MapView?) {}
-                    override fun onMapViewCenterPointMoved(p0: MapView?, p1: MapPoint?) {}
-                    override fun onMapViewZoomLevelChanged(p0: MapView?, p1: Int) {}
-                    override fun onMapViewSingleTapped(p0: MapView?, p1: MapPoint?) {
-                        setDialogEventPop()
-                    }
-                    override fun onMapViewDoubleTapped(p0: MapView?, p1: MapPoint?) {}
-                    override fun onMapViewLongPressed(p0: MapView?, p1: MapPoint?) {}
-                    override fun onMapViewDragStarted(p0: MapView?, p1: MapPoint?) {}
-                    override fun onMapViewDragEnded(p0: MapView?, p1: MapPoint?) {}
-                    override fun onMapViewMoveFinished(p0: MapView?, p1: MapPoint?) {}
-                })
             }
         }
     }
@@ -520,6 +509,43 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map){
             mapPoint: MapPoint?
         ) {
         }
+    }
+
+    override fun onMapViewInitialized(p0: MapView?) {
+        Log.d("kite","onMapViewInitialized"+p0!!.mapCenterPoint.mapPointGeoCoord.latitude.toString())
+    }
+
+    override fun onMapViewCenterPointMoved(p0: MapView?, p1: MapPoint?) {
+        Log.d("kite","onMapViewCenterPointMoved"+p0!!.mapCenterPoint.mapPointGeoCoord.latitude.toString())
+    }
+
+    override fun onMapViewZoomLevelChanged(p0: MapView?, p1: Int) {
+    }
+
+    override fun onMapViewSingleTapped(p0: MapView?, p1: MapPoint?) {
+
+    }
+
+    override fun onMapViewDoubleTapped(p0: MapView?, p1: MapPoint?) {
+
+    }
+
+    override fun onMapViewLongPressed(p0: MapView?, p1: MapPoint?) {
+
+    }
+
+    override fun onMapViewDragStarted(p0: MapView?, p1: MapPoint?) {
+    }
+
+    override fun onMapViewDragEnded(p0: MapView?, p1: MapPoint?) {
+        Log.d("kite","onMapViewDragEnded"+p0!!.mapCenterPoint.mapPointGeoCoord.latitude.toString())
+
+    }
+
+    override fun onMapViewMoveFinished(p0: MapView?, p1: MapPoint?) {
+        Log.d("kite","onMapViewMoveFinished"+p0!!.mapCenterPoint.mapPointGeoCoord.latitude.toString())
+        setMapBoundsPoint()
+        mapViewModel.getMissionList(mapViewModel.getCurrentMapBounds())
     }
 
 }
