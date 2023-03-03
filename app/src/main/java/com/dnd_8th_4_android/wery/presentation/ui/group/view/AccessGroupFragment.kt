@@ -9,6 +9,7 @@ import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
 import android.provider.Settings
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.PopupWindow
@@ -240,7 +241,7 @@ class AccessGroupFragment :
         binding.tvGroupName.text =
             requireArguments().getString(GroupListRecyclerViewAdapter.GROUP_NAME)
         binding.tvGroupMemberNumber.text =
-            requireArguments().getString(GroupListRecyclerViewAdapter.GROUP_NUMBER)
+            requireArguments().getInt(GroupListRecyclerViewAdapter.GROUP_NUMBER).toString()
 
         binding.ivSearch.setOnClickListener {
             Intent(requireContext(), SearchPostActivity::class.java).apply {

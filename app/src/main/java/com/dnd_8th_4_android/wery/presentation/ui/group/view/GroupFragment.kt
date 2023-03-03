@@ -1,6 +1,7 @@
 package com.dnd_8th_4_android.wery.presentation.ui.group.view
 
 import android.content.Intent
+import android.util.Log
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
@@ -66,6 +67,7 @@ class GroupFragment : BaseFragment<FragmentGroupBinding>(R.layout.fragment_group
         }
 
         viewModel.groupList.observe(viewLifecycleOwner) {
+            Log.e("태그", it.toString())
             groupListViewAdapter.submitList(it)
             binding.tvGroupListCount.text = it.size.toString()
         }

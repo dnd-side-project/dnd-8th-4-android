@@ -173,7 +173,9 @@ class PostDetailViewModel @Inject constructor(
             kotlin.runCatching {
                 detailRepository.getSticker()
             }.onSuccess {
-                _stickerList.value = it.data[0].stickerInfoList
+                if (it.data.isNotEmpty()) {
+                    _stickerList.value = it.data[0].stickerInfoList
+                }
             }.onFailure {
                 Timber.tag("error").d(it.message.toString())
             }
