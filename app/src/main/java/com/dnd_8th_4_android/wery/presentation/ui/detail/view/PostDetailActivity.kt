@@ -98,7 +98,13 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
         viewModel.postDetailList.observe(this) {
             postDetailImageRecyclerViewAdapter.submitList(it.imageList)
             binding.tvHitCount.text = it.views.toString()
-            binding.tvLocation.text = it.location
+
+            if (it.location != null) {
+                binding.tvLocation.text = it.location
+            } else {
+                binding.tvLocation.text = resources.getString(R.string.home_item_no_location)
+            }
+
             binding.tvFriendName.text = it.userName
             userId = it.userId
             bookmarkAddStatus = it.bookmarkAddStatus
