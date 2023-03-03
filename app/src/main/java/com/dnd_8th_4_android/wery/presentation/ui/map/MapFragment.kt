@@ -14,7 +14,6 @@ import android.provider.Settings
 import android.util.DisplayMetrics
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
@@ -322,10 +321,11 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
         }
 
         binding.btnFloatingAction.setOnClickListener {
-            val intent = Intent(requireContext(), UploadPostActivity::class.java)
-            if (mapViewModel.searchPlaceTxt.value != resources.getString(R.string.map_search_hint)) intent.putExtra(
-                "placeName", mapViewModel.searchPlaceTxt.value
-            )
+            val intent = Intent(requireContext(), SearchPlaceActivity::class.java)
+            intent.putExtra("fromMapBtn",true)
+            //if (mapViewModel.searchPlaceTxt.value != resources.getString(R.string.map_search_hint)) intent.putExtra(
+            //    "placeName", mapViewModel.searchPlaceTxt.value
+            //)
             startActivity(intent)
         }
     }
