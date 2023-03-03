@@ -31,6 +31,7 @@ class SearchPlaceActivity :
     }
 
     private fun initStartView() {
+        if (intent.hasExtra("fromMapSearch")) binding.tvSelectGroup.text = "장소 검색하기"
         searchAdapter = SearchAdapter { data -> getSearchResult(data) }
         binding.rvSearchResult.adapter = searchAdapter
     }

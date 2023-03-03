@@ -310,7 +310,9 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
         }
 
         binding.tvSearchHint.setOnClickListener {
-            requestSearchActivity.launch(Intent(requireContext(), SearchPlaceActivity::class.java))
+            val intent = Intent(requireContext(),SearchPlaceActivity::class.java)
+            intent.putExtra("fromMapSearch",true)
+            requestSearchActivity.launch(intent)
         }
 
         binding.ivSearchClose.setOnClickListener {
