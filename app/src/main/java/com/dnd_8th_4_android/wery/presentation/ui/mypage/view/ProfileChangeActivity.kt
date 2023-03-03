@@ -71,6 +71,7 @@ class ProfileChangeActivity :
 
         binding.etNickname.setText(intent.getStringExtra(USER_NAME))
 
+        viewModel.setHttpUrl(intent.getStringExtra(USER_IMAGE) ?: "")
         viewModel.setTextCount(intent.getStringExtra(USER_NAME)!!.length)
     }
 
@@ -108,9 +109,9 @@ class ProfileChangeActivity :
         }
 
         binding.tvSuccess.setOnClickListener {
-            val data = viewModel.setNickNameRequestBodyData(binding.tvNickname.text.toString())
+            val data = viewModel.setNickNameRequestBodyData(binding.etNickname.text.toString())
             val galleryUri = viewModel.groupImg.value
-            val httpUri = intent.getStringExtra(USER_IMAGE)
+            val httpUri = viewModel.httpUri.value
             Thread {
                 kotlin.run {
                     var image: MultipartBody.Part? = null
@@ -192,6 +193,7 @@ class ProfileChangeActivity :
     private fun removePhoto() {
         Glide.with(this).load(R.drawable.img_group_default).into(binding.ivImage)
         viewModel.setImageUri("".toUri())
+        viewModel.setHttpUrl("")
         binding.tvSuccess.setTextColor(ContextCompat.getColor(this, R.color.black))
         viewModel.setEnabled()
     }

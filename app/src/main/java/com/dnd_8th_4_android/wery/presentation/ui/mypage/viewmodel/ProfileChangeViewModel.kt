@@ -3,6 +3,7 @@ package com.dnd_8th_4_android.wery.presentation.ui.mypage.viewmodel
 import android.net.Uri
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -24,6 +25,9 @@ class ProfileChangeViewModel @Inject constructor(private val myPageRepository: M
 
     private val _groupImg: MutableLiveData<Uri> = MutableLiveData("".toUri())
     val groupImg: LiveData<Uri> = _groupImg
+
+    private val _httpUri = MutableLiveData<String>()
+    val httpUri: LiveData<String> = _httpUri
 
     private val _isEnabled = MutableLiveData<Boolean>()
     val isEnabled: LiveData<Boolean> = _isEnabled
@@ -58,6 +62,10 @@ class ProfileChangeViewModel @Inject constructor(private val myPageRepository: M
 
     fun setImageUri(image: Uri) {
         _groupImg.value = image
+    }
+
+    fun setHttpUrl(imageUrl: String) {
+        _httpUri.value = imageUrl
     }
 
     fun setNickNameRequestBodyData(nickName: String): HashMap<String, RequestBody> {

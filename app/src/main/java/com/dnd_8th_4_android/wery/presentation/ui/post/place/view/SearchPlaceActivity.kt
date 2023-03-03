@@ -80,24 +80,24 @@ class SearchPlaceActivity :
     }
 
     private fun getSearchResult(data: Document) {
-        val intent = Intent()
-        intent.putExtra("selectedPlace", data.place_name)
-        intent.putExtra("LocationAddress",data.road_address_name)
-        intent.putExtra("selectedX",data.x)
-        intent.putExtra("selectedY",data.y)
-
         if (intent.hasExtra("fromMapBtn")) {
-            Intent(this,UploadPostActivity::class.java).apply {
-                putExtra("selectedPlace",data.place_name)
-                putExtra("LocationAddress",data.road_address_name)
-                putExtra("selectedX",data.x)
-                putExtra("selectedY",data.y)
-                putExtra("fromMapBtn",true)
+            Intent(this, UploadPostActivity::class.java).apply {
+                putExtra("selectedPlace", data.place_name)
+                putExtra("LocationAddress", data.road_address_name)
+                putExtra("selectedX", data.x)
+                putExtra("selectedY", data.y)
+                putExtra("fromMapBtn", true)
                 startActivity(this)
             }
+        } else {
+            Intent().apply {
+                putExtra("selectedPlace", data.place_name)
+                putExtra("LocationAddress", data.road_address_name)
+                putExtra("selectedX", data.x)
+                putExtra("selectedY", data.y)
+                setResult(RESULT_OK, this)
+            }
         }
-
-        setResult(RESULT_OK, intent)
         finish()
     }
 }
