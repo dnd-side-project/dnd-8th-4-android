@@ -87,6 +87,7 @@ class SearchPlaceActivity :
                 putExtra("selectedX", data.x)
                 putExtra("selectedY", data.y)
                 putExtra("fromMapBtn", true)
+                setResult(RESULT_OK,this)
                 startActivity(this)
             }
         } else {

@@ -30,7 +30,6 @@ import com.dnd_8th_4_android.wery.presentation.ui.base.BaseFragment
 import com.dnd_8th_4_android.wery.presentation.ui.map.adapter.MapFeedAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.mission.view.MissionDetailActivity
 import com.dnd_8th_4_android.wery.presentation.ui.post.place.view.SearchPlaceActivity
-import com.dnd_8th_4_android.wery.presentation.ui.post.upload.view.UploadPostActivity
 import com.dnd_8th_4_android.wery.presentation.util.DialogFragmentUtil
 import dagger.hilt.android.AndroidEntryPoint
 import net.daum.mf.map.api.MapPOIItem
@@ -88,7 +87,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
                         mapViewModel.searchResult.value!!.y,
                         mapViewModel.searchResult.value!!.x
                     ),
-                    5, true
+                    4, true
                 )
                 /** 검색한 장소가 존재할 때
                  * 이전에 띄워둔 모든 마커를 제거해주고
@@ -99,9 +98,32 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
             }
         }
 
+    private val requestUploadActivity =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { it ->
+            if (it.resultCode == Activity.RESULT_OK) {
+                val upLoadLatitude = it.data?.getDoubleExtra("selectedY", 0.0)
+                val upLoadLongitude = it.data?.getDoubleExtra("selectedX", 0.0)
+
+                mapViewModel.myCurrentLatitude.value = upLoadLatitude
+                mapViewModel.myCurrentLongitude.value = upLoadLongitude
+
+                mapView.setMapCenterPointAndZoomLevel(
+                    MapPoint.mapPointWithGeoCoord(
+                        mapViewModel.myCurrentLatitude.value!!,
+                        mapViewModel.myCurrentLongitude.value!!
+                    ), 4, false
+                )
+
+                setXY()
+                getSelectedPOItems()
+            }
+        }
+
     private fun getSelectedPOItems() {
         if (mapViewModel.filterType.value == 0) {
             setXY()
+            mapViewModel.getFeedList()
+            mapViewModel.getFeedList()
             mapViewModel.getFeedList()
         } else {
             setMapBoundsPoint()
@@ -164,20 +186,11 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
     @SuppressLint("ClickableViewAccessibility")
     private fun initMapView() {
         binding.layoutMapView.addView(mapView)
-        /*mapView.setOnTouchListener { v, event ->
-            val action = event.action
-            if (action == MotionEvent.ACTION_MOVE) return@setOnTouchListener true
-            false
-        }*/
         eventListener = MarkerEventListener()
         mapView.setPOIItemEventListener(eventListener)
         mapView.setMapViewEventListener(this)
 
-
         getMyCurrentLocation()
-        //showFeedMarkerList()
-        //showFeedMarkerList()
-        //showFeedMarkerList()
     }
 
     // 현재 위치 구하기
@@ -202,7 +215,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
             MapPoint.mapPointWithGeoCoord(
                 mapViewModel.myCurrentLatitude.value!!,
                 mapViewModel.myCurrentLongitude.value!!
-            ), 5, false
+            ), 4, false
         ) // 맵의 중심좌표 구하기
         mapView.currentLocationTrackingMode =
             MapView.CurrentLocationTrackingMode.TrackingModeOff // 트랙킹 모드 OFF
@@ -322,11 +335,12 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
 
         binding.btnFloatingAction.setOnClickListener {
             val intent = Intent(requireContext(), SearchPlaceActivity::class.java)
-            intent.putExtra("fromMapBtn",true)
+            intent.putExtra("fromMapBtn", true)
             //if (mapViewModel.searchPlaceTxt.value != resources.getString(R.string.map_search_hint)) intent.putExtra(
             //    "placeName", mapViewModel.searchPlaceTxt.value
             //)
-            startActivity(intent)
+            requestUploadActivity.launch(intent)
+            // startActivity(intent)
         }
     }
 
@@ -467,7 +481,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
         }
 
         binding.vpFeedDialog.offscreenPageLimit = 2 // 몇 개의 페이지를 미리 로드 해둘것인지
-
     }
 
     private fun getFeedVpData(location: String) {
