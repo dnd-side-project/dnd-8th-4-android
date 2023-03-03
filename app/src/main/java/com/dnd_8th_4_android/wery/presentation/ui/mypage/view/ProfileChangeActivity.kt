@@ -49,7 +49,6 @@ class ProfileChangeActivity :
                     Glide.with(this).load(clipData.getItemAt(0).uri).into(binding.ivImage)
                     viewModel.setImageUri(clipData.getItemAt(0).uri)
                 }
-
                 binding.tvSuccess.setTextColor(ContextCompat.getColor(this, R.color.black))
                 viewModel.setEnabled()
             }
@@ -193,5 +192,7 @@ class ProfileChangeActivity :
     private fun removePhoto() {
         Glide.with(this).load(R.drawable.img_group_default).into(binding.ivImage)
         viewModel.setImageUri("".toUri())
+        binding.tvSuccess.setTextColor(ContextCompat.getColor(this, R.color.black))
+        viewModel.setEnabled()
     }
 }

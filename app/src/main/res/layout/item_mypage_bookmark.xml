@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_post_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="16dp"
+        android:paddingTop="17dp"
+        android:paddingBottom="16dp">
+
+        <TextView
+            android:id="@+id/tv_post_content"
+            style="@style/TextView.Caption.12.R.160"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toStartOf="@id/layout_post_image"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="오늘 유정이랑 한강가서 치맥 했잖아~~~ 치킨은 역시 비비큐 치킨임 JMTGR 다음에는 너네들도 같이와서 치맥 하자! 봄 벚꽃 폈을 때 가면 딱일 거 같은데 어때?" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_post_image"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:background="@drawable/shape_gray100_radius_12_gray200"
+            android:gravity="center"
+            android:padding="1dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/iv_post_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/shape_gray100_radius_12_gray200"
+                android:scaleType="fitXY"
+                android:src="@drawable/img_no_group"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/tv_image_count"
+            style="@style/TextView.Caption.10.M"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6.5dp"
+            android:layout_marginBottom="6dp"
+            android:background="@drawable/shape_post_count"
+            android:gravity="center"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="@id/layout_post_image"
+            app:layout_constraintEnd_toEndOf="@id/layout_post_image"
+            tools:text="4" />
+
+        <LinearLayout
+            android:id="@+id/layout_information"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_post_content">
+
+            <TextView
+                android:id="@+id/tv_time"
+                style="@style/TextView.Caption.12.R"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray500"
+                tools:text="23.02.23" />
+
+            <TextView
+                style="@style/TextView.Caption.12.R"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:textColor="@color/gray500"
+                android:text="@string/mypage_bookmark_hit"/>
+
+            <TextView
+                android:id="@+id/tv_hit_cont"
+                style="@style/TextView.Caption.12.R"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:textColor="@color/gray500"
+                tools:text="8" />
+
+            <TextView
+                style="@style/TextView.Caption.12.R"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:textColor="@color/gray500"
+                android:text="@string/mypage_bookmark_comment"/>
+
+            <TextView
+                android:id="@+id/tv_comment"
+                style="@style/TextView.Caption.12.R"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:textColor="@color/gray500"
+                tools:text="2" />
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_friend_image"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/shape_gray100_radius_12_gray200"
+            android:gravity="center"
+            android:padding="1dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_information">
+
+            <ImageView
+                android:id="@+id/iv_friend_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/shape_gray100_radius_12_gray200"
+                android:scaleType="fitXY"
+                android:src="@drawable/img_no_group"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/tv_name"
+            style="@style/TextView.Caption.12.M"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:textColor="@color/gray700"
+            app:layout_constraintBottom_toBottomOf="@id/layout_friend_image"
+            app:layout_constraintStart_toEndOf="@id/layout_friend_image"
+            app:layout_constraintTop_toTopOf="@id/layout_friend_image"
+            tools:text="안산 뉴진스" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
