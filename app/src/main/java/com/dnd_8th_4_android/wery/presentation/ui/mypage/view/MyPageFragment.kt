@@ -32,18 +32,38 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
             Glide.with(requireContext()).load(it.profileImageUrl)
                 .into(binding.ivMyImage)
 
-            binding.tvMyName.text = it.name
+            binding.tvMyName.text = it.nickName
+
+            binding.ivConfiguration.setOnClickListener {
+                startActivity(Intent(requireContext(), MyPageConfigurationConstructionActivity::class.java))
+            }
 
             binding.ivProfile.setOnClickListener { _ ->
                 Intent(requireContext(), ProfileChangeActivity::class.java).apply {
                     putExtra(USER_IMAGE, it.profileImageUrl)
-                    putExtra(USER_NAME, it.name)
+                    putExtra(USER_NAME, it.nickName)
                     startActivity(this)
                 }
             }
 
+            binding.ivMission.setOnClickListener {
+                startActivity(Intent(requireContext(), MyPageMissionConstructionActivity::class.java))
+            }
+
             binding.ivBookmark.setOnClickListener {
                 startActivity(Intent(requireContext(), MyPageBookmarkActivity::class.java))
+            }
+
+            binding.ivPost.setOnClickListener {
+                startActivity(Intent(requireContext(), MyPagePostConstructionActivity::class.java))
+            }
+
+            binding.ivComment.setOnClickListener {
+                startActivity(Intent(requireContext(), MyPageCommentConstructionActivity::class.java))
+            }
+
+            binding.ivNotice.setOnClickListener {
+                startActivity(Intent(requireContext(), MyPageNoticeActivity::class.java))
             }
         }
     }

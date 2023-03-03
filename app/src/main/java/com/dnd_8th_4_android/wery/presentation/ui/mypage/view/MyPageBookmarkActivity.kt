@@ -11,6 +11,7 @@ import com.dnd_8th_4_android.wery.presentation.ui.home.adapter.PostRecyclerViewA
 import com.dnd_8th_4_android.wery.presentation.ui.home.adapter.PostRecyclerViewAdapter.Companion.CONTENT_ID
 import com.dnd_8th_4_android.wery.presentation.ui.home.adapter.PostRecyclerViewAdapter.Companion.GROUP_NAME
 import com.dnd_8th_4_android.wery.presentation.ui.home.adapter.PostRecyclerViewAdapter.Companion.TIME
+import com.dnd_8th_4_android.wery.presentation.ui.home.adapter.PostRecyclerViewAdapter.Companion.USER_IMAGE
 import com.dnd_8th_4_android.wery.presentation.ui.mypage.adapter.MyPageBookmarkRecyclerViewAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.mypage.viewmodel.MyPageBookmarkViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,7 +43,7 @@ class MyPageBookmarkActivity :
                 Intent(this, PostDetailActivity::class.java).apply {
                     putExtra(CONTENT_ID, it[position].contentId)
                     putExtra(CONTENT, it[position].content)
-//                    putExtra(USER_IMAGE, it[position].사용자 프로필)
+                    putExtra(USER_IMAGE, it[position].profileImageUrl)
                     putExtra(GROUP_NAME, it[position].groupName)
                     putExtra(TIME, it[position].createAt)
                     startActivity(this)

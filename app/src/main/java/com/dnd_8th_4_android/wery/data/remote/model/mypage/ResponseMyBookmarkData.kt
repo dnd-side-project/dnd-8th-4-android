@@ -11,6 +11,7 @@ data class ResponseMyBookmarkData(
         data class Content(
             val contentId: Int,
             val userId: Int,
+            val profileImageUrl: String,
             val groupId: Int,
             val groupName: String,
             val groupImage: String,

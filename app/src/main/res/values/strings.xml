@@ -297,6 +297,9 @@
     <string name="mypage_bookmark_title">북마크한 글</string>
     <string name="mypage_post_title">작성한 글</string>
     <string name="mypage_comment_title">댓글 쓴 글</string>
+    <string name="mypage_notice_title">공지사항</string>
+    <string name="mypage_notice_content">작성된 공지가 없어요</string>
+    <string name="mypage_configuration_title">환경설정</string>
 
     <!-- ProfileChangeActivity -->
     <string name="profile_change_title">프로필 수정</string>
@@ -305,6 +308,7 @@
     <string name="profile_change_bottom_album">앨범에서 선택</string>
     <string name="profile_change_bottom_remove">프로필 사진 삭제</string>
 
-
+    <!-- UnderConstructionActivity -->
+    <string name="under_construction_content">아직 공사중이에요</string>
 
 </resources>

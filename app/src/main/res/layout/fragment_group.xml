@@ -39,7 +39,7 @@
                     android:paddingHorizontal="38dp"
                     android:text="@string/home_search_hint"
                     android:textColor="@color/gray500"
-                    app:layout_constraintEnd_toStartOf="@id/iv_post_bookmark"
+                    app:layout_constraintEnd_toStartOf="@id/iv_bookmark"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -64,7 +64,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
-                    android:id="@+id/iv_post_bookmark"
+                    android:id="@+id/iv_bookmark"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"

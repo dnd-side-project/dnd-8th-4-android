@@ -9,7 +9,7 @@ data class ResponseMyInfo(
         val id: Int,
         val email: String,
         val name: String,
-        val nickname: String,
+        val nickName: String,
         val phoneNumber: String,
         val profileImageUrl: String,
     )

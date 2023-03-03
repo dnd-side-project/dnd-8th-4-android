@@ -20,6 +20,7 @@ import com.dnd_8th_4_android.wery.presentation.ui.group.create.view.CreateGroupA
 import com.dnd_8th_4_android.wery.presentation.ui.home.adapter.GroupRecyclerViewAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.home.adapter.PostRecyclerViewAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.home.viewmodel.HomeViewModel
+import com.dnd_8th_4_android.wery.presentation.ui.mypage.view.MyPageBookmarkActivity
 import com.dnd_8th_4_android.wery.presentation.ui.post.upload.view.UploadPostActivity
 import com.dnd_8th_4_android.wery.presentation.ui.search.view.SearchPostActivity
 import com.dnd_8th_4_android.wery.presentation.ui.sign.view.SignActivity
@@ -90,6 +91,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                     binding.activityGroup.layoutSwipeRefresh.isRefreshing = false
                     homeViewModel.getSignGroup()
                 }, 1000)
+        }
+
+        binding.ivBookmark.setOnClickListener {
+            startActivity(Intent(requireContext(), MyPageBookmarkActivity::class.java))
         }
     }
 
