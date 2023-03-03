@@ -10,21 +10,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <LinearLayout
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/layout_group_photo"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginTop="10dp"
             android:padding="2dp"
-            android:foreground="@drawable/shape_gray200_radius_12"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="0dp"
+            app:strokeColor="@color/gray200"
+            app:strokeWidth="2dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
             <ImageView
                 android:id="@+id/iv_map_group_img"
+                android:adjustViewBounds="true"
+                android:padding="1dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-        </LinearLayout>
+                android:layout_height="match_parent" />
+        </com.google.android.material.card.MaterialCardView>
 
         <TextView
             android:id="@+id/tv_photo_cnt"

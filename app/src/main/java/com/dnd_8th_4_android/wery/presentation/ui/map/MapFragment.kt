@@ -16,7 +16,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
@@ -273,11 +272,9 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
     private fun setDialogEventPop() {
         if (mapViewModel.filterType.value == 0) { // 피드
             // 피드 visible
-            Toast.makeText(requireContext(), "피드 다이얼로그 해제", Toast.LENGTH_SHORT).show()
             binding.vpFeedDialog.visibility = View.GONE
         } else { // 미션
             binding.standardBottomSheetMission.visibility = View.GONE
-            Toast.makeText(requireContext(), "미션 다이얼로그 해제", Toast.LENGTH_SHORT).show()
         }
         mapViewModel.setBottomDialogShowingState(false)
         binding.btnFloatingAction.visibility = View.VISIBLE
@@ -295,8 +292,11 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
                 mapViewModel.setFilterType(0)
                 setXY()
                 mapViewModel.getFeedList()
+                mapView.removeAllPOIItems()
             }
-            mapView.removeAllPOIItems()
+            if (mapViewModel.searchResult.value?.x != null) {
+                if (mapViewModel.searchResult.value?.x != 0.0) searchPinMarker()
+            }
         }
 
         binding.ivFilterMission.setOnClickListener {
@@ -304,8 +304,11 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
                 mapViewModel.setFilterType(1)
                 setMapBoundsPoint()
                 mapViewModel.getMissionList(mapViewModel.getCurrentMapBounds())
+                mapView.removeAllPOIItems()
             }
-            mapView.removeAllPOIItems()
+            if (mapViewModel.searchResult.value?.x != null) {
+                if (mapViewModel.searchResult.value?.x != 0.0) searchPinMarker()
+            }
         }
 
         binding.tvSearchHint.setOnClickListener {
@@ -343,16 +346,12 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
             view.tvPhotoCnt.text =
                 getString(R.string.map_content_count).format(distinctFeedList[i].counts)
 
-            view.ivMapGroupImg.clipToOutline = true
-
             Glide.with(requireContext()).load(distinctFeedList[i].contentImageUrl)
-                .placeholder(R.color.white)
                 .transform(CenterCrop(), RoundedCorners(12)).override(60, 60)
-                .into(view.ivMapGroupImg).waitForLayout()
+                .into(view.ivMapGroupImg).waitForLayout().clearOnDetach()
 
             val myCustomImageBitmap = createBitMapFromView(view.root)
-            view.layoutGroupPhoto.foreground =
-                ContextCompat.getDrawable(requireContext(), R.drawable.shape_radius_12_f47aff_2)
+            view.layoutGroupPhoto.strokeColor = resources.getColor(R.color.color_f47aff, null)
             val mySelectedCustomImageBitmap = createBitMapFromView(view.root)
 
             val feedMarker = MapPOIItem()
@@ -367,7 +366,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
                 customSelectedImageBitmap = mySelectedCustomImageBitmap
                 isCustomImageAutoscale = false
              }
-             feedMarkerArr.add(feedMarker)
+
+            feedMarkerArr.add(feedMarker)
          }
 
          val convertToArrayItem =
