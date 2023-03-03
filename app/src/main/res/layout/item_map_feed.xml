@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
                 android:text="@{data.location}"
-                app:layout_constraintBottom_toTopOf="@id/tv_content"
+                android:layout_marginTop="16dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="안산 포터블 커피" />
@@ -56,8 +56,9 @@
                 android:layout_marginTop="12dp"
                 android:ellipsize="end"
                 android:maxLines="3"
-                android:text="@{data.content}"
+                android:text="@{data.content+`\n\n`}"
                 android:textColor="@color/black"
+                android:layout_marginVertical="12dp"
                 app:layout_constraintBottom_toTopOf="@id/iv_group_img"
                 app:layout_constraintStart_toStartOf="@id/tv_title"
                 app:layout_constraintTop_toBottomOf="@id/tv_title"
@@ -68,12 +69,13 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginTop="12dp"
+                android:layout_marginBottom="16dp"
                 imageBindFitXY="@{data.groupImage}"
+                android:scaleType="fitXY"
                 android:background="@drawable/shape_gray100_radius_8"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="1:1"
-                app:layout_constraintStart_toStartOf="@id/tv_content"
-                app:layout_constraintTop_toBottomOf="@id/tv_content" />
+                app:layout_constraintStart_toStartOf="@id/tv_content" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -119,10 +121,10 @@
             android:id="@+id/iv_group_photo"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:layout_marginVertical="40dp"
             android:scaleType="fitXY"
             android:background="@drawable/shape_gray100_radius_8"
             tools:src="@drawable/img_no_group"
+            android:layout_marginVertical="40dp"
             imageBindFitXY="@{data.contentImageUrl}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
