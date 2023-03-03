@@ -79,7 +79,6 @@ class UploadPostActivity : BaseActivity<ActivityUploadPostBinding>(R.layout.acti
         }
 
         postViewModel.setPhotoCnt(totalPhotoCnt)
-
         return true
     }
 
@@ -130,27 +129,47 @@ class UploadPostActivity : BaseActivity<ActivityUploadPostBinding>(R.layout.acti
         setRvAdapter()
         selectGroupListener()
 
-        val groupName = intent.getStringExtra(MissionDetailActivity.GROUP_NAME)
-        val groupId = intent.getLongExtra(MissionDetailActivity.GROUP_ID, 0L)
-        val placeName = intent.getStringExtra(MissionDetailActivity.PLACE_NAME)
-        val latitude = intent.getDoubleExtra(MissionDetailActivity.LATITUDE, 0.0)
-        val longitude = intent.getDoubleExtra(MissionDetailActivity.LONGITUDE, 0.0)
-
-        if (intent.hasExtra(MissionDetailActivity.GROUP_NAME)) {
-            binding.layoutSelectGroup.isEnabled = false
-            postViewModel.selectedGroup.value = groupName
-        }
-        postViewModel.setGroupId(groupId)
-        postViewModel.selectedLatitude.value = latitude.toString()
-        postViewModel.selectedLongitude.value = longitude.toString()
-
-        binding.tvAddPlace.text = placeName
+        isFromMissionDetail()
+        isFromMapBtn()
     }
 
     private fun isFromModify() {
         if (intent.hasExtra("contentId")) {
             binding.layoutSelectGroup.isEnabled = false
             postViewModel.getExistingPostData(intent.getIntExtra("contentId", 0))
+        }
+    }
+
+    private fun isFromMissionDetail() {
+        if (intent.hasExtra(MissionDetailActivity.GROUP_NAME)) {
+            val groupName = intent.getStringExtra(MissionDetailActivity.GROUP_NAME)
+            val groupId = intent.getLongExtra(MissionDetailActivity.GROUP_ID, 0L)
+            val placeName = intent.getStringExtra(MissionDetailActivity.PLACE_NAME)
+            val latitude = intent.getDoubleExtra(MissionDetailActivity.LATITUDE, 0.0)
+            val longitude = intent.getDoubleExtra(MissionDetailActivity.LONGITUDE, 0.0)
+
+            if (intent.hasExtra(MissionDetailActivity.GROUP_NAME)) {
+                binding.layoutSelectGroup.isEnabled = false
+                postViewModel.selectedGroup.value = groupName
+            }
+            postViewModel.setGroupId(groupId)
+            postViewModel.selectedLatitude.value = latitude.toString()
+            postViewModel.selectedLongitude.value = longitude.toString()
+
+            binding.tvAddPlace.text = placeName
+        }
+    }
+
+    private fun isFromMapBtn() {
+        if (intent.hasExtra("fromMapBtn")) {
+            val placeName = intent.getStringExtra("selectedPlace")
+            val selectedPlace = placeName ?: getString(R.string.search_place_hint)
+            val longitude = intent.getDoubleExtra("selectedX", 0.0)
+            val latitude = intent.getDoubleExtra("selectedY", 0.0)
+
+            postViewModel.selectedPlace.value = selectedPlace
+            postViewModel.selectedLatitude.value = latitude.toString()
+            postViewModel.selectedLongitude.value = longitude.toString()
         }
     }
 
@@ -245,6 +264,8 @@ class UploadPostActivity : BaseActivity<ActivityUploadPostBinding>(R.layout.acti
     private fun addPlaceListener() {
         if (intent?.hasExtra("placeName") == true) {
             postViewModel.selectedPlace.value = intent?.getStringExtra("placeName")
+        } else if (intent?.hasExtra("fromMapBtn") == true) {
+            postViewModel.selectedPlace.value = intent?.getStringExtra("selectedPlace")
         } else {
             postViewModel.selectedPlace.value = getString(R.string.search_place_hint)
         }
@@ -266,7 +287,14 @@ class UploadPostActivity : BaseActivity<ActivityUploadPostBinding>(R.layout.acti
         binding.tvRegister.setOnClickListener {
             if (intent.hasExtra("contentId")) modifyFeed()
             else if (intent.hasExtra("missionId")) uploadMissionFeed()
-            else uploadFeed()
+            else if (intent.hasExtra("fromMapBtn")) {
+                val mapIntent = Intent()
+                mapIntent.putExtra("mapLatitude", postViewModel.selectedLatitude.value)
+                mapIntent.putExtra("mapLongitude", postViewModel.selectedLongitude.value)
+                setResult(RESULT_OK, mapIntent)
+
+                uploadFeed()
+            } else uploadFeed()
         }
     }
 

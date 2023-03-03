@@ -12,6 +12,7 @@ data class ResponseMapFeedData(
         val groupImage: String,
         val groupName: String,
         val createAt: String,
+        val userProfileImage:String,
         val contentImageSize: Int,
         val contentImageUrl: String,
         val content: String,
