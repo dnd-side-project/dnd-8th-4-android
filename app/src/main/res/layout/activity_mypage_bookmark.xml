@@ -96,10 +96,10 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_bookmark"
+            dividerColor="@{@color/gray100}"
+            dividerHeight="@{@dimen/group_list_item_divider_height}"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginVertical="16dp"
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"

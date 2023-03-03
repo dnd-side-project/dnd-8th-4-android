@@ -6,7 +6,7 @@ data class ResponseMyBookmarkData(
     val data: Data,
 ) : BaseResponse() {
     data class Data(
-        val content: Content,
+        val content: MutableList<Content>,
     ) {
         data class Content(
             val contentId: Int,

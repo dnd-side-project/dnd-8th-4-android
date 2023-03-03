@@ -2,6 +2,7 @@ package com.dnd_8th_4_android.wery.data.repository
 
 import com.dnd_8th_4_android.wery.data.remote.datasource.MyPageDataSource
 import com.dnd_8th_4_android.wery.data.remote.model.BaseResponse
+import com.dnd_8th_4_android.wery.data.remote.model.mypage.ResponseMyBookmarkData
 import com.dnd_8th_4_android.wery.data.remote.model.mypage.ResponseMyInfo
 import com.dnd_8th_4_android.wery.domain.repository.MyPageRepository
 import okhttp3.MultipartBody
@@ -19,5 +20,9 @@ class MyPageRepositoryImpl @Inject constructor(private val myPageDataSource: MyP
         image: MultipartBody.Part?,
     ): BaseResponse {
         return myPageDataSource.modifyProfile(data, image)
+    }
+
+    override suspend fun getMyBookmarkList(page: Int): ResponseMyBookmarkData {
+        return myPageDataSource.getMyBookmarkList(page)
     }
 }
