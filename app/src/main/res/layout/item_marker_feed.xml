@@ -1,36 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <LinearLayout
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/layout_group_photo"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginTop="10dp"
             android:padding="2dp"
-            android:foreground="@drawable/shape_gray200_radius_12"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="0dp"
+            app:strokeColor="@color/gray200"
+            app:strokeWidth="2dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
             <ImageView
                 android:id="@+id/iv_map_group_img"
-                android:background="@drawable/shape_gray200_radius_12"
+                android:adjustViewBounds="true"
+                android:padding="1dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/img_no_group" />
-        </LinearLayout>
+                android:layout_height="match_parent" />
+        </com.google.android.material.card.MaterialCardView>
 
         <TextView
             android:id="@+id/tv_photo_cnt"
-            style="@style/TextView.Title.14.Sb"
+            style="@style/TextView.Caption.12.M"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
@@ -38,7 +41,7 @@
             android:background="@drawable/shape_black_radius_30"
             android:paddingHorizontal="6dp"
             android:paddingVertical="2dp"
-            android:text="+2"
+            tools:text="+2"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="@id/layout_group_photo"
             app:layout_constraintTop_toTopOf="parent" />

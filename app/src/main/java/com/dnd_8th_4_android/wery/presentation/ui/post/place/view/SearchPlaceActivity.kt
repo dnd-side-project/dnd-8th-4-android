@@ -12,6 +12,7 @@ import com.dnd_8th_4_android.wery.databinding.ActivitySearchPlaceBinding
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseActivity
 import com.dnd_8th_4_android.wery.presentation.ui.post.place.adapter.SearchAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.post.place.viewmodel.SearchPlaceViewModel
+import com.dnd_8th_4_android.wery.presentation.ui.post.upload.view.UploadPostActivity
 import com.dnd_8th_4_android.wery.presentation.util.hideKeyboard
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -31,6 +32,7 @@ class SearchPlaceActivity :
     }
 
     private fun initStartView() {
+        if (intent.hasExtra("fromMapSearch")) binding.tvSelectGroup.text = "장소 검색하기"
         searchAdapter = SearchAdapter { data -> getSearchResult(data) }
         binding.rvSearchResult.adapter = searchAdapter
     }
@@ -62,6 +64,10 @@ class SearchPlaceActivity :
         binding.ivSearchDelete.setOnClickListener {
             binding.etvSearch.text.clear()
         }
+
+        /** [모아보기] 글쓰기 버튼에서 이동 했을 시
+         *  닫았을 때 장소와 x,y 값을 전달한 후 글쓰기 화면으로 이동해준다.
+         * */
         binding.ivClose.setOnClickListener {
             finish()
         }
@@ -76,9 +82,21 @@ class SearchPlaceActivity :
     private fun getSearchResult(data: Document) {
         val intent = Intent()
         intent.putExtra("selectedPlace", data.place_name)
+        intent.putExtra("LocationAddress",data.road_address_name)
         intent.putExtra("selectedX",data.x)
         intent.putExtra("selectedY",data.y)
-        intent.putExtra("LocationAddress",data.road_address_name)
+
+        if (intent.hasExtra("fromMapBtn")) {
+            Intent(this,UploadPostActivity::class.java).apply {
+                putExtra("selectedPlace",data.place_name)
+                putExtra("LocationAddress",data.road_address_name)
+                putExtra("selectedX",data.x)
+                putExtra("selectedY",data.y)
+                putExtra("fromMapBtn",true)
+                startActivity(this)
+            }
+        }
+
         setResult(RESULT_OK, intent)
         finish()
     }

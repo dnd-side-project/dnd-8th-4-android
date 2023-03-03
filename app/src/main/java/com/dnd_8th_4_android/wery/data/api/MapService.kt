@@ -1,8 +1,6 @@
 package com.dnd_8th_4_android.wery.data.api
 
-import com.dnd_8th_4_android.wery.data.remote.model.map.RequestMapMissionList
-import com.dnd_8th_4_android.wery.data.remote.model.map.ResponseMapMissionData
-import com.dnd_8th_4_android.wery.data.remote.model.map.ResponseMapMissionList
+import com.dnd_8th_4_android.wery.data.remote.model.map.*
 import retrofit2.http.*
 
 interface MapService {
@@ -11,4 +9,15 @@ interface MapService {
 
     @GET("/mission/map")
     suspend fun getMissionData(@Query("missionId") missionId: Int): ResponseMapMissionData
+
+    @GET("/content/map")
+    suspend fun getFeedList(
+        @Query("x") x: Double,
+        @Query("y") y: Double
+    ): ResponseMapFeedList
+
+    @GET("/content/map/detail")
+    suspend fun getFeedData(
+        @Query("location") location: String
+    ): ResponseMapFeedData
 }

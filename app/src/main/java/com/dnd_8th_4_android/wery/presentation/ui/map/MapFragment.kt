@@ -12,17 +12,19 @@ import android.location.LocationManager
 import android.net.Uri
 import android.provider.Settings
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.dnd_8th_4_android.wery.R
-import com.dnd_8th_4_android.wery.data.remote.model.map.ResponseMapFeed
+import com.dnd_8th_4_android.wery.data.remote.model.map.ResponseMapFeedList
 import com.dnd_8th_4_android.wery.data.remote.model.map.ResponseMapMissionList
 import com.dnd_8th_4_android.wery.data.remote.model.post.ResponseSearchPlace
 import com.dnd_8th_4_android.wery.databinding.FragmentMapBinding
+import com.dnd_8th_4_android.wery.databinding.ItemMarkerFeedBinding
 import com.dnd_8th_4_android.wery.domain.model.DialogInfo
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseFragment
 import com.dnd_8th_4_android.wery.presentation.ui.map.adapter.MapFeedAdapter
@@ -99,8 +101,9 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
 
     private fun getSelectedPOItems() {
         if (mapViewModel.filterType.value == 0) {
-
-       } else {
+            setXY()
+            mapViewModel.getFeedList()
+        } else {
             setMapBoundsPoint()
             mapViewModel.getMissionList(mapViewModel.getCurrentMapBounds())
         }
@@ -232,8 +235,18 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
             }
         }
 
+        mapViewModel.feedList.observe(viewLifecycleOwner) {
+            showFeedMarkerList(it)
+        }
+
         mapViewModel.missionList.observe(viewLifecycleOwner) {
             showMissionMarkerList(it)
+        }
+
+        mapViewModel.feedListData.observe(viewLifecycleOwner) {
+            val mapFeedAdapter = MapFeedAdapter()
+            mapFeedAdapter.itemList = it.data
+            binding.vpFeedDialog.adapter = mapFeedAdapter
         }
 
         mapViewModel.missionCardData.observe(viewLifecycleOwner) {
@@ -258,11 +271,9 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
     private fun setDialogEventPop() {
         if (mapViewModel.filterType.value == 0) { // 피드
             // 피드 visible
-            Toast.makeText(requireContext(), "피드 다이얼로그 해제", Toast.LENGTH_SHORT).show()
             binding.vpFeedDialog.visibility = View.GONE
         } else { // 미션
             binding.standardBottomSheetMission.visibility = View.GONE
-            Toast.makeText(requireContext(), "미션 다이얼로그 해제", Toast.LENGTH_SHORT).show()
         }
         mapViewModel.setBottomDialogShowingState(false)
         binding.btnFloatingAction.visibility = View.VISIBLE
@@ -276,9 +287,15 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
         }
 
         binding.ivFilterFeed.setOnClickListener {
-            if (mapViewModel.filterType.value != 0) mapViewModel.setFilterType(0)
-            //mapView.removeAllPOIItems()
-            // showFeedMarkerList()
+            if (mapViewModel.filterType.value != 0) {
+                mapViewModel.setFilterType(0)
+                setXY()
+                mapViewModel.getFeedList()
+                mapView.removeAllPOIItems()
+            }
+            if (mapViewModel.searchResult.value?.x != null) {
+                if (mapViewModel.searchResult.value?.x != 0.0) searchPinMarker()
+            }
         }
 
         binding.ivFilterMission.setOnClickListener {
@@ -286,12 +303,17 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
                 mapViewModel.setFilterType(1)
                 setMapBoundsPoint()
                 mapViewModel.getMissionList(mapViewModel.getCurrentMapBounds())
+                mapView.removeAllPOIItems()
             }
-            //mapView.removeAllPOIItems()
+            if (mapViewModel.searchResult.value?.x != null) {
+                if (mapViewModel.searchResult.value?.x != 0.0) searchPinMarker()
+            }
         }
 
         binding.tvSearchHint.setOnClickListener {
-            requestSearchActivity.launch(Intent(requireContext(), SearchPlaceActivity::class.java))
+            val intent = Intent(requireContext(),SearchPlaceActivity::class.java)
+            intent.putExtra("fromMapSearch",true)
+            requestSearchActivity.launch(intent)
         }
 
         binding.ivSearchClose.setOnClickListener {
@@ -299,69 +321,65 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
         }
 
         binding.btnFloatingAction.setOnClickListener {
-            val intent = Intent(requireContext(), UploadPostActivity::class.java)
-            if (mapViewModel.searchPlaceTxt.value != resources.getString(R.string.map_search_hint)) intent.putExtra(
-                "placeName", mapViewModel.searchPlaceTxt.value
-            )
+            val intent = Intent(requireContext(), SearchPlaceActivity::class.java)
+            intent.putExtra("fromMapBtn",true)
+            //if (mapViewModel.searchPlaceTxt.value != resources.getString(R.string.map_search_hint)) intent.putExtra(
+            //    "placeName", mapViewModel.searchPlaceTxt.value
+            //)
             startActivity(intent)
         }
     }
 
-    /* private fun showFeedMarkerList() {
+    /**
+     * 받아온 x,y 좌표값으로 피드 리스트를 받아온다
+     * location을 itemName으로 넘겨서
+     * 마커를 선택했을 시 서버통신 param으로 contentId를 넘겨준다
+     * */
+    private fun showFeedMarkerList(feedList: List<ResponseMapFeedList.ResultMapFeedData>) {
+        val distinctFeedList = feedList.distinctBy { it.location }.toList()
+        val feedMarkerArr = arrayListOf<MapPOIItem>()
 
-         val imgList = mutableListOf(
-             "https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg",
-             "https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg",
-         )
+        for (i in distinctFeedList.indices) {
+            val view = ItemMarkerFeedBinding.inflate(layoutInflater)
 
-         val feedList = mutableListOf<ResponseMapMissionList.ResultMapMission>()
-         feedList.apply {
-             add(ResponseMapMissionList.ResultMapMission(33.450936, 126.569477))
-             add(ResponseMapMissionList.ResultMapMission(33.450879, 126.569940))
-         }
+            if (distinctFeedList[i].counts <= 1) view.tvPhotoCnt.visibility = View.GONE
+            view.tvPhotoCnt.text =
+                getString(R.string.map_content_count).format(distinctFeedList[i].counts)
 
-         val feedMarkerArr = arrayListOf<MapPOIItem>()
+            Glide.with(requireContext()).load(distinctFeedList[i].contentImageUrl)
+                .transform(CenterCrop(), RoundedCorners(12)).override(60, 60)
+                .into(view.ivMapGroupImg).waitForLayout().clearOnDetach()
 
-         for (i in feedList.indices) {
-             val view = ItemMarkerFeedBinding.inflate(layoutInflater)
-             view.ivMapGroupImg.clipToOutline = true
-             Glide.with(requireContext()).load(imgList[i])
-                 .transform(CenterCrop(), RoundedCorners(12)).override(60, 60)
-                 .into(view.ivMapGroupImg).waitForLayout()
+            val myCustomImageBitmap = createBitMapFromView(view.root)
+            view.layoutGroupPhoto.strokeColor = resources.getColor(R.color.color_f47aff, null)
+            val mySelectedCustomImageBitmap = createBitMapFromView(view.root)
 
-             val myCustomImageBitmap = createBitMapFromView(view.root)
-
-             view.layoutGroupPhoto.foreground = resources.getDrawable(R.drawable.shape_radius_12_f47aff_2, null)
-
-             val mySelectedCustomImageBitmap = createBitMapFromView(view.root)
-
-             val feedMarker = MapPOIItem()
-             feedMarker.apply {
-                 itemName = ""
-                 isShowCalloutBalloonOnTouch = false
-                 mapPoint = MapPoint.mapPointWithGeoCoord(feedList[i].x, feedList[i].y)
-                 markerType = MapPOIItem.MarkerType.CustomImage
-                 customImageBitmap = myCustomImageBitmap
-                 selectedMarkerType = MapPOIItem.MarkerType.CustomImage
-                 customSelectedImageBitmap = mySelectedCustomImageBitmap
-                 isCustomImageAutoscale = false
+            val feedMarker = MapPOIItem()
+            feedMarker.apply {
+                itemName = distinctFeedList[i].location
+                isShowCalloutBalloonOnTouch = false
+                mapPoint =
+                    MapPoint.mapPointWithGeoCoord(distinctFeedList[i].latitude, distinctFeedList[i].longitude)
+                markerType = MapPOIItem.MarkerType.CustomImage
+                customImageBitmap = myCustomImageBitmap
+                selectedMarkerType = MapPOIItem.MarkerType.CustomImage
+                customSelectedImageBitmap = mySelectedCustomImageBitmap
+                isCustomImageAutoscale = false
              }
 
-
-             feedMarkerArr.add(feedMarker)
-
+            feedMarkerArr.add(feedMarker)
          }
 
          val convertToArrayItem =
              feedMarkerArr.toArray(arrayOfNulls<MapPOIItem>(feedMarkerArr.size))
          mapView.addPOIItems(convertToArrayItem)
-     }*/
+    }
 
 
     /**
-     * 받아온 4가지 좌표값으로 피드 리스트를 받아온다
+     * 받아온 4가지 좌표값으로 미션 리스트를 받아온다
      * groupId를 itemName으로 넘겨서
-     * 마커를 선택했을 시 서버통신으로 groupId를 넘겨준다
+     * 마커를 선택했을 시 서버통신 param으로 groupId를 넘겨준다
      * */
     private fun showMissionMarkerList(missionList: List<ResponseMapMissionList.ResultMapMission>) {
         val missionMarkerArr = arrayListOf<MapPOIItem>()
@@ -416,6 +434,12 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
             mapView.mapPointBounds.topRight.mapPointGeoCoord.longitude // 우하단 long
     }
 
+    // x, y 좌표 세팅하기
+    private fun setXY() {
+        mapViewModel.myCurrentLatitude.value = mapView.mapCenterPoint.mapPointGeoCoord.latitude
+        mapViewModel.myCurrentLongitude.value = mapView.mapCenterPoint.mapPointGeoCoord.longitude
+    }
+
     private fun createBitMapFromView(view: View): Bitmap {
         val displayMetrics = DisplayMetrics()
         view.layoutParams = ViewGroup.LayoutParams(
@@ -446,24 +470,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
 
     }
 
-    // TODO 추후 서버통신을 통해 데이터를 받아올 예정
-    private fun getFeedVpData() {
-        val mapFeedAdapter = MapFeedAdapter()
-        mapFeedAdapter.itemList.add(
-            ResponseMapFeed(
-                "안산 포터블 커피",
-                "오늘 지예랑 새로 생긴 카페 갔지롱 인절미 라떼가 진짜 맛있더라 \uD83E\uDD7A 세상엔 왜 이렇게 맛있는 게 많은 걸까 다음엔 너희랑도 가고 싶어",
-                "안산 뉴진스", "", "", 4, "2023.02.19"
-            )
-        )
-        mapFeedAdapter.itemList.add(
-            ResponseMapFeed(
-                "안산 포터블 커피",
-                "오늘 지예랑 새로 생긴 카페 갔지롱 인절미 라떼가 진짜 맛있더라 \uD83E\uDD7A 세상엔 왜 이렇게 맛있는 게 많은 걸까 다음엔 너희랑도 가고 싶어",
-                "안산 뉴진스", "", "", 4, "2023.02.19"
-            )
-        )
-        binding.vpFeedDialog.adapter = mapFeedAdapter
+    private fun getFeedVpData(location: String) {
+        mapViewModel.getFeedData(location)
     }
 
     private fun getMissionCardData(missionId: Int) {
@@ -477,23 +485,12 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
             // 마커 클릭 시
             if (!poiItem!!.isShowCalloutBalloonOnTouch) {
                 if (mapViewModel.filterType.value == 0) { // 피드 마커 일 때
-                    Toast.makeText(
-                        requireContext(),
-                        "${poiItem.mapPoint}: 피드 마커 클릭",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    getFeedVpData()
+                    getFeedVpData(poiItem.itemName)
                     binding.vpFeedDialog.visibility = View.VISIBLE
                 } else { // 미션 마커 일 때
-                    Toast.makeText(
-                        requireContext(),
-                        "${poiItem.mapPoint}: 미션 마커 클릭",
-                        Toast.LENGTH_SHORT
-                    ).show()
                     getMissionCardData(poiItem.itemName.toInt())
                     binding.standardBottomSheetMission.visibility = View.VISIBLE
                 }
-
                 mapViewModel.setBottomDialogShowingState(true)
                 binding.btnFloatingAction.visibility = View.GONE
             }
@@ -517,9 +514,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
     }
 
     override fun onMapViewInitialized(p0: MapView?) {}
-
     override fun onMapViewCenterPointMoved(p0: MapView?, p1: MapPoint?) {}
-
     override fun onMapViewZoomLevelChanged(p0: MapView?, p1: Int) {}
     override fun onMapViewSingleTapped(p0: MapView?, p1: MapPoint?) {}
     override fun onMapViewDoubleTapped(p0: MapView?, p1: MapPoint?) {}
@@ -528,10 +523,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
     override fun onMapViewDragEnded(p0: MapView?, p1: MapPoint?) {}
 
     override fun onMapViewMoveFinished(p0: MapView?, p1: MapPoint?) {
-        Log.d(
-            "kite",
-            "onMapViewMoveFinished" + p0!!.mapCenterPoint.mapPointGeoCoord.latitude.toString()
-        )
         setDialogEventPop()
         getSelectedPOItems()
     }

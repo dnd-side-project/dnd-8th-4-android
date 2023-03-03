@@ -1,8 +1,6 @@
 package com.dnd_8th_4_android.wery.domain.repository
 
-import com.dnd_8th_4_android.wery.data.remote.model.map.RequestMapMissionList
-import com.dnd_8th_4_android.wery.data.remote.model.map.ResponseMapMissionData
-import com.dnd_8th_4_android.wery.data.remote.model.map.ResponseMapMissionList
+import com.dnd_8th_4_android.wery.data.remote.model.map.*
 
 interface MapRepository {
     suspend fun getMapMissionList(
@@ -12,4 +10,13 @@ interface MapRepository {
     suspend fun getMissionData(
         missionId: Int
     ): ResponseMapMissionData
+
+    suspend fun getMapFeedList(
+        x: Double,
+        y: Double
+    ): ResponseMapFeedList
+
+    suspend fun getFeedData(
+        location: String
+    ): ResponseMapFeedData
 }

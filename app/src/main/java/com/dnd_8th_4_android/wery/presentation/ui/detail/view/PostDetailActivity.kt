@@ -228,10 +228,14 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
             tvGroupName.text = intent.getStringExtra(PostRecyclerViewAdapter.GROUP_NAME).toString()
 
             val time = intent.getStringExtra(PostRecyclerViewAdapter.TIME).toString()
-            if (LocalDate.now().toString() == time.substring(IntRange(0, 10))) {
-                binding.tvTime.text = time.substring(IntRange(11, 15)).replace("-", ".")
+            if (time.length > 9) {
+                if (LocalDate.now().toString() == time.substring(IntRange(0, 10))) {
+                    binding.tvTime.text = time.substring(IntRange(11, 15)).replace("-", ".")
+                } else {
+                    binding.tvTime.text = time.substring(IntRange(2, 9)).replace("-", ".")
+                }
             } else {
-                binding.tvTime.text = time.substring(IntRange(2, 9)).replace("-", ".")
+                binding.tvTime.text = time
             }
         }
 
