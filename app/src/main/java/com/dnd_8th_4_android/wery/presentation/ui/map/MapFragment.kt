@@ -146,6 +146,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
             isCustomImageAutoscale = false
         }
 
+
+
         mapView.addPOIItem(marker)
     }
 
@@ -304,6 +306,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
                 mapViewModel.setFilterType(0)
                 setXY()
                 mapViewModel.getFeedList()
+                mapViewModel.getFeedList()
+                mapViewModel.getFeedList()
                 mapView.removeAllPOIItems()
             }
             if (mapViewModel.searchResult.value?.x != null) {
@@ -336,11 +340,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
         binding.btnFloatingAction.setOnClickListener {
             val intent = Intent(requireContext(), SearchPlaceActivity::class.java)
             intent.putExtra("fromMapBtn", true)
-            //if (mapViewModel.searchPlaceTxt.value != resources.getString(R.string.map_search_hint)) intent.putExtra(
-            //    "placeName", mapViewModel.searchPlaceTxt.value
-            //)
             requestUploadActivity.launch(intent)
-            // startActivity(intent)
         }
     }
 
@@ -362,7 +362,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
 
             Glide.with(requireContext()).load(distinctFeedList[i].contentImageUrl)
                 .transform(CenterCrop(), RoundedCorners(12)).override(60, 60)
-                .into(view.ivMapGroupImg).waitForLayout().clearOnDetach()
+                .into(view.ivMapGroupImg).waitForLayout()
 
             val myCustomImageBitmap = createBitMapFromView(view.root)
             view.layoutGroupPhoto.strokeColor = resources.getColor(R.color.color_f47aff, null)
