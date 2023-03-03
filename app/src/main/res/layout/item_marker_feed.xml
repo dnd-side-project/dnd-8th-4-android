@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -30,7 +30,7 @@
 
         <TextView
             android:id="@+id/tv_photo_cnt"
-            style="@style/TextView.Title.14.Sb"
+            style="@style/TextView.Caption.12.M"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
@@ -38,7 +38,7 @@
             android:background="@drawable/shape_black_radius_30"
             android:paddingHorizontal="6dp"
             android:paddingVertical="2dp"
-            android:text="+2"
+            tools:text="+2"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="@id/layout_group_photo"
             app:layout_constraintTop_toTopOf="parent" />

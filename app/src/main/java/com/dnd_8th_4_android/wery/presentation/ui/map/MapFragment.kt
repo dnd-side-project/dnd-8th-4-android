@@ -339,6 +339,11 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
 
         for (i in distinctFeedList.indices) {
             val view = ItemMarkerFeedBinding.inflate(layoutInflater)
+
+            if (distinctFeedList[i].counts <= 1) view.tvPhotoCnt.visibility = View.GONE
+            view.tvPhotoCnt.text =
+                getString(R.string.map_content_count).format(distinctFeedList[i].counts)
+
             view.ivMapGroupImg.clipToOutline = true
 
             Glide.with(requireContext()).load(distinctFeedList[i].contentImageUrl)

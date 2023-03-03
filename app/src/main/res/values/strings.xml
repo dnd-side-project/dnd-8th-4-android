@@ -125,6 +125,7 @@
     <string name="map_collect">모아보기</string>
     <string name="map_search_current_location">현 위치 재검색</string>
     <string name="map_search_hint">어떤 장소가 궁금하신가요?</string>
+    <string name="map_content_count">+%d</string>
 
     <!-- MissionFragment -->
     <string name="mission">미션</string>
