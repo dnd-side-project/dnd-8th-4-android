@@ -165,7 +165,8 @@
     <string name="sticker_infinite">무제한</string>
     <string name="sticker_dialog_close">닫기</string>
     <string name="sticker_dialog_show_sticker">스티커 보기</string>
-    <string name="sticker_dialog_content">레벨 %d를 달성해 스티커를 획득했어요.\n받은 스티커는 미션/스티커에서 확인할 수 있어요.</string>
+    <string name="sticker_dialog_content_first">을 달성해 스티커를 획득했어요.</string>
+    <string name="sticker_dialog_content_sec">받은 스티커는 미션/스티커에서 확인할 수 있어요.</string>
     <string name="sticker_info">스티커 정보</string>
     <string name="sticker_due">사용기간 무제한</string>
     <string name="sticker_my_mission_level_one">Lv. 1</string>
@@ -279,11 +280,14 @@
     <string name="alert_invite_deny_message">초대를 거절했습니다.</string>
 
     <!-- MyPageFragment -->
+    <string name="mypage_title">마이페이지</string>
     <string name="mypage_mission">완료한 미션</string>
     <string name="mypage_bookmark">북마크한 글</string>
     <string name="mypage_post">작성한 글</string>
     <string name="mypage_comment">댓글 단 글</string>
     <string name="mypage_notice">공지사항</string>
+    <string name="mypage_bookmark_hit">조회</string>
+    <string name="mypage_bookmark_comment">댓글</string>
 
     <!-- MyPageActivity -->
     <string name="mypage_mission_title">완료한 미션</string>
@@ -293,7 +297,18 @@
     <string name="mypage_bookmark_title">북마크한 글</string>
     <string name="mypage_post_title">작성한 글</string>
     <string name="mypage_comment_title">댓글 쓴 글</string>
+    <string name="mypage_notice_title">공지사항</string>
+    <string name="mypage_notice_content">작성된 공지가 없어요</string>
+    <string name="mypage_configuration_title">환경설정</string>
 
+    <!-- ProfileChangeActivity -->
+    <string name="profile_change_title">프로필 수정</string>
+    <string name="profile_change_nickname">별명</string>
+    <string name="profile_change_success">완료</string>
+    <string name="profile_change_bottom_album">앨범에서 선택</string>
+    <string name="profile_change_bottom_remove">프로필 사진 삭제</string>
 
+    <!-- UnderConstructionActivity -->
+    <string name="under_construction_content">아직 공사중이에요</string>
 
 </resources>

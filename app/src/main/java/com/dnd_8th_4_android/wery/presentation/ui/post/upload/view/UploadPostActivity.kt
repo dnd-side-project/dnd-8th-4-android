@@ -7,7 +7,6 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
@@ -16,6 +15,7 @@ import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.databinding.ActivityUploadPostBinding
 import com.dnd_8th_4_android.wery.domain.model.DialogInfo
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseActivity
+import com.dnd_8th_4_android.wery.presentation.ui.mission.sticker.view.StickerAlertActivity
 import com.dnd_8th_4_android.wery.presentation.ui.mission.view.MissionDetailActivity
 import com.dnd_8th_4_android.wery.presentation.ui.post.place.view.SearchPlaceActivity
 import com.dnd_8th_4_android.wery.presentation.ui.post.upload.adapter.UploadPhotoAdapter
@@ -158,6 +158,18 @@ class UploadPostActivity : BaseActivity<ActivityUploadPostBinding>(R.layout.acti
         setPhotoCnt()
         setLoadingDialog()
         if (intent.hasExtra("contentId")) getExistingPhotoList()
+        checkStickerAfterUploadMissionFeed()
+    }
+
+    private fun checkStickerAfterUploadMissionFeed() {
+        postViewModel.missionStickerData.observe(this) {
+            if (it.data.isGetNewSticker) {
+                Intent(this, StickerAlertActivity::class.java).apply {
+                    putExtra(StickerAlertActivity.STICKER_GROUP_ID, it.data.getNewStickerGroupId)
+                    startActivity(this)
+                }
+            }
+        }
     }
 
     private fun initAfterBinding() {
@@ -252,7 +264,9 @@ class UploadPostActivity : BaseActivity<ActivityUploadPostBinding>(R.layout.acti
 
     private fun registerListener() {
         binding.tvRegister.setOnClickListener {
-            if (intent.hasExtra("contentId")) modifyFeed() else uploadFeed()
+            if (intent.hasExtra("contentId")) modifyFeed()
+            else if (intent.hasExtra("missionId")) uploadMissionFeed()
+            else uploadFeed()
         }
     }
 
@@ -300,6 +314,20 @@ class UploadPostActivity : BaseActivity<ActivityUploadPostBinding>(R.layout.acti
             }
             postViewModel.modifyFeed(textHasMap, imgFileList)
         }.start()
+    }
+
+    private fun uploadMissionFeed() {
+        val textHasMap = postViewModel.setUploadRequestBodyData(
+            binding.etvNote.text.toString(),
+            postViewModel.selectedLatitude.value!!,
+            postViewModel.selectedLongitude.value!!,
+            binding.tvAddPlace.text.toString(),
+        )
+        val imgFileList = mutableListOf<MultipartBody.Part>()
+        for (imgUrl in uploadPhotoAdapter.currentList) {
+            imgFileList.add(MultiPartFileUtil(this, "multipartFiles").uriToFile(imgUrl.toUri()))
+        }
+        postViewModel.uploadMissionFeed(intent.getIntExtra("missionId", 0), textHasMap, imgFileList)
     }
 
     private fun closeListener() {

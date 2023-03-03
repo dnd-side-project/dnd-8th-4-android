@@ -13,6 +13,7 @@ import com.dnd_8th_4_android.wery.presentation.ui.group.adapter.GroupListRecycle
 import com.dnd_8th_4_android.wery.presentation.ui.group.create.view.CreateGroupActivity
 import com.dnd_8th_4_android.wery.presentation.ui.group.viewmodel.GroupViewModel
 import com.dnd_8th_4_android.wery.presentation.ui.home.view.HomeFragment
+import com.dnd_8th_4_android.wery.presentation.ui.mypage.view.MyPageBookmarkActivity
 import com.dnd_8th_4_android.wery.presentation.ui.search.view.SearchPostActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -92,6 +93,10 @@ class GroupFragment : BaseFragment<FragmentGroupBinding>(R.layout.fragment_group
 
         binding.btnGroupInvite.setOnClickListener {
             startActivity(Intent(requireContext(), AlertPopupActivity::class.java))
+        }
+
+        binding.ivBookmark.setOnClickListener {
+            startActivity(Intent(requireContext(), MyPageBookmarkActivity::class.java))
         }
     }
 }

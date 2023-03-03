@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.dnd_8th_4_android.wery.presentation.ui.mypage.viewmodel.ProfileChangeViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/iv_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingVertical="11dp"
+            android:paddingStart="16dp"
+            android:src="@drawable/ic_close"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            style="@style/TextView.Title.16.Sb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="12dp"
+            android:text="@string/profile_change_title"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toTopOf="@+id/view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_success"
+            style="@style/TextView.Body.14.M"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="@{vm.isEnabled}"
+            android:paddingVertical="16dp"
+            android:paddingEnd="20dp"
+            android:text="@string/profile_change_success"
+            android:textColor="@color/gray500"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray100"
+            app:layout_constraintTop_toBottomOf="@id/iv_close" />
+
+        <ImageView
+            android:id="@+id/iv_image"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/shape_oval_gray100"
+            android:foreground="@drawable/shape_oval_gray100"
+            android:scaleType="fitXY"
+            android:src="@drawable/img_no_group"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_close" />
+
+        <ImageView
+            android:id="@+id/iv_album_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_camera_circle"
+            app:layout_constraintBottom_toBottomOf="@id/iv_image"
+            app:layout_constraintEnd_toEndOf="@id/iv_image" />
+
+        <TextView
+            android:id="@+id/tv_nickname"
+            style="@style/TextView.Title.16.Sb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="15dp"
+            android:text="@string/profile_change_nickname"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_image" />
+
+        <EditText
+            android:id="@+id/et_nickname"
+            style="@style/TextView.Title.16.Sb"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/selector_et_my_page_change"
+            android:inputType="text"
+            android:maxLines="1"
+            android:paddingVertical="16dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="42dp"
+            android:textColor="@color/black"
+            app:addTextChangedListener="@{vm.textWatcher}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_nickname" />
+
+        <ImageView
+            android:id="@+id/iv_edt_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/ic_search_close"
+            app:layout_constraintBottom_toBottomOf="@id/et_nickname"
+            app:layout_constraintEnd_toEndOf="@id/et_nickname"
+            app:layout_constraintTop_toTopOf="@id/et_nickname" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="16dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/et_nickname">
+
+            <TextView
+                android:id="@+id/tv_count"
+                style="@style/TextView.Caption.12.R"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{vm.textCount.toString()}"
+                tools:text="N" />
+
+            <TextView
+                style="@style/TextView.Caption.12.R"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sign_up_nickname_max_count" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_nickname_error"
+            style="@style/TextView.Caption.12.R"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
+            android:text="@string/sign_up_nickname_comment"
+            android:textColor="@color/color_eb0555"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/et_nickname" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

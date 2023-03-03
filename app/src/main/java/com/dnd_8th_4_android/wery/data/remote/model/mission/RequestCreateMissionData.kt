@@ -8,6 +8,7 @@ data class RequestCreateMissionData(
     val missionStartDate: String? = null,
     val missionEndDate: String? = null,
     val missionLocationName: String,
+    val missionLocationAddress: String,
     val latitude: Double,
     val longitude: Double,
     val missionColor: Int

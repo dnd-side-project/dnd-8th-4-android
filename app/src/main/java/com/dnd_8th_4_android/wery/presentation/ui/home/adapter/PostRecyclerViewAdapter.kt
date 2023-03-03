@@ -2,7 +2,6 @@ package com.dnd_8th_4_android.wery.presentation.ui.home.adapter
 
 import android.content.Intent
 import android.graphics.Typeface
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -164,7 +163,8 @@ class PostRecyclerViewAdapter :
                 }
             } else {
                 binding.ivEmotionButton.setImageResource(R.drawable.ic_emotion)
-                binding.tvEmotionButton.text = binding.root.resources.getString(R.string.home_item_post_emotion_button)
+                binding.tvEmotionButton.text =
+                    binding.root.resources.getString(R.string.home_item_post_emotion_button)
                 binding.tvEmotionButton.setTypeface(null, Typeface.NORMAL)
 
                 if (adapterPosition != itemPosition) {
@@ -179,7 +179,11 @@ class PostRecyclerViewAdapter :
             }
 
             binding.layoutEmotionButton.setOnClickListener {
-                popupWindowClickListener.onClicked(binding.layoutEmotionButton, adapterPosition, item.id)
+                popupWindowClickListener.onClicked(
+                    binding.layoutEmotionButton,
+                    adapterPosition,
+                    item.id
+                )
             }
 
             binding.tvContent.setOnClickListener { goToPostDetail(item, false) }
@@ -230,14 +234,13 @@ class PostRecyclerViewAdapter :
             putExtra(TIME, item.createAt)
             putExtra(USER_IMAGE, item.image)
             putExtra(CONTENT, item.content)
-            putExtra(IMAGE, item.contentImage)
             binding.root.context.startActivity(this)
         }
     }
 
     fun setPopupBottomClickListener(listener: (Int, Int, Boolean) -> Unit) {
         popupBottomClickListener = object : PopupBottomClickListener {
-            override fun onClicked(contentId: Int, postMine: Int,  isSelected: Boolean) {
+            override fun onClicked(contentId: Int, postMine: Int, isSelected: Boolean) {
                 listener(contentId, postMine, isSelected)
             }
         }
@@ -266,7 +269,6 @@ class PostRecyclerViewAdapter :
         const val TIME = "time"
         const val USER_IMAGE = "user_image"
         const val CONTENT = "content"
-        const val IMAGE = "image"
 
         private val diffUtil = object : DiffUtil.ItemCallback<ResponsePostData.Data.Content>() {
             override fun areItemsTheSame(

@@ -1,6 +1,7 @@
 package com.dnd_8th_4_android.wery.data.api
 
 import com.dnd_8th_4_android.wery.data.remote.model.BaseResponse
+import com.dnd_8th_4_android.wery.data.remote.model.mission.ResponseMissionFeed
 import com.dnd_8th_4_android.wery.data.remote.model.post.ResponseGroupList
 import com.dnd_8th_4_android.wery.data.remote.model.post.ResponsePostData
 import okhttp3.MultipartBody
@@ -33,4 +34,10 @@ interface PostService {
         @Part multipartFile: MutableList<MultipartBody.Part>
     ): Response<BaseResponse>
 
+    @Multipart
+    @POST("/mission/check/content")
+    suspend fun postMissionFeed(
+        @PartMap data: HashMap<String, RequestBody>,
+        @Part multipartFiles: MutableList<MultipartBody.Part>?
+    ): ResponseMissionFeed
 }

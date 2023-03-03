@@ -169,6 +169,7 @@ class AccessGroupFragment :
                         intent.putExtra(MissionDetailActivity.PLACE_NAME, it.missionLocationName)
                         intent.putExtra(MissionDetailActivity.LATITUDE, it.latitude)
                         intent.putExtra(MissionDetailActivity.LONGITUDE, it.longitude)
+                        intent.putExtra(MissionDetailActivity.MISSION_ID, it.missionId)
                         startActivity(intent)
                     }
                 }
@@ -183,6 +184,7 @@ class AccessGroupFragment :
 
         viewModel.postList.observe(viewLifecycleOwner) {
             binding.layoutNoPost.isVisible = it.content.isEmpty()
+            binding.layoutFinal.isVisible = it.content.isNotEmpty()
             binding.tvFinalPageNumber.text = it.totalPages.toString()
 
             postRecyclerViewAdapter.submitList(it.content)
