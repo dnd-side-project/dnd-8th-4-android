@@ -4,6 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
@@ -13,6 +14,7 @@ import android.view.WindowManager
 import android.widget.PopupWindow
 import android.widget.ScrollView
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -94,7 +96,24 @@ class AccessGroupFragment :
         viewModel.getMission()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        requireActivity().window.apply {
+            //상태바
+            statusBarColor = Color.WHITE
+            //상태바 아이콘(true: 검정 / false: 흰색)
+            WindowInsetsControllerCompat(this, this.decorView).isAppearanceLightStatusBars = true
+        }
+    }
+
     override fun initStartView() {
+        requireActivity().window.apply {
+            //상태바
+            statusBarColor = Color.BLACK
+            //상태바 아이콘(true: 검정 / false: 흰색)
+            WindowInsetsControllerCompat(this, this.decorView).isAppearanceLightStatusBars = false
+        }
+
         activityPopupWindowBinding = ActivityPopupWindowBinding.inflate(layoutInflater)
 
         postRecyclerViewAdapter = PostRecyclerViewAdapter()
