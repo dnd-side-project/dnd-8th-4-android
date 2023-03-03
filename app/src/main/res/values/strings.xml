@@ -86,7 +86,7 @@
 
     <!-- SearchPlaceActivity -->
     <string name="search_place_add_place">장소 추가하기</string>
-    <string name="search_place_hint">어디를 방문하셨나요?</string>
+    <string name="search_place_hint">장소명, 지번, 도로명으로 검색</string>
 
     <!-- HomeFragment -->
     <string name="home_search_hint">어떤 추억이 궁금하신가요?</string>
@@ -205,7 +205,7 @@
     <string name="post_detail_emotion">공감</string>
     <string name="post_detail_comment">댓글</string>
     <string name="post_detail_hint">댓글을 남겨주세요.</string>
-    <string name="post_detail_hint_sticker">원하는 스티커를 선택해 보세요.</string>
+    <string name="post_detail_hint_sticker">원하는 스티커를 더블 클릭해서 남겨주세요.</string>
 
     <!-- AccessGroupFragment -->
     <string name="access_group_member">그룹 멤버</string>
@@ -234,9 +234,10 @@
     <string name="mission_detail_dialog_content">이 동작은 취소할 수 없으며 해당 미션의 위치 인증을 포함한 나의 활동 내역이 삭제됩니다.</string>
     <string name="mission_detail_dialog_confirm">삭제</string>
     <string name="mission_detail_toast_message_delete">성공적으로 삭제되었어요!</string>
+    <string name="mission_detail_title">미션 상세보기</string>
 
     <!-- NoMissionActivity -->
-    <string name="no_mission_title">미션을 추가해 보세요</string>
+    <string name="no_mission_title">인증할 미션이 없어요</string>
     <string name="no_mission_content">멤버와 함께 하고 싶은 버킷리스트가 있나요?</string>
     <string name="no_mission_button">미션 만들기</string>
 
@@ -310,5 +311,6 @@
 
     <!-- UnderConstructionActivity -->
     <string name="under_construction_content">아직 공사중이에요</string>
+
 
 </resources>

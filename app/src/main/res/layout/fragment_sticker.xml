@@ -141,11 +141,11 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="8dp"
-                                    android:text="@string/sticker_my_mission_level_one"
                                     android:textColor="@color/gray600"
                                     app:layout_constraintEnd_toEndOf="@id/iv_start"
                                     app:layout_constraintStart_toStartOf="@id/iv_start"
-                                    app:layout_constraintTop_toBottomOf="@id/iv_start" />
+                                    app:layout_constraintTop_toBottomOf="@id/iv_start"
+                                    tools:text="@string/sticker_my_mission_level_one" />
 
                                 <ImageView
                                     android:id="@+id/iv_middle"
@@ -170,11 +170,11 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="8dp"
-                                    android:text="@string/sticker_my_mission_level_two"
                                     android:textColor="@color/gray600"
                                     app:layout_constraintEnd_toEndOf="@id/iv_end"
                                     app:layout_constraintStart_toStartOf="@id/iv_end"
-                                    app:layout_constraintTop_toBottomOf="@id/iv_end" />
+                                    app:layout_constraintTop_toBottomOf="@id/iv_end"
+                                    tools:text="@string/sticker_my_mission_level_two" />
                             </androidx.constraintlayout.widget.ConstraintLayout>
                         </androidx.constraintlayout.widget.ConstraintLayout>
                     </com.google.android.material.card.MaterialCardView>

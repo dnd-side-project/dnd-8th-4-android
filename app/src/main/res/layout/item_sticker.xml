@@ -19,13 +19,14 @@
 
         <ImageView
             android:id="@+id/iv_sticker"
+            imageBindFitXY="@{data.stickerImgUrl}"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginHorizontal="16dp"
             android:layout_marginVertical="20dp"
+            android:background="@drawable/shape_radius_8_gray200"
+            android:foreground="@drawable/shape_radius_8_gray200"
             android:padding="1dp"
-            imageBindFitXY="@{data.stickerImgUrl}"
-            android:background="@drawable/shape_gray100_radius_8_gray200"
             android:scaleType="centerInside"
             android:src="@drawable/img_no_group"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -37,8 +38,8 @@
             android:id="@+id/frame_layout_lock"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:visibility="@{data.isStickerLocked == false ? View.VISIBLE : View.GONE }"
             android:background="@drawable/shape_black50_radius_8"
+            android:visibility="@{data.isStickerLocked == false ? View.VISIBLE : View.GONE }"
             app:layout_constraintBottom_toBottomOf="@id/iv_sticker"
             app:layout_constraintEnd_toEndOf="@id/iv_sticker"
             app:layout_constraintStart_toStartOf="@id/iv_sticker"
@@ -67,8 +68,8 @@
                 style="@style/TextView.Title.14.Sb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
                 android:text="@{data.stickerName}"
+                android:textColor="@color/black"
                 tools:text="위어리 알유 위어리?" />
 
             <TextView
@@ -77,8 +78,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
-                android:textColor="@color/color_f47aff"
                 android:text="@{`Lv. `+String.valueOf(data.stickerLevel)}"
+                android:textColor="@color/color_f47aff"
                 tools:text="Lv.2" />
 
             <TextView

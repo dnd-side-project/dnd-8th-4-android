@@ -6,6 +6,7 @@ data class ResponsePostDetailCommentNoImageData(
     val data : Data
 ): BaseResponse() {
     data class Data(
+        val userId: Int,
         val friendImage: String?,
         val name: String,
         val comment: String,

@@ -40,6 +40,9 @@ abstract class BaseFragment<T : ViewDataBinding>(@LayoutRes val layout: Int) : F
 
     override fun onDestroyView() {
         super.onDestroyView()
+        if (mLoadingDialog.isShowing) {
+            mLoadingDialog.dismiss()
+        }
         _binding = null
     }
 

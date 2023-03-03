@@ -1,13 +1,17 @@
 package com.dnd_8th_4_android.wery.presentation.ui.alert.adapter
 
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.data.remote.model.alert.ResponseAlertInviteData
 import com.dnd_8th_4_android.wery.databinding.ItemAlertInviteBinding
+import com.dnd_8th_4_android.wery.domain.model.MissionColor
 import com.dnd_8th_4_android.wery.presentation.ui.detail.adapter.PostDetailStickerRecyclerViewAdapter
 
 class AlertInviteRecyclerViewAdapter :
@@ -30,9 +34,21 @@ class AlertInviteRecyclerViewAdapter :
             binding.tvTime.text = item.groupInvitedAt
 
             if (item.readYn) {
+                binding.layoutInvite.backgroundTintList = ColorStateList.valueOf(
+                    ContextCompat.getColor(
+                        binding.root.context,
+                        R.color.gray50
+                    )
+                )
                 binding.btnGroupParticipate.isEnabled = false
                 binding.btnGroupDeny.isEnabled = false
             } else {
+                binding.layoutInvite.backgroundTintList = ColorStateList.valueOf(
+                    ContextCompat.getColor(
+                        binding.root.context,
+                        R.color.color_1af47aff
+                    )
+                )
                 binding.btnGroupParticipate.isEnabled = true
                 binding.btnGroupDeny.isEnabled = true
             }

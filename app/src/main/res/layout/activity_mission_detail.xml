@@ -44,10 +44,10 @@
                     style="@style/TextView.Title.16.Sb"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="@string/mission_detail_title"
                     android:textColor="@color/black"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="미션 상세보기" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
             </LinearLayout>
 
@@ -307,7 +307,7 @@
 
             <TextView
                 android:id="@+id/tv_delete"
-                style="@style/TextView.Body.12.R"
+                style="@style/TextView.Body.14.R"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -327,11 +327,11 @@
             android:layout_marginBottom="24dp"
             android:backgroundTint="@color/black"
             android:padding="16dp"
-            tools:text="@string/mission_detail_write"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="@string/mission_detail_write" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

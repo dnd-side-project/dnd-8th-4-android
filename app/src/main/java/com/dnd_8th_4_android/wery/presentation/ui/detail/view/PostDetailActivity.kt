@@ -95,14 +95,6 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
             else dismissLoadingDialog()
         }
 
-        viewModel.emotionCount.observe(this) {
-            binding.layoutEmotionCount.visibility = if (it != 0) {
-                View.VISIBLE
-            } else {
-                View.GONE
-            }
-        }
-
         viewModel.postDetailList.observe(this) {
             postDetailImageRecyclerViewAdapter.submitList(it.imageList)
             binding.tvHitCount.text = it.views.toString()
@@ -119,14 +111,6 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
 
         viewModel.commentList.observe(this) {
             postDetailCommentRecyclerViewAdapter.submitList(it.toMutableList())
-        }
-
-        viewModel.commentCount.observe(this) {
-            binding.layoutCommentCount.visibility = if (it != 0) {
-                View.VISIBLE
-            } else {
-                View.GONE
-            }
         }
 
         viewModel.stickerList.observe(this) {

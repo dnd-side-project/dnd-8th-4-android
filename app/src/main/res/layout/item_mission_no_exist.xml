@@ -8,9 +8,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:src="@drawable/img_no_group" />
+        android:src="@drawable/img_no_mission" />
 
     <TextView
+        style="@style/TextView.Title.14.Sb"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -19,6 +20,7 @@
         android:textColor="@color/gray900" />
 
     <TextView
+        style="@style/TextView.Caption.12.R"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
@@ -26,5 +28,4 @@
         android:text="@string/no_mission_content"
         android:textAlignment="center"
         android:textColor="@color/gray500" />
-
 </LinearLayout>

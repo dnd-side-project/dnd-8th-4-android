@@ -220,8 +220,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:visibility="gone">
+                        android:orientation="horizontal">
 
                         <TextView
                             android:id="@+id/tv_emotion"
@@ -254,8 +253,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:visibility="gone">
+                        android:orientation="horizontal">
 
                         <TextView
                             android:id="@+id/tv_comment"
@@ -326,12 +324,11 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_comment"
+                    dividerColor="@{@color/gray100}"
+                    dividerHeight="@{@dimen/group_list_item_divider_height}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:clipToPadding="false"
-                    android:paddingHorizontal="16dp"
-                    dividerColor="@{@color/gray100}"
-                    dividerHeight="@{@dimen/group_list_item_divider_height}"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintTop_toBottomOf="@id/view_line_middle" />
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -348,8 +345,8 @@
             android:id="@+id/layout_edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view_line_bottom">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_edit_text"
@@ -363,7 +360,7 @@
                     android:id="@+id/et_comment"
                     style="@style/TextView.Caption.12.R"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginEnd="12dp"
                     android:background="@drawable/shape_gray100_radius_24"
                     android:hint="@string/post_detail_hint"
@@ -372,8 +369,10 @@
                     android:paddingEnd="44dp"
                     android:textColor="@color/black"
                     app:addTextChangedListener="@{vm.textWatcher}"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/iv_send"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
                     android:id="@+id/iv_sticker"

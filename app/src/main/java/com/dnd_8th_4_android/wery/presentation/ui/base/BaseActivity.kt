@@ -35,6 +35,9 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes val layoutRes: Int) 
 
     override fun onDestroy() {
         super.onDestroy()
+        if (mLoadingDialog.isShowing) {
+            mLoadingDialog.dismiss()
+        }
         overridePendingTransition(0, 0)
     }
 

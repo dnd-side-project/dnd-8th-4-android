@@ -33,7 +33,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="240dp"
                     android:foreground="@drawable/bg_group_image_shadow"
-                    android:scaleType="fitXY"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/img_sample"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -203,13 +203,13 @@
                 <LinearLayout
                     android:id="@+id/layout_no_post"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:layout_marginTop="20dp"
                     android:background="@color/gray50"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:paddingBottom="12dp"
                     android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_newest_post">
 
                     <ImageView
@@ -276,8 +276,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
-                            android:textColor="@color/gray500"
-                            android:text="/"/>
+                            android:text="/"
+                            android:textColor="@color/gray500" />
 
                         <TextView
                             android:id="@+id/tv_final_page_number"
@@ -292,10 +292,10 @@
                             android:id="@+id/btn_after"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
                             android:background="@drawable/shape_white_radius_4_gray200"
                             android:paddingHorizontal="20dp"
                             android:paddingVertical="8dp"
-                            android:layout_marginStart="16dp"
                             android:src="@drawable/ic_after" />
                     </LinearLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
