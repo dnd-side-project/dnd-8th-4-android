@@ -332,16 +332,14 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
      * 마커를 선택했을 시 서버통신 param으로 contentId를 넘겨준다
      * */
     private fun showFeedMarkerList(feedList: List<ResponseMapFeedList.ResultMapFeedData>) {
+        val distinctFeedList = feedList.distinctBy { it.location }.toList()
         val feedMarkerArr = arrayListOf<MapPOIItem>()
 
-        for (i in feedList.indices) {
+        for (i in distinctFeedList.indices) {
             val view = ItemMarkerFeedBinding.inflate(layoutInflater)
             view.ivMapGroupImg.clipToOutline = true
 
-            var imageUrl = ""
-            if (feedList[i].collect.isNotEmpty()) imageUrl =
-                feedList[i].collect[0].imageUrl else imageUrl = ""
-            Glide.with(requireContext()).load(imageUrl)
+            Glide.with(requireContext()).load(distinctFeedList[i].contentImageUrl)
                 .transform(CenterCrop(), RoundedCorners(12)).override(60, 60)
                 .into(view.ivMapGroupImg).waitForLayout()
 
@@ -352,10 +350,10 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
 
             val feedMarker = MapPOIItem()
             feedMarker.apply {
-                itemName = feedList[i].id.toString()
+                itemName = distinctFeedList[i].id.toString()
                 isShowCalloutBalloonOnTouch = false
                 mapPoint =
-                    MapPoint.mapPointWithGeoCoord(feedList[i].latitude, feedList[i].longitude)
+                    MapPoint.mapPointWithGeoCoord(distinctFeedList[i].latitude, distinctFeedList[i].longitude)
                 markerType = MapPOIItem.MarkerType.CustomImage
                 customImageBitmap = myCustomImageBitmap
                 selectedMarkerType = MapPOIItem.MarkerType.CustomImage
