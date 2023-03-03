@@ -17,6 +17,6 @@ interface MapRepository {
     ): ResponseMapFeedList
 
     suspend fun getFeedData(
-        contentId: Int
+        location: String
     ): ResponseMapFeedData
 }

@@ -328,7 +328,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
 
     /**
      * 받아온 x,y 좌표값으로 피드 리스트를 받아온다
-     * contentId를 itemName으로 넘겨서
+     * location을 itemName으로 넘겨서
      * 마커를 선택했을 시 서버통신 param으로 contentId를 넘겨준다
      * */
     private fun showFeedMarkerList(feedList: List<ResponseMapFeedList.ResultMapFeedData>) {
@@ -350,7 +350,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
 
             val feedMarker = MapPOIItem()
             feedMarker.apply {
-                itemName = distinctFeedList[i].id.toString()
+                itemName = distinctFeedList[i].location
                 isShowCalloutBalloonOnTouch = false
                 mapPoint =
                     MapPoint.mapPointWithGeoCoord(distinctFeedList[i].latitude, distinctFeedList[i].longitude)
@@ -463,8 +463,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
 
     }
 
-    private fun getFeedVpData(contentId: Int) {
-        mapViewModel.getFeedData(contentId)
+    private fun getFeedVpData(location: String) {
+        mapViewModel.getFeedData(location)
     }
 
     private fun getMissionCardData(missionId: Int) {
@@ -478,7 +478,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
             // 마커 클릭 시
             if (!poiItem!!.isShowCalloutBalloonOnTouch) {
                 if (mapViewModel.filterType.value == 0) { // 피드 마커 일 때
-                    getFeedVpData(poiItem.itemName.toInt())
+                    getFeedVpData(poiItem.itemName)
                     binding.vpFeedDialog.visibility = View.VISIBLE
                 } else { // 미션 마커 일 때
                     getMissionCardData(poiItem.itemName.toInt())

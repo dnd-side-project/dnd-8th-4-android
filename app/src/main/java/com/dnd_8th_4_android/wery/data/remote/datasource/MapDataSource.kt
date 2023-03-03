@@ -9,5 +9,5 @@ interface MapDataSource {
 
     suspend fun getFeedList(x: Double, y: Double): ResponseMapFeedList
 
-    suspend fun getMapFeedDetail(contentId: Int): ResponseMapFeedData
+    suspend fun getMapFeedDetail(location: String): ResponseMapFeedData
 }

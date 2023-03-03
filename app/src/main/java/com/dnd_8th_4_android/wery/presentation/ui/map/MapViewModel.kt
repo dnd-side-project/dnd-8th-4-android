@@ -86,10 +86,10 @@ class MapViewModel @Inject constructor(private val mapRepository: MapRepository)
         }
     }
 
-    fun getFeedData(contentId:Int) {
+    fun getFeedData(location:String) {
         viewModelScope.launch {
             kotlin.runCatching {
-                mapRepository.getFeedData(contentId)
+                mapRepository.getFeedData(location)
             }.onSuccess {
                 _feedListData.value = it
             }

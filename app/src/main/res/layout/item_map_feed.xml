@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View"/>
 
         <variable
             name="data"
@@ -133,6 +134,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             style="@style/TextView.Caption.10.M"
+            android:visibility="@{data.contentImageSize &lt;= 1 ? View.INVISIBLE:View.VISIBLE}"
             android:gravity="center"
             android:padding="6dp"
             android:background="@drawable/shape_oval_b3000000"

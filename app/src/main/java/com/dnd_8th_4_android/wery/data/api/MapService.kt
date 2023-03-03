@@ -18,6 +18,6 @@ interface MapService {
 
     @GET("/content/map/detail")
     suspend fun getFeedData(
-        @Query("contentId") contentId: Int
+        @Query("location") location: String
     ): ResponseMapFeedData
 }

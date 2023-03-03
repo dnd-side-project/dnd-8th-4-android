@@ -19,7 +19,7 @@ class MapRepositoryImpl @Inject constructor(private val mapDataSource: MapDataSo
         return mapDataSource.getFeedList(x, y)
     }
 
-    override suspend fun getFeedData(contentId: Int): ResponseMapFeedData {
-        return mapDataSource.getMapFeedDetail(contentId)
+    override suspend fun getFeedData(location: String): ResponseMapFeedData {
+        return mapDataSource.getMapFeedDetail(location)
     }
 }

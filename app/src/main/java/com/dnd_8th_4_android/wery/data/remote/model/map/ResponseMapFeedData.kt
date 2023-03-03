@@ -6,14 +6,14 @@ data class ResponseMapFeedData(
     val data: List<ResultMapFeedData>,
 ) : BaseResponse() {
     data class ResultMapFeedData(
-        val content: String,
         val contentId: Int,
+        val groupId: Int,
+        val location: String,
+        val groupImage: String,
+        val groupName: String,
+        val createAt: String,
         val contentImageSize: Int,
         val contentImageUrl: String,
-        val createAt: String,
-        val groupId: Int,
-        val groupName: String,
-        val groupImage: String,
-        val location: String
+        val content: String,
     )
 }
