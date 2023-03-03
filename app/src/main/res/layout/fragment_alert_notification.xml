@@ -10,36 +10,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+        <include
+            layout="@layout/activity_under_construction"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/gray50"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/iv_alert_invite"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/img_alert_notification" />
-
-            <TextView
-                style="@style/TextView.Title.14.Sb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/alert_notification_no_message"
-                android:textColor="@color/gray900" />
-        </LinearLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_notification"
-            dividerColor="@{@color/gray100}"
-            dividerHeight="@{@dimen/group_list_item_divider_height}"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="match_parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
