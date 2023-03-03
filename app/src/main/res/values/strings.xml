@@ -286,6 +286,8 @@
     <string name="mypage_post">작성한 글</string>
     <string name="mypage_comment">댓글 단 글</string>
     <string name="mypage_notice">공지사항</string>
+    <string name="mypage_bookmark_hit">조회</string>
+    <string name="mypage_bookmark_comment">댓글</string>
 
     <!-- MyPageActivity -->
     <string name="mypage_mission_title">완료한 미션</string>
@@ -302,6 +304,7 @@
     <string name="profile_change_success">완료</string>
     <string name="profile_change_bottom_album">앨범에서 선택</string>
     <string name="profile_change_bottom_remove">프로필 사진 삭제</string>
+
 
 
 </resources>

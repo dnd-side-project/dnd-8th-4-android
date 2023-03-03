@@ -41,6 +41,10 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
                     startActivity(this)
                 }
             }
+
+            binding.ivBookmark.setOnClickListener {
+                startActivity(Intent(requireContext(), MyPageBookmarkActivity::class.java))
+            }
         }
     }
 

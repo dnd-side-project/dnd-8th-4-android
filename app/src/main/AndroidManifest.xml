@@ -83,6 +83,8 @@
         <activity
             android:name=".presentation.ui.mission.sticker.view.StickerAlertActivity"
             android:theme="@style/TransparentTheme"/>
+        <activity android:name=".presentation.ui.mypage.view.MyPageBookmarkActivity"
+            android:exported="true" />
     </application>
 
 </manifest>
