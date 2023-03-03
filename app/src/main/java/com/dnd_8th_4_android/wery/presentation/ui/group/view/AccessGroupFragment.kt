@@ -31,6 +31,7 @@ import com.dnd_8th_4_android.wery.presentation.ui.group.adapter.GroupListRecycle
 import com.dnd_8th_4_android.wery.presentation.ui.group.viewmodel.AccessGroupViewModel
 import com.dnd_8th_4_android.wery.presentation.ui.home.adapter.PostRecyclerViewAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.home.view.HomeFragment
+import com.dnd_8th_4_android.wery.presentation.ui.mission.create.CreateMissionActivity
 import com.dnd_8th_4_android.wery.presentation.ui.mission.view.MissionDetailActivity
 import com.dnd_8th_4_android.wery.presentation.ui.post.upload.view.UploadPostActivity
 import com.dnd_8th_4_android.wery.presentation.ui.search.view.SearchPostActivity
@@ -230,6 +231,10 @@ class AccessGroupFragment :
             Glide.with(binding.ivGroupImage.context)
                 .load(groupImage)
                 .into(binding.ivGroupImage)
+        }
+
+        binding.layoutNoMission.accessGroupCreateMissionBtn.setOnClickListener {
+            startActivity(Intent(requireContext(),CreateMissionActivity::class.java))
         }
 
         binding.tvGroupName.text =
