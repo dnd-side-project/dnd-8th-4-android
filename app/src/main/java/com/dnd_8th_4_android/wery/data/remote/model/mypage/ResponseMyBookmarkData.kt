@@ -13,6 +13,7 @@ data class ResponseMyBookmarkData(
             val userId: Int,
             val groupId: Int,
             val groupName: String,
+            val groupImage: String,
             val content: String,
             val createAt: String,
             val views: Int,

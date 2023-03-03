@@ -12,8 +12,9 @@ import java.time.LocalDate
 class MyPageBookmarkRecyclerViewAdapter(private val list: MutableList<ResponseMyBookmarkData.Data.Content>) :
     RecyclerView.Adapter<MyPageBookmarkRecyclerViewAdapter.ViewHolder>() {
     private lateinit var binding: ItemMypageBookmarkBinding
+    private lateinit var onGoPostClickListener: OnGoPostClickListener
 
-    class ViewHolder(private val binding: ItemMypageBookmarkBinding) :
+    inner class ViewHolder(private val binding: ItemMypageBookmarkBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ResponseMyBookmarkData.Data.Content) {
             binding.tvPostContent.text = item.content
@@ -22,7 +23,7 @@ class MyPageBookmarkRecyclerViewAdapter(private val list: MutableList<ResponseMy
             Glide.with(binding.root.context).load(item.images[0].imageUrl)
                 .into(binding.ivPostImage)
 
-            if(item.imageSize != 1) {
+            if (item.imageSize != 1) {
                 binding.tvImageCount.isVisible = true
                 binding.tvImageCount.text = item.imageSize.toString()
             } else {
@@ -38,11 +39,15 @@ class MyPageBookmarkRecyclerViewAdapter(private val list: MutableList<ResponseMy
             binding.tvHitCont.text = item.views.toString()
             binding.tvComment.text = item.comments.toString()
 
-//            binding.ivFriendImage.clipToOutline = true
-//            Glide.with(binding.root.context).load(item.사용자 이미지)
-//                .into(binding.ivFriendImage)
+            binding.ivGroupImage.clipToOutline = true
+            Glide.with(binding.root.context).load(item.groupImage)
+                .into(binding.ivGroupImage)
 
             binding.tvName.text = item.groupName
+
+            binding.layoutPostBookmark.setOnClickListener {
+                onGoPostClickListener.onClicked(adapterPosition)
+            }
         }
     }
 
@@ -56,5 +61,17 @@ class MyPageBookmarkRecyclerViewAdapter(private val list: MutableList<ResponseMy
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(list[position])
+    }
+
+    fun setGoPostClickListener(listener: (Int) -> Unit) {
+        onGoPostClickListener = object : OnGoPostClickListener {
+            override fun onClicked(position: Int) {
+                listener(position)
+            }
+        }
+    }
+
+    interface OnGoPostClickListener {
+        fun onClicked(position: Int)
     }
 }
