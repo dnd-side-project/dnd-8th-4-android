@@ -36,7 +36,7 @@ class MapFeedAdapter :
                 Intent(it.context, PostDetailActivity::class.java).apply {
                     putExtra(PostRecyclerViewAdapter.CONTENT_ID, data.contentId)
                     putExtra(PostRecyclerViewAdapter.CONTENT, data.content)
-                    putExtra(PostRecyclerViewAdapter.USER_IMAGE, data.groupImage)
+                    putExtra(PostRecyclerViewAdapter.USER_IMAGE, data.userProfileImage)
                     putExtra(PostRecyclerViewAdapter.GROUP_NAME, data.groupName)
                     putExtra(PostRecyclerViewAdapter.TIME, data.createAt)
                     it.context.startActivity(this)
