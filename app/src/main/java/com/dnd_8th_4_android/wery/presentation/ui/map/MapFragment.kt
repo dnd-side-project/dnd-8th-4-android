@@ -296,8 +296,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
                 setXY()
                 mapViewModel.getFeedList()
             }
-            //mapView.removeAllPOIItems()
-            // showFeedMarkerList()
+            mapView.removeAllPOIItems()
         }
 
         binding.ivFilterMission.setOnClickListener {
@@ -306,7 +305,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
                 setMapBoundsPoint()
                 mapViewModel.getMissionList(mapViewModel.getCurrentMapBounds())
             }
-            //mapView.removeAllPOIItems()
+            mapView.removeAllPOIItems()
         }
 
         binding.tvSearchHint.setOnClickListener {
@@ -347,6 +346,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
             view.ivMapGroupImg.clipToOutline = true
 
             Glide.with(requireContext()).load(distinctFeedList[i].contentImageUrl)
+                .placeholder(R.color.white)
                 .transform(CenterCrop(), RoundedCorners(12)).override(60, 60)
                 .into(view.ivMapGroupImg).waitForLayout()
 
