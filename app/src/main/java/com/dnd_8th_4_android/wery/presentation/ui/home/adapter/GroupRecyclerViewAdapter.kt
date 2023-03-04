@@ -28,7 +28,7 @@ class GroupRecyclerViewAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ResponseGroupData.Data.GroupInfo) {
             binding.ivMyGroup.clipToOutline = true
-            Glide.with(binding.ivMyGroup.context).load(item.image)
+            Glide.with(binding.ivMyGroup.context).load(item.image).centerCrop()
                 .into(binding.ivMyGroup)
 
             binding.tvGroupName.text = item.name
