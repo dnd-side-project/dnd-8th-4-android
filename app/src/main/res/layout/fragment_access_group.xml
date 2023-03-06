@@ -12,21 +12,22 @@
             type="com.dnd_8th_4_android.wery.presentation.ui.group.viewmodel.AccessGroupViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/scrollView"
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar_container"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:fillViewport="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:fitsSystemWindows="true"
+                app:contentScrim="?attr/colorPrimary"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
                 <ImageView
                     android:id="@+id/iv_group_image"
@@ -37,98 +38,133 @@
                     android:src="@drawable/img_sample"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
-                    android:id="@+id/iv_back"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="11dp"
-                    android:src="@drawable/ic_back_white"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_collapseMode="pin">
 
-                <ImageView
-                    android:id="@+id/iv_search"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="11dp"
-                    android:layout_marginEnd="16dp"
-                    android:src="@drawable/ic_search_24"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    <ImageView
+                        android:id="@+id/iv_back"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:src="@drawable/ic_back_white" />
 
-                <ImageView
-                    android:id="@+id/iv_bookmark"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="11dp"
-                    android:layout_marginEnd="8dp"
-                    android:src="@drawable/selector_bookmark_star_24"
-                    app:layout_constraintEnd_toStartOf="@id/iv_search"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    <TextView
+                        android:id="@+id/tv_toolbar_group_name"
+                        style="@style/TextView.Title.16.Sb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:textColor="@color/white"
+                        android:visibility="gone"
+                        tools:text="몬베베와 샤월들" />
 
-                <TextView
-                    android:id="@+id/tv_group_name"
-                    style="@style/TextView.Title.20.Sb"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginBottom="64dp"
-                    android:textColor="@color/white"
-                    app:layout_constraintBottom_toBottomOf="@id/iv_group_image"
-                    app:layout_constraintStart_toStartOf="parent"
-                    tools:text="몬베베와 샤월들" />
+                    <ImageView
+                        android:id="@+id/iv_search"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_marginEnd="16dp"
+                        android:src="@drawable/ic_search_24" />
 
-                <ImageView
-                    android:id="@+id/iv_group_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:src="@drawable/ic_next_white"
-                    app:layout_constraintBottom_toBottomOf="@id/tv_group_name"
-                    app:layout_constraintStart_toEndOf="@id/tv_group_name"
-                    app:layout_constraintTop_toTopOf="@id/tv_group_name" />
+                    <ImageView
+                        android:id="@+id/iv_bookmark"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_marginEnd="8dp"
+                        android:src="@drawable/selector_bookmark_star_24" />
+                </com.google.android.material.appbar.MaterialToolbar>
 
-                <TextView
-                    android:id="@+id/tv_group_member"
-                    style="@style/TextView.Caption.12.R"
-                    android:layout_width="wrap_content"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:text="@string/access_group_member"
-                    android:textColor="@color/white"
-                    app:layout_constraintStart_toStartOf="@id/tv_group_name"
-                    app:layout_constraintTop_toBottomOf="@id/tv_group_name" />
-
-                <TextView
-                    android:id="@+id/tv_group_member_number"
-                    style="@style/TextView.Caption.12.R"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:textColor="@color/white"
-                    app:layout_constraintBottom_toBottomOf="@id/tv_group_member"
-                    app:layout_constraintStart_toEndOf="@id/tv_group_member"
-                    app:layout_constraintTop_toTopOf="@id/tv_group_member"
-                    tools:text="12" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_invite_search"
-                    style="@style/MaterialButton.40.12.R"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
+                    android:layout_gravity="bottom"
                     android:layout_marginBottom="40dp"
-                    android:backgroundTint="@android:color/transparent"
-                    android:paddingHorizontal="12dp"
-                    android:paddingVertical="8dp"
-                    android:text="@string/access_group_invite_button"
-                    app:icon="@drawable/ic_invite"
-                    app:iconPadding="4dp"
-                    app:layout_constraintBottom_toBottomOf="@id/iv_group_image"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:strokeColor="@color/white"
-                    app:strokeWidth="1dp" />
+                    app:layout_collapseMode="parallax">
+
+                    <TextView
+                        android:id="@+id/tv_group_name"
+                        style="@style/TextView.Title.20.Sb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:textColor="@color/white"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="몬베베와 샤월들" />
+
+                    <ImageView
+                        android:id="@+id/iv_group_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:src="@drawable/ic_next_white"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_group_name"
+                        app:layout_constraintStart_toEndOf="@id/tv_group_name"
+                        app:layout_constraintTop_toTopOf="@id/tv_group_name" />
+
+                    <TextView
+                        android:id="@+id/tv_group_member"
+                        style="@style/TextView.Caption.12.R"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="@string/access_group_member"
+                        android:textColor="@color/white"
+                        app:layout_constraintStart_toStartOf="@id/tv_group_name"
+                        app:layout_constraintTop_toBottomOf="@id/tv_group_name" />
+
+                    <TextView
+                        android:id="@+id/tv_group_member_number"
+                        style="@style/TextView.Caption.12.R"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:textColor="@color/white"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_group_member"
+                        app:layout_constraintStart_toEndOf="@id/tv_group_member"
+                        app:layout_constraintTop_toTopOf="@id/tv_group_member"
+                        tools:text="12" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_invite_search"
+                        style="@style/MaterialButton.40.12.R"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:backgroundTint="@android:color/transparent"
+                        android:paddingHorizontal="12dp"
+                        android:paddingVertical="8dp"
+                        android:text="@string/access_group_invite_button"
+                        app:icon="@drawable/ic_invite"
+                        app:iconPadding="4dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:strokeColor="@color/white"
+                        app:strokeWidth="1dp" />
+
+                    <androidx.constraintlayout.helper.widget.Layer
+                        android:id="@+id/layer_group_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:constraint_referenced_ids="tv_group_name,iv_group_name"
+                        tools:ignore="MissingConstraints" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/tv_mission_ing"
@@ -140,7 +176,7 @@
                     android:text="@string/access_group_mission_ing"
                     android:textColor="@color/black"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/iv_group_image" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/tv_mission_ing_count"
@@ -299,13 +335,6 @@
                             android:src="@drawable/ic_after" />
                     </LinearLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.helper.widget.Layer
-                    android:id="@+id/layer_group_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:constraint_referenced_ids="tv_group_name, iv_group_name"
-                    tools:ignore="MissingConstraints" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
 
@@ -313,11 +342,10 @@
             android:id="@+id/btn_floating_action"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
             android:layout_margin="16dp"
             android:src="@drawable/ic_pencil"
             app:backgroundTint="@color/black"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:tint="@color/white" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

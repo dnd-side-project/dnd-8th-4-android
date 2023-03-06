@@ -9,7 +9,6 @@ import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
 import android.provider.Settings
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.PopupWindow
@@ -223,6 +222,13 @@ class AccessGroupFragment :
     }
 
     override fun initAfterBinding() {
+        binding.appBarContainer.addOnOffsetChangedListener { _, verticalOffset ->
+            binding.tvToolbarGroupName.isVisible =
+                binding.appBarContainer.totalScrollRange == kotlin.math.abs(
+                    verticalOffset
+                )
+        }
+
         binding.ivBack.setOnClickListener {
             findNavController().navigate(R.id.action_accessGroupFragment_to_groupFragment)
         }
@@ -235,9 +241,11 @@ class AccessGroupFragment :
         }
 
         binding.layoutNoMission.accessGroupCreateMissionBtn.setOnClickListener {
-            startActivity(Intent(requireContext(),CreateMissionActivity::class.java))
+            startActivity(Intent(requireContext(), CreateMissionActivity::class.java))
         }
 
+        binding.tvToolbarGroupName.text =
+            requireArguments().getString(GroupListRecyclerViewAdapter.GROUP_NAME)
         binding.tvGroupName.text =
             requireArguments().getString(GroupListRecyclerViewAdapter.GROUP_NAME)
         binding.tvGroupMemberNumber.text =
