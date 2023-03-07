@@ -3,7 +3,6 @@ package com.dnd_8th_4_android.wery.presentation.ui.mypage.viewmodel
 import android.net.Uri
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

@@ -10,7 +10,6 @@ import android.provider.Settings
 import android.text.Spannable
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
-import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
@@ -64,9 +63,9 @@ class CreateGroupActivity :
             val groupId = intent.getIntExtra("groupId", 0)
             createGroupViewModel.getGroupInformation(groupId)
             createGroupViewModel.setGroupId(groupId)
-            createGroupViewModel.groupImgString.observe(this) {
+            createGroupViewModel.groupImgHttpUrl.observe(this) {
                 if (it.isNotEmpty()) {
-                    Glide.with(this).load(createGroupViewModel.groupImgString.value)
+                    Glide.with(this).load(createGroupViewModel.groupImgHttpUrl.value)
                         .into(binding.ivGroupImg)
                 }
             }
@@ -173,13 +172,13 @@ class CreateGroupActivity :
                 createGroupViewModel.groupIntroduceTxt.value.toString()
             )
             val galleryUri = createGroupViewModel.groupImg.value
-            val httpUri = createGroupViewModel.groupImgString.value
+            val httpUri = createGroupViewModel.groupImgHttpUrl.value
             if (intent.hasExtra("groupId")) {
                 Thread {
                     kotlin.run {
                         var image:MultipartBody.Part? = null
                         if (galleryUri != "".toUri()) {
-                            image = if (galleryUri == "".toUri()) null else MultiPartFileUtil(this, "image").uriToFile(galleryUri)
+                            image = MultiPartFileUtil(this, "image").uriToFile(galleryUri)
                         } else {
                             if (httpUri!!.contains("https")) image = MultiPartFileUtil(this,"image").httpsToFile(httpUri)
                         }
@@ -269,6 +268,6 @@ class CreateGroupActivity :
     private fun removePhoto() {
         Glide.with(this).load(R.drawable.img_group_default).into(binding.ivGroupImg)
         createGroupViewModel.setImageUri("".toUri())
-        createGroupViewModel.groupImgString.value = ""
+        createGroupViewModel.groupImgHttpUrl.value = ""
     }
 }

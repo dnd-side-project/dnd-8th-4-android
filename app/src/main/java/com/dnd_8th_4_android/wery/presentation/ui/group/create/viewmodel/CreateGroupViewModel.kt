@@ -22,7 +22,7 @@ class CreateGroupViewModel @Inject constructor(private val groupRepository: Grou
 
     var groupNameTxt = MutableLiveData<String>()
     var groupIntroduceTxt = MutableLiveData<String>()
-    var groupImgString = MutableLiveData<String>("")
+    var groupImgHttpUrl = MutableLiveData<String>("")
 
     private val _groupId = MutableLiveData<Int>()
     val groupId: LiveData<Int> = _groupId
@@ -78,7 +78,7 @@ class CreateGroupViewModel @Inject constructor(private val groupRepository: Grou
             }.onSuccess {
                 groupNameTxt.value = it.data.groupName
                 groupIntroduceTxt.value = it.data.groupNote
-                groupImgString.value = it.data.groupImageUrl
+                groupImgHttpUrl.value = it.data.groupImageUrl
             }
         }
     }

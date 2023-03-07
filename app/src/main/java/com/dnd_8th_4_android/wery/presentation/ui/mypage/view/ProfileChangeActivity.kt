@@ -116,10 +116,7 @@ class ProfileChangeActivity :
                 kotlin.run {
                     var image: MultipartBody.Part? = null
                     if (galleryUri != "".toUri()) {
-                        image = if (galleryUri == "".toUri()) null else MultiPartFileUtil(
-                            this,
-                            "file"
-                        ).uriToFile(galleryUri)
+                        image = MultiPartFileUtil(this, "file").uriToFile(galleryUri)
                     } else {
                         if (httpUri!!.contains("https")) image =
                             MultiPartFileUtil(this, "file").httpsToFile(httpUri)
