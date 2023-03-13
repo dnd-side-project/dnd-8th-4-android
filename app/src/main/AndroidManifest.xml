@@ -84,7 +84,7 @@
             android:name=".presentation.ui.mission.sticker.view.StickerAlertActivity"
             android:theme="@style/TransparentTheme"/>
 
-        <activity android:name=".presentation.ui.mypage.view.MyPageConfigurationConstructionActivity" />
+        <activity android:name=".presentation.ui.mypage.view.MyPageConfigurationActivity" />
         <activity android:name=".presentation.ui.mypage.view.MyPageMissionConstructionActivity" />
         <activity android:name=".presentation.ui.mypage.view.MyPageBookmarkActivity" />
         <activity android:name=".presentation.ui.mypage.view.MyPagePostConstructionActivity" />

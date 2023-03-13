@@ -301,7 +301,16 @@
     <string name="mypage_comment_title">댓글 쓴 글</string>
     <string name="mypage_notice_title">공지사항</string>
     <string name="mypage_notice_content">작성된 공지가 없어요</string>
+
+    <!-- MyPageConfigurationActivity -->
     <string name="mypage_configuration_title">환경설정</string>
+    <string name="mypage_configuration_user_set_up">사용자 설정</string>
+    <string name="mypage_configuration_account">계정 정보 관리</string>
+    <string name="mypage_configuration_user_agree">사용자 이용약관</string>
+    <string name="mypage_configuration_etc">기타</string>
+    <string name="mypage_configuration_logout">로그아웃</string>
+    <string name="mypage_configuration_drop_out">탈퇴하기</string>
+    <string name="mypage_configuration_version">버전 V0.0.1</string>
 
     <!-- ProfileChangeActivity -->
     <string name="profile_change_title">프로필 수정</string>
@@ -312,6 +321,5 @@
 
     <!-- UnderConstructionActivity -->
     <string name="under_construction_content">아직 공사중이에요</string>
-
 
 </resources>

@@ -35,7 +35,7 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
             binding.tvMyName.text = it.nickName
 
             binding.ivConfiguration.setOnClickListener {
-                startActivity(Intent(requireContext(), MyPageConfigurationConstructionActivity::class.java))
+                startActivity(Intent(requireContext(), MyPageConfigurationActivity::class.java))
             }
 
             binding.ivProfile.setOnClickListener { _ ->
