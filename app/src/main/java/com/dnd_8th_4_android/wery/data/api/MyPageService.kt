@@ -24,4 +24,7 @@ interface MyPageService {
     suspend fun getMyBookmarkList(
         @Query("page") page: Int,
     ): ResponseMyBookmarkData
+
+    @DELETE("/auth")
+    suspend fun deleteAccount(): BaseResponse
 }

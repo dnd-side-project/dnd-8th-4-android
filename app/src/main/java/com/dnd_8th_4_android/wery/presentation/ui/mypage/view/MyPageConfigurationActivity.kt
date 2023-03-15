@@ -34,13 +34,33 @@ class MyPageConfigurationActivity :
                     "취소",
                     "로그아웃"
                 )
-            ) { doPositiveClick() }
+            ) { doLogoutPositiveClick() }
+            dialog.show(this.supportFragmentManager, dialog.tag)
+        }
+
+        binding.tvSecession.setOnClickListener {
+            val dialog = DialogFragmentUtil(
+                DialogInfo(
+                    "진짜로.. 탈퇴.... 하시겠어요?",
+                    "탈퇴하면 계정 정보는 모두 삭제되지만, 그룹에 남긴 글은 유지됩니다. 삭제된 정보는 되돌릴 수 없습니다.",
+                    "취소",
+                    "탈퇴"
+                )
+            ) { doSecessionPositiveClick() }
             dialog.show(this.supportFragmentManager, dialog.tag)
         }
     }
 
-    private fun doPositiveClick() {
+    private fun doLogoutPositiveClick() {
         viewModel.removeAutoLoginState()
+        startActivity(Intent(this, SignActivity::class.java).apply {
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        })
+    }
+
+    private fun doSecessionPositiveClick() {
+        viewModel.setDeleteAccount()
         startActivity(Intent(this, SignActivity::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)

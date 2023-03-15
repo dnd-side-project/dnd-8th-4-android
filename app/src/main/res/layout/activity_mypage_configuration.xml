@@ -148,7 +148,7 @@
             app:layout_constraintTop_toBottomOf="@id/tv_logout" />
 
         <TextView
-            android:id="@+id/tv_drop_out"
+            android:id="@+id/tv_secession"
             style="@style/TextView.Body.14.M"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -163,6 +163,6 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/gray100"
-            app:layout_constraintTop_toBottomOf="@id/tv_drop_out" />
+            app:layout_constraintTop_toBottomOf="@id/tv_secession" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
