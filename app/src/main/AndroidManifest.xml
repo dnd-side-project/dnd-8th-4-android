@@ -84,12 +84,14 @@
             android:name=".presentation.ui.mission.sticker.view.StickerAlertActivity"
             android:theme="@style/TransparentTheme"/>
 
-        <activity android:name=".presentation.ui.mypage.view.MyPageConfigurationConstructionActivity" />
+        <activity android:name=".presentation.ui.mypage.view.MyPageConfigurationActivity" />
         <activity android:name=".presentation.ui.mypage.view.MyPageMissionConstructionActivity" />
         <activity android:name=".presentation.ui.mypage.view.MyPageBookmarkActivity" />
         <activity android:name=".presentation.ui.mypage.view.MyPagePostConstructionActivity" />
         <activity android:name=".presentation.ui.mypage.view.MyPageCommentConstructionActivity" />
         <activity android:name=".presentation.ui.mypage.view.MyPageNoticeActivity" />
+        <activity android:name=".presentation.ui.mypage.view.MyPageAccountManageActivity" />
+        <activity android:name=".presentation.ui.mypage.view.MyPageServiceAgreementActivity" />
     </application>
 
 </manifest>

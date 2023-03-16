@@ -14,8 +14,10 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
     private val viewModel: MyPageViewModel by viewModels()
 
     companion object {
-        const val USER_IMAGE = "user_image"
         const val USER_NAME = "user_name"
+        const val USER_EMAIL = "user_email"
+        const val USER_IMAGE = "user_image"
+        const val USER_NICKNAME = "user_nickname"
     }
 
     override fun onResume() {
@@ -34,20 +36,29 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
 
             binding.tvMyName.text = it.nickName
 
-            binding.ivConfiguration.setOnClickListener {
-                startActivity(Intent(requireContext(), MyPageConfigurationConstructionActivity::class.java))
+            binding.ivConfiguration.setOnClickListener { _ ->
+                Intent(requireContext(), MyPageConfigurationActivity::class.java).apply {
+                    putExtra(USER_NAME, it.name)
+                    putExtra(USER_EMAIL, it.email)
+                    startActivity(this)
+                }
             }
 
             binding.ivProfile.setOnClickListener { _ ->
                 Intent(requireContext(), ProfileChangeActivity::class.java).apply {
                     putExtra(USER_IMAGE, it.profileImageUrl)
-                    putExtra(USER_NAME, it.nickName)
+                    putExtra(USER_NICKNAME, it.nickName)
                     startActivity(this)
                 }
             }
 
             binding.ivMission.setOnClickListener {
-                startActivity(Intent(requireContext(), MyPageMissionConstructionActivity::class.java))
+                startActivity(
+                    Intent(
+                        requireContext(),
+                        MyPageMissionConstructionActivity::class.java
+                    )
+                )
             }
 
             binding.ivBookmark.setOnClickListener {
@@ -59,7 +70,12 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
             }
 
             binding.ivComment.setOnClickListener {
-                startActivity(Intent(requireContext(), MyPageCommentConstructionActivity::class.java))
+                startActivity(
+                    Intent(
+                        requireContext(),
+                        MyPageCommentConstructionActivity::class.java
+                    )
+                )
             }
 
             binding.ivNotice.setOnClickListener {

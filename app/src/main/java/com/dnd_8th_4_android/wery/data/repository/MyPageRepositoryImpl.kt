@@ -25,4 +25,8 @@ class MyPageRepositoryImpl @Inject constructor(private val myPageDataSource: MyP
     override suspend fun getMyBookmarkList(page: Int): ResponseMyBookmarkData {
         return myPageDataSource.getMyBookmarkList(page)
     }
+
+    override suspend fun deleteAccount(): BaseResponse {
+        return myPageDataSource.deleteAccount()
+    }
 }

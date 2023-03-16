@@ -19,4 +19,6 @@ interface MyPageDataSource {
     suspend fun getMyBookmarkList(
         page: Int,
     ): ResponseMyBookmarkData
+
+    suspend fun deleteAccount(): BaseResponse
 }

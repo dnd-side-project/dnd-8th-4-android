@@ -18,7 +18,7 @@ import com.dnd_8th_4_android.wery.databinding.ActivityProfileChangeBinding
 import com.dnd_8th_4_android.wery.domain.model.DialogInfo
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseActivity
 import com.dnd_8th_4_android.wery.presentation.ui.mypage.view.MyPageFragment.Companion.USER_IMAGE
-import com.dnd_8th_4_android.wery.presentation.ui.mypage.view.MyPageFragment.Companion.USER_NAME
+import com.dnd_8th_4_android.wery.presentation.ui.mypage.view.MyPageFragment.Companion.USER_NICKNAME
 import com.dnd_8th_4_android.wery.presentation.ui.mypage.viewmodel.ProfileChangeViewModel
 import com.dnd_8th_4_android.wery.presentation.util.DialogFragmentUtil
 import com.dnd_8th_4_android.wery.presentation.util.MultiPartFileUtil
@@ -69,10 +69,10 @@ class ProfileChangeActivity :
         Glide.with(this).load(intent.getStringExtra(USER_IMAGE))
             .into(binding.ivImage)
 
-        binding.etNickname.setText(intent.getStringExtra(USER_NAME))
+        binding.etNickname.setText(intent.getStringExtra(USER_NICKNAME))
 
         viewModel.setHttpUrl(intent.getStringExtra(USER_IMAGE) ?: "")
-        viewModel.setTextCount(intent.getStringExtra(USER_NAME)!!.length)
+        viewModel.setTextCount(intent.getStringExtra(USER_NICKNAME)!!.length)
     }
 
     private fun initDataBinding() {
@@ -134,7 +134,10 @@ class ProfileChangeActivity :
                     "취소",
                     "수정 종료"
                 )
-            ) { finish() }
+            ) {
+                finish()
+                overridePendingTransition(0, 0)
+            }
             dialog.show(supportFragmentManager, dialog.tag)
         }
     }

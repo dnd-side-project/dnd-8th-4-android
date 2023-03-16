@@ -15,6 +15,9 @@ class MyPageNoticeActivity :
     }
 
     private fun initStartView() {
-        binding.ivBack.setOnClickListener { finish() }
+        binding.ivBack.setOnClickListener {
+            finish()
+            overridePendingTransition(0, 0)
+        }
     }
 }

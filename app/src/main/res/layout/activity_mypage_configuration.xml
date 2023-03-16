@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_post_top"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingHorizontal="16dp"
+                android:src="@drawable/ic_back"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_post_title"
+                style="@style/TextView.Title.16.Sb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/mypage_configuration_title"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/view_line_one"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray100"
+            app:layout_constraintTop_toBottomOf="@id/layout_post_top" />
+
+        <TextView
+            android:id="@+id/tv_user_set_up"
+            style="@style/TextView.Caption.12.M"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/mypage_configuration_user_set_up"
+            android:textColor="@color/gray700"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view_line_one" />
+
+        <TextView
+            android:id="@+id/tv_account"
+            style="@style/TextView.Body.14.M"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="25dp"
+            android:paddingStart="16dp"
+            android:text="@string/mypage_configuration_account"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toBottomOf="@id/tv_user_set_up" />
+
+        <View
+            android:id="@+id/view_line_two"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray100"
+            app:layout_constraintTop_toBottomOf="@id/tv_account" />
+
+        <TextView
+            android:id="@+id/tv_user_agree"
+            style="@style/TextView.Body.14.M"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="25dp"
+            android:paddingStart="16dp"
+            android:text="@string/mypage_configuration_user_agree"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toBottomOf="@id/view_line_two" />
+
+        <View
+            android:id="@+id/view_line_three"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray100"
+            app:layout_constraintTop_toBottomOf="@id/tv_user_agree" />
+
+        <TextView
+            android:id="@+id/tv_etc"
+            style="@style/TextView.Caption.12.M"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/mypage_configuration_etc"
+            android:textColor="@color/gray700"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view_line_three" />
+
+        <TextView
+            android:id="@+id/tv_version"
+            style="@style/TextView.Body.14.M"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="25dp"
+            android:paddingStart="16dp"
+            android:text="@string/mypage_configuration_version"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toBottomOf="@id/tv_etc" />
+
+        <View
+            android:id="@+id/view_line_four"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray100"
+            app:layout_constraintTop_toBottomOf="@id/tv_version" />
+
+        <TextView
+            android:id="@+id/tv_logout"
+            style="@style/TextView.Body.14.M"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="25dp"
+            android:paddingStart="16dp"
+            android:text="@string/mypage_configuration_logout"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toBottomOf="@id/view_line_four" />
+
+        <View
+            android:id="@+id/view_line_five"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray100"
+            app:layout_constraintTop_toBottomOf="@id/tv_logout" />
+
+        <TextView
+            android:id="@+id/tv_secession"
+            style="@style/TextView.Body.14.M"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="25dp"
+            android:paddingStart="16dp"
+            android:text="@string/mypage_configuration_drop_out"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toBottomOf="@id/view_line_five" />
+
+        <View
+            android:id="@+id/view_line_six"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray100"
+            app:layout_constraintTop_toBottomOf="@id/tv_secession" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
