@@ -13,6 +13,7 @@ import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
@@ -546,17 +547,21 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
     }
 
     override fun onMapViewInitialized(p0: MapView?) {}
-    override fun onMapViewCenterPointMoved(p0: MapView?, p1: MapPoint?) {}
-    override fun onMapViewZoomLevelChanged(p0: MapView?, p1: Int) {}
-    override fun onMapViewSingleTapped(p0: MapView?, p1: MapPoint?) {}
+    override fun onMapViewCenterPointMoved(p0: MapView?, p1: MapPoint?) {
+
+    }
+    override fun onMapViewZoomLevelChanged(p0: MapView?, p1: Int) {
+        if (p0?.zoomLevel == 4) {
+            getSelectedPOItems()
+        }
+    }
+    override fun onMapViewSingleTapped(p0: MapView?, p1: MapPoint?) {
+        setDialogEventPop()
+    }
     override fun onMapViewDoubleTapped(p0: MapView?, p1: MapPoint?) {}
     override fun onMapViewLongPressed(p0: MapView?, p1: MapPoint?) {}
     override fun onMapViewDragStarted(p0: MapView?, p1: MapPoint?) {}
     override fun onMapViewDragEnded(p0: MapView?, p1: MapPoint?) {}
-
-    override fun onMapViewMoveFinished(p0: MapView?, p1: MapPoint?) {
-        setDialogEventPop()
-        getSelectedPOItems()
-    }
+    override fun onMapViewMoveFinished(p0: MapView?, p1: MapPoint?) {}
 
 }
