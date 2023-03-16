@@ -317,6 +317,13 @@
     <string name="mypage_configuration_drop_out">탈퇴하기</string>
     <string name="mypage_configuration_version">버전 V0.0.1</string>
 
+    <!-- MyPageServiceAgreementActivity -->
+    <string name="mypage_service_agreement_title">서비스 이용약관</string>
+    <string name="mypage_service_agreement_common">공통</string>
+    <string name="mypage_service_agreement_content">서비스 이용약관</string>
+    <string name="mypage_service_agreement_policy">개인정보 처리방침</string>
+    <string name="mypage_service_agreement_location">위치기반서비스 이용약관</string>
+
     <!-- ProfileChangeActivity -->
     <string name="profile_change_title">프로필 수정</string>
     <string name="profile_change_nickname">별명</string>

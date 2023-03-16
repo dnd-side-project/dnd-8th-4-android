@@ -54,6 +54,9 @@ class MyPageBookmarkActivity :
     }
 
     private fun initAfterBinding() {
-        binding.ivBack.setOnClickListener { finish() }
+        binding.ivBack.setOnClickListener {
+            finish()
+            overridePendingTransition(0, 0)
+        }
     }
 }

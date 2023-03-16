@@ -39,6 +39,10 @@ class MyPageConfigurationActivity :
             }
         }
 
+        binding.tvUserAgree.setOnClickListener {
+            startActivity(Intent(this, MyPageServiceAgreementActivity::class.java))
+        }
+
         binding.tvLogout.setOnClickListener {
             val dialog = DialogFragmentUtil(
                 DialogInfo(
