@@ -10,8 +10,10 @@ import android.graphics.Canvas
 import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
+import android.os.Build
 import android.provider.Settings
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
@@ -44,17 +46,18 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
 
     private val mapViewModel: MapViewModel by viewModels()
 
-    private val mapView: MapView by lazy {  MapView(requireActivity()) }
+    private lateinit var mapView:MapView
+    // private val mapView: MapView by lazy {  MapView(requireActivity()) }
 
     private val locationPermissionRequest = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { permissions ->
         when {
             permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false) -> {
-                initMapView()
+                getMyCurrentLocation()
             }
             permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {
-                initMapView()
+                getMyCurrentLocation()
             }
             else -> {
                 // 권한 거부
@@ -146,12 +149,11 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
             isCustomImageAutoscale = false
         }
 
-
-
         mapView.addPOIItem(marker)
     }
 
     override fun initStartView() {
+        initMapView()
         binding.viewModel = mapViewModel
 
         locationPermissionRequest.launch(
@@ -187,12 +189,15 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
      * */
     @SuppressLint("ClickableViewAccessibility")
     private fun initMapView() {
+        // API 레벨이 30 이상인 경우 하드웨어 가속 ON
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            binding.layoutMapView.setLayerType(View.LAYER_TYPE_HARDWARE, null)
+        }
+        mapView = MapView(requireActivity())
         binding.layoutMapView.addView(mapView)
         eventListener = MarkerEventListener()
         mapView.setPOIItemEventListener(eventListener)
         mapView.setMapViewEventListener(this)
-
-        getMyCurrentLocation()
     }
 
     // 현재 위치 구하기
@@ -297,8 +302,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
     override fun initAfterBinding() {
         initViewPager()
 
-        binding.layoutReloadCurrentLocation.setOnClickListener {
-            getMyCurrentLocation()
+        binding.layoutReloadCurrentInfo.setOnClickListener {
+            getSelectedPOItems()
         }
 
         binding.ivFilterFeed.setOnClickListener {
@@ -491,6 +496,21 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
         mapViewModel.getMissionCardData(missionId)
     }
 
+    override fun onResume() {
+        super.onResume()
+        mapView.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mapView.onPause()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mapView.onSurfaceDestroyed()
+    }
+
     inner class MarkerEventListener() :
         MapView.POIItemEventListener {
 
@@ -527,17 +547,21 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
     }
 
     override fun onMapViewInitialized(p0: MapView?) {}
-    override fun onMapViewCenterPointMoved(p0: MapView?, p1: MapPoint?) {}
-    override fun onMapViewZoomLevelChanged(p0: MapView?, p1: Int) {}
-    override fun onMapViewSingleTapped(p0: MapView?, p1: MapPoint?) {}
+    override fun onMapViewCenterPointMoved(p0: MapView?, p1: MapPoint?) {
+
+    }
+    override fun onMapViewZoomLevelChanged(p0: MapView?, p1: Int) {
+        if (p0?.zoomLevel == 4) {
+            getSelectedPOItems()
+        }
+    }
+    override fun onMapViewSingleTapped(p0: MapView?, p1: MapPoint?) {
+        setDialogEventPop()
+    }
     override fun onMapViewDoubleTapped(p0: MapView?, p1: MapPoint?) {}
     override fun onMapViewLongPressed(p0: MapView?, p1: MapPoint?) {}
     override fun onMapViewDragStarted(p0: MapView?, p1: MapPoint?) {}
     override fun onMapViewDragEnded(p0: MapView?, p1: MapPoint?) {}
-
-    override fun onMapViewMoveFinished(p0: MapView?, p1: MapPoint?) {
-        setDialogEventPop()
-        getSelectedPOItems()
-    }
+    override fun onMapViewMoveFinished(p0: MapView?, p1: MapPoint?) {}
 
 }
