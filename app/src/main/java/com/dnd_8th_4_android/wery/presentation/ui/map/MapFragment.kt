@@ -302,8 +302,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
     override fun initAfterBinding() {
         initViewPager()
 
-        binding.layoutReloadCurrentLocation.setOnClickListener {
-            getMyCurrentLocation()
+        binding.layoutReloadCurrentInfo.setOnClickListener {
+            getSelectedPOItems()
         }
 
         binding.ivFilterFeed.setOnClickListener {
