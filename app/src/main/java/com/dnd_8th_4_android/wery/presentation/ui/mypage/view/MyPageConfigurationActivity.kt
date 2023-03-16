@@ -7,6 +7,8 @@ import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.databinding.ActivityMypageConfigurationBinding
 import com.dnd_8th_4_android.wery.domain.model.DialogInfo
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseActivity
+import com.dnd_8th_4_android.wery.presentation.ui.mypage.view.MyPageFragment.Companion.USER_EMAIL
+import com.dnd_8th_4_android.wery.presentation.ui.mypage.view.MyPageFragment.Companion.USER_NAME
 import com.dnd_8th_4_android.wery.presentation.ui.mypage.viewmodel.MyPageConfigurationViewModel
 import com.dnd_8th_4_android.wery.presentation.ui.sign.view.SignActivity
 import com.dnd_8th_4_android.wery.presentation.util.DialogFragmentUtil
@@ -24,7 +26,18 @@ class MyPageConfigurationActivity :
     }
 
     private fun initStartView() {
-        binding.ivBack.setOnClickListener { finish() }
+        binding.ivBack.setOnClickListener {
+            finish()
+            overridePendingTransition(0, 0)
+        }
+
+        binding.tvAccount.setOnClickListener {
+            Intent(this, MyPageAccountManageActivity::class.java).apply {
+                putExtra(USER_NAME, intent.getStringExtra(USER_NAME))
+                putExtra(USER_EMAIL, intent.getStringExtra(USER_EMAIL))
+                startActivity(this)
+            }
+        }
 
         binding.tvLogout.setOnClickListener {
             val dialog = DialogFragmentUtil(

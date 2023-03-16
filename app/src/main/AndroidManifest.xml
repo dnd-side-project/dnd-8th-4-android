@@ -90,6 +90,7 @@
         <activity android:name=".presentation.ui.mypage.view.MyPagePostConstructionActivity" />
         <activity android:name=".presentation.ui.mypage.view.MyPageCommentConstructionActivity" />
         <activity android:name=".presentation.ui.mypage.view.MyPageNoticeActivity" />
+        <activity android:name=".presentation.ui.mypage.view.MyPageAccountManageActivity" />
     </application>
 
 </manifest>

@@ -43,7 +43,6 @@
     <string name="sign_up_welcome_content">위어리에서 친구들과 함께\n생각을 기록하고 일상을 공유하러 떠나볼까요? </string>
 
 
-
     <!-- FragmentSignUpName -->
     <string name="sign_up_name_title">이름을 입력해주세요</string>
     <string name="sign_up_name_hint">김워어리</string>
@@ -155,7 +154,7 @@
     <string name="create_mission_end_date">종료일</string>
     <string name="create_mission_select_group">그룹 선택</string>
     <string name="create_mission_card_color">카드 색상</string>
-    
+
     <!-- StickerFragment -->
     <string name="sticker_my_mission_progress">내 미션 현황</string>
     <string name="sticker_info_default">세 개의 미션을 달성하면 스티커를 받을 수 있어요 🎁</string>
@@ -302,6 +301,12 @@
     <string name="mypage_notice_title">공지사항</string>
     <string name="mypage_notice_content">작성된 공지가 없어요</string>
 
+    <!-- MyPageAccountManageActivity -->
+    <string name="mypage_account_manage_title">계정 정보</string>
+    <string name="mypage_account_manage_user_account">계정 정보</string>
+    <string name="mypage_account_manage_user_name">이름</string>
+    <string name="mypage_account_manage_user_email">이메일</string>
+
     <!-- MyPageConfigurationActivity -->
     <string name="mypage_configuration_title">환경설정</string>
     <string name="mypage_configuration_user_set_up">사용자 설정</string>
@@ -321,5 +326,4 @@
 
     <!-- UnderConstructionActivity -->
     <string name="under_construction_content">아직 공사중이에요</string>
-
 </resources>
