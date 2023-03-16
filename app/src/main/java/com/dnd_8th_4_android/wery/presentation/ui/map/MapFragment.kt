@@ -10,6 +10,7 @@ import android.graphics.Canvas
 import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
+import android.os.Build
 import android.provider.Settings
 import android.util.DisplayMetrics
 import android.view.View
@@ -187,6 +188,10 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
      * */
     @SuppressLint("ClickableViewAccessibility")
     private fun initMapView() {
+        // API 레벨이 30 이상인 경우 하드웨어 가속 ON
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            binding.layoutMapView.setLayerType(View.LAYER_TYPE_HARDWARE, null)
+        }
         mapView = MapView(requireActivity())
         binding.layoutMapView.addView(mapView)
         eventListener = MarkerEventListener()
