@@ -44,17 +44,18 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
 
     private val mapViewModel: MapViewModel by viewModels()
 
-    private val mapView: MapView by lazy {  MapView(requireActivity()) }
+    private lateinit var mapView:MapView
+    // private val mapView: MapView by lazy {  MapView(requireActivity()) }
 
     private val locationPermissionRequest = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { permissions ->
         when {
             permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false) -> {
-                initMapView()
+                getMyCurrentLocation()
             }
             permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {
-                initMapView()
+                getMyCurrentLocation()
             }
             else -> {
                 // 권한 거부
@@ -146,12 +147,11 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
             isCustomImageAutoscale = false
         }
 
-
-
         mapView.addPOIItem(marker)
     }
 
     override fun initStartView() {
+        initMapView()
         binding.viewModel = mapViewModel
 
         locationPermissionRequest.launch(
@@ -187,12 +187,11 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
      * */
     @SuppressLint("ClickableViewAccessibility")
     private fun initMapView() {
+        mapView = MapView(requireActivity())
         binding.layoutMapView.addView(mapView)
         eventListener = MarkerEventListener()
         mapView.setPOIItemEventListener(eventListener)
         mapView.setMapViewEventListener(this)
-
-        getMyCurrentLocation()
     }
 
     // 현재 위치 구하기
@@ -489,6 +488,21 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
 
     private fun getMissionCardData(missionId: Int) {
         mapViewModel.getMissionCardData(missionId)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mapView.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mapView.onPause()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mapView.onSurfaceDestroyed()
     }
 
     inner class MarkerEventListener() :
