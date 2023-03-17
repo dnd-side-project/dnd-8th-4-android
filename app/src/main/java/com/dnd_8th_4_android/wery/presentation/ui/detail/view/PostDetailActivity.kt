@@ -108,7 +108,6 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
             binding.tvFriendName.text = it.userName
             userId = it.userId
             bookmarkAddStatus = it.bookmarkAddStatus
-            viewModel.isSelectEmotionStatus.value = it.emotionStatus
         }
 
         viewModel.emotionList.observe(this) {

@@ -3,7 +3,6 @@ package com.dnd_8th_4_android.wery.domain.repository
 import com.dnd_8th_4_android.wery.data.remote.model.BaseResponse
 import com.dnd_8th_4_android.wery.data.remote.model.group.*
 import com.dnd_8th_4_android.wery.data.remote.model.home.RequestEmotionStatus
-import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseEmotionData
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseGroupData
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponsePostData
 import com.dnd_8th_4_android.wery.data.remote.model.mission.RequestMissionCertifyData
@@ -29,7 +28,7 @@ interface GroupRepository {
     suspend fun sendEmotionData(
         contentId: Int,
         body: RequestEmotionStatus,
-    ): ResponseEmotionData
+    ): BaseResponse
 
     suspend fun getMission(
         groupId: Int,
@@ -48,20 +47,20 @@ interface GroupRepository {
     ): ResponseUserSearchData
 
     suspend fun groupInvite(
-        body: RequestGroupInviteData
+        body: RequestGroupInviteData,
     ): BaseResponse
 
     suspend fun createGroup(
         data: HashMap<String, RequestBody>,
-        image: MultipartBody.Part?
+        image: MultipartBody.Part?,
     ): Result<BaseResponse>
 
     suspend fun modifyGroup(
         data: HashMap<String, RequestBody>,
-        image: MultipartBody.Part?
+        image: MultipartBody.Part?,
     ): Result<BaseResponse>
 
     suspend fun missionCertify(
-        body: RequestMissionCertifyData
+        body: RequestMissionCertifyData,
     ): ResponseMissionCertifyData
 }

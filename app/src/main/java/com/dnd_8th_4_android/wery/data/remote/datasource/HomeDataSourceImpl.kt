@@ -1,13 +1,14 @@
 package com.dnd_8th_4_android.wery.data.remote.datasource
 
 import com.dnd_8th_4_android.wery.data.api.HomeService
+import com.dnd_8th_4_android.wery.data.remote.model.BaseResponse
 import com.dnd_8th_4_android.wery.data.remote.model.home.RequestEmotionStatus
-import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseEmotionData
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseGroupData
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponsePostData
 import javax.inject.Inject
 
-class HomeDataSourceImpl @Inject constructor(private val homeService: HomeService): HomeDataSource {
+class HomeDataSourceImpl @Inject constructor(private val homeService: HomeService) :
+    HomeDataSource {
 
     override suspend fun signGroup(): ResponseGroupData {
         return homeService.signGroup()
@@ -17,7 +18,7 @@ class HomeDataSourceImpl @Inject constructor(private val homeService: HomeServic
         return homeService.allGroupPost(groupId, page)
     }
 
-    override suspend fun sendEmotionData(contentId: Int, body: RequestEmotionStatus): ResponseEmotionData {
+    override suspend fun sendEmotionData(contentId: Int, body: RequestEmotionStatus): BaseResponse {
         return homeService.sendEmotion(contentId, body)
     }
 }

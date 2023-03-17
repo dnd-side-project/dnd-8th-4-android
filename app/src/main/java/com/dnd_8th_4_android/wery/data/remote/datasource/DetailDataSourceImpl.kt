@@ -4,10 +4,10 @@ import com.dnd_8th_4_android.wery.data.api.DetailService
 import com.dnd_8th_4_android.wery.data.remote.model.BaseResponse
 import com.dnd_8th_4_android.wery.data.remote.model.detail.*
 import com.dnd_8th_4_android.wery.data.remote.model.home.RequestEmotionStatus
-import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseEmotionData
 import javax.inject.Inject
 
-class DetailDataSourceImpl @Inject constructor(private val detailService: DetailService): DetailDataSource {
+class DetailDataSourceImpl @Inject constructor(private val detailService: DetailService) :
+    DetailDataSource {
 
     override suspend fun getPostDetail(contentId: Int): ResponsePostDetailData {
         return detailService.getPostDetail(contentId)
@@ -21,7 +21,7 @@ class DetailDataSourceImpl @Inject constructor(private val detailService: Detail
         return detailService.getComment(contentId, page)
     }
 
-    override suspend fun sendEmotionData(contentId: Int, body: RequestEmotionStatus): ResponseEmotionData {
+    override suspend fun sendEmotionData(contentId: Int, body: RequestEmotionStatus): BaseResponse {
         return detailService.sendEmotion(contentId, body)
     }
 

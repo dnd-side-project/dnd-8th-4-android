@@ -51,7 +51,6 @@ class PostDetailViewModel @Inject constructor(
     val isLoading: LiveData<Boolean> = _isLoading
 
     private val _pageNumber = MutableLiveData(0)
-    val isSelectEmotionStatus = MutableLiveData(-1)
 
     private val _isNoData = MutableLiveData(false)
     val isNoData: LiveData<Boolean> = _isNoData
@@ -119,16 +118,7 @@ class PostDetailViewModel @Inject constructor(
             kotlin.runCatching {
                 detailRepository.sendEmotionData(contentId, emotion)
             }.onSuccess {
-                if (it.data != null) {
-                    getEmotion(contentId)
-                } else {
-                    if (isSelectEmotionStatus.value != emotion.emotionStatus) {
-                        setUpdateEmotion(contentId, emotion)
-                    } else {
-                        getEmotion(contentId)
-                    }
-                }
-                isSelectEmotionStatus.value = emotion.emotionStatus
+                getEmotion(contentId)
             }.onFailure {
                 Timber.tag("error").d(it.message.toString())
             }

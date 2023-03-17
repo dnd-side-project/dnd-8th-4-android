@@ -3,7 +3,6 @@ package com.dnd_8th_4_android.wery.domain.repository
 import com.dnd_8th_4_android.wery.data.remote.model.BaseResponse
 import com.dnd_8th_4_android.wery.data.remote.model.detail.*
 import com.dnd_8th_4_android.wery.data.remote.model.home.RequestEmotionStatus
-import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseEmotionData
 
 interface DetailRepository {
 
@@ -23,11 +22,11 @@ interface DetailRepository {
     suspend fun sendEmotionData(
         contentId: Int,
         body: RequestEmotionStatus,
-    ): ResponseEmotionData
+    ): BaseResponse
 
     suspend fun sendContent(
         contentId: Int,
-        body: RequestPostDetailCommentNote
+        body: RequestPostDetailCommentNote,
     ): BaseResponse
 
     suspend fun sendSticker(

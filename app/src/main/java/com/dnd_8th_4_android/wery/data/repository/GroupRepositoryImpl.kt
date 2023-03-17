@@ -4,7 +4,6 @@ import com.dnd_8th_4_android.wery.data.remote.datasource.GroupDataSource
 import com.dnd_8th_4_android.wery.data.remote.model.BaseResponse
 import com.dnd_8th_4_android.wery.data.remote.model.group.*
 import com.dnd_8th_4_android.wery.data.remote.model.home.RequestEmotionStatus
-import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseEmotionData
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseGroupData
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponsePostData
 import com.dnd_8th_4_android.wery.data.remote.model.mission.RequestMissionCertifyData
@@ -36,7 +35,7 @@ class GroupRepositoryImpl @Inject constructor(private val groupDataSource: Group
     override suspend fun sendEmotionData(
         contentId: Int,
         body: RequestEmotionStatus,
-    ): ResponseEmotionData {
+    ): BaseResponse {
         return groupDataSource.sendEmotionData(contentId, body)
     }
 
@@ -62,14 +61,14 @@ class GroupRepositoryImpl @Inject constructor(private val groupDataSource: Group
 
     override suspend fun createGroup(
         data: HashMap<String, RequestBody>,
-        image: MultipartBody.Part?
+        image: MultipartBody.Part?,
     ): Result<BaseResponse> {
         return groupDataSource.createGroup(data, image)
     }
 
     override suspend fun modifyGroup(
         data: HashMap<String, RequestBody>,
-        image: MultipartBody.Part?
+        image: MultipartBody.Part?,
     ): Result<BaseResponse> {
         return groupDataSource.modifyGroup(data, image)
     }

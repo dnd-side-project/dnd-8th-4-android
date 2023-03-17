@@ -70,22 +70,13 @@ class AccessGroupViewModel @Inject constructor(private val groupRepository: Grou
     // 감정 이모지 설정
     fun setUpdateEmotion(
         contentId: Int,
-        position: Int,
         emotionStatus: RequestEmotionStatus,
     ) {
         viewModelScope.launch {
             kotlin.runCatching {
                 groupRepository.sendEmotionData(contentId, emotionStatus)
             }.onSuccess {
-                if (it.data != null) {
-                    getGroupPost()
-                } else {
-                    if (_postList.value!!.content[position].emotionStatus != emotionStatus.emotionStatus) {
-                        setUpdateEmotion(contentId, position, emotionStatus)
-                    } else {
-                        getGroupPost()
-                    }
-                }
+                getGroupPost()
             }.onFailure {
                 Timber.tag("error").d(it.message.toString())
             }

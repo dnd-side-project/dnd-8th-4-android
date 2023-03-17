@@ -4,7 +4,6 @@ import com.dnd_8th_4_android.wery.data.remote.datasource.DetailDataSource
 import com.dnd_8th_4_android.wery.data.remote.model.BaseResponse
 import com.dnd_8th_4_android.wery.data.remote.model.detail.*
 import com.dnd_8th_4_android.wery.data.remote.model.home.RequestEmotionStatus
-import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseEmotionData
 import com.dnd_8th_4_android.wery.domain.repository.DetailRepository
 import javax.inject.Inject
 
@@ -23,7 +22,7 @@ class DetailRepositoryImpl @Inject constructor(private val detailDataSource: Det
         return detailDataSource.getComment(contentId, page)
     }
 
-    override suspend fun sendEmotionData(contentId: Int, body: RequestEmotionStatus): ResponseEmotionData {
+    override suspend fun sendEmotionData(contentId: Int, body: RequestEmotionStatus): BaseResponse {
         return detailDataSource.sendEmotionData(contentId, body)
     }
 

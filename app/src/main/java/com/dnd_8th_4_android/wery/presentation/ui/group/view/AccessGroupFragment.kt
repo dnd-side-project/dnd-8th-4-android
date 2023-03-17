@@ -105,6 +105,7 @@ class AccessGroupFragment :
             //상태바 아이콘(true: 검정 / false: 흰색)
             WindowInsetsControllerCompat(this, this.decorView).isAppearanceLightStatusBars = true
         }
+        activityPopupWindowBinding = null
     }
 
     override fun initStartView() {
@@ -127,8 +128,8 @@ class AccessGroupFragment :
                 bottomSheet.show(childFragmentManager, bottomSheet.tag)
             }
 
-            setPopupWindowClickListener { view, position, contentId ->
-                getGradePopUp(view, position, contentId)
+            setPopupWindowClickListener { view, contentId ->
+                getGradePopUp(view, contentId)
             }
         }
 
@@ -327,7 +328,7 @@ class AccessGroupFragment :
         viewModel.missionCertify(missionId)
     }
 
-    private fun getGradePopUp(view: View, position: Int, contentId: Int) {
+    private fun getGradePopUp(view: View, contentId: Int) {
         // 팝업 생성
         val popupWindow = PopupWindow(
             activityPopupWindowBinding!!.root,
@@ -344,7 +345,6 @@ class AccessGroupFragment :
         activityPopupWindowBinding!!.ivEmotionOne.setOnClickListener {
             setEmotion(
                 contentId,
-                position,
                 RequestEmotionStatus(PopupWindowType.Type1.emotionPosition)
             )
             popupWindow.dismiss()
@@ -353,7 +353,6 @@ class AccessGroupFragment :
         activityPopupWindowBinding!!.ivEmotionTwo.setOnClickListener {
             setEmotion(
                 contentId,
-                position,
                 RequestEmotionStatus(PopupWindowType.Type2.emotionPosition)
             )
             popupWindow.dismiss()
@@ -362,7 +361,6 @@ class AccessGroupFragment :
         activityPopupWindowBinding!!.ivEmotionThree.setOnClickListener {
             setEmotion(
                 contentId,
-                position,
                 RequestEmotionStatus(PopupWindowType.Type3.emotionPosition)
             )
             popupWindow.dismiss()
@@ -371,7 +369,6 @@ class AccessGroupFragment :
         activityPopupWindowBinding!!.ivEmotionFour.setOnClickListener {
             setEmotion(
                 contentId,
-                position,
                 RequestEmotionStatus(PopupWindowType.Type4.emotionPosition)
             )
             popupWindow.dismiss()
@@ -380,7 +377,6 @@ class AccessGroupFragment :
         activityPopupWindowBinding!!.ivEmotionFive.setOnClickListener {
             setEmotion(
                 contentId,
-                position,
                 RequestEmotionStatus(PopupWindowType.Type5.emotionPosition)
             )
             popupWindow.dismiss()
@@ -389,14 +385,13 @@ class AccessGroupFragment :
         activityPopupWindowBinding!!.ivEmotionSix.setOnClickListener {
             setEmotion(
                 contentId,
-                position,
                 RequestEmotionStatus(PopupWindowType.Type6.emotionPosition)
             )
             popupWindow.dismiss()
         }
     }
 
-    private fun setEmotion(contentId: Int, position: Int, emotionStatus: RequestEmotionStatus) {
-        viewModel.setUpdateEmotion(contentId, position, emotionStatus)
+    private fun setEmotion(contentId: Int, emotionStatus: RequestEmotionStatus) {
+        viewModel.setUpdateEmotion(contentId, emotionStatus)
     }
 }

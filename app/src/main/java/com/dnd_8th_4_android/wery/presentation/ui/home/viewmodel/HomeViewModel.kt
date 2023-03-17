@@ -85,22 +85,13 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
     // 감정 이모지 설정
     fun setUpdateEmotion(
         contentId: Int,
-        position: Int,
         emotionStatus: RequestEmotionStatus,
     ) {
         viewModelScope.launch {
             kotlin.runCatching {
                 homeRepository.sendEmotionData(contentId, emotionStatus)
             }.onSuccess {
-                if (it.data != null) {
-                    getGroupPost()
-                } else {
-                    if (_postList.value!!.content[position].emotionStatus != emotionStatus.emotionStatus) {
-                        setUpdateEmotion(contentId, position, emotionStatus)
-                    } else {
-                        getGroupPost()
-                    }
-                }
+                getGroupPost()
             }.onFailure {
                 Timber.tag("error").d(it.message.toString())
             }

@@ -47,6 +47,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         homeViewModel.getSignGroup()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        activityPopupWindowBinding = null
+    }
+
     override fun initStartView() {
         activityPopupWindowBinding = ActivityPopupWindowBinding.inflate(layoutInflater)
 
@@ -79,8 +84,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 bottomSheet.show(childFragmentManager, bottomSheet.tag)
             }
 
-            setPopupWindowClickListener { view, position, contentId ->
-                getGradePopUp(view, position, contentId)
+            setPopupWindowClickListener { view, contentId ->
+                getGradePopUp(view, contentId)
             }
         }
 
@@ -181,11 +186,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        activityPopupWindowBinding = null
-    }
-
     private fun initSelectedGroup() {
         with(groupRecyclerViewAdapter) {
             selectedItemImage.isSelected = false
@@ -199,7 +199,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         binding.activityGroup.tvAllGroup.setTextAppearance(R.style.TextView_Title_12_Sb)
     }
 
-    private fun getGradePopUp(view: View, position: Int, contentId: Int) {
+    private fun getGradePopUp(view: View, contentId: Int) {
         // 팝업 생성
         val popupWindow = PopupWindow(
             activityPopupWindowBinding!!.root,
@@ -216,7 +216,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         activityPopupWindowBinding!!.ivEmotionOne.setOnClickListener {
             setEmotion(
                 contentId,
-                position,
                 RequestEmotionStatus(PopupWindowType.Type1.emotionPosition)
             )
             popupWindow.dismiss()
@@ -225,7 +224,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         activityPopupWindowBinding!!.ivEmotionTwo.setOnClickListener {
             setEmotion(
                 contentId,
-                position,
                 RequestEmotionStatus(PopupWindowType.Type2.emotionPosition)
             )
             popupWindow.dismiss()
@@ -234,7 +232,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         activityPopupWindowBinding!!.ivEmotionThree.setOnClickListener {
             setEmotion(
                 contentId,
-                position,
                 RequestEmotionStatus(PopupWindowType.Type3.emotionPosition)
             )
             popupWindow.dismiss()
@@ -243,7 +240,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         activityPopupWindowBinding!!.ivEmotionFour.setOnClickListener {
             setEmotion(
                 contentId,
-                position,
                 RequestEmotionStatus(PopupWindowType.Type4.emotionPosition)
             )
             popupWindow.dismiss()
@@ -252,7 +248,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         activityPopupWindowBinding!!.ivEmotionFive.setOnClickListener {
             setEmotion(
                 contentId,
-                position,
                 RequestEmotionStatus(PopupWindowType.Type5.emotionPosition)
             )
             popupWindow.dismiss()
@@ -261,14 +256,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         activityPopupWindowBinding!!.ivEmotionSix.setOnClickListener {
             setEmotion(
                 contentId,
-                position,
                 RequestEmotionStatus(PopupWindowType.Type6.emotionPosition)
             )
             popupWindow.dismiss()
         }
     }
 
-    private fun setEmotion(contentId: Int, position: Int, emotionStatus: RequestEmotionStatus) {
-        homeViewModel.setUpdateEmotion(contentId, position, emotionStatus)
+    private fun setEmotion(contentId: Int, emotionStatus: RequestEmotionStatus) {
+        homeViewModel.setUpdateEmotion(contentId, emotionStatus)
     }
 }

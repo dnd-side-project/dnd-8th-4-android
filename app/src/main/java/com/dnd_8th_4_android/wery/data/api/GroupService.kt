@@ -3,7 +3,6 @@ package com.dnd_8th_4_android.wery.data.api
 import com.dnd_8th_4_android.wery.data.remote.model.BaseResponse
 import com.dnd_8th_4_android.wery.data.remote.model.group.*
 import com.dnd_8th_4_android.wery.data.remote.model.home.RequestEmotionStatus
-import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseEmotionData
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseGroupData
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponsePostData
 import com.dnd_8th_4_android.wery.data.remote.model.mission.RequestMissionCertifyData
@@ -36,7 +35,7 @@ interface GroupService {
     suspend fun sendEmotion(
         @Path("contentId") contentId: Int,
         @Body body: RequestEmotionStatus,
-    ): ResponseEmotionData
+    ): BaseResponse
 
     @GET("/mission/list/group")
     suspend fun getMission(
@@ -60,25 +59,25 @@ interface GroupService {
 
     @POST("/group/invite")
     suspend fun groupInvite(
-        @Body body: RequestGroupInviteData
+        @Body body: RequestGroupInviteData,
     ): BaseResponse
 
     @Multipart
     @POST("/group/create")
     suspend fun createGroup(
         @PartMap data: HashMap<String, RequestBody>,
-        @Part image: MultipartBody.Part?
+        @Part image: MultipartBody.Part?,
     ): Response<BaseResponse>
 
     @Multipart
     @PATCH("/group/update")
     suspend fun modifyGroup(
         @PartMap data: HashMap<String, RequestBody>,
-        @Part image: MultipartBody.Part?
+        @Part image: MultipartBody.Part?,
     ): Response<BaseResponse>
 
     @POST("/mission/check/location")
     suspend fun missionCertify(
-        @Body body: RequestMissionCertifyData
+        @Body body: RequestMissionCertifyData,
     ): ResponseMissionCertifyData
 }
