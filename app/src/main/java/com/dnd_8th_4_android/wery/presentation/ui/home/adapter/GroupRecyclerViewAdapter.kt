@@ -1,8 +1,9 @@
 package com.dnd_8th_4_android.wery.presentation.ui.home.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -13,14 +14,11 @@ import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseGroupData
 import com.dnd_8th_4_android.wery.databinding.ItemMyGroupBinding
 
 class GroupRecyclerViewAdapter(
-    initItemImage: View,
-    initItemText: TextView,
+    var selectedItemImage: ImageView,
+    var selectedItemText: TextView,
 ) :
     ListAdapter<ResponseGroupData.Data.GroupInfo, GroupRecyclerViewAdapter.ViewHolder>(diffUtil) {
     private lateinit var binding: ItemMyGroupBinding
-
-    var selectedItemImage = initItemImage
-    var selectedItemText = initItemText
 
     private lateinit var groupPostCallListener: GroupPostCallListener
 
@@ -33,15 +31,15 @@ class GroupRecyclerViewAdapter(
 
             binding.tvGroupName.text = item.name
 
-            binding.layoutMyGroup.setOnClickListener {
-                if (selectedItemImage != binding.layoutMyGroupImage) {
+            itemView.setOnClickListener {
+                if (selectedItemImage != binding.ivBtnState) {
                     selectedItemImage.isSelected = false
                     selectedItemText.setTextAppearance(R.style.TextView_Caption_12_R)
 
                     binding.tvGroupName.setTextAppearance(R.style.TextView_Title_12_Sb)
-                    binding.layoutMyGroupImage.isSelected = !binding.layoutMyGroupImage.isSelected
+                    binding.ivBtnState.isSelected = !binding.ivBtnState.isSelected
 
-                    selectedItemImage = binding.layoutMyGroupImage
+                    selectedItemImage = binding.ivBtnState
                     selectedItemText = binding.tvGroupName
 
                     groupPostCallListener.onClicked(item.id)

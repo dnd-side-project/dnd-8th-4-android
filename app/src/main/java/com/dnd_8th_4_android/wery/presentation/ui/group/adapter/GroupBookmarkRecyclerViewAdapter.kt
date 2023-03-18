@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DecodeFormat
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.data.remote.model.group.ResponseBookmarkData
 import com.dnd_8th_4_android.wery.databinding.ItemMyGroupBinding
@@ -20,12 +21,15 @@ class GroupBookmarkRecyclerViewAdapter :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ResponseBookmarkData.Data) {
             binding.ivMyGroup.clipToOutline = true
-            Glide.with(binding.ivMyGroup.context).load(item.groupImageUrl)
+            Glide.with(binding.ivMyGroup.context)
+                .load(item.groupImageUrl)
+                .centerCrop()
                 .into(binding.ivMyGroup)
+
 
             binding.tvGroupName.text = item.groupName
 
-            binding.layoutMyGroup.setOnClickListener {
+            itemView.setOnClickListener {
                 goToAccessGroup(item.groupId.toString(), item.groupImageUrl, item.memberCount)
             }
         }

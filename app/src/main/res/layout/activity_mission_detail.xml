@@ -248,7 +248,7 @@
                 android:id="@+id/layout_group_image"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:foreground="@drawable/shape_radius_16_gray100"
+                android:foreground="@drawable/shape_radius_16_gray200"
                 android:gravity="center"
                 android:padding="1dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -258,7 +258,7 @@
                     android:id="@+id/iv_group_image"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/shape_radius_16_gray100"
+                    android:background="@drawable/shape_radius_16_gray200"
                     android:scaleType="fitXY"
                     android:src="@drawable/img_no_group" />
             </LinearLayout>

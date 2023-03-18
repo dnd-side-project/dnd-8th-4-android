@@ -64,8 +64,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             homeViewModel.isSelectGroupId.value = groupId
             homeViewModel.getGroupPost()
         }
-        binding.activityGroup.rvMyGroup.adapter = groupRecyclerViewAdapter
-        binding.activityGroup.rvMyGroup.itemAnimator = null
+        binding.activityGroup.rvMyGroup.apply {
+            adapter = groupRecyclerViewAdapter
+            itemAnimator = null
+            setHasFixedSize(true)
+        }
 
         // 그룹 게시글
         postRecyclerViewAdapter = PostRecyclerViewAdapter()
@@ -90,13 +93,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         }
 
         // TODO
-        binding.activityGroup.layoutSwipeRefresh.setOnRefreshListener {
-            Handler(Looper.getMainLooper())
-                .postDelayed({
-                    binding.activityGroup.layoutSwipeRefresh.isRefreshing = false
-                    homeViewModel.getSignGroup()
-                }, 1000)
-        }
+//        binding.activityGroup.layoutSwipeRefresh.setOnRefreshListener {
+//            Handler(Looper.getMainLooper())
+//                .postDelayed({
+//                    binding.activityGroup.layoutSwipeRefresh.isRefreshing = false
+//                    homeViewModel.getSignGroup()
+//                }, 1000)
+//        }
 
         binding.ivBookmark.setOnClickListener {
             startActivity(Intent(requireContext(), MyPageBookmarkActivity::class.java))
@@ -116,7 +119,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         // 그룹 리스트가 바뀌는 경우) 1. 스와이프 2. 홈 탭
         homeViewModel.groupList.observe(viewLifecycleOwner) {
             initSelectedGroup()
-            groupRecyclerViewAdapter.submitList(it.toMutableList())
+            groupRecyclerViewAdapter.submitList(it)
         }
 
         homeViewModel.postList.observe(viewLifecycleOwner) {
@@ -127,7 +130,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 binding.activityGroup.layoutNoPost.isVisible = true
                 binding.activityGroup.layoutFinalPost.isVisible = false
             }
-            postRecyclerViewAdapter.submitList(it.content.toMutableList())
+            postRecyclerViewAdapter.submitList(it.content)
         }
 
         homeViewModel.isNoAccess.observe(viewLifecycleOwner) {
@@ -137,22 +140,22 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     }
 
     override fun initAfterBinding() {
-        val bottomNavigationView =
-            requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigation)
-        bottomNavigationView.setOnItemReselectedListener { menuItem ->
-            when (menuItem.itemId) {
-                // TODO 보류
-                R.id.homeFragment -> {
-                    binding.activityGroup.layoutSwipeRefresh.isRefreshing = true
-                    binding.activityGroup.scrollView.fullScroll(ScrollView.FOCUS_UP)
-                    Handler(Looper.getMainLooper())
-                        .postDelayed({
-                            binding.activityGroup.layoutSwipeRefresh.isRefreshing = false
-                            homeViewModel.getSignGroup()
-                        }, 1000)
-                }
-            }
-        }
+//        val bottomNavigationView =
+//            requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigation)
+//        bottomNavigationView.setOnItemReselectedListener { menuItem ->
+//            when (menuItem.itemId) {
+//                // TODO 보류
+//                R.id.homeFragment -> {
+//                    binding.activityGroup.layoutSwipeRefresh.isRefreshing = true
+//                    binding.activityGroup.scrollView.fullScroll(ScrollView.FOCUS_UP)
+//                    Handler(Looper.getMainLooper())
+//                        .postDelayed({
+//                            binding.activityGroup.layoutSwipeRefresh.isRefreshing = false
+//                            homeViewModel.getSignGroup()
+//                        }, 1000)
+//                }
+//            }
+//        }
 
         binding.tvSearch.setOnClickListener {
             Intent(requireContext(), SearchPostActivity::class.java).apply {
