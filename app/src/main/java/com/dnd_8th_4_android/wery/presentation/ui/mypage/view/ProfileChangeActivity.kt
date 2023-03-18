@@ -1,10 +1,13 @@
 package com.dnd_8th_4_android.wery.presentation.ui.mypage.view
 
 import android.Manifest
+import android.Manifest.permission.READ_MEDIA_IMAGES
+import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import androidx.activity.result.contract.ActivityResultContracts
@@ -101,7 +104,11 @@ class ProfileChangeActivity :
         }
 
         binding.ivAlbumImage.setOnClickListener {
-            requestPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                requestPermissionLauncher.launch(READ_MEDIA_IMAGES)
+            } else {
+                requestPermissionLauncher.launch(WRITE_EXTERNAL_STORAGE)
+            }
         }
 
         binding.ivEdtDelete.setOnClickListener {
@@ -144,12 +151,19 @@ class ProfileChangeActivity :
 
     // 권한 체크 함수
     private fun checkRequestPermission() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            == PackageManager.PERMISSION_GRANTED
-        ) {
-            showSelectImgBottomSheet()
-        } else permissionDialog()
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, READ_MEDIA_IMAGES)
+                == PackageManager.PERMISSION_GRANTED
+            ) {
+                openGallery()
+            } else permissionDialog()
+        } else {
+            if (ContextCompat.checkSelfPermission(this, WRITE_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_GRANTED
+            ) {
+                openGallery()
+            } else permissionDialog()
+        }
     }
 
     // 권한 요청
