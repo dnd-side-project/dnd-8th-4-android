@@ -43,11 +43,8 @@ import net.daum.mf.map.api.MapView.MapViewEventListener
 class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), MapViewEventListener{
 
     private lateinit var eventListener: MarkerEventListener
-
     private val mapViewModel: MapViewModel by viewModels()
-
     private lateinit var mapView:MapView
-    // private val mapView: MapView by lazy {  MapView(requireActivity()) }
 
     private val locationPermissionRequest = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
@@ -85,6 +82,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
                     )
                 )
 
+                getSelectedPOItems()
+
                 mapView.setMapCenterPointAndZoomLevel(
                     MapPoint.mapPointWithGeoCoord(
                         mapViewModel.searchResult.value!!.y,
@@ -100,6 +99,16 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
                 searchPinMarker()
             }
         }
+
+    private fun setMapCenterPointAndZoomLevel(){
+        mapView.setMapCenterPointAndZoomLevel(
+            MapPoint.mapPointWithGeoCoord(
+                mapViewModel.searchResult.value!!.y,
+                mapViewModel.searchResult.value!!.x
+            ),
+            4, true
+        )
+    }
 
     private val requestUploadActivity =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { it ->
@@ -125,8 +134,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
     private fun getSelectedPOItems() {
         if (mapViewModel.filterType.value == 0) {
             setXY()
-            mapViewModel.getFeedList()
-            mapViewModel.getFeedList()
             mapViewModel.getFeedList()
         } else {
             setMapBoundsPoint()
@@ -315,9 +322,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
                 mapViewModel.getFeedList()
                 mapView.removeAllPOIItems()
             }
-            if (mapViewModel.searchResult.value?.x != null) {
-                if (mapViewModel.searchResult.value?.x != 0.0) searchPinMarker()
-            }
         }
 
         binding.ivFilterMission.setOnClickListener {
@@ -326,9 +330,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
                 setMapBoundsPoint()
                 mapViewModel.getMissionList(mapViewModel.getCurrentMapBounds())
                 mapView.removeAllPOIItems()
-            }
-            if (mapViewModel.searchResult.value?.x != null) {
-                if (mapViewModel.searchResult.value?.x != 0.0) searchPinMarker()
             }
         }
 
@@ -392,6 +393,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
          val convertToArrayItem =
              feedMarkerArr.toArray(arrayOfNulls<MapPOIItem>(feedMarkerArr.size))
          mapView.addPOIItems(convertToArrayItem)
+
+        if (mapViewModel.searchResult.value != null) searchPinMarker()
     }
 
 
@@ -439,6 +442,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
 
         val convertToArrayItem = missionMarkerArr.toArray(arrayOfNulls<MapPOIItem>(missionMarkerArr.size))
         mapView.addPOIItems(convertToArrayItem)
+
+        if (mapViewModel.searchResult.value != null) searchPinMarker()
     }
 
     // 좌상단, 우하단 좌표 세팅하기
@@ -546,15 +551,11 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
         }
     }
 
-    override fun onMapViewInitialized(p0: MapView?) {}
-    override fun onMapViewCenterPointMoved(p0: MapView?, p1: MapPoint?) {
-
+    override fun onMapViewInitialized(p0: MapView?) {
+        getSelectedPOItems()
     }
-    override fun onMapViewZoomLevelChanged(p0: MapView?, p1: Int) {
-        if (p0?.zoomLevel == 4) {
-            getSelectedPOItems()
-        }
-    }
+    override fun onMapViewCenterPointMoved(p0: MapView?, p1: MapPoint?) {}
+    override fun onMapViewZoomLevelChanged(p0: MapView?, p1: Int) {}
     override fun onMapViewSingleTapped(p0: MapView?, p1: MapPoint?) {
         setDialogEventPop()
     }
