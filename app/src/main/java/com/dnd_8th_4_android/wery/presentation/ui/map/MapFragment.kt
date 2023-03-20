@@ -13,7 +13,6 @@ import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
@@ -139,6 +138,12 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
             setMapBoundsPoint()
             mapViewModel.getMissionList(mapViewModel.getCurrentMapBounds())
         }
+    }
+
+    private fun initializeMapAndFeed(firstLatitude: Double, firstLongitude: Double) {
+        mapViewModel.myCurrentLatitude.value = firstLatitude
+        mapViewModel.myCurrentLongitude.value = firstLongitude
+        mapViewModel.getFeedList()
     }
 
     private fun searchPinMarker() {
@@ -552,7 +557,10 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
     }
 
     override fun onMapViewInitialized(p0: MapView?) {
-        getSelectedPOItems()
+        initializeMapAndFeed(
+            p0!!.mapCenterPoint.mapPointGeoCoord.latitude,
+            p0.mapCenterPoint.mapPointGeoCoord.longitude
+        )
     }
     override fun onMapViewCenterPointMoved(p0: MapView?, p1: MapPoint?) {}
     override fun onMapViewZoomLevelChanged(p0: MapView?, p1: Int) {}
