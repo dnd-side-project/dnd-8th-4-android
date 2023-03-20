@@ -323,8 +323,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
                 mapViewModel.setFilterType(0)
                 setXY()
                 mapViewModel.getFeedList()
-                mapViewModel.getFeedList()
-                mapViewModel.getFeedList()
                 mapView.removeAllPOIItems()
             }
         }
@@ -504,11 +502,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
 
     private fun getMissionCardData(missionId: Int) {
         mapViewModel.getMissionCardData(missionId)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        mapView.onResume()
     }
 
     override fun onPause() {
