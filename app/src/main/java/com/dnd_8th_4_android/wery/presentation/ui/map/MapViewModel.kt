@@ -1,6 +1,5 @@
 package com.dnd_8th_4_android.wery.presentation.ui.map
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -33,6 +32,9 @@ class MapViewModel @Inject constructor(private val mapRepository: MapRepository)
 
     private val _filterType = MutableLiveData<Int>(0)
     val filterType: LiveData<Int> = _filterType
+
+    private val _mapSettingState = MutableLiveData<Boolean>(true)
+    val mapSettingState: LiveData<Boolean> = _mapSettingState
 
     private val _feedList =
         MutableLiveData<List<ResponseMapFeedList.ResultMapFeedData>>()
@@ -115,5 +117,13 @@ class MapViewModel @Inject constructor(private val mapRepository: MapRepository)
             endLatitude = endLatitude.value!!,
             endLongitude = endLongitude.value!!
         )
+    }
+
+    fun getMapSettingState(): Boolean {
+        return _mapSettingState.value!!
+    }
+
+    fun setMapSettingState(state: Boolean) {
+        _mapSettingState.value = state
     }
 }

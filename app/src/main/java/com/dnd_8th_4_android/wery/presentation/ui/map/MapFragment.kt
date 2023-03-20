@@ -71,6 +71,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
                 val selectedY = it.data?.getDoubleExtra("selectedY", 0.0)
 
                 mapViewModel.searchPlaceTxt.value = selectedPlace
+                mapViewModel.setMapSettingState(true)
 
                 mapViewModel.setSearchResult(
                     ResponseSearchPlace.Document(
@@ -81,33 +82,20 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
                     )
                 )
 
-                getSelectedPOItems()
-
                 mapView.setMapCenterPointAndZoomLevel(
                     MapPoint.mapPointWithGeoCoord(
-                        mapViewModel.searchResult.value!!.y,
-                        mapViewModel.searchResult.value!!.x
+                        selectedY,
+                        selectedX
                     ),
-                    4, true
+                    4, false
                 )
                 /** 검색한 장소가 존재할 때
                  * 이전에 띄워둔 모든 마커를 제거해주고
                  * 검색결과의 x,y 위치를 지도 마커로 찍어준다
                  * 그 이후 해당 좌표를 중점으로 '피드'와 '미션'을 받아온다*/
                 mapView.removeAllPOIItems()
-                searchPinMarker()
             }
         }
-
-    private fun setMapCenterPointAndZoomLevel(){
-        mapView.setMapCenterPointAndZoomLevel(
-            MapPoint.mapPointWithGeoCoord(
-                mapViewModel.searchResult.value!!.y,
-                mapViewModel.searchResult.value!!.x
-            ),
-            4, true
-        )
-    }
 
     private val requestUploadActivity =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { it ->
@@ -242,11 +230,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
 
     override fun initDataBinding() {
         mapViewModel.searchPlaceTxt.value = resources.getString(R.string.map_search_hint)
-
-        //mapViewModel.isLoading.observe(viewLifecycleOwner) {
-        //    if (it) showLoadingDialog()
-        //    else dismissLoadingDialog()
-        //}
 
         /** [검색결과] 검색 이후 feed 인지 mission 인지 여부에 따라
          * 서버 통신 다르게 요청*/
@@ -475,10 +458,13 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
         )
         view.measure(displayMetrics.widthPixels, displayMetrics.heightPixels)
         view.layout(0, 0, displayMetrics.widthPixels, displayMetrics.heightPixels)
+        view.setLayerType(View.LAYER_TYPE_HARDWARE, null)
+
         val bitmap =
             Bitmap.createBitmap(view.measuredWidth, view.measuredHeight, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
         view.draw(canvas)
+
         return bitmap
     }
 
@@ -555,15 +541,22 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
             p0.mapCenterPoint.mapPointGeoCoord.longitude
         )
     }
+
     override fun onMapViewCenterPointMoved(p0: MapView?, p1: MapPoint?) {}
     override fun onMapViewZoomLevelChanged(p0: MapView?, p1: Int) {}
     override fun onMapViewSingleTapped(p0: MapView?, p1: MapPoint?) {
         setDialogEventPop()
     }
+
     override fun onMapViewDoubleTapped(p0: MapView?, p1: MapPoint?) {}
     override fun onMapViewLongPressed(p0: MapView?, p1: MapPoint?) {}
     override fun onMapViewDragStarted(p0: MapView?, p1: MapPoint?) {}
     override fun onMapViewDragEnded(p0: MapView?, p1: MapPoint?) {}
-    override fun onMapViewMoveFinished(p0: MapView?, p1: MapPoint?) {}
+    override fun onMapViewMoveFinished(p0: MapView?, p1: MapPoint?) {
+        if (mapViewModel.getMapSettingState()) {
+            getSelectedPOItems()
+            mapViewModel.setMapSettingState(false)
+        }
+    }
 
 }
