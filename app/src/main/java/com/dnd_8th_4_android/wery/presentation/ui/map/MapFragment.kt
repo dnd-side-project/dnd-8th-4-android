@@ -13,7 +13,6 @@ import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
@@ -39,15 +38,13 @@ import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
 import net.daum.mf.map.api.MapView.MapViewEventListener
 
+
 @AndroidEntryPoint
 class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), MapViewEventListener{
 
     private lateinit var eventListener: MarkerEventListener
-
     private val mapViewModel: MapViewModel by viewModels()
-
     private lateinit var mapView:MapView
-    // private val mapView: MapView by lazy {  MapView(requireActivity()) }
 
     private val locationPermissionRequest = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
@@ -75,6 +72,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
                 val selectedY = it.data?.getDoubleExtra("selectedY", 0.0)
 
                 mapViewModel.searchPlaceTxt.value = selectedPlace
+                mapViewModel.setMapSettingState(true)
 
                 mapViewModel.setSearchResult(
                     ResponseSearchPlace.Document(
@@ -87,17 +85,16 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
 
                 mapView.setMapCenterPointAndZoomLevel(
                     MapPoint.mapPointWithGeoCoord(
-                        mapViewModel.searchResult.value!!.y,
-                        mapViewModel.searchResult.value!!.x
+                        selectedY,
+                        selectedX
                     ),
-                    4, true
+                    4, false
                 )
                 /** 검색한 장소가 존재할 때
                  * 이전에 띄워둔 모든 마커를 제거해주고
                  * 검색결과의 x,y 위치를 지도 마커로 찍어준다
                  * 그 이후 해당 좌표를 중점으로 '피드'와 '미션'을 받아온다*/
                 mapView.removeAllPOIItems()
-                searchPinMarker()
             }
         }
 
@@ -126,12 +123,16 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
         if (mapViewModel.filterType.value == 0) {
             setXY()
             mapViewModel.getFeedList()
-            mapViewModel.getFeedList()
-            mapViewModel.getFeedList()
         } else {
             setMapBoundsPoint()
             mapViewModel.getMissionList(mapViewModel.getCurrentMapBounds())
         }
+    }
+
+    private fun initializeMapAndFeed(firstLatitude: Double, firstLongitude: Double) {
+        mapViewModel.myCurrentLatitude.value = firstLatitude
+        mapViewModel.myCurrentLongitude.value = firstLongitude
+        mapViewModel.getFeedList()
     }
 
     private fun searchPinMarker() {
@@ -231,11 +232,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
     override fun initDataBinding() {
         mapViewModel.searchPlaceTxt.value = resources.getString(R.string.map_search_hint)
 
-        //mapViewModel.isLoading.observe(viewLifecycleOwner) {
-        //    if (it) showLoadingDialog()
-        //    else dismissLoadingDialog()
-        //}
-
         /** [검색결과] 검색 이후 feed 인지 mission 인지 여부에 따라
          * 서버 통신 다르게 요청*/
         mapViewModel.searchPlaceTxt.observe(viewLifecycleOwner) {
@@ -256,7 +252,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
         }
 
         mapViewModel.feedList.observe(viewLifecycleOwner) {
-            showFeedMarkerList(it)
+            for (i in 0 until 3) showFeedMarkerList(it)
+            if (mapViewModel.searchResult.value != null) searchPinMarker()
         }
 
         mapViewModel.missionList.observe(viewLifecycleOwner) {
@@ -311,12 +308,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
                 mapViewModel.setFilterType(0)
                 setXY()
                 mapViewModel.getFeedList()
-                mapViewModel.getFeedList()
-                mapViewModel.getFeedList()
                 mapView.removeAllPOIItems()
-            }
-            if (mapViewModel.searchResult.value?.x != null) {
-                if (mapViewModel.searchResult.value?.x != 0.0) searchPinMarker()
             }
         }
 
@@ -326,9 +318,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
                 setMapBoundsPoint()
                 mapViewModel.getMissionList(mapViewModel.getCurrentMapBounds())
                 mapView.removeAllPOIItems()
-            }
-            if (mapViewModel.searchResult.value?.x != null) {
-                if (mapViewModel.searchResult.value?.x != 0.0) searchPinMarker()
             }
         }
 
@@ -389,11 +378,9 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
             feedMarkerArr.add(feedMarker)
          }
 
-         val convertToArrayItem =
-             feedMarkerArr.toArray(arrayOfNulls<MapPOIItem>(feedMarkerArr.size))
+        val convertToArrayItem = feedMarkerArr.toArray(arrayOfNulls<MapPOIItem>(feedMarkerArr.size))
          mapView.addPOIItems(convertToArrayItem)
     }
-
 
     /**
      * 받아온 4가지 좌표값으로 미션 리스트를 받아온다
@@ -439,6 +426,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
 
         val convertToArrayItem = missionMarkerArr.toArray(arrayOfNulls<MapPOIItem>(missionMarkerArr.size))
         mapView.addPOIItems(convertToArrayItem)
+
+        if (mapViewModel.searchResult.value != null) searchPinMarker()
     }
 
     // 좌상단, 우하단 좌표 세팅하기
@@ -465,12 +454,16 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
             ViewGroup.LayoutParams.WRAP_CONTENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
+
         view.measure(displayMetrics.widthPixels, displayMetrics.heightPixels)
         view.layout(0, 0, displayMetrics.widthPixels, displayMetrics.heightPixels)
+        view.setLayerType(View.LAYER_TYPE_HARDWARE, null)
+
         val bitmap =
             Bitmap.createBitmap(view.measuredWidth, view.measuredHeight, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
         view.draw(canvas)
+
         return bitmap
     }
 
@@ -494,11 +487,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
 
     private fun getMissionCardData(missionId: Int) {
         mapViewModel.getMissionCardData(missionId)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        mapView.onResume()
     }
 
     override fun onPause() {
@@ -546,22 +534,28 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
         }
     }
 
-    override fun onMapViewInitialized(p0: MapView?) {}
-    override fun onMapViewCenterPointMoved(p0: MapView?, p1: MapPoint?) {
+    override fun onMapViewInitialized(p0: MapView?) {
+        initializeMapAndFeed(
+            p0!!.mapCenterPoint.mapPointGeoCoord.latitude,
+            p0.mapCenterPoint.mapPointGeoCoord.longitude
+        )
+    }
 
-    }
-    override fun onMapViewZoomLevelChanged(p0: MapView?, p1: Int) {
-        if (p0?.zoomLevel == 4) {
-            getSelectedPOItems()
-        }
-    }
+    override fun onMapViewCenterPointMoved(p0: MapView?, p1: MapPoint?) {}
+    override fun onMapViewZoomLevelChanged(p0: MapView?, p1: Int) {}
     override fun onMapViewSingleTapped(p0: MapView?, p1: MapPoint?) {
         setDialogEventPop()
     }
+
     override fun onMapViewDoubleTapped(p0: MapView?, p1: MapPoint?) {}
     override fun onMapViewLongPressed(p0: MapView?, p1: MapPoint?) {}
     override fun onMapViewDragStarted(p0: MapView?, p1: MapPoint?) {}
     override fun onMapViewDragEnded(p0: MapView?, p1: MapPoint?) {}
-    override fun onMapViewMoveFinished(p0: MapView?, p1: MapPoint?) {}
+    override fun onMapViewMoveFinished(p0: MapView?, p1: MapPoint?) {
+        if (mapViewModel.getMapSettingState()) {
+            getSelectedPOItems()
+            mapViewModel.setMapSettingState(false)
+        }
+    }
 
 }
