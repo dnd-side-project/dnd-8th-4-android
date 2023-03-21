@@ -38,6 +38,7 @@ import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
 import net.daum.mf.map.api.MapView.MapViewEventListener
 
+
 @AndroidEntryPoint
 class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), MapViewEventListener{
 
@@ -251,7 +252,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
         }
 
         mapViewModel.feedList.observe(viewLifecycleOwner) {
-            showFeedMarkerList(it)
+            for (i in 0 until 3) showFeedMarkerList(it)
+            if (mapViewModel.searchResult.value != null) searchPinMarker()
         }
 
         mapViewModel.missionList.observe(viewLifecycleOwner) {
@@ -376,13 +378,9 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
             feedMarkerArr.add(feedMarker)
          }
 
-         val convertToArrayItem =
-             feedMarkerArr.toArray(arrayOfNulls<MapPOIItem>(feedMarkerArr.size))
+        val convertToArrayItem = feedMarkerArr.toArray(arrayOfNulls<MapPOIItem>(feedMarkerArr.size))
          mapView.addPOIItems(convertToArrayItem)
-
-        if (mapViewModel.searchResult.value != null) searchPinMarker()
     }
-
 
     /**
      * 받아온 4가지 좌표값으로 미션 리스트를 받아온다
@@ -456,6 +454,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
             ViewGroup.LayoutParams.WRAP_CONTENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
+
         view.measure(displayMetrics.widthPixels, displayMetrics.heightPixels)
         view.layout(0, 0, displayMetrics.widthPixels, displayMetrics.heightPixels)
         view.setLayerType(View.LAYER_TYPE_HARDWARE, null)
