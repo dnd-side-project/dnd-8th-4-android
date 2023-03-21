@@ -38,6 +38,7 @@
         android:name="com.dnd_8th_4_android.wery.presentation.ui.map.MapFragment"
         android:label="MapFragment"
         tools:layout="@layout/fragment_map" />
+
     <fragment
         android:id="@+id/groupFragment"
         android:name="com.dnd_8th_4_android.wery.presentation.ui.group.view.GroupFragment"
@@ -55,6 +56,8 @@
         tools:layout="@layout/fragment_access_group">
         <action
             android:id="@+id/action_accessGroupFragment_to_groupFragment"
-            app:destination="@id/groupFragment" />
+            app:destination="@id/groupFragment"
+            app:popUpTo="@id/groupFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>
