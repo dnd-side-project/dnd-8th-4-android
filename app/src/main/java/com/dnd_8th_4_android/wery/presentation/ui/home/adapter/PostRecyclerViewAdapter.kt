@@ -5,7 +5,9 @@ import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.core.view.isVisible
+import androidx.core.view.marginStart
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -16,6 +18,7 @@ import com.dnd_8th_4_android.wery.data.remote.model.home.ResponsePostData
 import com.dnd_8th_4_android.wery.databinding.ItemPostBinding
 import com.dnd_8th_4_android.wery.domain.model.PopupWindowType
 import com.dnd_8th_4_android.wery.presentation.ui.detail.view.PostDetailActivity
+import com.dnd_8th_4_android.wery.presentation.util.dpToPx
 import java.time.LocalDate
 
 class PostRecyclerViewAdapter :
@@ -35,7 +38,7 @@ class PostRecyclerViewAdapter :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ResponsePostData.Data.Content) {
             binding.ivFriendImage.clipToOutline = true
-            Glide.with(binding.ivFriendImage.context).load(item.image)
+            Glide.with(binding.ivFriendImage.context).load(item.image).centerCrop()
                 .into(binding.ivFriendImage)
 
             binding.tvFriendName.text = item.name
@@ -92,6 +95,10 @@ class PostRecyclerViewAdapter :
                     setEmotionDrawable(item.emotion[0].emotionStatus)
                     Glide.with(binding.ivEmotionLeft.context).load(emotionDrawable)
                         .into(binding.ivEmotionLeft)
+
+                    val layoutParams = binding.ivEmotionLeft.layoutParams as ViewGroup.MarginLayoutParams
+                    layoutParams.marginStart = 0
+                    binding.ivEmotionLeft.layoutParams = layoutParams
                 }
                 else -> {
                     binding.ivEmotionLeft.isVisible = true
@@ -105,6 +112,10 @@ class PostRecyclerViewAdapter :
                     setEmotionDrawable(item.emotion[1].emotionStatus)
                     Glide.with(binding.ivEmotionRight.context).load(emotionDrawable)
                         .into(binding.ivEmotionRight)
+
+                    val layoutParams = binding.ivEmotionLeft.layoutParams as ViewGroup.MarginLayoutParams
+                    layoutParams.marginStart = 11.dpToPx(binding.root.context)
+                    binding.ivEmotionLeft.layoutParams = layoutParams
                 }
             }
 
@@ -130,31 +141,31 @@ class PostRecyclerViewAdapter :
             if (item.emotionStatus != -1) {
                 when (item.emotionStatus) {
                     PopupWindowType.Type1.emotionPosition -> {
-                        binding.ivEmotionButton.setImageResource(PopupWindowType.Type1.drawable)
-                        binding.tvEmotionButton.text = PopupWindowType.Type1.emotionName
+                        binding.btnEmotion.setIconResource(PopupWindowType.Type1.drawable)
+                        binding.btnEmotion.text = PopupWindowType.Type1.emotionName
                     }
                     PopupWindowType.Type2.emotionPosition -> {
-                        binding.ivEmotionButton.setImageResource(PopupWindowType.Type2.drawable)
-                        binding.tvEmotionButton.text = PopupWindowType.Type2.emotionName
+                        binding.btnEmotion.setIconResource(PopupWindowType.Type2.drawable)
+                        binding.btnEmotion.text = PopupWindowType.Type2.emotionName
                     }
                     PopupWindowType.Type3.emotionPosition -> {
-                        binding.ivEmotionButton.setImageResource(PopupWindowType.Type3.drawable)
-                        binding.tvEmotionButton.text = PopupWindowType.Type3.emotionName
+                        binding.btnEmotion.setIconResource(PopupWindowType.Type3.drawable)
+                        binding.btnEmotion.text = PopupWindowType.Type3.emotionName
                     }
                     PopupWindowType.Type4.emotionPosition -> {
-                        binding.ivEmotionButton.setImageResource(PopupWindowType.Type4.drawable)
-                        binding.tvEmotionButton.text = PopupWindowType.Type4.emotionName
+                        binding.btnEmotion.setIconResource(PopupWindowType.Type4.drawable)
+                        binding.btnEmotion.text = PopupWindowType.Type4.emotionName
                     }
                     PopupWindowType.Type5.emotionPosition -> {
-                        binding.ivEmotionButton.setImageResource(PopupWindowType.Type5.drawable)
-                        binding.tvEmotionButton.text = PopupWindowType.Type5.emotionName
+                        binding.btnEmotion.setIconResource(PopupWindowType.Type5.drawable)
+                        binding.btnEmotion.text = PopupWindowType.Type5.emotionName
                     }
                     PopupWindowType.Type6.emotionPosition -> {
-                        binding.ivEmotionButton.setImageResource(PopupWindowType.Type6.drawable)
-                        binding.tvEmotionButton.text = PopupWindowType.Type6.emotionName
+                        binding.btnEmotion.setIconResource(PopupWindowType.Type6.drawable)
+                        binding.btnEmotion.text = PopupWindowType.Type6.emotionName
                     }
                 }
-                binding.tvEmotionButton.setTypeface(null, Typeface.BOLD)
+                binding.btnEmotion.setTypeface(null, Typeface.BOLD)
 
                 if (adapterPosition != itemPosition) {
                     binding.vpPostImage.setCurrentItem(0, false)
@@ -162,10 +173,10 @@ class PostRecyclerViewAdapter :
                     binding.vpPostImage.setCurrentItem(viewPagerPosition, false)
                 }
             } else {
-                binding.ivEmotionButton.setImageResource(R.drawable.ic_emotion)
-                binding.tvEmotionButton.text =
+                binding.btnEmotion.setIconResource(R.drawable.ic_emotion)
+                binding.btnEmotion.text =
                     binding.root.resources.getString(R.string.home_item_post_emotion_button)
-                binding.tvEmotionButton.setTypeface(null, Typeface.NORMAL)
+                binding.btnEmotion.setTypeface(null, Typeface.NORMAL)
 
                 if (adapterPosition != itemPosition) {
                     binding.vpPostImage.setCurrentItem(0, false)
@@ -178,13 +189,13 @@ class PostRecyclerViewAdapter :
                 popupBottomClickListener.onClicked(item.id, item.userId, item.bookmarkAddStatus)
             }
 
-            binding.layoutEmotionButton.setOnClickListener {
-                popupWindowClickListener.onClicked(binding.layoutEmotionButton, item.id)
+            binding.btnEmotion.setOnClickListener {
+                popupWindowClickListener.onClicked(binding.btnEmotion, item.id)
             }
 
             binding.tvContent.setOnClickListener { goToPostDetail(item, false) }
 
-            binding.layoutCommentWrite.setOnClickListener {
+            binding.btnCommentWrite.setOnClickListener {
                 goToPostDetail(item, true)
             }
         }

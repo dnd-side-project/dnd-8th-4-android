@@ -11,139 +11,122 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_post"
+        <ImageView
+            android:id="@+id/iv_friend_image"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="28dp"
+            android:background="@drawable/shape_oval_gray100"
+            android:foreground="@drawable/shape_oval_gray100"
+            android:src="@drawable/img_no_group"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_friend_name"
+            style="@style/TextView.Title.14.Sb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toTopOf="@id/tv_friend_group"
+            app:layout_constraintStart_toEndOf="@id/iv_friend_image"
+            app:layout_constraintTop_toTopOf="@id/iv_friend_image"
+            tools:text="User" />
+
+        <TextView
+            android:id="@+id/tv_friend_group"
+            style="@style/TextView.Caption.12.R"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray700"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_friend_image"
+            app:layout_constraintStart_toStartOf="@id/tv_friend_name"
+            app:layout_constraintTop_toBottomOf="@+id/tv_friend_name"
+            tools:text="Group" />
+
+        <ImageView
+            android:id="@+id/iv_popup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/ic_dots_three_vertical"
+            app:layout_constraintBottom_toBottomOf="@id/iv_friend_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/iv_friend_image" />
+
+        <ImageView
+            android:id="@+id/iv_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/ic_location_pink"
+            app:layout_constraintBottom_toBottomOf="@id/tv_location"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_location" />
+
+        <TextView
+            android:id="@+id/tv_location"
+            style="@style/TextView.Body.14.M"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="13dp"
+            android:textColor="@color/color_f47aff"
+            app:layout_constraintStart_toEndOf="@id/iv_location"
+            app:layout_constraintTop_toBottomOf="@id/iv_friend_image"
+            tools:text="고잔동 맥도날드" />
+
+        <TextView
+            android:id="@+id/tv_content"
+            style="@style/TextView.Body.14.R.160"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:paddingHorizontal="16dp"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <LinearLayout
-                android:id="@+id/layout_friend_image"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="28dp"
-                android:background="@drawable/shape_oval_gray100"
-                android:gravity="center"
-                android:padding="1dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <ImageView
-                    android:id="@+id/iv_friend_image"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/shape_oval_gray100"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/img_no_group" />
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/tv_friend_name"
-                style="@style/TextView.Title.14.Sb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:textColor="@color/black"
-                app:layout_constraintBottom_toTopOf="@id/tv_friend_group"
-                app:layout_constraintStart_toEndOf="@id/layout_friend_image"
-                app:layout_constraintTop_toTopOf="@id/layout_friend_image"
-                tools:text="User" />
-
-            <TextView
-                android:id="@+id/tv_friend_group"
-                style="@style/TextView.Caption.12.R"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/gray700"
-                app:layout_constraintBottom_toBottomOf="@+id/layout_friend_image"
-                app:layout_constraintStart_toStartOf="@id/tv_friend_name"
-                app:layout_constraintTop_toBottomOf="@+id/tv_friend_name"
-                tools:text="Group" />
-
-            <ImageView
-                android:id="@+id/iv_popup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_dots_three_vertical"
-                app:layout_constraintBottom_toBottomOf="@id/layout_friend_image"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/layout_friend_image" />
-
-            <ImageView
-                android:id="@+id/iv_location"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_location_pink"
-                app:layout_constraintBottom_toBottomOf="@id/tv_location"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/tv_location" />
-
-            <TextView
-                android:id="@+id/tv_location"
-                style="@style/TextView.Body.14.M"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="13dp"
-                android:textColor="@color/color_f47aff"
-                app:layout_constraintStart_toEndOf="@id/iv_location"
-                app:layout_constraintTop_toBottomOf="@id/layout_friend_image"
-                tools:text="고잔동 맥도날드" />
-
-            <TextView
-                android:id="@+id/tv_content"
-                style="@style/TextView.Body.14.R.160"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:ellipsize="end"
-                android:maxLines="4"
-                android:textColor="@color/black"
-                app:layout_constraintTop_toBottomOf="@id/iv_location"
-                tools:text="피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다. 피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다. 피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다. 피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다." />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="12dp"
+            android:ellipsize="end"
+            android:maxLines="4"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toBottomOf="@id/iv_location"
+            tools:text="피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다. 피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다. 피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다. 피드의 글 미리 보기는 네줄까지 보이고 이후는 점으로 대체됩니다." />
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/vp_post_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
+            android:clipChildren="false"
             android:clipToPadding="false"
             android:overScrollMode="never"
-            android:clipChildren="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layout_post" />
+            app:layout_constraintTop_toBottomOf="@id/tv_content" />
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/layout_emotion"
             android:layout_width="match_parent"
             android:layout_height="19dp"
             android:layout_marginTop="12dp"
             android:gravity="center_vertical"
-            android:orientation="horizontal"
             android:paddingHorizontal="16dp"
             app:layout_constraintTop_toBottomOf="@id/vp_post_image">
 
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="4dp">
+            <ImageView
+                android:id="@+id/iv_emotion_right"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_alignParentStart="true"
+                android:src="@drawable/shape_oval_gray100" />
 
-                <ImageView
-                    android:id="@+id/iv_emotion_right"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:layout_marginStart="11dp"
-                    android:src="@drawable/shape_oval_gray100" />
-
-                <ImageView
-                    android:id="@+id/iv_emotion_left"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:src="@drawable/shape_oval_gray100" />
-            </FrameLayout>
+            <ImageView
+                android:id="@+id/iv_emotion_left"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_marginEnd="4dp"
+                android:layout_marginStart="11dp"
+                android:layout_alignStart="@id/iv_emotion_right"
+                android:src="@drawable/shape_oval_gray100" />
 
             <TextView
                 android:id="@+id/tv_emotion_count"
@@ -151,6 +134,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/gray500"
+                android:layout_marginEnd="8dp"
+                android:layout_toEndOf="@id/iv_emotion_left"
                 tools:text="1" />
 
             <TextView
@@ -158,8 +143,8 @@
                 style="@style/TextView.Caption.12.R"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:text="@string/home_item_post_comment"
+                android:layout_toEndOf="@id/tv_emotion_count"
                 android:textColor="@color/gray500" />
 
             <TextView
@@ -169,12 +154,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:textColor="@color/gray500"
+                android:layout_toEndOf="@id/tv_comment"
                 tools:text="N" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
 
             <TextView
                 android:id="@+id/tv_time"
@@ -182,6 +163,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="4dp"
+                android:layout_toStartOf="@id/iv_dot"
                 android:textColor="@color/gray500"
                 tools:text="HH:MM" />
 
@@ -189,6 +171,7 @@
                 android:id="@+id/iv_dot"
                 android:layout_width="3dp"
                 android:layout_height="3dp"
+                android:layout_toStartOf="@id/tv_hit"
                 android:layout_marginEnd="4.5dp"
                 android:src="@drawable/shape_e0e2e5_oval" />
 
@@ -198,6 +181,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="4dp"
+                android:layout_toStartOf="@id/tv_hit_count"
                 android:text="@string/home_item_post_hit"
                 android:textColor="@color/gray500" />
 
@@ -207,10 +191,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/gray500"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/tv_comment_count"
+                android:layout_alignParentEnd="true"
                 tools:text="N" />
-        </LinearLayout>
+        </RelativeLayout>
 
         <View
             android:id="@+id/view_line_bottom"
@@ -220,78 +203,40 @@
             android:background="@color/gray50"
             app:layout_constraintTop_toBottomOf="@id/layout_emotion" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_emotion_button"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_emotion"
+            style="@style/MaterialButton.12.R"
             android:layout_width="0dp"
-            android:layout_height="46dp"
-            app:layout_constraintEnd_toStartOf="@id/layout_comment_write"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/transparent"
+            android:paddingVertical="14dp"
+            android:text="@string/home_item_post_emotion_button"
+            android:textColor="@color/black"
+            app:icon="@drawable/ic_emotion"
+            app:iconGravity="textStart"
+            app:iconPadding="4dp"
+            app:iconSize="18dp"
+            app:iconTintMode="multiply"
+            app:layout_constraintEnd_toStartOf="@id/btn_comment_write"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/view_line_bottom">
+            app:layout_constraintTop_toBottomOf="@id/view_line_bottom" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                app:layout_constraintEnd_toEndOf="@id/layout_emotion_button"
-                app:layout_constraintStart_toStartOf="@id/layout_emotion_button">
-
-                <ImageView
-                    android:id="@+id/iv_emotion_button"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:src="@drawable/ic_emotion"
-                    app:layout_constraintBottom_toBottomOf="@id/tv_emotion_button"
-                    app:layout_constraintEnd_toStartOf="@id/tv_emotion_button"
-                    app:layout_constraintTop_toTopOf="@id/tv_emotion_button" />
-
-                <TextView
-                    android:id="@+id/tv_emotion_button"
-                    style="@style/TextView.Caption.12.R"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:text="@string/home_item_post_emotion_button"
-                    android:textColor="@color/black"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/iv_emotion_button"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_comment_write"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_comment_write"
+            style="@style/MaterialButton.12.R"
             android:layout_width="0dp"
-            android:layout_height="46dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/transparent"
+            android:paddingVertical="14dp"
+            android:text="@string/home_item_post_comment_write_button"
+            android:textColor="@color/black"
+            app:icon="@drawable/ic_comment_write"
+            app:iconGravity="textStart"
+            app:iconPadding="4dp"
+            app:iconSize="18dp"
+            app:iconTintMode="multiply"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/layout_emotion_button"
-            app:layout_constraintTop_toBottomOf="@id/view_line_bottom">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                app:layout_constraintEnd_toEndOf="@id/layout_comment_write"
-                app:layout_constraintStart_toStartOf="@id/layout_comment_write">
-
-                <ImageView
-                    android:id="@+id/iv_comment_write_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_comment_write"
-                    app:layout_constraintBottom_toBottomOf="@id/tv_comment_write_button"
-                    app:layout_constraintEnd_toStartOf="@id/tv_comment_write_button"
-                    app:layout_constraintTop_toTopOf="@id/tv_comment_write_button" />
-
-                <TextView
-                    android:id="@+id/tv_comment_write_button"
-                    style="@style/TextView.Caption.12.R"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:text="@string/home_item_post_comment_write_button"
-                    android:textColor="@color/black"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/iv_comment_write_button"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintStart_toEndOf="@id/btn_emotion"
+            app:layout_constraintTop_toBottomOf="@id/view_line_bottom" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -281,6 +281,12 @@
         <item name="fontFamily">@font/pretendard_semi_bold</item>
     </style>
 
+    <style name="MaterialButton.12.R" parent="MaterialButton">
+        <item name="android:textSize">12dp</item>
+        <item name="android:fontWeight">400</item>
+        <item name="fontFamily">@font/pretendard_regular</item>
+    </style>
+
     <!--  BottomDialog  -->
     <style name="BottomDialog">
         <item name="android:windowFrame">@null</item>
