@@ -1,13 +1,11 @@
 package com.dnd_8th_4_android.wery.presentation.ui.home.view
 
 import android.content.Intent
-import android.os.Handler
-import android.os.Looper
 import android.view.View
 import android.view.WindowManager
 import android.widget.PopupWindow
-import android.widget.ScrollView
 import androidx.core.view.isVisible
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.viewModels
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.data.remote.model.home.RequestEmotionStatus
@@ -25,7 +23,6 @@ import com.dnd_8th_4_android.wery.presentation.ui.post.upload.view.UploadPostAct
 import com.dnd_8th_4_android.wery.presentation.ui.search.view.SearchPostActivity
 import com.dnd_8th_4_android.wery.presentation.ui.sign.view.SignActivity
 import com.dnd_8th_4_android.wery.presentation.util.PostPopupBottomDialog
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -60,10 +57,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             binding.activityGroup.ivAllGroup,
             binding.activityGroup.tvAllGroup
         )
+
         groupRecyclerViewAdapter.setGroupPostCallListener { groupId ->
             homeViewModel.isSelectGroupId.value = groupId
             homeViewModel.getGroupPost()
         }
+
         binding.activityGroup.rvMyGroup.apply {
             adapter = groupRecyclerViewAdapter
             itemAnimator = null
@@ -71,6 +70,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         }
 
         // 그룹 게시글
+        homeViewModel.setPageNumber(1)
         postRecyclerViewAdapter = PostRecyclerViewAdapter()
         binding.activityGroup.rvMyGroupPost.apply {
             adapter = postRecyclerViewAdapter
@@ -130,7 +130,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 binding.activityGroup.layoutNoPost.isVisible = true
                 binding.activityGroup.layoutFinalPost.isVisible = false
             }
-            postRecyclerViewAdapter.submitList(it.content)
+
+            if (homeViewModel.pageNumber.value == 1) {
+                postRecyclerViewAdapter.submitList(it.content)
+            } else {
+                val currentList = postRecyclerViewAdapter.currentList.toMutableList()
+                currentList.addAll(it.content)
+                postRecyclerViewAdapter.submitList(currentList)
+            }
         }
 
         homeViewModel.isNoAccess.observe(viewLifecycleOwner) {
@@ -171,6 +178,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 homeViewModel.getGroupPost()
             }
         }
+
+        binding.activityGroup.scrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, _, _, _, _ ->
+            if (homeViewModel.isLoading.value == false && !v.canScrollVertically(1)) {
+                homeViewModel.setUpPageNumber()
+                homeViewModel.getGroupPost()
+            }
+        })
 
         binding.ivNotification.setOnClickListener {
             startActivity(Intent(requireContext(), AlertPopupActivity::class.java))
