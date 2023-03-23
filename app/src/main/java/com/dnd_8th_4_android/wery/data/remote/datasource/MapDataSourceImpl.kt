@@ -15,8 +15,14 @@ class MapDataSourceImpl @Inject constructor(private val mapService: MapService) 
         return mapService.getMissionData(missionId)
     }
 
-    override suspend fun getFeedList(x: Double, y: Double): ResponseMapFeedList {
-        return mapService.getFeedList(x, y)
+    override suspend fun getFeedList(
+        startLatitude: Double,
+        startLongitude: Double,
+        endLatitude: Double,
+        endLongitude: Double,
+        page: Int
+    ): ResponseMapFeedLis {
+        return mapService.getFeedList(startLatitude, startLatitude, endLatitude, endLongitude, page)
     }
 
     override suspend fun getMapFeedDetail(location: String): ResponseMapFeedData {

@@ -7,7 +7,13 @@ interface MapDataSource {
 
     suspend fun getMapMissionDetail(missionId: Int): ResponseMapMissionData
 
-    suspend fun getFeedList(x: Double, y: Double): ResponseMapFeedList
+    suspend fun getFeedList(
+        startLatitude: Double,
+        startLongitude: Double,
+        endLatitude: Double,
+        endLongitude: Double,
+        page:Int
+    ): ResponseMapFeedLis
 
     suspend fun getMapFeedDetail(location: String): ResponseMapFeedData
 }

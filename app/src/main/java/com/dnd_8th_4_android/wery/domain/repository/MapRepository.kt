@@ -12,9 +12,12 @@ interface MapRepository {
     ): ResponseMapMissionData
 
     suspend fun getMapFeedList(
-        x: Double,
-        y: Double
-    ): ResponseMapFeedList
+        startLatitude: Double,
+        startLongitude: Double,
+        endLatitude: Double,
+        endLongitude: Double,
+        page: Int
+    ): ResponseMapFeedLis
 
     suspend fun getFeedData(
         location: String

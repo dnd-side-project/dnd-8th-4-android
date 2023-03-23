@@ -12,9 +12,12 @@ interface MapService {
 
     @GET("/content/map")
     suspend fun getFeedList(
-        @Query("x") x: Double,
-        @Query("y") y: Double
-    ): ResponseMapFeedList
+        @Query("startLatitude") startLatitude: Double,
+        @Query("startLongitude") startLongitude: Double,
+        @Query("endLatitude") endLatitude: Double,
+        @Query("endLongitude") endLongitude: Double,
+        @Query("page") page: Int? = 1,
+    ): ResponseMapFeedLis
 
     @GET("/content/map/detail")
     suspend fun getFeedData(
