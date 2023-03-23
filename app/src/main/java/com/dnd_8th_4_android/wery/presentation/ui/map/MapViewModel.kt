@@ -1,5 +1,6 @@
 package com.dnd_8th_4_android.wery.presentation.ui.map
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -65,6 +66,10 @@ class MapViewModel @Inject constructor(private val mapRepository: MapRepository)
             }.onSuccess {
                 _feedList.value = it.data.content
                 currentTotalPage.value = it.data.totalPages
+                Log.d("kite","startLatitude"+startLatitude.value!!)
+                Log.d("kite","startLongitude"+startLongitude.value!!)
+                Log.d("kite","endLatitude"+endLatitude.value!!)
+                Log.d("kite","endLongitude"+endLongitude.value!!)
             }
         }
     }

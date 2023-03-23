@@ -122,7 +122,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
 
     private fun getSelectedPOItems() {
         if (mapViewModel.filterType.value == 0) {
-            setXY()
+            setMapBoundsPoint()
             mapViewModel.getFeedList()
         } else {
             setMapBoundsPoint()
@@ -133,6 +133,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
     private fun initializeMapAndFeed(firstLatitude: Double, firstLongitude: Double) {
         mapViewModel.myCurrentLatitude.value = firstLatitude
         mapViewModel.myCurrentLongitude.value = firstLongitude
+        setMapBoundsPoint()
         mapViewModel.getFeedList()
     }
 
@@ -301,13 +302,14 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
         initViewPager()
 
         binding.layoutReloadCurrentInfo.setOnClickListener {
+            setMapBoundsPoint()
             getSelectedPOItems()
         }
 
         binding.ivFilterFeed.setOnClickListener {
             if (mapViewModel.filterType.value != 0) {
                 mapViewModel.setFilterType(0)
-                setXY()
+                setMapBoundsPoint()
                 mapViewModel.getFeedList()
                 mapView.removeAllPOIItems()
             }
