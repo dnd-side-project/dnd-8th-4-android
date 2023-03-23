@@ -13,6 +13,7 @@ import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
@@ -103,6 +104,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
             if (it.resultCode == Activity.RESULT_OK) {
                 val upLoadLatitude = it.data?.getDoubleExtra("selectedY", 0.0)
                 val upLoadLongitude = it.data?.getDoubleExtra("selectedX", 0.0)
+                // val selectedPlace = it.data?.getStringExtra("selectedPlace")
 
                 mapViewModel.myCurrentLatitude.value = upLoadLatitude
                 mapViewModel.myCurrentLongitude.value = upLoadLongitude
@@ -113,9 +115,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
                         mapViewModel.myCurrentLongitude.value!!
                     ), 4, false
                 )
-
-                setXY()
-                getSelectedPOItems()
+                mapViewModel.setMapSettingState(true)
             }
         }
 
@@ -252,7 +252,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
         }
 
         mapViewModel.feedList.observe(viewLifecycleOwner) {
-            for (i in 0 until 3) showFeedMarkerList(it)
+            for (i in 0 until 5) showFeedMarkerList(it)
             if (mapViewModel.searchResult.value != null) searchPinMarker()
         }
 
@@ -374,6 +374,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
                 customSelectedImageBitmap = mySelectedCustomImageBitmap
                 isCustomImageAutoscale = false
              }
+
+            Log.d("kite",feedMarker.itemName)
 
             feedMarkerArr.add(feedMarker)
          }
