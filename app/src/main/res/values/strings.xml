@@ -42,7 +42,6 @@
     <string name="sign_up_welcome_bottom_title">회원 가입이 완료되었어요!</string>
     <string name="sign_up_welcome_content">위어리에서 친구들과 함께\n생각을 기록하고 일상을 공유하러 떠나볼까요? </string>
 
-
     <!-- FragmentSignUpName -->
     <string name="sign_up_name_title">이름을 입력해주세요</string>
     <string name="sign_up_name_hint">김워어리</string>

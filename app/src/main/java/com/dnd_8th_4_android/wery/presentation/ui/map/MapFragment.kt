@@ -301,6 +301,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
         initViewPager()
 
         binding.layoutReloadCurrentInfo.setOnClickListener {
+            it.visibility = View.GONE
             setMapBoundsPoint()
             getSelectedPOItems()
         }
@@ -554,7 +555,10 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
     override fun onMapViewDoubleTapped(p0: MapView?, p1: MapPoint?) {}
     override fun onMapViewLongPressed(p0: MapView?, p1: MapPoint?) {}
     override fun onMapViewDragStarted(p0: MapView?, p1: MapPoint?) {}
-    override fun onMapViewDragEnded(p0: MapView?, p1: MapPoint?) {}
+    override fun onMapViewDragEnded(p0: MapView?, p1: MapPoint?) {
+        binding.layoutReloadCurrentInfo.visibility = View.VISIBLE
+    }
+
     override fun onMapViewMoveFinished(p0: MapView?, p1: MapPoint?) {
         if (mapViewModel.getMapSettingState()) {
             getSelectedPOItems()
