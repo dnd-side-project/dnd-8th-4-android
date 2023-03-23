@@ -1,5 +1,6 @@
 package com.dnd_8th_4_android.wery.presentation.ui.map
 
+import ResponseMapFeedList
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -13,7 +14,6 @@ import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
@@ -22,7 +22,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.dnd_8th_4_android.wery.R
-import com.dnd_8th_4_android.wery.data.remote.model.map.ResponseMapFeedList
 import com.dnd_8th_4_android.wery.data.remote.model.map.ResponseMapMissionList
 import com.dnd_8th_4_android.wery.data.remote.model.post.ResponseSearchPlace
 import com.dnd_8th_4_android.wery.databinding.FragmentMapBinding
@@ -34,6 +33,9 @@ import com.dnd_8th_4_android.wery.presentation.ui.mission.view.MissionDetailActi
 import com.dnd_8th_4_android.wery.presentation.ui.post.place.view.SearchPlaceActivity
 import com.dnd_8th_4_android.wery.presentation.util.DialogFragmentUtil
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
@@ -121,7 +123,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
 
     private fun getSelectedPOItems() {
         if (mapViewModel.filterType.value == 0) {
-            setXY()
+            setMapBoundsPoint()
             mapViewModel.getFeedList()
         } else {
             setMapBoundsPoint()
@@ -132,6 +134,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
     private fun initializeMapAndFeed(firstLatitude: Double, firstLongitude: Double) {
         mapViewModel.myCurrentLatitude.value = firstLatitude
         mapViewModel.myCurrentLongitude.value = firstLongitude
+        setMapBoundsPoint()
         mapViewModel.getFeedList()
     }
 
@@ -232,6 +235,13 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
     override fun initDataBinding() {
         mapViewModel.searchPlaceTxt.value = resources.getString(R.string.map_search_hint)
 
+        mapViewModel.isLoading.observe(viewLifecycleOwner) {
+            CoroutineScope(Dispatchers.Main).launch {
+                if (it) showLoadingDialog()
+                else dismissLoadingDialog()
+            }
+        }
+
         /** [검색결과] 검색 이후 feed 인지 mission 인지 여부에 따라
          * 서버 통신 다르게 요청*/
         mapViewModel.searchPlaceTxt.observe(viewLifecycleOwner) {
@@ -300,13 +310,15 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
         initViewPager()
 
         binding.layoutReloadCurrentInfo.setOnClickListener {
+            it.visibility = View.GONE
+            setMapBoundsPoint()
             getSelectedPOItems()
         }
 
         binding.ivFilterFeed.setOnClickListener {
             if (mapViewModel.filterType.value != 0) {
                 mapViewModel.setFilterType(0)
-                setXY()
+                setMapBoundsPoint()
                 mapViewModel.getFeedList()
                 mapView.removeAllPOIItems()
             }
@@ -374,8 +386,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
                 customSelectedImageBitmap = mySelectedCustomImageBitmap
                 isCustomImageAutoscale = false
              }
-
-            Log.d("kite",feedMarker.itemName)
 
             feedMarkerArr.add(feedMarker)
          }
@@ -552,7 +562,10 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
     override fun onMapViewDoubleTapped(p0: MapView?, p1: MapPoint?) {}
     override fun onMapViewLongPressed(p0: MapView?, p1: MapPoint?) {}
     override fun onMapViewDragStarted(p0: MapView?, p1: MapPoint?) {}
-    override fun onMapViewDragEnded(p0: MapView?, p1: MapPoint?) {}
+    override fun onMapViewDragEnded(p0: MapView?, p1: MapPoint?) {
+        binding.layoutReloadCurrentInfo.visibility = View.VISIBLE
+    }
+
     override fun onMapViewMoveFinished(p0: MapView?, p1: MapPoint?) {
         if (mapViewModel.getMapSettingState()) {
             getSelectedPOItems()

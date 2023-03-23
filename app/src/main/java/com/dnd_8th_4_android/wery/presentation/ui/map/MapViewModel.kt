@@ -1,13 +1,11 @@
 package com.dnd_8th_4_android.wery.presentation.ui.map
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dnd_8th_4_android.wery.data.remote.model.map.RequestMapMissionList
-import com.dnd_8th_4_android.wery.data.remote.model.map.ResponseMapFeedData
-import com.dnd_8th_4_android.wery.data.remote.model.map.ResponseMapFeedList
-import com.dnd_8th_4_android.wery.data.remote.model.map.ResponseMapMissionData
+import com.dnd_8th_4_android.wery.data.remote.model.map.*
 import com.dnd_8th_4_android.wery.data.remote.model.map.ResponseMapMissionList.ResultMapMission
 import com.dnd_8th_4_android.wery.data.remote.model.post.ResponseSearchPlace
 import com.dnd_8th_4_android.wery.domain.repository.MapRepository
@@ -60,10 +58,12 @@ class MapViewModel @Inject constructor(private val mapRepository: MapRepository)
 
     fun getFeedList() {
         viewModelScope.launch {
+            _isLoading.value = true
             kotlin.runCatching {
-                mapRepository.getMapFeedList(myCurrentLatitude.value!!,myCurrentLongitude.value!!)
+                mapRepository.getMapFeedList(startLatitude.value!!,startLongitude.value!!, endLatitude.value!!,endLongitude.value!!)
             }.onSuccess {
                 _feedList.value = it.data
+                _isLoading.value = false
             }
         }
     }
