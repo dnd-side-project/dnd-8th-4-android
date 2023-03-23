@@ -28,9 +28,6 @@ class MapViewModel @Inject constructor(private val mapRepository: MapRepository)
 
     var searchPlaceTxt = MutableLiveData<String>()
 
-    var currentFeedPage = MutableLiveData<Int>(1)
-    var currentTotalPage = MutableLiveData<Int>()
-
     private val _filterType = MutableLiveData<Int>(0)
     val filterType: LiveData<Int> = _filterType
 
@@ -38,8 +35,8 @@ class MapViewModel @Inject constructor(private val mapRepository: MapRepository)
     val mapSettingState: LiveData<Boolean> = _mapSettingState
 
     private val _feedList =
-        MutableLiveData<List<ResponseMapFeedLis.Data.Content>>()
-    val feedList: LiveData<List<ResponseMapFeedLis.Data.Content>> = _feedList
+        MutableLiveData<List<ResponseMapFeedList.ResultMapFeedData>>()
+    val feedList: LiveData<List<ResponseMapFeedList.ResultMapFeedData>> = _feedList
 
     private val _missionList = MutableLiveData<List<ResultMapMission>>()
     val missionList: LiveData<List<ResultMapMission>> = _missionList
@@ -62,14 +59,9 @@ class MapViewModel @Inject constructor(private val mapRepository: MapRepository)
     fun getFeedList() {
         viewModelScope.launch {
             kotlin.runCatching {
-                mapRepository.getMapFeedList(startLatitude.value!!,startLongitude.value!!, endLatitude.value!!,endLongitude.value!!,currentFeedPage.value!!)
+                mapRepository.getMapFeedList(startLatitude.value!!,startLongitude.value!!, endLatitude.value!!,endLongitude.value!!)
             }.onSuccess {
-                _feedList.value = it.data.content
-                currentTotalPage.value = it.data.totalPages
-                Log.d("kite","startLatitude"+startLatitude.value!!)
-                Log.d("kite","startLongitude"+startLongitude.value!!)
-                Log.d("kite","endLatitude"+endLatitude.value!!)
-                Log.d("kite","endLongitude"+endLongitude.value!!)
+                _feedList.value = it.data
             }
         }
     }

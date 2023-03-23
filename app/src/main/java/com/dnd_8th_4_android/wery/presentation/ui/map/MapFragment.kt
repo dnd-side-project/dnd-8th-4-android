@@ -1,5 +1,6 @@
 package com.dnd_8th_4_android.wery.presentation.ui.map
 
+import ResponseMapFeedList
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -22,8 +23,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.dnd_8th_4_android.wery.R
-import com.dnd_8th_4_android.wery.data.remote.model.map.ResponseMapFeedLis
-import com.dnd_8th_4_android.wery.data.remote.model.map.ResponseMapFeedList
 import com.dnd_8th_4_android.wery.data.remote.model.map.ResponseMapMissionList
 import com.dnd_8th_4_android.wery.data.remote.model.post.ResponseSearchPlace
 import com.dnd_8th_4_android.wery.databinding.FragmentMapBinding
@@ -346,7 +345,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
      * location을 itemName으로 넘겨서
      * 마커를 선택했을 시 서버통신 param으로 contentId를 넘겨준다
      * */
-    private fun showFeedMarkerList(feedList: List<ResponseMapFeedLis.Data.Content>) {
+    private fun showFeedMarkerList(feedList: List<ResponseMapFeedList.ResultMapFeedData>) {
         val distinctFeedList = feedList.distinctBy { it.location }.toList()
         val feedMarkerArr = arrayListOf<MapPOIItem>()
 
