@@ -1,5 +1,6 @@
 package com.dnd_8th_4_android.wery.data.remote.datasource
 
+import ResponseMapFeedList
 import com.dnd_8th_4_android.wery.data.remote.model.map.*
 
 interface MapDataSource {
@@ -12,8 +13,7 @@ interface MapDataSource {
         startLongitude: Double,
         endLatitude: Double,
         endLongitude: Double,
-        page:Int
-    ): ResponseMapFeedLis
+    ): ResponseMapFeedList
 
     suspend fun getMapFeedDetail(location: String): ResponseMapFeedData
 }
