@@ -58,10 +58,12 @@ class MapViewModel @Inject constructor(private val mapRepository: MapRepository)
 
     fun getFeedList() {
         viewModelScope.launch {
+            _isLoading.value = true
             kotlin.runCatching {
                 mapRepository.getMapFeedList(startLatitude.value!!,startLongitude.value!!, endLatitude.value!!,endLongitude.value!!)
             }.onSuccess {
                 _feedList.value = it.data
+                _isLoading.value = false
             }
         }
     }

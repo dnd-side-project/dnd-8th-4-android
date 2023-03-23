@@ -14,7 +14,6 @@ import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
@@ -34,6 +33,9 @@ import com.dnd_8th_4_android.wery.presentation.ui.mission.view.MissionDetailActi
 import com.dnd_8th_4_android.wery.presentation.ui.post.place.view.SearchPlaceActivity
 import com.dnd_8th_4_android.wery.presentation.util.DialogFragmentUtil
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
@@ -233,6 +235,13 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
     override fun initDataBinding() {
         mapViewModel.searchPlaceTxt.value = resources.getString(R.string.map_search_hint)
 
+        mapViewModel.isLoading.observe(viewLifecycleOwner) {
+            CoroutineScope(Dispatchers.Main).launch {
+                if (it) showLoadingDialog()
+                else dismissLoadingDialog()
+            }
+        }
+
         /** [검색결과] 검색 이후 feed 인지 mission 인지 여부에 따라
          * 서버 통신 다르게 요청*/
         mapViewModel.searchPlaceTxt.observe(viewLifecycleOwner) {
@@ -377,8 +386,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
                 customSelectedImageBitmap = mySelectedCustomImageBitmap
                 isCustomImageAutoscale = false
              }
-
-            Log.d("kite",feedMarker.itemName)
 
             feedMarkerArr.add(feedMarker)
          }
