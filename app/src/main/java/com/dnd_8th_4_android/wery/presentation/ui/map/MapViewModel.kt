@@ -26,13 +26,16 @@ class MapViewModel @Inject constructor(private val mapRepository: MapRepository)
     var endLatitude = MutableLiveData<Double>() // 우상단
     var endLongitude = MutableLiveData<Double>() // 우상단
 
-    var searchPlaceTxt = MutableLiveData<String>()
+    var searchPlaceTxt = MutableLiveData<String>("")
 
     private val _filterType = MutableLiveData<Int>(0)
     val filterType: LiveData<Int> = _filterType
 
     private val _mapSettingState = MutableLiveData<Boolean>(true)
     val mapSettingState: LiveData<Boolean> = _mapSettingState
+
+    private val _uploadPostState = MutableLiveData<Boolean>(false)
+    val uploadPostState: LiveData<Boolean> = _uploadPostState
 
     private val _feedList =
         MutableLiveData<List<ResponseMapFeedList.ResultMapFeedData>>()
@@ -125,5 +128,13 @@ class MapViewModel @Inject constructor(private val mapRepository: MapRepository)
 
     fun setMapSettingState(state: Boolean) {
         _mapSettingState.value = state
+    }
+
+    fun getUploadPostState(): Boolean {
+        return _uploadPostState.value!!
+    }
+
+    fun setUploadPostState(state: Boolean) {
+        _uploadPostState.value = state
     }
 }
