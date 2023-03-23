@@ -1,5 +1,6 @@
 package com.dnd_8th_4_android.wery.data.api
 
+import ResponseMapFeedList
 import com.dnd_8th_4_android.wery.data.remote.model.map.*
 import retrofit2.http.*
 
@@ -12,8 +13,10 @@ interface MapService {
 
     @GET("/content/map")
     suspend fun getFeedList(
-        @Query("x") x: Double,
-        @Query("y") y: Double
+        @Query("startLatitude") startLatitude: Double,
+        @Query("startLongitude") startLongitude: Double,
+        @Query("endLatitude") endLatitude: Double,
+        @Query("endLongitude") endLongitude: Double,
     ): ResponseMapFeedList
 
     @GET("/content/map/detail")

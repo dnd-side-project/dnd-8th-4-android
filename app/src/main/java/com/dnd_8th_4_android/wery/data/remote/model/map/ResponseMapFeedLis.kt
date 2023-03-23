@@ -1,5 +1,3 @@
-package com.dnd_8th_4_android.wery.data.remote.model.map
-
 import com.dnd_8th_4_android.wery.data.remote.model.BaseResponse
 
 data class ResponseMapFeedList(
