@@ -87,8 +87,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 bottomSheet.show(childFragmentManager, bottomSheet.tag)
             }
 
-            setPopupWindowClickListener { view, contentId ->
-                getGradePopUp(view, contentId)
+            setPopupWindowClickListener { position, view, contentId ->
+                getGradePopUp(position, view, contentId)
             }
         }
 
@@ -131,12 +131,35 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 binding.activityGroup.layoutFinalPost.isVisible = false
             }
 
-            if (homeViewModel.pageNumber.value == 1) {
-                postRecyclerViewAdapter.submitList(it.content)
+            if (homeViewModel.pageNumber.value != homeViewModel.oldPageNumber.value) {
+                if (homeViewModel.pageNumber.value == 1) {
+                    postRecyclerViewAdapter.submitList(it.content)
+                } else {
+                    val currentList = postRecyclerViewAdapter.currentList.toMutableList()
+                    currentList.addAll(it.content)
+                    postRecyclerViewAdapter.submitList(currentList)
+                }
+                homeViewModel.setOldPageNumber(homeViewModel.pageNumber.value!!)
             } else {
                 val currentList = postRecyclerViewAdapter.currentList.toMutableList()
-                currentList.addAll(it.content)
-                postRecyclerViewAdapter.submitList(currentList)
+
+                val calculatePosition = if (homeViewModel.adapterPosition.value!! < 10) {
+                    homeViewModel.adapterPosition.value!!
+                } else {
+                    homeViewModel.adapterPosition.value!! % 10
+                }
+
+                currentList.forEach { content ->
+                    if (content.id == it.content[calculatePosition].id) {
+                        currentList[homeViewModel.adapterPosition.value!!].emotion =
+                            it.content[calculatePosition].emotion
+
+                        currentList[homeViewModel.adapterPosition.value!!].emotionStatus =
+                            it.content[calculatePosition].emotionStatus
+                        postRecyclerViewAdapter.notifyItemChanged(homeViewModel.adapterPosition.value!!)
+                        return@observe
+                    }
+                }
             }
         }
 
@@ -175,12 +198,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             if (groupRecyclerViewAdapter.selectedItemImage != binding.activityGroup.ivAllGroup) {
                 initSelectedGroup()
                 homeViewModel.isSelectGroupId.value = -1
+                homeViewModel.setPageNumber(1)
                 homeViewModel.getGroupPost()
             }
         }
 
         binding.activityGroup.scrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, _, _, _, _ ->
             if (homeViewModel.isLoading.value == false && !v.canScrollVertically(1)) {
+                if (homeViewModel.oldPageNumber.value!! > homeViewModel.pageNumber.value!!) {
+                    homeViewModel.setPageNumber(homeViewModel.oldPageNumber.value!!)
+                }
                 homeViewModel.setUpPageNumber()
                 homeViewModel.getGroupPost()
             }
@@ -216,7 +243,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         binding.activityGroup.tvAllGroup.setTextAppearance(R.style.TextView_Title_12_Sb)
     }
 
-    private fun getGradePopUp(view: View, contentId: Int) {
+    private fun getGradePopUp(position: Int, view: View, contentId: Int) {
         // 팝업 생성
         val popupWindow = PopupWindow(
             activityPopupWindowBinding!!.root,
@@ -230,56 +257,42 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         // 어떤 레이아웃 밑에 팝업을 달건지 설정
         popupWindow.showAsDropDown(view, 50, -250)
 
+        homeViewModel.adapterPosition.value = position
+        homeViewModel.contentId.value = contentId
+
         activityPopupWindowBinding!!.ivEmotionOne.setOnClickListener {
-            setEmotion(
-                contentId,
-                RequestEmotionStatus(PopupWindowType.Type1.emotionPosition)
-            )
+            setEmotion(RequestEmotionStatus(PopupWindowType.Type1.emotionPosition))
             popupWindow.dismiss()
         }
 
         activityPopupWindowBinding!!.ivEmotionTwo.setOnClickListener {
-            setEmotion(
-                contentId,
-                RequestEmotionStatus(PopupWindowType.Type2.emotionPosition)
-            )
+            setEmotion(RequestEmotionStatus(PopupWindowType.Type2.emotionPosition))
             popupWindow.dismiss()
         }
 
         activityPopupWindowBinding!!.ivEmotionThree.setOnClickListener {
-            setEmotion(
-                contentId,
-                RequestEmotionStatus(PopupWindowType.Type3.emotionPosition)
-            )
+            setEmotion(RequestEmotionStatus(PopupWindowType.Type3.emotionPosition))
             popupWindow.dismiss()
         }
 
         activityPopupWindowBinding!!.ivEmotionFour.setOnClickListener {
-            setEmotion(
-                contentId,
-                RequestEmotionStatus(PopupWindowType.Type4.emotionPosition)
-            )
+            setEmotion(RequestEmotionStatus(PopupWindowType.Type4.emotionPosition))
             popupWindow.dismiss()
         }
 
         activityPopupWindowBinding!!.ivEmotionFive.setOnClickListener {
-            setEmotion(
-                contentId,
-                RequestEmotionStatus(PopupWindowType.Type5.emotionPosition)
-            )
+            setEmotion(RequestEmotionStatus(PopupWindowType.Type5.emotionPosition))
             popupWindow.dismiss()
         }
 
         activityPopupWindowBinding!!.ivEmotionSix.setOnClickListener {
-            setEmotion(
-                contentId,
-                RequestEmotionStatus(PopupWindowType.Type6.emotionPosition)
-            )
+            setEmotion(RequestEmotionStatus(PopupWindowType.Type6.emotionPosition))
             popupWindow.dismiss()
         }
     }
 
-    private fun setEmotion(contentId: Int, emotionStatus: RequestEmotionStatus) {
-        homeViewModel.setUpdateEmotion(contentId, emotionStatus)
+    private fun setEmotion(emotionStatus: RequestEmotionStatus) {
+        homeViewModel.setPageNumber(homeViewModel.adapterPosition.value!! / 10 + 1)
+        homeViewModel.setUpdateEmotion(emotionStatus)
     }
 }

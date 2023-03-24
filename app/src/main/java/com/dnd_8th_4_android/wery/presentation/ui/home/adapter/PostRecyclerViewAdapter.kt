@@ -190,7 +190,7 @@ class PostRecyclerViewAdapter :
             }
 
             binding.btnEmotion.setOnClickListener {
-                popupWindowClickListener.onClicked(binding.btnEmotion, item.id)
+                popupWindowClickListener.onClicked(adapterPosition, binding.btnEmotion, item.id)
             }
 
             binding.tvContent.setOnClickListener { goToPostDetail(item, false) }
@@ -253,10 +253,10 @@ class PostRecyclerViewAdapter :
         }
     }
 
-    fun setPopupWindowClickListener(listener: (View, Int) -> Unit) {
+    fun setPopupWindowClickListener(listener: (Int, View, Int) -> Unit) {
         popupWindowClickListener = object : PopupWindowClickListener {
-            override fun onClicked(view: View, contentId: Int) {
-                listener(view, contentId)
+            override fun onClicked(position: Int, view: View, contentId: Int) {
+                listener(position, view, contentId)
             }
         }
     }
@@ -266,7 +266,7 @@ class PostRecyclerViewAdapter :
     }
 
     interface PopupWindowClickListener {
-        fun onClicked(view: View, contentId: Int)
+        fun onClicked(position: Int, view: View, contentId: Int)
     }
 
     companion object {

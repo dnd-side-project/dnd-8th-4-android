@@ -27,7 +27,6 @@ data class ResponsePostData(
             @SerializedName("emotionResponseDtos") var emotion: MutableList<EmotionDtos>,
             @SerializedName("images") val contentImage: ArrayList<Images>,
             val bookmarkAddStatus: Boolean,
-//            val contentLink: String,
         ) {
             data class Images(
                 val imageUrl: String,

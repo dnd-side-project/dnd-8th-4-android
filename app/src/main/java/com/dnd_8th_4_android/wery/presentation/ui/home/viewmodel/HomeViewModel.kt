@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.dnd_8th_4_android.wery.data.remote.model.detail.ResponsePostDetailData
 import com.dnd_8th_4_android.wery.data.remote.model.home.RequestEmotionStatus
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseGroupData
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponsePostData
@@ -27,6 +28,9 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
     private val _isNoAccess = MutableLiveData<Boolean>()
     val isNoAccess: LiveData<Boolean> = _isNoAccess
 
+    private val _postDetailData = MutableLiveData<ResponsePostDetailData.Data>()
+    val postDetailData: LiveData<ResponsePostDetailData.Data> = _postDetailData
+
     lateinit var groupAllIdList: MutableList<Int>
 
     private val _isLoading: MutableLiveData<Boolean> = MutableLiveData()
@@ -34,7 +38,11 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
 
     val isSelectGroupId = MutableLiveData(-1)
 
+    val oldPageNumber = MutableLiveData(0)
     val pageNumber = MutableLiveData(0)
+
+    val adapterPosition = MutableLiveData(0)
+    val contentId = MutableLiveData(0)
 
     // 등록된 그룹 조회
     fun getSignGroup() {
@@ -86,18 +94,21 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
 
     // 감정 이모지 설정
     fun setUpdateEmotion(
-        contentId: Int,
         emotionStatus: RequestEmotionStatus,
     ) {
         viewModelScope.launch {
             kotlin.runCatching {
-                homeRepository.sendEmotionData(contentId, emotionStatus)
+                homeRepository.sendEmotionData(contentId.value!!, emotionStatus)
             }.onSuccess {
                 getGroupPost()
             }.onFailure {
                 Timber.tag("error").d(it.message.toString())
             }
         }
+    }
+
+    fun setOldPageNumber(pageNumber: Int) {
+        this.oldPageNumber.value = pageNumber
     }
 
     fun setPageNumber(pageNumber: Int) {
