@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_alert_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/ic_alert_invite"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_alert_group"
+            style="@style/TextView.Caption.12.M"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textColor="@color/gray700"
+            app:layout_constraintStart_toEndOf="@id/iv_alert_icon"
+            app:layout_constraintTop_toTopOf="@id/iv_alert_icon"
+            tools:text="몬베베와 샤월들" />
+
+        <TextView
+            android:id="@+id/tv_alert_type"
+            style="@style/TextView.Caption.12.M"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="36dp"
+            android:text="새로운 멤버가 참여했어요. 반갑게 인사해 주세요!"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/tv_alert_group"
+            app:layout_constraintTop_toBottomOf="@id/tv_alert_group" />
+
+        <ImageView
+            android:id="@+id/iv_member_profile"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/shape_oval_white_gray200"
+            android:padding="1dp"
+            app:layout_constraintStart_toStartOf="@id/tv_alert_type"
+            app:layout_constraintTop_toBottomOf="@+id/tv_alert_type"
+            tools:src="@color/teal_200" />
+
+        <TextView
+            android:id="@+id/tv_member_nickname"
+            style="@style/TextView.Caption.12.R"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:gravity="center"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@id/iv_member_profile"
+            app:layout_constraintStart_toEndOf="@id/iv_member_profile"
+            app:layout_constraintTop_toTopOf="@id/iv_member_profile"
+            tools:text="애옹애" />
+
+        <TextView
+            android:id="@+id/tv_date"
+            style="@style/TextView.Caption.12.R"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="16dp"
+            android:textColor="@color/gray500"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/iv_member_profile"
+            app:layout_constraintTop_toBottomOf="@id/iv_member_profile"
+            tools:text="2023.03.02" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
