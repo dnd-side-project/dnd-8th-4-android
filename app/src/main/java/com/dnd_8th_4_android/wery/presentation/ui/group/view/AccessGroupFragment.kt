@@ -128,8 +128,8 @@ class AccessGroupFragment :
                 bottomSheet.show(childFragmentManager, bottomSheet.tag)
             }
 
-            setPopupWindowClickListener { view, contentId ->
-                getGradePopUp(view, contentId)
+            setPopupWindowClickListener { position, view, contentId ->
+                getGradePopUp(position, view, contentId)
             }
         }
 
@@ -328,7 +328,7 @@ class AccessGroupFragment :
         viewModel.missionCertify(missionId)
     }
 
-    private fun getGradePopUp(view: View, contentId: Int) {
+    private fun getGradePopUp(position: Int, view: View, contentId: Int) {
         // 팝업 생성
         val popupWindow = PopupWindow(
             activityPopupWindowBinding!!.root,

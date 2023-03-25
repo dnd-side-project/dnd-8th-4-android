@@ -7,6 +7,7 @@ data class ResponsePostDetailData(
     val data: Data,
 ) : BaseResponse() {
     data class Data(
+        var id: Int,
         val userName: String,
         val location: String,
         val views: Int,
