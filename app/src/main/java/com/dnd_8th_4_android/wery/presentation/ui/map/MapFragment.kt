@@ -276,15 +276,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
 
                 val job2 = launch(start = CoroutineStart.LAZY) {
                     if (mapViewModel.getUploadPostState()) { // 업로드 이후 글 선택 활성화
-                        mapViewModel.setUploadPostState(false)
-
-                        val lastIndex = mapView.findPOIItemByName(mapViewModel.searchPlaceTxt.value!!).filter { it.tag == 1 }.size - 1
-                        val uploadMarker = mapView.findPOIItemByName(mapViewModel.searchPlaceTxt.value!!)[lastIndex]
-
-                        getFeedVpData(uploadMarker.itemName)
-                        binding.vpFeedDialog.visibility = View.VISIBLE
-
-                        mapView.selectPOIItem(uploadMarker, false)
+                        for (i in 0 until 7) showFeedMarkerList(it)
                     }
                 }
 
