@@ -10,6 +10,7 @@ import com.dnd_8th_4_android.wery.data.remote.model.map.ResponseMapMissionList.R
 import com.dnd_8th_4_android.wery.data.remote.model.post.ResponseSearchPlace
 import com.dnd_8th_4_android.wery.domain.repository.MapRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -26,13 +27,16 @@ class MapViewModel @Inject constructor(private val mapRepository: MapRepository)
     var endLatitude = MutableLiveData<Double>() // 우상단
     var endLongitude = MutableLiveData<Double>() // 우상단
 
-    var searchPlaceTxt = MutableLiveData<String>()
+    var searchPlaceTxt = MutableLiveData<String>("")
 
     private val _filterType = MutableLiveData<Int>(0)
     val filterType: LiveData<Int> = _filterType
 
     private val _mapSettingState = MutableLiveData<Boolean>(true)
     val mapSettingState: LiveData<Boolean> = _mapSettingState
+
+    private val _uploadPostState = MutableLiveData<Boolean>(false)
+    val uploadPostState: LiveData<Boolean> = _uploadPostState
 
     private val _feedList =
         MutableLiveData<List<ResponseMapFeedList.ResultMapFeedData>>()
@@ -62,7 +66,7 @@ class MapViewModel @Inject constructor(private val mapRepository: MapRepository)
             kotlin.runCatching {
                 mapRepository.getMapFeedList(startLatitude.value!!,startLongitude.value!!, endLatitude.value!!,endLongitude.value!!)
             }.onSuccess {
-                _feedList.value = it.data
+                _feedList.value = it.data.distinctBy { it.location }.toList()
                 _isLoading.value = false
             }
         }
@@ -125,5 +129,13 @@ class MapViewModel @Inject constructor(private val mapRepository: MapRepository)
 
     fun setMapSettingState(state: Boolean) {
         _mapSettingState.value = state
+    }
+
+    fun getUploadPostState(): Boolean {
+        return _uploadPostState.value!!
+    }
+
+    fun setUploadPostState(state: Boolean) {
+        _uploadPostState.value = state
     }
 }

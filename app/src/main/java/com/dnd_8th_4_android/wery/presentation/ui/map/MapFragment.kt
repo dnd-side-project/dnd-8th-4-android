@@ -14,6 +14,7 @@ import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
@@ -33,9 +34,7 @@ import com.dnd_8th_4_android.wery.presentation.ui.mission.view.MissionDetailActi
 import com.dnd_8th_4_android.wery.presentation.ui.post.place.view.SearchPlaceActivity
 import com.dnd_8th_4_android.wery.presentation.util.DialogFragmentUtil
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
@@ -104,12 +103,15 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
     private val requestUploadActivity =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { it ->
             if (it.resultCode == Activity.RESULT_OK) {
+                mapViewModel.setUploadPostState(true)
+
                 val upLoadLatitude = it.data?.getDoubleExtra("selectedY", 0.0)
                 val upLoadLongitude = it.data?.getDoubleExtra("selectedX", 0.0)
-                // val selectedPlace = it.data?.getStringExtra("selectedPlace")
+                val selectedPlace = it.data?.getStringExtra("selectedPlace")
 
                 mapViewModel.myCurrentLatitude.value = upLoadLatitude
                 mapViewModel.myCurrentLongitude.value = upLoadLongitude
+                mapViewModel.searchPlaceTxt.value = selectedPlace
 
                 mapView.setMapCenterPointAndZoomLevel(
                     MapPoint.mapPointWithGeoCoord(
@@ -117,6 +119,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
                         mapViewModel.myCurrentLongitude.value!!
                     ), 4, false
                 )
+
                 mapViewModel.setMapSettingState(true)
             }
         }
@@ -151,6 +154,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
             selectedMarkerType = MapPOIItem.MarkerType.CustomImage
             customSelectedImageResourceId = R.drawable.img_current_location_pin
             isCustomImageAutoscale = false
+            tag = 0
         }
 
         mapView.addPOIItem(marker)
@@ -262,10 +266,25 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
         }
 
         mapViewModel.feedList.observe(viewLifecycleOwner) {
-            for (i in 0 until 5) showFeedMarkerList(it)
-            if (mapViewModel.searchResult.value != null) searchPinMarker()
-        }
+            CoroutineScope(Dispatchers.Main).launch {
+                val job1 = launch {
+                    for (i in 0 until 7) showFeedMarkerList(it)
+                    if (mapViewModel.searchResult.value != null) searchPinMarker()
+                }
 
+                job1.join()
+
+                val job2 = launch(start = CoroutineStart.LAZY) {
+                    if (mapViewModel.getUploadPostState()) { // 업로드 이후 글 선택 활성화
+                        for (i in 0 until 7) showFeedMarkerList(it)
+                    }
+                }
+
+                if (job1.isCompleted) {
+                    job2.join()
+                }
+            }
+        }
         mapViewModel.missionList.observe(viewLifecycleOwner) {
             showMissionMarkerList(it)
         }
@@ -356,17 +375,16 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
      * 마커를 선택했을 시 서버통신 param으로 contentId를 넘겨준다
      * */
     private fun showFeedMarkerList(feedList: List<ResponseMapFeedList.ResultMapFeedData>) {
-        val distinctFeedList = feedList.distinctBy { it.location }.toList()
         val feedMarkerArr = arrayListOf<MapPOIItem>()
 
-        for (i in distinctFeedList.indices) {
+        for (i in feedList.indices) {
             val view = ItemMarkerFeedBinding.inflate(layoutInflater)
 
-            if (distinctFeedList[i].counts <= 1) view.tvPhotoCnt.visibility = View.GONE
+            if (feedList[i].counts <= 1) view.tvPhotoCnt.visibility = View.GONE
             view.tvPhotoCnt.text =
-                getString(R.string.map_content_count).format(distinctFeedList[i].counts)
+                getString(R.string.map_content_count).format(feedList[i].counts)
 
-            Glide.with(requireContext()).load(distinctFeedList[i].contentImageUrl)
+            Glide.with(requireContext()).load(feedList[i].contentImageUrl)
                 .transform(CenterCrop(), RoundedCorners(12)).override(60, 60)
                 .into(view.ivMapGroupImg).waitForLayout()
 
@@ -376,22 +394,26 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
 
             val feedMarker = MapPOIItem()
             feedMarker.apply {
-                itemName = distinctFeedList[i].location
+                itemName = feedList[i].location
                 isShowCalloutBalloonOnTouch = false
                 mapPoint =
-                    MapPoint.mapPointWithGeoCoord(distinctFeedList[i].latitude, distinctFeedList[i].longitude)
+                    MapPoint.mapPointWithGeoCoord(
+                        feedList[i].latitude,
+                        feedList[i].longitude
+                    )
                 markerType = MapPOIItem.MarkerType.CustomImage
                 customImageBitmap = myCustomImageBitmap
                 selectedMarkerType = MapPOIItem.MarkerType.CustomImage
                 customSelectedImageBitmap = mySelectedCustomImageBitmap
                 isCustomImageAutoscale = false
-             }
+                tag = 1
+            }
 
             feedMarkerArr.add(feedMarker)
-         }
+        }
 
         val convertToArrayItem = feedMarkerArr.toArray(arrayOfNulls<MapPOIItem>(feedMarkerArr.size))
-         mapView.addPOIItems(convertToArrayItem)
+        mapView.addPOIItems(convertToArrayItem)
     }
 
     /**
@@ -431,6 +453,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
                 selectedMarkerType = MapPOIItem.MarkerType.CustomImage
                 customSelectedImageResourceId = myCustomSelectedImageResourceId
                 isCustomImageAutoscale = false
+                tag = 2
             }
 
             missionMarkerArr.add(missionMarker)
@@ -452,12 +475,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
             mapView.mapPointBounds.topRight.mapPointGeoCoord.latitude // 우하단 lat
         mapViewModel.endLongitude.value =
             mapView.mapPointBounds.topRight.mapPointGeoCoord.longitude // 우하단 long
-    }
-
-    // x, y 좌표 세팅하기
-    private fun setXY() {
-        mapViewModel.myCurrentLatitude.value = mapView.mapCenterPoint.mapPointGeoCoord.latitude
-        mapViewModel.myCurrentLongitude.value = mapView.mapCenterPoint.mapPointGeoCoord.longitude
     }
 
     private fun createBitMapFromView(view: View): Bitmap {
@@ -513,7 +530,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
 
     inner class MarkerEventListener() :
         MapView.POIItemEventListener {
-
         override fun onPOIItemSelected(mapView: MapView?, poiItem: MapPOIItem?) {
             // 마커 클릭 시
             if (!poiItem!!.isShowCalloutBalloonOnTouch) {
