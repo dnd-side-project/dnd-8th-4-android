@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -12,7 +14,30 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_alert"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:listitem="@layout/item_alert_notification_type_img" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_final_post"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginBottom="?android:attr/actionBarSize"
+            android:background="@color/gray100"
+            app:layout_constraintTop_toBottomOf="@id/rv_alert">
+
+            <ImageView
+                android:layout_width="44dp"
+                android:layout_height="16dp"
+                android:src="@drawable/img_final_post"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
