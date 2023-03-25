@@ -10,6 +10,7 @@ import com.dnd_8th_4_android.wery.data.remote.model.map.ResponseMapMissionList.R
 import com.dnd_8th_4_android.wery.data.remote.model.post.ResponseSearchPlace
 import com.dnd_8th_4_android.wery.domain.repository.MapRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -65,7 +66,7 @@ class MapViewModel @Inject constructor(private val mapRepository: MapRepository)
             kotlin.runCatching {
                 mapRepository.getMapFeedList(startLatitude.value!!,startLongitude.value!!, endLatitude.value!!,endLongitude.value!!)
             }.onSuccess {
-                _feedList.value = it.data
+                _feedList.value = it.data.distinctBy { it.location }.toList()
                 _isLoading.value = false
             }
         }

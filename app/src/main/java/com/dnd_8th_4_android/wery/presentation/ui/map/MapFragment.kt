@@ -14,6 +14,7 @@ import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
@@ -110,7 +111,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
 
                 mapViewModel.myCurrentLatitude.value = upLoadLatitude
                 mapViewModel.myCurrentLongitude.value = upLoadLongitude
-
                 mapViewModel.searchPlaceTxt.value = selectedPlace
 
                 mapView.setMapCenterPointAndZoomLevel(
@@ -268,28 +268,29 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
         mapViewModel.feedList.observe(viewLifecycleOwner) {
             CoroutineScope(Dispatchers.Main).launch {
                 val job1 = launch {
-                    for (i in 0 until 10) showFeedMarkerList(it)
+                    for (i in 0 until 7) showFeedMarkerList(it)
                     if (mapViewModel.searchResult.value != null) searchPinMarker()
                 }
 
                 job1.join()
-                delay(500L)
 
                 val job2 = launch(start = CoroutineStart.LAZY) {
                     if (mapViewModel.getUploadPostState()) { // 업로드 이후 글 선택 활성화
-                        val lastIndex =
-                            mapView.findPOIItemByName(mapViewModel.searchPlaceTxt.value!!)
-                                .filter { it.tag == 1 }.size - 1
-                        val uploadMarker =
-                            mapView.findPOIItemByName(mapViewModel.searchPlaceTxt.value!!)[lastIndex]
-                        mapView.selectPOIItem(uploadMarker, false)
+                        mapViewModel.setUploadPostState(false)
+
+                        val lastIndex = mapView.findPOIItemByName(mapViewModel.searchPlaceTxt.value!!).filter { it.tag == 1 }.size - 1
+                        val uploadMarker = mapView.findPOIItemByName(mapViewModel.searchPlaceTxt.value!!)[lastIndex]
 
                         getFeedVpData(uploadMarker.itemName)
                         binding.vpFeedDialog.visibility = View.VISIBLE
 
-                        mapViewModel.setUploadPostState(false)
+                        mapView.selectPOIItem(uploadMarker, false)
                     }
-                }.start()
+                }
+
+                if (job1.isCompleted) {
+                    job2.join()
+                }
             }
         }
         mapViewModel.missionList.observe(viewLifecycleOwner) {
@@ -382,17 +383,16 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
      * 마커를 선택했을 시 서버통신 param으로 contentId를 넘겨준다
      * */
     private fun showFeedMarkerList(feedList: List<ResponseMapFeedList.ResultMapFeedData>) {
-        val distinctFeedList = feedList.distinctBy { it.location }.toList()
         val feedMarkerArr = arrayListOf<MapPOIItem>()
 
-        for (i in distinctFeedList.indices) {
+        for (i in feedList.indices) {
             val view = ItemMarkerFeedBinding.inflate(layoutInflater)
 
-            if (distinctFeedList[i].counts <= 1) view.tvPhotoCnt.visibility = View.GONE
+            if (feedList[i].counts <= 1) view.tvPhotoCnt.visibility = View.GONE
             view.tvPhotoCnt.text =
-                getString(R.string.map_content_count).format(distinctFeedList[i].counts)
+                getString(R.string.map_content_count).format(feedList[i].counts)
 
-            Glide.with(requireContext()).load(distinctFeedList[i].contentImageUrl)
+            Glide.with(requireContext()).load(feedList[i].contentImageUrl)
                 .transform(CenterCrop(), RoundedCorners(12)).override(60, 60)
                 .into(view.ivMapGroupImg).waitForLayout()
 
@@ -402,12 +402,12 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
 
             val feedMarker = MapPOIItem()
             feedMarker.apply {
-                itemName = distinctFeedList[i].location
+                itemName = feedList[i].location
                 isShowCalloutBalloonOnTouch = false
                 mapPoint =
                     MapPoint.mapPointWithGeoCoord(
-                        distinctFeedList[i].latitude,
-                        distinctFeedList[i].longitude
+                        feedList[i].latitude,
+                        feedList[i].longitude
                     )
                 markerType = MapPOIItem.MarkerType.CustomImage
                 customImageBitmap = myCustomImageBitmap
