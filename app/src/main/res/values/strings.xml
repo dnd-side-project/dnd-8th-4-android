@@ -102,6 +102,7 @@
     <string name="home_item_post_image_count_slash">/</string>
     <string name="home_item_no_location">어디를 방문하셨나요?</string>
     <string name="home_no_post">작성된 게시물이 없어요</string>
+    <string name="home_post_image">%d / %d</string>
 
     <!-- CreateGroupActivity -->
     <string name="create_group">그룹 만들기</string>
