@@ -100,13 +100,15 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
             }
         }
 
-    /**
-     * */
+
     private val requestUploadActivity =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { it ->
             if (it.resultCode == Activity.RESULT_OK) {
                 if (PostLocalDataSource(requireContext()).uploadFromMapState) {
                     mapViewModel.setUploadPostState(true)
+
+                    mapViewModel.setFilterType(0)
+                    binding.ivFilterFeed.isSelected = true
 
                     val postLocalDataSource = PostLocalDataSource(requireContext())
                     val upLoadLatitude = postLocalDataSource.mapLatitude.toDouble()
