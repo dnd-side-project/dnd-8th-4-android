@@ -11,7 +11,7 @@ import com.dnd_8th_4_android.wery.databinding.ItemAlertNotificationCommentBindin
 import com.dnd_8th_4_android.wery.databinding.ItemAlertNotificationInviteBinding
 import com.dnd_8th_4_android.wery.databinding.ItemAlertNotificationLikeBinding
 
-class AlertNotificationAdapter(private val onItemClick: (Int) -> Unit) :
+class AlertNotificationAdapter(private val onItemClick: (ResponseAlertNotificationData.Data.NotificationInfo) -> Unit) :
     ListAdapter<ResponseAlertNotificationData.Data.NotificationInfo, RecyclerView.ViewHolder>(
         diffUtil
     ) {
@@ -20,7 +20,7 @@ class AlertNotificationAdapter(private val onItemClick: (Int) -> Unit) :
             INVITE_VIEW_TYPE -> AlertNotificationInviteViewHolder(
                 ItemAlertNotificationInviteBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false
-                ),onItemClick
+                ), onItemClick
             )
 
             COMMENT_VIEW_TYPE -> AlertNotificationCommentViewHolder(
@@ -70,14 +70,14 @@ class AlertNotificationAdapter(private val onItemClick: (Int) -> Unit) :
 
     class AlertNotificationInviteViewHolder(
         val binding: ItemAlertNotificationInviteBinding,
-        val onItemClick: (Int) -> Unit
+        val onItemClick: (ResponseAlertNotificationData.Data.NotificationInfo) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
         private var itemData: ResponseAlertNotificationData.Data.NotificationInfo? = null
 
         init {
             binding.root.setOnClickListener {
                 itemData?.let {
-                    onItemClick(it.notificationId)
+                    onItemClick(it)
                 }
             }
         }
@@ -90,14 +90,14 @@ class AlertNotificationAdapter(private val onItemClick: (Int) -> Unit) :
 
     class AlertNotificationCommentViewHolder(
         val binding: ItemAlertNotificationCommentBinding,
-        val onItemClick: (Int) -> Unit
+        val onItemClick: (ResponseAlertNotificationData.Data.NotificationInfo) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
         private var itemData: ResponseAlertNotificationData.Data.NotificationInfo? = null
 
         init {
             binding.root.setOnClickListener {
                 itemData?.let {
-                    onItemClick(it.notificationId)
+                    onItemClick(it)
                 }
             }
         }
@@ -105,7 +105,7 @@ class AlertNotificationAdapter(private val onItemClick: (Int) -> Unit) :
         init {
             binding.root.setOnClickListener {
                 itemData?.let {
-                    onItemClick(it.notificationId)
+                    onItemClick(it)
                 }
             }
         }
@@ -118,14 +118,14 @@ class AlertNotificationAdapter(private val onItemClick: (Int) -> Unit) :
 
     class AlertNotificationLikeViewHolder(
         val binding: ItemAlertNotificationLikeBinding,
-        val onItemClick: (Int) -> Unit
+        val onItemClick: (ResponseAlertNotificationData.Data.NotificationInfo) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
         private var itemData: ResponseAlertNotificationData.Data.NotificationInfo? = null
 
         init {
             binding.root.setOnClickListener {
                 itemData?.let {
-                    onItemClick(it.notificationId)
+                    onItemClick(it)
                 }
             }
         }

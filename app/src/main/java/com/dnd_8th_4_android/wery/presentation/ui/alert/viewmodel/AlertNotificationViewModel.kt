@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dnd_8th_4_android.wery.data.remote.model.alert.ResponseAlertNotificationData
+import com.dnd_8th_4_android.wery.data.remote.model.alert.ResponseAlertPostInfoData
 import com.dnd_8th_4_android.wery.domain.repository.AlertRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -22,6 +23,13 @@ class AlertNotificationViewModel @Inject constructor(private val alertRepository
         MutableLiveData<List<ResponseAlertNotificationData.Data.NotificationInfo>>()
     val notificationList: LiveData<List<ResponseAlertNotificationData.Data.NotificationInfo>> =
         _notificationList
+
+    private val _contentId = MutableLiveData<Int>()
+    val contentId: LiveData<Int> = _contentId
+
+    private val _notificationPostInfo = MutableLiveData<ResponseAlertPostInfoData.Data>()
+    val notificationPostInfo: LiveData<ResponseAlertPostInfoData.Data> =
+        _notificationPostInfo
 
     fun getNotificationList() {
         viewModelScope.launch {
@@ -45,6 +53,25 @@ class AlertNotificationViewModel @Inject constructor(private val alertRepository
                 Timber.tag("error").d(it.message.toString())
             }
         }
+    }
 
+    fun getAlertPostInfo(contentId: Int) {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                alertRepository.getAlertPostInfo(contentId)
+            }.onSuccess {
+                _notificationPostInfo.value = it.data
+            }.onFailure {
+                Timber.tag("error").d(it.message.toString())
+            }
+        }
+    }
+
+    fun setContentId(contentId: Int) {
+        _contentId.value = contentId
+    }
+
+    fun getContentId(): Int {
+        return _contentId.value!!
     }
 }
