@@ -1,6 +1,5 @@
 package com.dnd_8th_4_android.wery.presentation.ui.post.upload.view
 
-import android.Manifest
 import android.Manifest.permission.READ_MEDIA_IMAGES
 import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.app.Activity
@@ -71,6 +70,8 @@ class UploadPostActivity : BaseActivity<ActivityUploadPostBinding>(R.layout.acti
                 postViewModel.selectedPlace.value = selectedPlace
                 postViewModel.selectedLongitude.value = selectedX.toString()
                 postViewModel.selectedLatitude.value = selectedY.toString()
+
+                postViewModel.setMapLocalData(selectedPlace, selectedY!!, selectedX!!)
             }
         }
 
@@ -140,7 +141,6 @@ class UploadPostActivity : BaseActivity<ActivityUploadPostBinding>(R.layout.acti
         selectGroupListener()
 
         isFromMissionDetail()
-        isFromMapBtn()
     }
 
     private fun isFromModify() {
@@ -167,19 +167,6 @@ class UploadPostActivity : BaseActivity<ActivityUploadPostBinding>(R.layout.acti
             postViewModel.selectedLongitude.value = longitude.toString()
 
             binding.tvAddPlace.text = placeName
-        }
-    }
-
-    private fun isFromMapBtn() {
-        if (intent.hasExtra("fromMapBtn")) {
-            val placeName = intent.getStringExtra("selectedPlace")
-            val selectedPlace = placeName ?: getString(R.string.search_place_hint)
-            val longitude = intent.getDoubleExtra("selectedX", 0.0)
-            val latitude = intent.getDoubleExtra("selectedY", 0.0)
-
-            postViewModel.selectedPlace.value = selectedPlace
-            postViewModel.selectedLatitude.value = latitude.toString()
-            postViewModel.selectedLongitude.value = longitude.toString()
         }
     }
 
@@ -280,6 +267,10 @@ class UploadPostActivity : BaseActivity<ActivityUploadPostBinding>(R.layout.acti
             postViewModel.selectedPlace.value = intent?.getStringExtra("placeName")
         } else if (intent?.hasExtra("fromMapBtn") == true) {
             postViewModel.selectedPlace.value = intent?.getStringExtra("selectedPlace")
+            postViewModel.selectedLatitude.value =
+                intent?.getDoubleExtra("selectedY", -4.0).toString()
+            postViewModel.selectedLongitude.value =
+                intent?.getDoubleExtra("selectedX", -4.0).toString()
         } else {
             postViewModel.selectedPlace.value = getString(R.string.search_place_hint)
         }
@@ -302,11 +293,7 @@ class UploadPostActivity : BaseActivity<ActivityUploadPostBinding>(R.layout.acti
             if (intent.hasExtra("contentId")) modifyFeed()
             else if (intent.hasExtra("missionId")) uploadMissionFeed()
             else if (intent.hasExtra("fromMapBtn")) {
-                val mapIntent = Intent()
-                mapIntent.putExtra("mapLatitude", postViewModel.selectedLatitude.value)
-                mapIntent.putExtra("mapLongitude", postViewModel.selectedLongitude.value)
-                setResult(RESULT_OK, mapIntent)
-
+                postViewModel.fromMapViewState.value = true // 지도로부터 업로드 시도
                 uploadFeed()
             } else uploadFeed()
         }

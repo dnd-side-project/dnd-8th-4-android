@@ -14,7 +14,6 @@ import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
@@ -23,6 +22,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.dnd_8th_4_android.wery.R
+import com.dnd_8th_4_android.wery.data.local.PostLocalDataSource
 import com.dnd_8th_4_android.wery.data.remote.model.map.ResponseMapMissionList
 import com.dnd_8th_4_android.wery.data.remote.model.post.ResponseSearchPlace
 import com.dnd_8th_4_android.wery.databinding.FragmentMapBinding
@@ -100,27 +100,36 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
             }
         }
 
+
     private val requestUploadActivity =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { it ->
             if (it.resultCode == Activity.RESULT_OK) {
-                mapViewModel.setUploadPostState(true)
+                if (PostLocalDataSource(requireContext()).uploadFromMapState) {
+                    mapViewModel.setUploadPostState(true)
 
-                val upLoadLatitude = it.data?.getDoubleExtra("selectedY", 0.0)
-                val upLoadLongitude = it.data?.getDoubleExtra("selectedX", 0.0)
-                val selectedPlace = it.data?.getStringExtra("selectedPlace")
+                    mapViewModel.setFilterType(0)
+                    binding.ivFilterFeed.isSelected = true
 
-                mapViewModel.myCurrentLatitude.value = upLoadLatitude
-                mapViewModel.myCurrentLongitude.value = upLoadLongitude
-                mapViewModel.searchPlaceTxt.value = selectedPlace
+                    val postLocalDataSource = PostLocalDataSource(requireContext())
+                    val upLoadLatitude = postLocalDataSource.mapLatitude.toDouble()
+                    val upLoadLongitude = postLocalDataSource.mapLongitude.toDouble()
+                    val selectedPlace = postLocalDataSource.mapUploadPlace
 
-                mapView.setMapCenterPointAndZoomLevel(
-                    MapPoint.mapPointWithGeoCoord(
-                        mapViewModel.myCurrentLatitude.value!!,
-                        mapViewModel.myCurrentLongitude.value!!
-                    ), 4, false
-                )
+                    mapViewModel.myCurrentLatitude.value = upLoadLatitude
+                    mapViewModel.myCurrentLongitude.value = upLoadLongitude
+                    mapViewModel.searchPlaceTxt.value = selectedPlace
 
-                mapViewModel.setMapSettingState(true)
+                    mapView.setMapCenterPointAndZoomLevel(
+                        MapPoint.mapPointWithGeoCoord(
+                            mapViewModel.myCurrentLatitude.value!!,
+                            mapViewModel.myCurrentLongitude.value!!
+                        ), 4, false
+                    )
+
+                    mapViewModel.setMapSettingState(true)
+                    PostLocalDataSource(requireContext()).uploadFromMapState =
+                        false // 장소 추가 활동을 마친후 비활성화
+                }
             }
         }
 
@@ -267,6 +276,9 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
 
         mapViewModel.feedList.observe(viewLifecycleOwner) {
             CoroutineScope(Dispatchers.Main).launch {
+                var lastIndex = -1
+                var uploadMarker = MapPOIItem()
+
                 val job1 = launch {
                     for (i in 0 until 7) showFeedMarkerList(it)
                     if (mapViewModel.searchResult.value != null) searchPinMarker()
@@ -274,17 +286,32 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
 
                 job1.join()
 
-                val job2 = launch(start = CoroutineStart.LAZY) {
-                    if (mapViewModel.getUploadPostState()) { // 업로드 이후 글 선택 활성화
-                        for (i in 0 until 7) showFeedMarkerList(it)
-                    }
+                val job2 = CoroutineScope(Dispatchers.IO).launch(start = CoroutineStart.LAZY) {
+                    delay(3000L)
+                    lastIndex = mapView.findPOIItemByName(mapViewModel.searchPlaceTxt.value!!)
+                        .filter { it.tag == 1 }.size - 1
+                    uploadMarker =
+                        mapView.findPOIItemByName(mapViewModel.searchPlaceTxt.value!!)[lastIndex]
+                }
+
+                val job3 = launch(start = CoroutineStart.LAZY) {
+                    getFeedVpData(uploadMarker.itemName)
+                    binding.vpFeedDialog.visibility = View.VISIBLE
+
+                    mapView.selectPOIItem(uploadMarker, false)
+                    mapViewModel.setUploadPostState(false)
+                }
+
+                val job4 = launch(start = CoroutineStart.LAZY) {
+                    for (i in 0 until 7) showFeedMarkerList(it)
                 }
 
                 if (job1.isCompleted) {
-                    job2.join()
+                    if (mapViewModel.getUploadPostState()) joinAll(job1, job2, job3, job4)
                 }
             }
         }
+
         mapViewModel.missionList.observe(viewLifecycleOwner) {
             showMissionMarkerList(it)
         }

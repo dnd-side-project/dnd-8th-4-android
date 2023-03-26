@@ -26,7 +26,6 @@ class AuthLocalDataSource @Inject constructor(
         set(value) = sharedPreferences.edit().putInt(USER_ID, value).apply()
         get() = sharedPreferences.getInt(USER_ID, 0)
 
-
     companion object {
         const val WERY_APP = "WERY_APP"
         const val ACCESS_TOKEN = "accessToken"
