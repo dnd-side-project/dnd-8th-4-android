@@ -76,6 +76,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             adapter = postRecyclerViewAdapter
             itemAnimator = null
             isNestedScrollingEnabled = false
+//            LinearLayoutManager(requireContext()).recycleChildrenOnDetach = true
+//            LinearLayoutManager(requireContext()).isItemPrefetchEnabled = false
+//            setRecycledViewPool(recycledViewPool)
         }
 
         postRecyclerViewAdapter.apply {
@@ -131,7 +134,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 binding.activityGroup.layoutFinalPost.isVisible = false
             }
 
-            if (homeViewModel.pageNumber.value != homeViewModel.oldPageNumber.value) {
+            // 마지막 게시글 스크롤할 경우
+            if (homeViewModel.pageNumber.value!! > homeViewModel.oldPageNumber.value!!) {
+                // 첫 실행
                 if (homeViewModel.pageNumber.value == 1) {
                     postRecyclerViewAdapter.submitList(it.content)
                 } else {
@@ -140,14 +145,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                     postRecyclerViewAdapter.submitList(currentList)
                 }
                 homeViewModel.setOldPageNumber(homeViewModel.pageNumber.value!!)
-            } else {
+            } else { // 감정 이모지 등록했을 경우
                 val currentList = postRecyclerViewAdapter.currentList.toMutableList()
 
-                val calculatePosition = if (homeViewModel.adapterPosition.value!! < 10) {
-                    homeViewModel.adapterPosition.value!!
-                } else {
-                    homeViewModel.adapterPosition.value!! % 10
-                }
+                val calculatePosition = homeViewModel.adapterPosition.value!! % 10
 
                 currentList.forEach { content ->
                     if (content.id == it.content[calculatePosition].id) {
@@ -156,6 +157,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
                         currentList[homeViewModel.adapterPosition.value!!].emotionStatus =
                             it.content[calculatePosition].emotionStatus
+
                         postRecyclerViewAdapter.notifyItemChanged(homeViewModel.adapterPosition.value!!)
                         return@observe
                     }
@@ -204,7 +206,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         }
 
         binding.activityGroup.scrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, _, _, _, _ ->
-            if (homeViewModel.isLoading.value == false && !v.canScrollVertically(1)) {
+            if (homeViewModel.pageNumber.value!! < 2 && homeViewModel.isLoading.value == false && !v.canScrollVertically(
+                    1
+                )
+            ) {
+                homeViewModel.setLoading()
                 if (homeViewModel.oldPageNumber.value!! > homeViewModel.pageNumber.value!!) {
                     homeViewModel.setPageNumber(homeViewModel.oldPageNumber.value!!)
                 }

@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dnd_8th_4_android.wery.data.remote.model.detail.ResponsePostDetailData
 import com.dnd_8th_4_android.wery.data.remote.model.home.RequestEmotionStatus
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseGroupData
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponsePostData
@@ -27,9 +26,6 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
 
     private val _isNoAccess = MutableLiveData<Boolean>()
     val isNoAccess: LiveData<Boolean> = _isNoAccess
-
-    private val _postDetailData = MutableLiveData<ResponsePostDetailData.Data>()
-    val postDetailData: LiveData<ResponsePostDetailData.Data> = _postDetailData
 
     lateinit var groupAllIdList: MutableList<Int>
 
@@ -72,7 +68,6 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
 
     // 그룹 게시글 조회
     fun getGroupPost() {
-        _isLoading.value = true
         viewModelScope.launch {
             kotlin.runCatching {
                 if (isSelectGroupId.value == -1) {
@@ -105,6 +100,10 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
                 Timber.tag("error").d(it.message.toString())
             }
         }
+    }
+
+    fun setLoading() {
+        _isLoading.value = true
     }
 
     fun setOldPageNumber(pageNumber: Int) {

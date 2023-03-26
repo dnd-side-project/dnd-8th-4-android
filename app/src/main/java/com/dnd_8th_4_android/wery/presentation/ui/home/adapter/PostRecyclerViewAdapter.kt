@@ -5,9 +5,7 @@ import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.core.view.isVisible
-import androidx.core.view.marginStart
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -96,7 +94,8 @@ class PostRecyclerViewAdapter :
                     Glide.with(binding.ivEmotionLeft.context).load(emotionDrawable)
                         .into(binding.ivEmotionLeft)
 
-                    val layoutParams = binding.ivEmotionLeft.layoutParams as ViewGroup.MarginLayoutParams
+                    val layoutParams =
+                        binding.ivEmotionLeft.layoutParams as ViewGroup.MarginLayoutParams
                     layoutParams.marginStart = 0
                     binding.ivEmotionLeft.layoutParams = layoutParams
                 }
@@ -113,7 +112,8 @@ class PostRecyclerViewAdapter :
                     Glide.with(binding.ivEmotionRight.context).load(emotionDrawable)
                         .into(binding.ivEmotionRight)
 
-                    val layoutParams = binding.ivEmotionLeft.layoutParams as ViewGroup.MarginLayoutParams
+                    val layoutParams =
+                        binding.ivEmotionLeft.layoutParams as ViewGroup.MarginLayoutParams
                     layoutParams.marginStart = 11.dpToPx(binding.root.context)
                     binding.ivEmotionLeft.layoutParams = layoutParams
                 }
@@ -282,7 +282,7 @@ class PostRecyclerViewAdapter :
                 oldItem: ResponsePostData.Data.Content,
                 newItem: ResponsePostData.Data.Content,
             ): Boolean {
-                return oldItem == newItem
+                return oldItem.id == newItem.id
             }
 
             override fun areContentsTheSame(
