@@ -49,7 +49,10 @@ class MyMissionFragment : BaseFragment<FragmentMyMissionBinding>(R.layout.fragme
 
     private fun initMissionCardAdapter() {
         missionCardAdapter = MissionCardAdapter()
-        binding.includeMissionExist.rvMissionExist.adapter = missionCardAdapter
+        binding.includeMissionExist.rvMissionExist.apply {
+            adapter = missionCardAdapter
+            itemAnimator = null
+        }
     }
 
     private fun initRecommendMissionAdapter() {
