@@ -44,7 +44,7 @@ class FragmentAlertNotification :
                     putExtra(PostRecyclerViewAdapter.CONTENT, it.content ?: "")
                     putExtra(PostRecyclerViewAdapter.USER_IMAGE, it.profileImageUrl)
                     putExtra(PostRecyclerViewAdapter.GROUP_NAME, it.groupName)
-                    putExtra(PostRecyclerViewAdapter.TIME, "23.02.03") // TODO: 추후 서버통신 필요
+                    putExtra(PostRecyclerViewAdapter.TIME, it.createAt)
                     startActivity(this)
                 }
             }

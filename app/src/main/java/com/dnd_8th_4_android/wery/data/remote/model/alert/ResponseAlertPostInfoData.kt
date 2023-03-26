@@ -9,5 +9,6 @@ data class ResponseAlertPostInfoData(
         val content: String?,
         val profileImageUrl: String,
         val groupName: String,
+        val createAt: String
     )
 }
