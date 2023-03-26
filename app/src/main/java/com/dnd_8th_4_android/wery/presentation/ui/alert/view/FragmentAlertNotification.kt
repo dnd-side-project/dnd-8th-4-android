@@ -1,6 +1,7 @@
 package com.dnd_8th_4_android.wery.presentation.ui.alert.view
 
 import android.content.Intent
+import android.util.Log
 import androidx.fragment.app.viewModels
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.data.remote.model.alert.ResponseAlertNotificationData
@@ -34,13 +35,17 @@ class FragmentAlertNotification :
             viewModel.getAlertPostInfo(viewModel.getContentId())
         }
         viewModel.notificationPostInfo.observe(this) {
-            Intent(requireContext(), PostDetailActivity::class.java).apply {
-                putExtra(PostRecyclerViewAdapter.CONTENT_ID, viewModel.contentId.value!!)
-                putExtra(PostRecyclerViewAdapter.CONTENT, it.content)
-                putExtra(PostRecyclerViewAdapter.USER_IMAGE, it.profileImageUrl)
-                putExtra(PostRecyclerViewAdapter.GROUP_NAME, it.groupName)
-                putExtra(PostRecyclerViewAdapter.TIME, "23.02.03") // 달라고하기
-                startActivity(this)
+            if (it == null) {
+                showToast("해당 게시글이 존재하지 않습니다.")
+            } else {
+                Intent(requireContext(), PostDetailActivity::class.java).apply {
+                    putExtra(PostRecyclerViewAdapter.CONTENT_ID, viewModel.contentId.value!!)
+                    putExtra(PostRecyclerViewAdapter.CONTENT, it.content ?: "")
+                    putExtra(PostRecyclerViewAdapter.USER_IMAGE, it.profileImageUrl)
+                    putExtra(PostRecyclerViewAdapter.GROUP_NAME, it.groupName)
+                    putExtra(PostRecyclerViewAdapter.TIME, "23.02.03") // 달라고하기
+                    startActivity(this)
+                }
             }
         }
     }

@@ -27,8 +27,8 @@ class AlertNotificationViewModel @Inject constructor(private val alertRepository
     private val _contentId = MutableLiveData<Int>()
     val contentId: LiveData<Int> = _contentId
 
-    private val _notificationPostInfo = MutableLiveData<ResponseAlertPostInfoData.Data>()
-    val notificationPostInfo: LiveData<ResponseAlertPostInfoData.Data> =
+    private val _notificationPostInfo = MutableLiveData<ResponseAlertPostInfoData.Data?>()
+    val notificationPostInfo: LiveData<ResponseAlertPostInfoData.Data?> =
         _notificationPostInfo
 
     fun getNotificationList() {
