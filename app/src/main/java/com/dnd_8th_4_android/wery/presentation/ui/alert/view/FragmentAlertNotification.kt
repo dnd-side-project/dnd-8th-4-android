@@ -1,5 +1,6 @@
 package com.dnd_8th_4_android.wery.presentation.ui.alert.view
 
+import android.content.Intent
 import androidx.fragment.app.viewModels
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.databinding.FragmentAlertNotificationBinding
@@ -18,7 +19,7 @@ class FragmentAlertNotification :
         binding.vm = viewModel
         viewModel.getNotificationList()
 
-        alertNotificationAdapter = AlertNotificationAdapter()
+        alertNotificationAdapter = AlertNotificationAdapter { data -> moveToPostDetail(data) }
         binding.rvAlert.adapter = alertNotificationAdapter
     }
 
@@ -26,8 +27,17 @@ class FragmentAlertNotification :
         viewModel.notificationList.observe(this) {
             alertNotificationAdapter.submitList(it)
         }
+        viewModel.isRead.observe(this) {
+            Intent().apply {
+                startActivity(this)
+            }
+        }
     }
 
     override fun initAfterBinding() {
+    }
+
+    private fun moveToPostDetail(notificationId: Int) {
+        viewModel.readNotification(notificationId)
     }
 }

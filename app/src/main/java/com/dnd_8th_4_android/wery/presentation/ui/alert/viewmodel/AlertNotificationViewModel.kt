@@ -15,6 +15,9 @@ import javax.inject.Inject
 class AlertNotificationViewModel @Inject constructor(private val alertRepository: AlertRepository) :
     ViewModel() {
 
+    private val _isRead = MutableLiveData<Boolean>()
+    val isRead: LiveData<Boolean> = _isRead
+
     private val _notificationList =
         MutableLiveData<List<ResponseAlertNotificationData.Data.NotificationInfo>>()
     val notificationList: LiveData<List<ResponseAlertNotificationData.Data.NotificationInfo>> =
@@ -30,5 +33,18 @@ class AlertNotificationViewModel @Inject constructor(private val alertRepository
                 Timber.tag("error").d(it.message.toString())
             }
         }
+    }
+
+    fun readNotification(notificationId: Int) {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                alertRepository.readAlert(notificationId)
+            }.onSuccess {
+                _isRead.value = true
+            }.onFailure {
+                Timber.tag("error").d(it.message.toString())
+            }
+        }
+
     }
 }

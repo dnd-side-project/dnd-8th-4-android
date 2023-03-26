@@ -11,7 +11,7 @@ import com.dnd_8th_4_android.wery.databinding.ItemAlertNotificationCommentBindin
 import com.dnd_8th_4_android.wery.databinding.ItemAlertNotificationInviteBinding
 import com.dnd_8th_4_android.wery.databinding.ItemAlertNotificationLikeBinding
 
-class AlertNotificationAdapter :
+class AlertNotificationAdapter(private val onItemClick: (Int) -> Unit) :
     ListAdapter<ResponseAlertNotificationData.Data.NotificationInfo, RecyclerView.ViewHolder>(
         diffUtil
     ) {
@@ -20,19 +20,19 @@ class AlertNotificationAdapter :
             INVITE_VIEW_TYPE -> AlertNotificationInviteViewHolder(
                 ItemAlertNotificationInviteBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false
-                )
+                ),onItemClick
             )
 
             COMMENT_VIEW_TYPE -> AlertNotificationCommentViewHolder(
                 ItemAlertNotificationCommentBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false
-                )
+                ),onItemClick
             )
 
             LIKE_VIEW_TYPE -> AlertNotificationLikeViewHolder(
                 ItemAlertNotificationLikeBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false
-                )
+                ),onItemClick
             )
 
             else -> throw Exception("unknown type!!")
@@ -70,26 +70,68 @@ class AlertNotificationAdapter :
 
     class AlertNotificationInviteViewHolder(
         val binding: ItemAlertNotificationInviteBinding,
+        val onItemClick: (Int) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
+        private var itemData: ResponseAlertNotificationData.Data.NotificationInfo? = null
+
+        init {
+            binding.root.setOnClickListener {
+                itemData?.let {
+                    onItemClick(it.notificationId)
+                }
+            }
+        }
 
         fun onBind(data: ResponseAlertNotificationData.Data.NotificationInfo) {
+            itemData = data
             binding.data = data
         }
     }
 
     class AlertNotificationCommentViewHolder(
         val binding: ItemAlertNotificationCommentBinding,
+        val onItemClick: (Int) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
+        private var itemData: ResponseAlertNotificationData.Data.NotificationInfo? = null
+
+        init {
+            binding.root.setOnClickListener {
+                itemData?.let {
+                    onItemClick(it.notificationId)
+                }
+            }
+        }
+
+        init {
+            binding.root.setOnClickListener {
+                itemData?.let {
+                    onItemClick(it.notificationId)
+                }
+            }
+        }
 
         fun onBind(data: ResponseAlertNotificationData.Data.NotificationInfo) {
+            itemData = data
             binding.data = data
         }
     }
 
     class AlertNotificationLikeViewHolder(
         val binding: ItemAlertNotificationLikeBinding,
+        val onItemClick: (Int) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
+        private var itemData: ResponseAlertNotificationData.Data.NotificationInfo? = null
+
+        init {
+            binding.root.setOnClickListener {
+                itemData?.let {
+                    onItemClick(it.notificationId)
+                }
+            }
+        }
+
         fun onBind(data: ResponseAlertNotificationData.Data.NotificationInfo) {
+            itemData = data
             binding.data = data
         }
     }
