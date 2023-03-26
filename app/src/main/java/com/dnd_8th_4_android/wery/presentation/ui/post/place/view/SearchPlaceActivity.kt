@@ -7,6 +7,7 @@ import android.view.inputmethod.EditorInfo
 import androidx.activity.viewModels
 import androidx.core.widget.addTextChangedListener
 import com.dnd_8th_4_android.wery.R
+import com.dnd_8th_4_android.wery.data.local.PostLocalDataSource
 import com.dnd_8th_4_android.wery.data.remote.model.post.ResponseSearchPlace.Document
 import com.dnd_8th_4_android.wery.databinding.ActivitySearchPlaceBinding
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseActivity
@@ -87,8 +88,15 @@ class SearchPlaceActivity :
                 putExtra("selectedX", data.x)
                 putExtra("selectedY", data.y)
                 putExtra("fromMapBtn", true)
-                setResult(RESULT_OK,this)
+                setResult(RESULT_OK, this)
                 startActivity(this)
+
+                val postLocalDataSource = PostLocalDataSource(this@SearchPlaceActivity)
+                postLocalDataSource.apply {
+                    mapLongitude = data.x.toFloat()
+                    mapLatitude = data.y.toFloat()
+                    mapUploadPlace = data.place_name
+                }
             }
         } else {
             Intent().apply {

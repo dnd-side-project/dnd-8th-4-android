@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.dnd_8th_4_android.wery.data.local.PostLocalDataSource
 import com.dnd_8th_4_android.wery.data.remote.model.mission.ResponseMissionFeed
 import com.dnd_8th_4_android.wery.data.remote.model.post.ResponseGroupList
 import com.dnd_8th_4_android.wery.data.remote.model.post.ResponsePostData
@@ -17,7 +18,10 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import javax.inject.Inject
 
 @HiltViewModel
-class PostViewModel @Inject constructor(private val postRepository: PostRepository) :
+class PostViewModel @Inject constructor(
+    private val postLocalDataSource: PostLocalDataSource,
+    private val postRepository: PostRepository,
+) :
     ViewModel() {
 
     private var _photoCnt = MutableLiveData<Int>(0)
@@ -29,6 +33,8 @@ class PostViewModel @Inject constructor(private val postRepository: PostReposito
     var selectedLongitude = MutableLiveData<String>("-1.0")
     var selectedGroup = MutableLiveData<String>()
     var selectedGroupState = MutableLiveData<Boolean>(false)
+
+    var fromMapViewState = MutableLiveData<Boolean>(false)
 
     private val _isLoading: MutableLiveData<Boolean> = MutableLiveData()
     val isLoading: LiveData<Boolean> = _isLoading
@@ -90,6 +96,7 @@ class PostViewModel @Inject constructor(private val postRepository: PostReposito
         viewModelScope.launch {
             postRepository.uploadFeed(groupId, data, multipartFile).onSuccess {
                 _isLoading.value = false
+                postLocalDataSource.uploadFromMapState = fromMapViewState.value!! // 지도 글쓰기 동작 완료
             }.onFailure {
                 _isLoading.value = false
             }
@@ -175,6 +182,14 @@ class PostViewModel @Inject constructor(private val postRepository: PostReposito
 
     fun setLoadingState(isLoading: Boolean) {
         _isLoading.value = isLoading
+    }
+
+    fun setMapLocalData(placeValue: String, latValue: Double, longValue: Double) {
+        postLocalDataSource.apply {
+            this.mapUploadPlace = placeValue
+            this.mapLatitude = latValue.toFloat()
+            this.mapLongitude = longValue.toFloat()
+        }
     }
 
 }
