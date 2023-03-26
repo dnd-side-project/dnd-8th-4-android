@@ -5,6 +5,9 @@
 
     <data>
 
+        <variable
+            name="data"
+            type="com.dnd_8th_4_android.wery.data.remote.model.alert.ResponseAlertNotificationData.Data.NotificationInfo" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -28,6 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:textColor="@color/gray700"
+            android:text="@{data.groupName}"
             app:layout_constraintStart_toEndOf="@id/iv_alert_icon"
             app:layout_constraintTop_toTopOf="@id/iv_alert_icon"
             tools:text="몬베베와 샤월들" />
@@ -62,6 +66,7 @@
                 android:layout_marginEnd="36dp"
                 android:ellipsize="end"
                 android:maxLines="1"
+                android:text="@{data.commentNote}"
                 android:textColor="@color/gray700"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -77,6 +82,7 @@
             android:textColor="@color/gray500"
             style="@style/TextView.Caption.12.R"
             tools:text="2023.03.02"
+            android:text="@{data.createdAt}"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="16dp"
             android:layout_marginTop="8dp"

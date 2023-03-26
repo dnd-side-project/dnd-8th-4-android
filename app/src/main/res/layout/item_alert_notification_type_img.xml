@@ -5,6 +5,9 @@
 
     <data>
 
+        <variable
+            name="data"
+            type="com.dnd_8th_4_android.wery.data.remote.model.alert.ResponseAlertNotificationData.Data.NotificationInfo" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -28,6 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:textColor="@color/gray700"
+            android:text="@{data.groupName}"
             app:layout_constraintStart_toEndOf="@id/iv_alert_icon"
             app:layout_constraintTop_toTopOf="@id/iv_alert_icon"
             tools:text="몬베베와 샤월들" />
@@ -52,6 +56,7 @@
             android:layout_marginTop="8dp"
             android:background="@drawable/shape_oval_white_gray200"
             android:padding="1dp"
+            imageBindFitXY="@{data.userProfileImageUrl}"
             app:layout_constraintStart_toStartOf="@id/tv_alert_type"
             app:layout_constraintTop_toBottomOf="@+id/tv_alert_type"
             tools:src="@color/teal_200" />
@@ -64,6 +69,7 @@
             android:layout_marginStart="8dp"
             android:gravity="center"
             android:textColor="@color/black"
+            android:text="@{data.userName}"
             app:layout_constraintBottom_toBottomOf="@id/iv_member_profile"
             app:layout_constraintStart_toEndOf="@id/iv_member_profile"
             app:layout_constraintTop_toTopOf="@id/iv_member_profile"
@@ -77,6 +83,7 @@
             android:layout_marginTop="12dp"
             android:layout_marginBottom="16dp"
             android:textColor="@color/gray500"
+            android:text="@{data.createdAt}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@id/iv_member_profile"
             app:layout_constraintTop_toBottomOf="@id/iv_member_profile"
