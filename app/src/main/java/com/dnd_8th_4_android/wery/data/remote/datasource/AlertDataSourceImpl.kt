@@ -23,4 +23,8 @@ class AlertDataSourceImpl @Inject constructor(private val alertService: AlertSer
     override suspend fun getNotificationList(): ResponseAlertNotificationData {
         return alertService.getNotificationList()
     }
+
+    override suspend fun readAlert(notificationId: Int): BaseResponse {
+        return alertService.readAlert(notificationId)
+    }
 }

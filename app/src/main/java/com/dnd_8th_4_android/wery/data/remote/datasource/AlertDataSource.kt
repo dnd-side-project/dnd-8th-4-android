@@ -19,4 +19,6 @@ interface AlertDataSource {
     ): BaseResponse
 
     suspend fun getNotificationList(): ResponseAlertNotificationData
+
+    suspend fun readAlert(notificationId: Int): BaseResponse
 }

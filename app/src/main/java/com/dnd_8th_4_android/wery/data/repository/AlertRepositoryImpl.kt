@@ -5,7 +5,6 @@ import com.dnd_8th_4_android.wery.data.remote.model.BaseResponse
 import com.dnd_8th_4_android.wery.data.remote.model.alert.ResponseAlertInviteData
 import com.dnd_8th_4_android.wery.data.remote.model.alert.ResponseAlertNotificationData
 import com.dnd_8th_4_android.wery.domain.repository.AlertRepository
-import retrofit2.Response
 import javax.inject.Inject
 
 class AlertRepositoryImpl @Inject constructor(private val alertDataSource: AlertDataSource): AlertRepository {
@@ -24,5 +23,9 @@ class AlertRepositoryImpl @Inject constructor(private val alertDataSource: Alert
 
     override suspend fun getNotificationList(): ResponseAlertNotificationData {
         return alertDataSource.getNotificationList()
+    }
+
+    override suspend fun readAlert(notificationId: Int): BaseResponse {
+        return alertDataSource.readAlert(notificationId)
     }
 }
