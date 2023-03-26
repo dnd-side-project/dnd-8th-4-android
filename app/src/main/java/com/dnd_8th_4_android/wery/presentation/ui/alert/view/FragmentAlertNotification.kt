@@ -1,6 +1,5 @@
 package com.dnd_8th_4_android.wery.presentation.ui.alert.view
 
-import android.util.Log
 import androidx.fragment.app.viewModels
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.databinding.FragmentAlertNotificationBinding
@@ -26,7 +25,6 @@ class FragmentAlertNotification :
     override fun initDataBinding() {
         viewModel.notificationList.observe(this) {
             alertNotificationAdapter.submitList(it)
-            Log.d("kite","메에에에에롱")
         }
     }
 

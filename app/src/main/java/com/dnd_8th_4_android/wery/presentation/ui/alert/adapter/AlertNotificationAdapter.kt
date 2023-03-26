@@ -1,13 +1,15 @@
 package com.dnd_8th_4_android.wery.presentation.ui.alert.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.dnd_8th_4_android.wery.data.remote.model.alert.ResponseAlertNotificationData
-import com.dnd_8th_4_android.wery.databinding.ItemAlertNotificationTypeImgBinding
-import com.dnd_8th_4_android.wery.databinding.ItemAlertNotificationTypeTextBinding
+import com.dnd_8th_4_android.wery.databinding.ItemAlertNotificationCommentBinding
+import com.dnd_8th_4_android.wery.databinding.ItemAlertNotificationInviteBinding
+import com.dnd_8th_4_android.wery.databinding.ItemAlertNotificationLikeBinding
 
 class AlertNotificationAdapter :
     ListAdapter<ResponseAlertNotificationData.Data.NotificationInfo, RecyclerView.ViewHolder>(
@@ -15,66 +17,88 @@ class AlertNotificationAdapter :
     ) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            IMAGE_VIEW_TYPE -> AlertNotificationImgViewHolder(
-                ItemAlertNotificationTypeImgBinding.inflate(
+            INVITE_VIEW_TYPE -> AlertNotificationInviteViewHolder(
+                ItemAlertNotificationInviteBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false
                 )
             )
-            TEXT_VIEW_TYPE -> AlertNotificationTextViewHolder(
-                ItemAlertNotificationTypeTextBinding.inflate(
-                    LayoutInflater.from(parent.context),
-                    parent,
-                    false
+
+            COMMENT_VIEW_TYPE -> AlertNotificationCommentViewHolder(
+                ItemAlertNotificationCommentBinding.inflate(
+                    LayoutInflater.from(parent.context), parent, false
                 )
             )
+
+            LIKE_VIEW_TYPE -> AlertNotificationLikeViewHolder(
+                ItemAlertNotificationLikeBinding.inflate(
+                    LayoutInflater.from(parent.context), parent, false
+                )
+            )
+
             else -> throw Exception("unknown type!!")
         }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
-            is AlertNotificationImgViewHolder -> {
+            is AlertNotificationInviteViewHolder -> {
                 holder.onBind(currentList[position])
+                if (position == currentList.lastIndex) holder.binding.viewLine.visibility = View.GONE
             }
-            is AlertNotificationTextViewHolder -> {
+            is AlertNotificationCommentViewHolder -> {
                 holder.onBind(currentList[position])
+                if (position == currentList.lastIndex) holder.binding.viewLine.visibility = View.GONE
+            }
+            is AlertNotificationLikeViewHolder -> {
+                holder.onBind(currentList[position])
+                if (position == currentList.lastIndex) holder.binding.viewLine.visibility = View.GONE
             }
         }
     }
 
     override fun getItemViewType(position: Int): Int {
         return when (currentList[position].notificationType) {
-            "CONTENT_COMMENT" -> TEXT_VIEW_TYPE
-            "CONTENT_EMOTION" -> TEXT_VIEW_TYPE
-            "COMMENT_LIKE" -> TEXT_VIEW_TYPE
-
-            "NEW_GROUP_MEMBER" -> IMAGE_VIEW_TYPE
+            "CONTENT_COMMENT" -> COMMENT_VIEW_TYPE
+            "CONTENT_EMOTION" -> COMMENT_VIEW_TYPE
+            "COMMENT_LIKE" -> LIKE_VIEW_TYPE
+            "NEW_GROUP_MEMBER" -> INVITE_VIEW_TYPE
             else -> throw Exception("unknown type!!")
         }
     }
 
     override fun getItemCount(): Int = currentList.size
 
-    class AlertNotificationImgViewHolder(
-        val binding: ItemAlertNotificationTypeImgBinding,
-    ) : RecyclerView.ViewHolder(binding.root) {
-        fun onBind(data: ResponseAlertNotificationData.Data.NotificationInfo) {
-            binding.data = data
-        }
-    }
-
-    class AlertNotificationTextViewHolder(
-        val binding: ItemAlertNotificationTypeTextBinding,
+    class AlertNotificationInviteViewHolder(
+        val binding: ItemAlertNotificationInviteBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun onBind(data: ResponseAlertNotificationData.Data.NotificationInfo) {
             binding.data = data
         }
     }
+
+    class AlertNotificationCommentViewHolder(
+        val binding: ItemAlertNotificationCommentBinding,
+    ) : RecyclerView.ViewHolder(binding.root) {
+
+        fun onBind(data: ResponseAlertNotificationData.Data.NotificationInfo) {
+            binding.data = data
+        }
+    }
+
+    class AlertNotificationLikeViewHolder(
+        val binding: ItemAlertNotificationLikeBinding,
+    ) : RecyclerView.ViewHolder(binding.root) {
+        fun onBind(data: ResponseAlertNotificationData.Data.NotificationInfo) {
+            binding.data = data
+        }
+    }
+
 
     companion object {
-        const val IMAGE_VIEW_TYPE = 1
-        const val TEXT_VIEW_TYPE = 2
+        const val INVITE_VIEW_TYPE = 1
+        const val COMMENT_VIEW_TYPE = 2
+        const val LIKE_VIEW_TYPE = 3
 
         private val diffUtil =
             object : DiffUtil.ItemCallback<ResponseAlertNotificationData.Data.NotificationInfo>() {
