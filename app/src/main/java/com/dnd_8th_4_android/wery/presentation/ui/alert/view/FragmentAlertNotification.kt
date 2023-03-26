@@ -1,7 +1,6 @@
 package com.dnd_8th_4_android.wery.presentation.ui.alert.view
 
 import android.content.Intent
-import android.util.Log
 import androidx.fragment.app.viewModels
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.data.remote.model.alert.ResponseAlertNotificationData
@@ -21,10 +20,12 @@ class FragmentAlertNotification :
 
     override fun initStartView() {
         binding.vm = viewModel
-        viewModel.getNotificationList()
 
         alertNotificationAdapter = AlertNotificationAdapter { data -> moveToPostDetail(data) }
-        binding.rvAlert.adapter = alertNotificationAdapter
+        binding.rvAlert.apply {
+            adapter = alertNotificationAdapter
+            itemAnimator = null
+        }
     }
 
     override fun initDataBinding() {
@@ -43,11 +44,16 @@ class FragmentAlertNotification :
                     putExtra(PostRecyclerViewAdapter.CONTENT, it.content ?: "")
                     putExtra(PostRecyclerViewAdapter.USER_IMAGE, it.profileImageUrl)
                     putExtra(PostRecyclerViewAdapter.GROUP_NAME, it.groupName)
-                    putExtra(PostRecyclerViewAdapter.TIME, "23.02.03") // 달라고하기
+                    putExtra(PostRecyclerViewAdapter.TIME, "23.02.03") // TODO: 추후 서버통신 필요
                     startActivity(this)
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getNotificationList()
     }
 
     override fun initAfterBinding() {
