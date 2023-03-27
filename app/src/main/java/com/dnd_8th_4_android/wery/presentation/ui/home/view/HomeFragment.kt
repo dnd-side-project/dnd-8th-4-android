@@ -40,7 +40,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     override fun onResume() {
         super.onResume()
         binding.vm = homeViewModel
-
+        homeViewModel.oldPageNumber.value = 0
         homeViewModel.getSignGroup()
     }
 
@@ -60,6 +60,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
         groupRecyclerViewAdapter.setGroupPostCallListener { groupId ->
             homeViewModel.isSelectGroupId.value = groupId
+            homeViewModel.oldPageNumber.value = 0
+            homeViewModel.pageNumber.value = 1
             homeViewModel.getGroupPost()
         }
 
@@ -126,12 +128,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         }
 
         homeViewModel.postList.observe(viewLifecycleOwner) {
-            if (it.content.isNotEmpty()) {
-                binding.activityGroup.layoutNoPost.isVisible = false
-                binding.activityGroup.layoutFinalPost.isVisible = true
-            } else {
-                binding.activityGroup.layoutNoPost.isVisible = true
-                binding.activityGroup.layoutFinalPost.isVisible = false
+            if (homeViewModel.pageNumber.value == 1) {
+                if (it.content.isNotEmpty()) {
+                    binding.activityGroup.layoutNoPost.isVisible = false
+                    binding.activityGroup.layoutFinalPost.isVisible = true
+                } else {
+                    binding.activityGroup.layoutNoPost.isVisible = true
+                    binding.activityGroup.layoutFinalPost.isVisible = false
+                }
             }
 
             // 마지막 게시글 스크롤할 경우
@@ -144,7 +148,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                     currentList.addAll(it.content)
                     postRecyclerViewAdapter.submitList(currentList)
                 }
-                homeViewModel.setOldPageNumber(homeViewModel.pageNumber.value!!)
+                homeViewModel.oldPageNumber.value = homeViewModel.pageNumber.value
             } else { // 감정 이모지 등록했을 경우
                 val currentList = postRecyclerViewAdapter.currentList.toMutableList()
 
@@ -206,9 +210,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         }
 
         binding.activityGroup.scrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, _, _, _, _ ->
-            if (homeViewModel.pageNumber.value!! < 2 && homeViewModel.isLoading.value == false && !v.canScrollVertically(
-                    1
-                )
+            if (postRecyclerViewAdapter.itemCount == 10 &&
+                homeViewModel.pageNumber.value!! < 2 &&
+                homeViewModel.isLoading.value == false &&
+                !v.canScrollVertically(1)
             ) {
                 homeViewModel.setLoading()
                 if (homeViewModel.oldPageNumber.value!! > homeViewModel.pageNumber.value!!) {

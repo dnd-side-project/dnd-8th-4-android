@@ -106,10 +106,6 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
         _isLoading.value = true
     }
 
-    fun setOldPageNumber(pageNumber: Int) {
-        this.oldPageNumber.value = pageNumber
-    }
-
     fun setPageNumber(pageNumber: Int) {
         this.pageNumber.value = pageNumber
     }
