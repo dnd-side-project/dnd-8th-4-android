@@ -57,6 +57,7 @@ class UserSearchActivity :
 
         binding.etSearch.setOnEditorActionListener { textView, actionId, _ ->
             binding.tvInvite.isEnabled = false
+            binding.tvInvite.setTextAppearance(R.style.TextView_Body_14_M)
             viewModel.searchKeyword.value = textView.text.toString()
             if (actionId == EditorInfo.IME_ACTION_SEARCH && viewModel.searchKeyword.value != "") {
                 if (!binding.rvSearch.isVisible) {
@@ -66,6 +67,7 @@ class UserSearchActivity :
                 userSearchRecyclerViewAdapter = UserSearchRecyclerViewAdapter()
                 userSearchRecyclerViewAdapter.setOnUserClickListener { userId ->
                     binding.tvInvite.isEnabled = true
+                    binding.tvInvite.setTextAppearance(R.style.TextView_Title_14_Sb)
                     binding.tvInvite.setOnClickListener {
                         viewModel.groupInvite(userId)
                         finish()
