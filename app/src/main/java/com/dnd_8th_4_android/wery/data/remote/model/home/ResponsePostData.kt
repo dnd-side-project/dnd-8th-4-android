@@ -26,11 +26,11 @@ data class ResponsePostData(
             var emotionStatus: Int,
             @SerializedName("emotionResponseDtos") var emotion: MutableList<EmotionDtos>,
             @SerializedName("images") val contentImage: ArrayList<Images>,
-            val bookmarkAddStatus: Boolean,
+            var bookmarkAddStatus: Boolean,
         ) {
             data class Images(
                 val imageUrl: String,
-            ): java.io.Serializable
+            ) : java.io.Serializable
 
             data class EmotionDtos(
                 val emotionStatus: Int,

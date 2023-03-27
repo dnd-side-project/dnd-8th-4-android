@@ -186,7 +186,12 @@ class PostRecyclerViewAdapter :
             }
 
             binding.ivPopup.setOnClickListener {
-                popupBottomClickListener.onClicked(item.id, item.userId, item.bookmarkAddStatus)
+                popupBottomClickListener.onClicked(
+                    adapterPosition,
+                    item.id,
+                    item.userId,
+                    item.bookmarkAddStatus
+                )
             }
 
             binding.btnEmotion.setOnClickListener {
@@ -245,10 +250,15 @@ class PostRecyclerViewAdapter :
         }
     }
 
-    fun setPopupBottomClickListener(listener: (Int, Int, Boolean) -> Unit) {
+    fun setPopupBottomClickListener(listener: (Int, Int, Int, Boolean) -> Unit) {
         popupBottomClickListener = object : PopupBottomClickListener {
-            override fun onClicked(contentId: Int, postMine: Int, isSelected: Boolean) {
-                listener(contentId, postMine, isSelected)
+            override fun onClicked(
+                position: Int,
+                contentId: Int,
+                postMine: Int,
+                isSelected: Boolean,
+            ) {
+                listener(position, contentId, postMine, isSelected)
             }
         }
     }
@@ -262,7 +272,7 @@ class PostRecyclerViewAdapter :
     }
 
     interface PopupBottomClickListener {
-        fun onClicked(contentId: Int, postMine: Int, isSelected: Boolean)
+        fun onClicked(position: Int, contentId: Int, postMine: Int, isSelected: Boolean)
     }
 
     interface PopupWindowClickListener {

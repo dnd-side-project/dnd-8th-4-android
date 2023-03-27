@@ -84,9 +84,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         }
 
         postRecyclerViewAdapter.apply {
-            setPopupBottomClickListener { contentId, postMine, isSelected ->
+            setPopupBottomClickListener { position, contentId, postMine, isSelected ->
                 val bottomSheet = PostPopupBottomDialog(contentId, postMine, isSelected)
                 bottomSheet.setOnBookmarkListener {
+                    homeViewModel.adapterPosition.value = position
+                    homeViewModel.setPageNumber(homeViewModel.adapterPosition.value!! / 10 + 1)
                     homeViewModel.getGroupPost()
                 }
                 bottomSheet.show(childFragmentManager, bottomSheet.tag)
@@ -156,6 +158,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
                 currentList.forEach { content ->
                     if (content.id == it.content[calculatePosition].id) {
+                        currentList[homeViewModel.adapterPosition.value!!].bookmarkAddStatus =
+                            it.content[calculatePosition].bookmarkAddStatus
+
                         currentList[homeViewModel.adapterPosition.value!!].emotion =
                             it.content[calculatePosition].emotion
 
@@ -204,6 +209,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             if (groupRecyclerViewAdapter.selectedItemImage != binding.activityGroup.ivAllGroup) {
                 initSelectedGroup()
                 homeViewModel.isSelectGroupId.value = -1
+                homeViewModel.oldPageNumber.value = 0
                 homeViewModel.setPageNumber(1)
                 homeViewModel.getGroupPost()
             }
