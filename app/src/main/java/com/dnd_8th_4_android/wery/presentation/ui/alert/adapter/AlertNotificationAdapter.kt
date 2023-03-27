@@ -59,7 +59,7 @@ class AlertNotificationAdapter(private val onItemClick: (ResponseAlertNotificati
     override fun getItemViewType(position: Int): Int {
         return when (currentList[position].notificationType) {
             "CONTENT_COMMENT" -> COMMENT_VIEW_TYPE
-            "CONTENT_EMOTION" -> COMMENT_VIEW_TYPE
+            "CONTENT_EMOTION" -> LIKE_VIEW_TYPE
             "COMMENT_LIKE" -> LIKE_VIEW_TYPE
             "NEW_GROUP_MEMBER" -> INVITE_VIEW_TYPE
             else -> throw Exception("unknown type!!")
