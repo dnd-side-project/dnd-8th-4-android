@@ -32,7 +32,7 @@ class SignUpUseAgreementFragment :
             startActivity(
                 Intent(
                     Intent.ACTION_VIEW,
-                    Uri.parse("https://emerald-calf-c8d.notion.site/d7cdf86e96494920bfbbfd2aed297f48")
+                    Uri.parse("https://wery.notion.site/wery/a6abcdf2e4784e05984ef419b51abbf1")
                 )
             )
         }
@@ -41,7 +41,7 @@ class SignUpUseAgreementFragment :
             startActivity(
                 Intent(
                     Intent.ACTION_VIEW,
-                    Uri.parse("https://emerald-calf-c8d.notion.site/0c3e82a2657d4d7282116f55d3b6386e")
+                    Uri.parse("https://wery.notion.site/wery/341fffc0d40f44aca488faecb375bcf2")
                 )
             )
         }
@@ -50,7 +50,7 @@ class SignUpUseAgreementFragment :
             startActivity(
                 Intent(
                     Intent.ACTION_VIEW,
-                    Uri.parse("https://emerald-calf-c8d.notion.site/b61e017d283949d99be9411a5d63828b")
+                    Uri.parse("https://wery.notion.site/wery/f278b69d63aa4fed9782818315b7b7fc")
                 )
             )
         }
