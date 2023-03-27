@@ -58,9 +58,9 @@ class MyMissionFragment : BaseFragment<FragmentMyMissionBinding>(R.layout.fragme
     private fun initRecommendMissionAdapter() {
         recommendMissionAdapter = RecommendMissionAdapter()
         recommendMissionAdapter.itemList = mutableListOf<RecommendMission>(
-            RecommendMission("서울숲 전시회 가서 교양 쌓기 \uD83C\uDFA8", "2023.02.22", "2022.02.29"),
-            RecommendMission("새로 나온 영화 보러 가기 \uD83C\uDF7F️", "2023.02.22", "2022.02.29"),
-            RecommendMission("한강에서 돗자리 깔고 치맥 하기 \uD83C\uDF7A", "2023.02.22", "2022.02.29"),
+            RecommendMission("서울숲 전시회 가서 교양 쌓기 \uD83C\uDFA8", "2023.04.02", "2023.04.09"),
+            RecommendMission("새로 나온 영화 보러 가기 \uD83C\uDF7F️", "2023.04.02", "2023.04.09"),
+            RecommendMission("한강에서 돗자리 깔고 치맥 하기 \uD83C\uDF7A", "2023.04.02", "2023.04.09"),
         )
         binding.rvRecommendMission.adapter = recommendMissionAdapter
     }
