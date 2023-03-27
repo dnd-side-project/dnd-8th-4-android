@@ -33,7 +33,7 @@
     <!-- FragmentSignUpUseAgreement -->
     <string name="sign_up_use_agreement_title">서비스 이용 약관에 동의해 주세요.</string>
     <string name="sign_up_use_agreement_all_agree">모두 동의</string>
-    <string name="sign_up_use_agreement_age_content">[필수] 만 14세 이상입니다.</string>
+    <string name="sign_up_use_agreement_position_terms">[필수] 위치기반서비스 이용약관 동의</string>
     <string name="sign_up_use_agreement_private_information_content">[필수] 개인정보 처리방침 동의</string>
     <string name="sign_up_use_agreement_next">다음</string>
     <string name="sign_up_use_agreement_conetent">[필수] 서비스 이용약관 동의</string>
