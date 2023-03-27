@@ -92,7 +92,7 @@
 
         <EditText
             android:id="@+id/et_nickname"
-            style="@style/TextView.Title.16.Sb"
+            style="@style/TextView.Body.14.R"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
