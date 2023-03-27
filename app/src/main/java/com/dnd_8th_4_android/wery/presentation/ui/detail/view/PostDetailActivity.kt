@@ -1,8 +1,6 @@
 package com.dnd_8th_4_android.wery.presentation.ui.detail.view
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.text.InputFilter
 import android.view.View
 import android.view.WindowManager
@@ -139,12 +137,11 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
 
     private fun initAfterBinding() {
         if (writeButton) {
-            Handler(Looper.getMainLooper())
-                .postDelayed({
-                    binding.scrollView.fullScroll(ScrollView.FOCUS_DOWN)
-                }, 500)
-            binding.etComment.requestFocus()
-            binding.etComment.showKeyboard()
+            binding.scrollView.post {
+                binding.scrollView.fullScroll(View.FOCUS_DOWN)
+                binding.etComment.requestFocus()
+                binding.etComment.showKeyboard()
+            }
         }
 
         binding.ivBack.setOnClickListener {
@@ -177,10 +174,10 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
             viewModel.setSelected()
             binding.etComment.hideKeyboard()
             binding.ivSticker.isSelected = !binding.ivSticker.isSelected
-            Handler(Looper.getMainLooper())
-                .postDelayed({
-                    binding.scrollView.fullScroll(ScrollView.FOCUS_DOWN)
-                }, 100)
+
+            binding.scrollView.post {
+                binding.scrollView.fullScroll(ScrollView.FOCUS_DOWN)
+            }
 
             if (it.isSelected) {
                 binding.etComment.hint = resources.getString(R.string.post_detail_hint_sticker)

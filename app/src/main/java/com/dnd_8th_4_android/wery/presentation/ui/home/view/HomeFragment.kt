@@ -1,9 +1,12 @@
 package com.dnd_8th_4_android.wery.presentation.ui.home.view
 
 import android.content.Intent
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.view.WindowManager
 import android.widget.PopupWindow
+import android.widget.ScrollView
 import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.viewModels
@@ -23,6 +26,7 @@ import com.dnd_8th_4_android.wery.presentation.ui.post.upload.view.UploadPostAct
 import com.dnd_8th_4_android.wery.presentation.ui.search.view.SearchPostActivity
 import com.dnd_8th_4_android.wery.presentation.ui.sign.view.SignActivity
 import com.dnd_8th_4_android.wery.presentation.util.PostPopupBottomDialog
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -99,14 +103,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             }
         }
 
-        // TODO
-//        binding.activityGroup.layoutSwipeRefresh.setOnRefreshListener {
-//            Handler(Looper.getMainLooper())
-//                .postDelayed({
-//                    binding.activityGroup.layoutSwipeRefresh.isRefreshing = false
-//                    homeViewModel.getSignGroup()
-//                }, 1000)
-//        }
+        binding.activityGroup.layoutSwipeRefresh.setOnRefreshListener {
+            Handler(Looper.getMainLooper())
+                .postDelayed({
+                    binding.activityGroup.layoutSwipeRefresh.isRefreshing = false
+                    homeViewModel.oldPageNumber.value = 0
+                    homeViewModel.setPageNumber(1)
+                    homeViewModel.getSignGroup()
+                }, 1000)
+        }
 
         binding.ivBookmark.setOnClickListener {
             startActivity(Intent(requireContext(), MyPageBookmarkActivity::class.java))
@@ -181,22 +186,23 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     }
 
     override fun initAfterBinding() {
-//        val bottomNavigationView =
-//            requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigation)
-//        bottomNavigationView.setOnItemReselectedListener { menuItem ->
-//            when (menuItem.itemId) {
-//                // TODO 보류
-//                R.id.homeFragment -> {
-//                    binding.activityGroup.layoutSwipeRefresh.isRefreshing = true
-//                    binding.activityGroup.scrollView.fullScroll(ScrollView.FOCUS_UP)
-//                    Handler(Looper.getMainLooper())
-//                        .postDelayed({
-//                            binding.activityGroup.layoutSwipeRefresh.isRefreshing = false
-//                            homeViewModel.getSignGroup()
-//                        }, 1000)
-//                }
-//            }
-//        }
+        val bottomNavigationView =
+            requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigation)
+        bottomNavigationView.setOnItemReselectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.homeFragment -> {
+                    binding.activityGroup.layoutSwipeRefresh.isRefreshing = true
+                    binding.activityGroup.scrollView.fullScroll(ScrollView.FOCUS_UP)
+                    Handler(Looper.getMainLooper())
+                        .postDelayed({
+                            binding.activityGroup.layoutSwipeRefresh.isRefreshing = false
+                            homeViewModel.oldPageNumber.value = 0
+                            homeViewModel.setPageNumber(1)
+                            homeViewModel.getSignGroup()
+                        }, 1000)
+                }
+            }
+        }
 
         binding.tvSearch.setOnClickListener {
             Intent(requireContext(), SearchPostActivity::class.java).apply {
