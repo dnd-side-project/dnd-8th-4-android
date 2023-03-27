@@ -179,7 +179,7 @@
     <string name="bottom_sheet_modify">수정</string>
     <string name="bottom_sheet_remove">삭제</string>
     <string name="bottom_sheet_bookmark_cancel">북마크 취소하기</string>
-    <string name="bottom_sheet_clip_toast">링크 복사 완료</string>
+    <string name="bottom_sheet_clip_toast">아직 공사중이에요</string>
     <string name="bottom_sheet_on_bookmark_toast">북마크 완료!</string>
     <string name="bottom_sheet_off_bookmark_toast">북마크가 해제되었어요!</string>
     <string name="bottom_sheet_remove_toast">성공적으로 삭제되었어요!</string>
