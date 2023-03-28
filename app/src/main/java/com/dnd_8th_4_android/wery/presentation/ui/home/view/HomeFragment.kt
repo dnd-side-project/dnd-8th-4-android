@@ -72,7 +72,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         binding.activityGroup.rvMyGroup.apply {
             adapter = groupRecyclerViewAdapter
             itemAnimator = null
-            setHasFixedSize(true)
         }
 
         // 그룹 게시글
