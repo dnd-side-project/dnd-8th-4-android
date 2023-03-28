@@ -546,6 +546,10 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
         mapViewModel.getMissionCardData(missionId)
     }
 
+    override fun onResume() {
+        super.onResume()
+    }
+
     override fun onPause() {
         super.onPause()
         mapView.onPause()
@@ -553,6 +557,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
 
     override fun onDestroy() {
         super.onDestroy()
+        mapViewModel.setFilterType(0)
         mapView.onSurfaceDestroyed()
     }
 
