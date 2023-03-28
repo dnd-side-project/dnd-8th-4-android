@@ -14,6 +14,7 @@ import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
@@ -334,7 +335,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
             binding.includeLayoutMission.data = it.data
 
             val intent = Intent(requireContext(), MissionDetailActivity::class.java)
-            intent.putExtra("missionId", it.data.groupId)
+            intent.putExtra("missionId", it.data.missionId)
             binding.includeLayoutMission.root.setOnClickListener {
                 startActivity(intent)
             }

@@ -9,6 +9,7 @@ import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
@@ -86,8 +87,7 @@ class MissionDetailActivity :
 
     private fun initDataBinding() {
         viewModel.missionDetail.observe(this) {
-            binding.layoutMissionDelete.isVisible =
-                it.createUserId == AuthLocalDataSource(this).userId
+            binding.layoutMissionDelete.isVisible = it.createUserId == AuthLocalDataSource(this).userId
 
             binding.tvMissionName.text = it.missionName
 
@@ -162,7 +162,6 @@ class MissionDetailActivity :
 
     private fun initStartView() {
         viewModel.isMissionId.value = intent.getIntExtra("missionId", 0)
-
         viewModel.getMissionDetail()
     }
 
