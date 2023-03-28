@@ -129,7 +129,15 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
         viewModel.isSelected.observe(this) {
             binding.rvSticker.isVisible = it
 
-            binding.layoutNoSticker.isVisible = postDetailStickerRecyclerViewAdapter.itemCount == 0
+            if (it) {
+                if (postDetailStickerRecyclerViewAdapter.itemCount == 0) {
+                    binding.rvSticker.isVisible = false
+                    binding.layoutNoSticker.isVisible = true
+                } else {
+                    binding.rvSticker.isVisible = true
+                    binding.layoutNoSticker.isVisible = false
+                }
+            }
         }
 
         viewModel.isEnabled.observe(this) {

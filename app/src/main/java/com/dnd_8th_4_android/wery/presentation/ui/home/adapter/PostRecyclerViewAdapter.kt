@@ -43,9 +43,11 @@ class PostRecyclerViewAdapter :
 
             if (item.location != null) {
                 binding.tvLocation.text = item.location
+                binding.ivLocation.isVisible = true
+                binding.tvLocation.isVisible = true
             } else {
-                binding.tvLocation.text =
-                    binding.root.resources.getString(R.string.home_item_no_location)
+                binding.ivLocation.isVisible = false
+                binding.tvLocation.isVisible = false
             }
 
             binding.tvFriendGroup.text = item.groupName
