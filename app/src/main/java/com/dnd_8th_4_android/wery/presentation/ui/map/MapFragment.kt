@@ -304,6 +304,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
                 }
 
                 val job4 = launch(start = CoroutineStart.LAZY) {
+                    delay(1000)
                     for (i in 0 until 7) showFeedMarkerList(it)
                 }
 
@@ -544,10 +545,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
 
     private fun getMissionCardData(missionId: Int) {
         mapViewModel.getMissionCardData(missionId)
-    }
-
-    override fun onResume() {
-        super.onResume()
     }
 
     override fun onPause() {
