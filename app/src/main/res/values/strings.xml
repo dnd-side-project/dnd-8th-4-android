@@ -206,6 +206,7 @@
     <string name="post_detail_comment">댓글</string>
     <string name="post_detail_hint">댓글을 남겨주세요.</string>
     <string name="post_detail_hint_sticker">원하는 스티커를 더블 클릭해서 남겨주세요.</string>
+    <string name="post_detail_no_sticker">획득한 스티커가 없어요</string>
 
     <!-- AccessGroupFragment -->
     <string name="access_group_member">그룹 멤버</string>

@@ -13,7 +13,7 @@ import com.dnd_8th_4_android.wery.presentation.ui.home.adapter.PostRecyclerViewA
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class FragmentAlertNotification :
+class AlertNotificationFragment :
     BaseFragment<FragmentAlertNotificationBinding>(R.layout.fragment_alert_notification) {
     private val viewModel: AlertNotificationViewModel by viewModels()
     private lateinit var alertNotificationAdapter: AlertNotificationAdapter

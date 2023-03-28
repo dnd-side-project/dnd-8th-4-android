@@ -4,8 +4,6 @@ import android.os.Bundle
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.databinding.ActivityAlertPopupBinding
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseActivity
-import com.dnd_8th_4_android.wery.presentation.ui.mission.mymission.view.MyMissionFragment
-import com.dnd_8th_4_android.wery.presentation.ui.mission.sticker.view.StickerFragment
 import com.google.android.material.tabs.TabLayout
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -39,13 +37,13 @@ class AlertPopupActivity : BaseActivity<ActivityAlertPopupBinding>(R.layout.acti
 
     private fun getInviteTab() {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.alert_popup_frame_layout, FragmentAlertInvite())
+            .replace(R.id.alert_popup_frame_layout, AlertInviteFragment())
             .commitAllowingStateLoss()
     }
 
     private fun getNotificationTab() {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.alert_popup_frame_layout, FragmentAlertNotification())
+            .replace(R.id.alert_popup_frame_layout, AlertNotificationFragment())
             .commitAllowingStateLoss()
     }
 }
