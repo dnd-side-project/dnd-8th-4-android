@@ -411,6 +411,33 @@
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:layout_constraintTop_toBottomOf="@id/layout_edit_text"
                 app:spanCount="4" />
+
+            <LinearLayout
+                android:id="@+id/layout_no_sticker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/gray50"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingTop="21dp"
+                android:paddingBottom="39dp"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/layout_edit_text">
+
+                <ImageView
+                    android:id="@+id/iv_alert_invite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/img_alert_invite" />
+
+                <TextView
+                    style="@style/TextView.Title.14.Sb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/post_detail_no_sticker"
+                    android:textColor="@color/gray900" />
+            </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

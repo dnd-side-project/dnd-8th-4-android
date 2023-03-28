@@ -10,7 +10,7 @@ import com.dnd_8th_4_android.wery.presentation.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class FragmentAlertInvite :
+class AlertInviteFragment :
     BaseFragment<FragmentAlertInviteBinding>(R.layout.fragment_alert_invite) {
     private val viewModel: AlertInviteViewModel by viewModels()
     private lateinit var alertInviteRecyclerViewAdapter: AlertInviteRecyclerViewAdapter

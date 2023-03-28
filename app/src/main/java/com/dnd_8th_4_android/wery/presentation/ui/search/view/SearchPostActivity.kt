@@ -5,12 +5,14 @@ import android.os.Handler
 import android.os.Looper
 import android.view.inputmethod.EditorInfo
 import androidx.activity.viewModels
+import androidx.core.text.isDigitsOnly
 import androidx.core.view.isVisible
 import androidx.core.widget.doBeforeTextChanged
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.databinding.ActivitySearchBinding
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseActivity
 import com.dnd_8th_4_android.wery.presentation.ui.home.view.HomeFragment
+import com.dnd_8th_4_android.wery.presentation.ui.search.adapter.PostGroupSearchAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.search.adapter.PostSearchAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.search.viewmodel.SearchPostViewModel
 import com.dnd_8th_4_android.wery.presentation.util.hideKeyboard
@@ -21,6 +23,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class SearchPostActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity_search) {
     private val viewModel: SearchPostViewModel by viewModels()
     private lateinit var postSearchAdapter: PostSearchAdapter
+    private lateinit var postGroupSearchAdapter: PostGroupSearchAdapter
 
     private var groupAllList = ""
 
@@ -38,7 +41,11 @@ class SearchPostActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity
 
     private fun initDataBinding() {
         viewModel.searchPostList.observe(this) {
-            postSearchAdapter.submitList(it.toMutableList())
+            if (groupAllList.isDigitsOnly()) {
+                postGroupSearchAdapter.submitList(it.toMutableList())
+            } else {
+                postSearchAdapter.submitList(it.toMutableList())
+            }
             binding.tvPostCount.text = it.size.toString()
         }
     }
@@ -67,12 +74,23 @@ class SearchPostActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity
                     binding.layoutSearch.isVisible = true
                     binding.ivSearch.isVisible = false
                 }
-                postSearchAdapter = PostSearchAdapter()
-                binding.rvSearch.adapter = postSearchAdapter
-                binding.rvSearch.itemAnimator = null
 
-                viewModel.getSearchPost(groupAllList)
-                postSearchAdapter.wordText = viewModel.searchKeyword.value!!
+                if (groupAllList.isDigitsOnly()) {
+                    postGroupSearchAdapter = PostGroupSearchAdapter()
+                    binding.rvSearch.adapter = postGroupSearchAdapter
+                    binding.rvSearch.itemAnimator = null
+
+                    viewModel.getSearchPost(groupAllList)
+                    postGroupSearchAdapter.wordText = viewModel.searchKeyword.value!!
+                } else {
+                    postSearchAdapter = PostSearchAdapter()
+                    binding.rvSearch.adapter = postSearchAdapter
+                    binding.rvSearch.itemAnimator = null
+
+                    viewModel.getSearchPost(groupAllList)
+                    postSearchAdapter.wordText = viewModel.searchKeyword.value!!
+                }
+
                 binding.etSearch.hideKeyboard()
                 binding.etSearch.clearFocus()
             }
