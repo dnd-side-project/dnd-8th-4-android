@@ -27,7 +27,7 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
     private val _isNoAccess = MutableLiveData<Boolean>()
     val isNoAccess: LiveData<Boolean> = _isNoAccess
 
-    lateinit var groupAllIdList: MutableList<Int>
+    var groupAllIdList = mutableListOf<Int>()
 
     private val _isLoading: MutableLiveData<Boolean> = MutableLiveData()
     val isLoading: LiveData<Boolean> = _isLoading
