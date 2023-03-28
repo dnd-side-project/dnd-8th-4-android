@@ -7,6 +7,7 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.PopupWindow
 import android.widget.ScrollView
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.viewModels
@@ -205,9 +206,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         }
 
         binding.tvSearch.setOnClickListener {
-            Intent(requireContext(), SearchPostActivity::class.java).apply {
-                putExtra(GROUP_ALL_LIST, homeViewModel.groupAllIdList.joinToString())
-                startActivity(this)
+            if (homeViewModel.groupAllIdList.isNotEmpty()) {
+                Intent(requireContext(), SearchPostActivity::class.java).apply {
+                    putExtra(GROUP_ALL_LIST, homeViewModel.groupAllIdList.joinToString())
+                    startActivity(this)
+                }
+            } else {
+                Toast.makeText(requireContext(), "가입된 그룹이 없어요!", Toast.LENGTH_SHORT).show()
             }
         }
 
