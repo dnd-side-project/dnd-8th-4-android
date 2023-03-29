@@ -9,7 +9,7 @@ data class ResponsePostDetailData(
     data class Data(
         var id: Int,
         val userName: String,
-        val location: String,
+        val location: String?,
         val views: Int,
         val userId: Int,
         val bookmarkAddStatus: Boolean,

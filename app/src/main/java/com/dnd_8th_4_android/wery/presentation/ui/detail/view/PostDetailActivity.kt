@@ -231,6 +231,10 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
             contentId = intent.getIntExtra(PostRecyclerViewAdapter.CONTENT_ID, 0)
 
             tvContent.text = intent.getStringExtra(PostRecyclerViewAdapter.CONTENT).toString()
+            if (tvContent.text.contains("님이 그룹에 참여했습니다. 댓글로 반갑게 인사해 주세요!\uD83C\uDF89")) {
+                binding.tvLocation.visibility = View.GONE
+                binding.ivLocation.visibility = View.GONE
+            }
 
             binding.ivFriendImage.clipToOutline = true
             Glide.with(applicationContext)
