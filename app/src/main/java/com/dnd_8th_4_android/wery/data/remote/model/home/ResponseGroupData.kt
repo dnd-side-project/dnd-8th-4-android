@@ -8,6 +8,7 @@ data class ResponseGroupData(
 ) : BaseResponse() {
     data class Data(
         val existGroup: Boolean,
+        val isNewNotification: Boolean,
         val groupInfoList: MutableList<GroupInfo>
     ) {
         data class GroupInfo (

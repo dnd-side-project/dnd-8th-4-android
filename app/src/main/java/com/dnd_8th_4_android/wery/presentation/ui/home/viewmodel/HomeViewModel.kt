@@ -24,6 +24,9 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
     private val _isExistGroup = MutableLiveData<Boolean>(true)
     val isExistGroup: LiveData<Boolean> = _isExistGroup
 
+    private val _isNewNotification = MutableLiveData<Boolean>(true)
+    val isNewNotification: LiveData<Boolean> = _isNewNotification
+
     private val _isNoAccess = MutableLiveData<Boolean>()
     val isNoAccess: LiveData<Boolean> = _isNoAccess
 
@@ -47,6 +50,7 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
                 homeRepository.signGroup()
             }.onSuccess {
                 _isExistGroup.value = it.data.existGroup
+                _isNewNotification.value = it.data.isNewNotification
 
                 if (it.data.existGroup) {
                     if (isSelectGroupId.value == -1) {

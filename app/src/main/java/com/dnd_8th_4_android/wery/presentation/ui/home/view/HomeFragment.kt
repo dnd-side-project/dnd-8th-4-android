@@ -128,6 +128,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             binding.activityNoGroup.isVisible = !it
         }
 
+        homeViewModel.isNewNotification.observe(viewLifecycleOwner) {
+            binding.ivNotificationAlert.isVisible = !it
+        }
+
         // 그룹 리스트가 바뀌는 경우) 1. 스와이프 2. 홈 탭
         homeViewModel.groupList.observe(viewLifecycleOwner) {
             initSelectedGroup()
