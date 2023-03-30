@@ -285,6 +285,7 @@
     <string name="alert_notification_content_like">내 게시글에 공감했어요. 확인해 보세요!</string>
     <string name="alert_notification_emotion_like">내 댓글에 공감했어요. 확인해 보세요!</string>
     <string name="alert_notification_comment">내 게시글에 댓글이 달렸어요. 확인해 보세요!</string>
+    <string name="alert_notification_no_alert">도착한 알림이 없어요.</string>
     <string name="alert_notification_new_group_member">새로운 멤버가 참여했어요. 반갑게 인사해 주세요!</string>
     <string name="alert_sticker">(스티커)</string>
 

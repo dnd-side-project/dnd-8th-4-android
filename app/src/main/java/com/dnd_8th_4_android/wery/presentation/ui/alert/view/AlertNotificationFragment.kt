@@ -1,6 +1,7 @@
 package com.dnd_8th_4_android.wery.presentation.ui.alert.view
 
 import android.content.Intent
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.data.remote.model.alert.ResponseAlertNotificationData
@@ -30,6 +31,7 @@ class AlertNotificationFragment :
 
     override fun initDataBinding() {
         viewModel.notificationList.observe(this) {
+            binding.layoutNoAlert.isVisible = it.isEmpty()
             alertNotificationAdapter.submitList(it)
         }
         viewModel.isRead.observe(this) {
