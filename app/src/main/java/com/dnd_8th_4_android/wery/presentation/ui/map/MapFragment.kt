@@ -361,6 +361,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(R.layout.fragment_map), Map
             it.visibility = View.GONE
             setMapBoundsPoint()
             getSelectedPOItems()
+            mapView.removeAllPOIItems()
         }
 
         binding.ivFilterFeed.setOnClickListener {
