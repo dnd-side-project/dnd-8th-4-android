@@ -32,12 +32,12 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
 
     var groupAllIdList = mutableListOf<Int>()
 
-    private val _isLoading: MutableLiveData<Boolean> = MutableLiveData()
+    private val _isLoading: MutableLiveData<Boolean> = MutableLiveData(false)
     val isLoading: LiveData<Boolean> = _isLoading
 
     val isSelectGroupId = MutableLiveData(-1)
 
-    val oldPageNumber = MutableLiveData(0)
+    val isSelectedEmotion = MutableLiveData(false)
     val pageNumber = MutableLiveData(0)
 
     val adapterPosition = MutableLiveData(0)
@@ -108,10 +108,6 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
 
     fun setLoading() {
         _isLoading.value = true
-    }
-
-    fun setPageNumber(pageNumber: Int) {
-        this.pageNumber.value = pageNumber
     }
 
     fun setUpPageNumber() {

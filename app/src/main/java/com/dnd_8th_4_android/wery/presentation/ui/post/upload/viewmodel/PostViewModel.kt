@@ -91,7 +91,7 @@ class PostViewModel @Inject constructor(
     fun uploadFeed(
         groupId: Long,
         data: HashMap<String, RequestBody>,
-        multipartFile: MutableList<MultipartBody.Part>
+        multipartFile: MutableList<MultipartBody.Part>,
     ) {
         viewModelScope.launch {
             postRepository.uploadFeed(groupId, data, multipartFile).onSuccess {
@@ -106,7 +106,7 @@ class PostViewModel @Inject constructor(
     fun uploadMissionFeed(
         missionId: Int,
         data: HashMap<String, RequestBody>,
-        images: MutableList<MultipartBody.Part>?
+        images: MutableList<MultipartBody.Part>?,
     ) {
         data["missionId"] = missionId.toString().toRequestBody("text/plain".toMediaTypeOrNull())
         _isLoading.value = true
@@ -124,7 +124,7 @@ class PostViewModel @Inject constructor(
 
     fun modifyFeed(
         data: HashMap<String, RequestBody>,
-        multipartFile: MutableList<MultipartBody.Part>
+        multipartFile: MutableList<MultipartBody.Part>,
     ) {
         viewModelScope.launch {
             postRepository.modifyFeed(data, multipartFile).onSuccess {
@@ -139,7 +139,7 @@ class PostViewModel @Inject constructor(
         content: String,
         latitude: String,
         longitude: String,
-        location: String
+        location: String,
     ): HashMap<String, RequestBody> {
         val contentRequestBody = content.toRequestBody("text/plain".toMediaTypeOrNull())
         val latitudeRequestBody = latitude.toRequestBody("text/plain".toMediaTypeOrNull())
@@ -161,7 +161,7 @@ class PostViewModel @Inject constructor(
         contentId: String,
         latitude: String,
         longitude: String,
-        location: String
+        location: String,
     ): HashMap<String, RequestBody> {
         val contentRequestBody = content.toRequestBody("text/plain".toMediaTypeOrNull())
         val contentIdRequestBody = contentId.toRequestBody("text/plain".toMediaTypeOrNull())

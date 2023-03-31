@@ -223,6 +223,9 @@ class UploadPostActivity : BaseActivity<ActivityUploadPostBinding>(R.layout.acti
             if (it) showLoadingDialog()
             else {
                 dismissLoadingDialog()
+                val intent = intent
+                intent.putExtra("isModifySuccess", true)
+                setResult(Activity.RESULT_OK, intent)
                 finish()
             }
         }

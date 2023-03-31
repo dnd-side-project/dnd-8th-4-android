@@ -3,14 +3,17 @@ package com.dnd_8th_4_android.wery.presentation.ui.home.view
 import android.content.Intent
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.PopupWindow
-import android.widget.ScrollView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
-import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.data.remote.model.home.RequestEmotionStatus
 import com.dnd_8th_4_android.wery.databinding.ActivityPopupWindowBinding
@@ -19,8 +22,7 @@ import com.dnd_8th_4_android.wery.domain.model.PopupWindowType
 import com.dnd_8th_4_android.wery.presentation.ui.alert.view.AlertPopupActivity
 import com.dnd_8th_4_android.wery.presentation.ui.base.BaseFragment
 import com.dnd_8th_4_android.wery.presentation.ui.group.create.view.CreateGroupActivity
-import com.dnd_8th_4_android.wery.presentation.ui.home.adapter.GroupRecyclerViewAdapter
-import com.dnd_8th_4_android.wery.presentation.ui.home.adapter.PostRecyclerViewAdapter
+import com.dnd_8th_4_android.wery.presentation.ui.home.adapter.HomeRecyclerViewAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.home.viewmodel.HomeViewModel
 import com.dnd_8th_4_android.wery.presentation.ui.mypage.view.MyPageBookmarkActivity
 import com.dnd_8th_4_android.wery.presentation.ui.post.upload.view.UploadPostActivity
@@ -34,19 +36,23 @@ import dagger.hilt.android.AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private val homeViewModel: HomeViewModel by viewModels()
     private var activityPopupWindowBinding: ActivityPopupWindowBinding? = null
-
-    private lateinit var groupRecyclerViewAdapter: GroupRecyclerViewAdapter
-    private lateinit var postRecyclerViewAdapter: PostRecyclerViewAdapter
+    private lateinit var postRecyclerViewAdapter: HomeRecyclerViewAdapter
 
     companion object {
         const val GROUP_ALL_LIST = "group_all_list"
     }
 
-    override fun onResume() {
-        super.onResume()
-        binding.vm = homeViewModel
-        homeViewModel.oldPageNumber.value = 0
-        homeViewModel.getSignGroup()
+    private val requestLauncher: ActivityResultLauncher<Intent> = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) {
+        it.data?.getBooleanExtra("isModifySuccess", false).let { isModifySuccess ->
+            if (isModifySuccess == true) {
+                homeViewModel.pageNumber.value = 1
+                homeViewModel.isSelectedEmotion.value = false
+                homeViewModel.getGroupPost()
+                binding.activityGroup.rvHome.scrollToPosition(0)
+            }
+        }
     }
 
     override fun onDestroyView() {
@@ -55,46 +61,42 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     }
 
     override fun initStartView() {
+        binding.vm = homeViewModel
         activityPopupWindowBinding = ActivityPopupWindowBinding.inflate(layoutInflater)
 
-        // 그룹 리스트
-        groupRecyclerViewAdapter = GroupRecyclerViewAdapter(
-            binding.activityGroup.ivAllGroup,
-            binding.activityGroup.tvAllGroup
-        )
+        homeViewModel.isSelectedEmotion.value = false
+        homeViewModel.pageNumber.value = 1
 
-        groupRecyclerViewAdapter.setGroupPostCallListener { groupId ->
-            homeViewModel.isSelectGroupId.value = groupId
-            homeViewModel.oldPageNumber.value = 0
-            homeViewModel.pageNumber.value = 1
-            homeViewModel.getGroupPost()
-        }
+        // 처음에 무조건 실행시켜줄 수 밖에 없을듯
+        homeViewModel.isSelectGroupId.value = -1
+        homeViewModel.getSignGroup()
 
-        binding.activityGroup.rvMyGroup.apply {
-            adapter = groupRecyclerViewAdapter
-            itemAnimator = null
-        }
-
-        // 그룹 게시글
-        homeViewModel.setPageNumber(1)
-        postRecyclerViewAdapter = PostRecyclerViewAdapter()
-        binding.activityGroup.rvMyGroupPost.apply {
+        // 그룹 게시글 : 문제점) adapter 초기화 할때 postList = 0 자동 입력됌
+        postRecyclerViewAdapter =
+            HomeRecyclerViewAdapter(requireContext(), homeViewModel, viewLifecycleOwner)
+        binding.activityGroup.rvHome.apply {
             adapter = postRecyclerViewAdapter
             itemAnimator = null
-            isNestedScrollingEnabled = false
-//            LinearLayoutManager(requireContext()).recycleChildrenOnDetach = true
-//            LinearLayoutManager(requireContext()).isItemPrefetchEnabled = false
-//            setRecycledViewPool(recycledViewPool)
         }
 
         postRecyclerViewAdapter.apply {
             setPopupBottomClickListener { position, contentId, postMine, isSelected ->
                 val bottomSheet = PostPopupBottomDialog(contentId, postMine, isSelected)
+                homeViewModel.adapterPosition.value = position
                 bottomSheet.setOnBookmarkListener {
-                    homeViewModel.adapterPosition.value = position
-                    homeViewModel.setPageNumber(homeViewModel.adapterPosition.value!! / 10 + 1)
+                    homeViewModel.pageNumber.value = homeViewModel.adapterPosition.value!! / 10 + 1
+                    homeViewModel.isSelectedEmotion.value = true
                     homeViewModel.getGroupPost()
                 }
+                bottomSheet.setOnModifyListener {
+                    if (it) {
+                        homeViewModel.pageNumber.value =
+                            homeViewModel.adapterPosition.value!! / 10 + 1
+                        homeViewModel.isSelectedEmotion.value = true
+                        homeViewModel.getGroupPost()
+                    }
+                }
+
                 bottomSheet.show(childFragmentManager, bottomSheet.tag)
             }
 
@@ -107,8 +109,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             Handler(Looper.getMainLooper())
                 .postDelayed({
                     binding.activityGroup.layoutSwipeRefresh.isRefreshing = false
-                    homeViewModel.oldPageNumber.value = 0
-                    homeViewModel.setPageNumber(1)
+                    homeViewModel.isSelectedEmotion.value = false
+                    homeViewModel.pageNumber.value = 1
                     homeViewModel.getSignGroup()
                 }, 1000)
         }
@@ -117,6 +119,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             startActivity(Intent(requireContext(), MyPageBookmarkActivity::class.java))
         }
     }
+
 
     override fun initDataBinding() {
         homeViewModel.isLoading.observe(viewLifecycleOwner) {
@@ -132,49 +135,28 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             binding.ivNotificationAlert.isVisible = !it
         }
 
-        // 그룹 리스트가 바뀌는 경우) 1. 스와이프 2. 홈 탭
-        homeViewModel.groupList.observe(viewLifecycleOwner) {
-            initSelectedGroup()
-            groupRecyclerViewAdapter.submitList(it)
-        }
-
         homeViewModel.postList.observe(viewLifecycleOwner) {
-            if (homeViewModel.pageNumber.value == 1) {
-                if (it.content.isNotEmpty()) {
-                    binding.activityGroup.layoutNoPost.isVisible = false
-                    binding.activityGroup.layoutFinalPost.isVisible = true
-                } else {
-                    binding.activityGroup.layoutNoPost.isVisible = true
-                    binding.activityGroup.layoutFinalPost.isVisible = false
-                }
-            }
-
-            // 마지막 게시글 스크롤할 경우
-            if (homeViewModel.pageNumber.value!! > homeViewModel.oldPageNumber.value!!) {
-                // 첫 실행
+            // 첫 실행, 스크롤, 게시글 등록
+            if (homeViewModel.isSelectedEmotion.value == false) {
                 if (homeViewModel.pageNumber.value == 1) {
+                    Log.e("태그", it.content.toString())
                     postRecyclerViewAdapter.submitList(it.content)
                 } else {
-                    val currentList = postRecyclerViewAdapter.currentList.toMutableList()
-                    currentList.addAll(it.content)
-                    postRecyclerViewAdapter.submitList(currentList)
+                    postRecyclerViewAdapter.insertList(it.content, homeViewModel.pageNumber.value!!)
                 }
-                homeViewModel.oldPageNumber.value = homeViewModel.pageNumber.value
-            } else { // 감정 이모지 등록했을 경우
-                val currentList = postRecyclerViewAdapter.currentList.toMutableList()
+            } else { // 감정 이모지 등록, 게시글 수정
+                val currentList = postRecyclerViewAdapter.postList
 
-                val calculatePosition = homeViewModel.adapterPosition.value!! % 10
+                val calculatePosition = if (homeViewModel.adapterPosition.value != 10) {
+                    homeViewModel.adapterPosition.value!! % 10 - 1
+                } else {
+                    9
+                }
 
                 currentList.forEach { content ->
                     if (content.id == it.content[calculatePosition].id) {
-                        currentList[homeViewModel.adapterPosition.value!!].bookmarkAddStatus =
-                            it.content[calculatePosition].bookmarkAddStatus
-
-                        currentList[homeViewModel.adapterPosition.value!!].emotion =
-                            it.content[calculatePosition].emotion
-
-                        currentList[homeViewModel.adapterPosition.value!!].emotionStatus =
-                            it.content[calculatePosition].emotionStatus
+                        currentList[homeViewModel.adapterPosition.value!! - 1] =
+                            it.content[calculatePosition]
 
                         postRecyclerViewAdapter.notifyItemChanged(homeViewModel.adapterPosition.value!!)
                         return@observe
@@ -196,12 +178,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             when (menuItem.itemId) {
                 R.id.homeFragment -> {
                     binding.activityGroup.layoutSwipeRefresh.isRefreshing = true
-                    binding.activityGroup.scrollView.fullScroll(ScrollView.FOCUS_UP)
+                    binding.activityGroup.rvHome.scrollToPosition(0)
                     Handler(Looper.getMainLooper())
                         .postDelayed({
                             binding.activityGroup.layoutSwipeRefresh.isRefreshing = false
-                            homeViewModel.oldPageNumber.value = 0
-                            homeViewModel.setPageNumber(1)
+                            homeViewModel.isSelectGroupId.value = -1
+                            homeViewModel.isSelectedEmotion.value = false
+                            homeViewModel.pageNumber.value = 1
                             homeViewModel.getSignGroup()
                         }, 1000)
                 }
@@ -219,28 +202,23 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             }
         }
 
-        binding.activityGroup.ivAllGroup.setOnClickListener {
-            if (groupRecyclerViewAdapter.selectedItemImage != binding.activityGroup.ivAllGroup) {
-                initSelectedGroup()
-                homeViewModel.isSelectGroupId.value = -1
-                homeViewModel.oldPageNumber.value = 0
-                homeViewModel.setPageNumber(1)
-                homeViewModel.getGroupPost()
-            }
-        }
+        binding.activityGroup.rvHome.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
 
-        binding.activityGroup.scrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, _, _, _, _ ->
-            if (postRecyclerViewAdapter.itemCount == 10 &&
-                homeViewModel.pageNumber.value!! < 2 &&
-                homeViewModel.isLoading.value == false &&
-                !v.canScrollVertically(1)
-            ) {
-                homeViewModel.setLoading()
-                if (homeViewModel.oldPageNumber.value!! > homeViewModel.pageNumber.value!!) {
-                    homeViewModel.setPageNumber(homeViewModel.oldPageNumber.value!!)
+                val lastVisibleItemPosition =
+                    (recyclerView.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
+
+                if (!homeViewModel.isLoading.value!!
+                    && postRecyclerViewAdapter.postList.size != 0
+                    && postRecyclerViewAdapter.postList.size % 10 == 0
+                    && lastVisibleItemPosition == postRecyclerViewAdapter.itemCount - 1
+                ) {
+                    homeViewModel.setLoading()
+                    homeViewModel.isSelectedEmotion.value = false
+                    homeViewModel.setUpPageNumber()
+                    homeViewModel.getGroupPost()
                 }
-                homeViewModel.setUpPageNumber()
-                homeViewModel.getGroupPost()
             }
         })
 
@@ -249,7 +227,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         }
 
         binding.btnFloatingAction.setOnClickListener {
-            startActivity(Intent(requireContext(), UploadPostActivity::class.java))
+            requestLauncher.launch(Intent(requireContext(), UploadPostActivity::class.java))
         }
 
         binding.btnGroupCreate.setOnClickListener {
@@ -259,19 +237,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         binding.btnGroupInvite.setOnClickListener {
             startActivity(Intent(requireContext(), AlertPopupActivity::class.java))
         }
-    }
-
-    private fun initSelectedGroup() {
-        with(groupRecyclerViewAdapter) {
-            selectedItemImage.isSelected = false
-            selectedItemText.setTextAppearance(R.style.TextView_Caption_12_R)
-            selectedItemImage = binding.activityGroup.ivAllGroup
-            selectedItemText = binding.activityGroup.tvAllGroup
-        }
-
-        binding.activityGroup.ivAllGroup.isSelected =
-            !binding.activityGroup.ivAllGroup.isSelected
-        binding.activityGroup.tvAllGroup.setTextAppearance(R.style.TextView_Title_12_Sb)
     }
 
     private fun getGradePopUp(position: Int, view: View, contentId: Int) {
@@ -323,7 +288,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     }
 
     private fun setEmotion(emotionStatus: RequestEmotionStatus) {
-        homeViewModel.setPageNumber(homeViewModel.adapterPosition.value!! / 10 + 1)
+        homeViewModel.pageNumber.value = homeViewModel.adapterPosition.value!! / 10 + 1
+        homeViewModel.isSelectedEmotion.value = true
         homeViewModel.setUpdateEmotion(emotionStatus)
     }
 }

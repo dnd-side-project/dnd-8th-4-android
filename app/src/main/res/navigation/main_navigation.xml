@@ -9,20 +9,7 @@
         android:id="@+id/homeFragment"
         android:name="com.dnd_8th_4_android.wery.presentation.ui.home.view.HomeFragment"
         android:label="HomeFragment"
-        tools:layout="@layout/fragment_home">
-        <action
-            android:id="@+id/action_homeFragment_to_myPageFragment"
-            app:destination="@id/myPageFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_missionFragment"
-            app:destination="@id/missionFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_groupFragment"
-            app:destination="@id/groupFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_mapFragment"
-            app:destination="@id/mapFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/missionFragment"
         android:name="com.dnd_8th_4_android.wery.presentation.ui.mission.view.MissionFragment"

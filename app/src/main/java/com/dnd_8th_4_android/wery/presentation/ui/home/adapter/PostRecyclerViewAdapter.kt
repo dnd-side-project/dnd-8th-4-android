@@ -65,8 +65,7 @@ class PostRecyclerViewAdapter :
 
             binding.vpPostImage.offscreenPageLimit = 1 // 몇 개의 페이지를 미리 로드 해둘것인지
 
-            postImageAdapter = PostImageAdapter()
-            postImageAdapter.submitList(item.contentImage)
+            postImageAdapter = PostImageAdapter(item.contentImage)
             postImageAdapter.setPostDetailImageListener {
                 goToPostDetail(item, false)
             }
@@ -121,7 +120,7 @@ class PostRecyclerViewAdapter :
                 }
             }
 
-            binding.tvEmotionCount.text = item.emotion.size.toString()
+            binding.tvEmotionCount.text = item.emotions.toString()
 
             if (item.comments != 0) {
                 binding.tvComment.isVisible = true
@@ -189,7 +188,6 @@ class PostRecyclerViewAdapter :
 
             binding.ivPopup.setOnClickListener {
                 popupBottomClickListener.onClicked(
-                    adapterPosition,
                     item.id,
                     item.userId,
                     item.bookmarkAddStatus
@@ -252,15 +250,14 @@ class PostRecyclerViewAdapter :
         }
     }
 
-    fun setPopupBottomClickListener(listener: (Int, Int, Int, Boolean) -> Unit) {
+    fun setPopupBottomClickListener(listener: (Int, Int, Boolean) -> Unit) {
         popupBottomClickListener = object : PopupBottomClickListener {
             override fun onClicked(
-                position: Int,
                 contentId: Int,
                 postMine: Int,
                 isSelected: Boolean,
             ) {
-                listener(position, contentId, postMine, isSelected)
+                listener(contentId, postMine, isSelected)
             }
         }
     }
@@ -274,7 +271,7 @@ class PostRecyclerViewAdapter :
     }
 
     interface PopupBottomClickListener {
-        fun onClicked(position: Int, contentId: Int, postMine: Int, isSelected: Boolean)
+        fun onClicked(contentId: Int, postMine: Int, isSelected: Boolean)
     }
 
     interface PopupWindowClickListener {

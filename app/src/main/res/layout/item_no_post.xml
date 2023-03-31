@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:id="@+id/layout_no_post"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gray50"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/img_alert_invite" />
+
+        <TextView
+            style="@style/TextView.Title.14.Sb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/home_no_post"
+            android:textColor="@color/gray900" />
+    </LinearLayout>
+</layout>

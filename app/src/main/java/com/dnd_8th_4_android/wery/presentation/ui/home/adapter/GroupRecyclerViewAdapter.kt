@@ -1,24 +1,27 @@
 package com.dnd_8th_4_android.wery.presentation.ui.home.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.dnd_8th_4_android.wery.R
 import com.dnd_8th_4_android.wery.data.remote.model.home.ResponseGroupData
 import com.dnd_8th_4_android.wery.databinding.ItemMyGroupBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class GroupRecyclerViewAdapter(
     var selectedItemImage: ImageView,
     var selectedItemText: TextView,
 ) :
-    ListAdapter<ResponseGroupData.Data.GroupInfo, GroupRecyclerViewAdapter.ViewHolder>(diffUtil) {
+    RecyclerView.Adapter<GroupRecyclerViewAdapter.ViewHolder>() {
     private lateinit var binding: ItemMyGroupBinding
+    var groupList = mutableListOf<ResponseGroupData.Data.GroupInfo>()
 
     private lateinit var groupPostCallListener: GroupPostCallListener
 
@@ -54,8 +57,23 @@ class GroupRecyclerViewAdapter(
         return ViewHolder(binding)
     }
 
+    override fun getItemCount() = groupList.size
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(currentList[position])
+        holder.bind(groupList[position])
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun submitList(item: MutableList<ResponseGroupData.Data.GroupInfo>) {
+        CoroutineScope(Dispatchers.IO).launch {
+            if (groupList != item) {
+                groupList.clear()
+                groupList.addAll(item)
+                withContext(Dispatchers.Main) {
+                    notifyDataSetChanged()
+                }
+            }
+        }
     }
 
     fun setGroupPostCallListener(listener: (Int) -> Unit) {
@@ -68,23 +86,5 @@ class GroupRecyclerViewAdapter(
 
     interface GroupPostCallListener {
         fun onClicked(groupId: Int)
-    }
-
-    companion object {
-        private val diffUtil = object : DiffUtil.ItemCallback<ResponseGroupData.Data.GroupInfo>() {
-            override fun areItemsTheSame(
-                oldItem: ResponseGroupData.Data.GroupInfo,
-                newItem: ResponseGroupData.Data.GroupInfo,
-            ): Boolean {
-                return oldItem == newItem
-            }
-
-            override fun areContentsTheSame(
-                oldItem: ResponseGroupData.Data.GroupInfo,
-                newItem: ResponseGroupData.Data.GroupInfo,
-            ): Boolean {
-                return oldItem == newItem
-            }
-        }
     }
 }

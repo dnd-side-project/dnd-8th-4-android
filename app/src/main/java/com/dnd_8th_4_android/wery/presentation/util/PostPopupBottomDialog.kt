@@ -1,6 +1,8 @@
 package com.dnd_8th_4_android.wery.presentation.util
 
 import android.content.Intent
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.dnd_8th_4_android.wery.R
@@ -19,6 +21,16 @@ class PostPopupBottomDialog(
     BaseBottomDialogFragment<PostBottomDialogPopupBinding>(R.layout.post_bottom_dialog_popup) {
     private val viewModel: PostPopupBottomViewModel by viewModels()
     private lateinit var onBookmarkListener: OnBookMarkListener
+    private lateinit var onModifyListener: OnModifyListener
+
+    private val requestLauncher: ActivityResultLauncher<Intent> = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) {
+        it.data!!.getBooleanExtra("isModifySuccess", false).let { isModifySuccess ->
+            onModifyListener.onClicked(isModifySuccess)
+            dialog?.dismiss()
+        }
+    }
 
     override fun initAfterBinding() {
         viewModel.setOnBookmark(selected)
@@ -47,8 +59,12 @@ class PostPopupBottomDialog(
 
             if (viewModel.isSelectedBookmark.value == true) {
                 showToast(resources.getString(R.string.bottom_sheet_off_bookmark_toast))
+                onBookmarkListener.onClicked()
+                dialog!!.dismiss()
             } else {
                 showToast(resources.getString(R.string.bottom_sheet_on_bookmark_toast))
+                onBookmarkListener.onClicked()
+                dialog!!.dismiss()
             }
         }
 
@@ -61,6 +77,7 @@ class PostPopupBottomDialog(
             postRemoveDialog.setOnPostDeleteListener {
                 viewModel.setPostDelete(contentId)
                 showToast(resources.getString(R.string.bottom_sheet_remove_toast))
+                onBookmarkListener.onClicked()
                 dialog!!.dismiss()
             }
             postRemoveDialog.show(childFragmentManager, null)
@@ -69,14 +86,8 @@ class PostPopupBottomDialog(
         binding.layoutModify.setOnClickListener {
             val intent = Intent(requireContext(), UploadPostActivity::class.java)
             intent.putExtra("contentId", contentId)
-            startActivity(intent)
-            dismiss()
+            requestLauncher.launch(intent)
         }
-    }
-
-    override fun onDestroyView() {
-        onBookmarkListener.onClicked()
-        super.onDestroyView()
     }
 
     fun setOnBookmarkListener(listener: () -> Unit) {
@@ -89,5 +100,17 @@ class PostPopupBottomDialog(
 
     interface OnBookMarkListener {
         fun onClicked()
+    }
+
+    fun setOnModifyListener(listener: (Boolean) -> Unit) {
+        onModifyListener = object : OnModifyListener {
+            override fun onClicked(isModifySuccess: Boolean) {
+                listener(isModifySuccess)
+            }
+        }
+    }
+
+    interface OnModifyListener {
+        fun onClicked(isModifySuccess: Boolean)
     }
 }

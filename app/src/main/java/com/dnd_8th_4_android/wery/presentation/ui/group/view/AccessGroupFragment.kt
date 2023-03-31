@@ -120,7 +120,7 @@ class AccessGroupFragment :
 
         postRecyclerViewAdapter = PostRecyclerViewAdapter()
         postRecyclerViewAdapter.apply {
-            setPopupBottomClickListener { _, contentId, postMine, isSelected ->
+            setPopupBottomClickListener { contentId, postMine, isSelected ->
                 val bottomSheet = PostPopupBottomDialog(contentId, postMine, isSelected)
                 bottomSheet.setOnBookmarkListener {
                     viewModel.getGroupPost()
