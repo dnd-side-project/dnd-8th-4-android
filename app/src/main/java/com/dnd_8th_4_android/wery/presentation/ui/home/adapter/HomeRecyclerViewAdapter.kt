@@ -105,7 +105,13 @@ class HomeRecyclerViewAdapter(
             }
 
             binding.tvFriendGroup.text = item.groupName
-            binding.tvContent.text = item.content
+
+            if (item.content.isNotEmpty()) {
+                binding.tvContent.isVisible = true
+                binding.tvContent.text = item.content
+            } else {
+                binding.tvContent.isVisible = false
+            }
 
             if (item.contentImage.size > 0) {
                 binding.vpPostImage.isVisible = true
