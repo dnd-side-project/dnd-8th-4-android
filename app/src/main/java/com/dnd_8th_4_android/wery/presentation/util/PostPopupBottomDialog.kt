@@ -26,9 +26,9 @@ class PostPopupBottomDialog(
     private val requestLauncher: ActivityResultLauncher<Intent> = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) {
-        it.data!!.getBooleanExtra("isModifySuccess", false).let { isModifySuccess ->
+        it.data?.getBooleanExtra("isModifySuccess", false).let { isModifySuccess ->
             setOnModifyListener {
-                onModifyListener.onClicked(isModifySuccess)
+                onModifyListener.onClicked(isModifySuccess!!)
             }
             dialog?.dismiss()
         }
