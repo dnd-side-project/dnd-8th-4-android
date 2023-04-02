@@ -27,7 +27,9 @@ class PostPopupBottomDialog(
         ActivityResultContracts.StartActivityForResult()
     ) {
         it.data!!.getBooleanExtra("isModifySuccess", false).let { isModifySuccess ->
-            onModifyListener.onClicked(isModifySuccess)
+            setOnModifyListener {
+                onModifyListener.onClicked(isModifySuccess)
+            }
             dialog?.dismiss()
         }
     }
