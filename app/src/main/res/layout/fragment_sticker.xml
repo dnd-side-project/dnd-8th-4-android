@@ -44,6 +44,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
+                        android:textColor="@color/gray700"
                         android:text="@string/sticker_info_default"
                         app:layout_constraintEnd_toEndOf="@id/tv_mission_state"
                         app:layout_constraintStart_toStartOf="@id/tv_mission_state"
