@@ -62,6 +62,10 @@ class GroupFragment : BaseFragment<FragmentGroupBinding>(R.layout.fragment_group
             }
         }
 
+        viewModel.isNewNotification.observe(viewLifecycleOwner) {
+            binding.ivNotificationAlert.isVisible = !it
+        }
+
         viewModel.bookmarkList.observe(viewLifecycleOwner) {
             groupRecyclerViewAdapter.submitList(it)
         }

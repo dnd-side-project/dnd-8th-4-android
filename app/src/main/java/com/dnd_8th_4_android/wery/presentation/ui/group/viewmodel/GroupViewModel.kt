@@ -19,6 +19,9 @@ class GroupViewModel @Inject constructor(private val groupRepository: GroupRepos
     private val _isExistGroup = MutableLiveData(true)
     val isExistGroup: LiveData<Boolean> = _isExistGroup
 
+    private val _isNewNotification = MutableLiveData<Boolean>(true)
+    val isNewNotification: LiveData<Boolean> = _isNewNotification
+
     private val _isExistBookmarkGroup = MutableLiveData(true)
     val isExistBookmarkGroup: LiveData<Boolean> = _isExistBookmarkGroup
 
@@ -62,6 +65,7 @@ class GroupViewModel @Inject constructor(private val groupRepository: GroupRepos
                 groupRepository.signGroup()
             }.onSuccess {
                 _isExistGroup.value = it.data.existGroup
+                _isNewNotification.value = it.data.isNewNotification
 
                 if (it.data.existGroup) {
                     _groupList.value = it.data.groupInfoList
