@@ -12,6 +12,8 @@ import com.dnd_8th_4_android.wery.presentation.ui.mission.mymission.adapter.Miss
 import com.dnd_8th_4_android.wery.presentation.ui.mission.mymission.adapter.RecommendMissionAdapter
 import com.dnd_8th_4_android.wery.presentation.ui.mission.mymission.viewmodel.MyMissionViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @AndroidEntryPoint
 class MyMissionFragment : BaseFragment<FragmentMyMissionBinding>(R.layout.fragment_my_mission) {
@@ -57,10 +59,16 @@ class MyMissionFragment : BaseFragment<FragmentMyMissionBinding>(R.layout.fragme
 
     private fun initRecommendMissionAdapter() {
         recommendMissionAdapter = RecommendMissionAdapter()
+
+        val current = LocalDateTime.now()
+        val formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
+        val startDate = current.format(formatter)
+        val endDate = current.plusWeeks(1).format(formatter)
+
         recommendMissionAdapter.itemList = mutableListOf<RecommendMission>(
-            RecommendMission("서울숲 전시회 가서 교양 쌓기 \uD83C\uDFA8", "2023.04.02", "2023.04.09"),
-            RecommendMission("새로 나온 영화 보러 가기 \uD83C\uDF7F️", "2023.04.02", "2023.04.09"),
-            RecommendMission("한강에서 돗자리 깔고 치맥 하기 \uD83C\uDF7A", "2023.04.02", "2023.04.09"),
+            RecommendMission("서울숲 전시회 가서 교양 쌓기 \uD83C\uDFA8", startDate, endDate),
+            RecommendMission("새로 나온 영화 보러 가기 \uD83C\uDF7F️", startDate, endDate),
+            RecommendMission("한강에서 돗자리 깔고 치맥 하기 \uD83C\uDF7A", startDate, endDate),
         )
         binding.rvRecommendMission.adapter = recommendMissionAdapter
     }
