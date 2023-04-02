@@ -2,6 +2,7 @@ package com.dnd_8th_4_android.wery.presentation.ui.detail.view
 
 import android.os.Bundle
 import android.text.InputFilter
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.PopupWindow
@@ -127,16 +128,17 @@ class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.acti
         }
 
         viewModel.isSelected.observe(this) {
-            binding.rvSticker.isVisible = it
-
             if (it) {
-                if (postDetailStickerRecyclerViewAdapter.itemCount == 0) {
-                    binding.rvSticker.isVisible = false
-                    binding.layoutNoSticker.isVisible = true
-                } else {
+                if (viewModel.stickerList.value != null) {
                     binding.rvSticker.isVisible = true
                     binding.layoutNoSticker.isVisible = false
+                } else {
+                    binding.rvSticker.isVisible = false
+                    binding.layoutNoSticker.isVisible = true
                 }
+            } else {
+                binding.rvSticker.isVisible = false
+                binding.layoutNoSticker.isVisible = false
             }
         }
 
